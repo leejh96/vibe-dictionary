@@ -21,6 +21,7 @@ import {
   DOMAIN_LABELS,
 } from './data/techniques';
 import { FilterBar } from './components/FilterBar';
+import { matchesSearch } from './data/search';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
 import { usePromptCart } from './hooks/usePromptCart';
@@ -77,25 +78,6 @@ const DictionaryLogo: React.FC = () => (
     />
   </svg>
 );
-
-function matchesSearch(item: TechniqueItem, query: string): boolean {
-  const q = query.trim().toLowerCase();
-  if (!q) return true;
-
-  const searchableText = [
-    item.titleKo,
-    item.titleEn,
-    item.vibeTag,
-    item.summary,
-    item.promptSnippet,
-    ...item.vibeKeywords,
-  ]
-    .join(' ')
-    .toLowerCase();
-
-  const tokens = q.split(/\s+/).filter(Boolean);
-  return tokens.every((token) => searchableText.includes(token));
-}
 
 export default function App() {
   const [theme, setTheme] = useState<ThemeMode>(() => {

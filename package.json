@@ -3,9 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "workspaces": ["packages/mcp"],
   "scripts": {
     "dev": "vite",
-    "test": "node --import tsx --test tests/*.test.tsx",
+    "test": "npm run test:web && npm run test:mcp",
+    "test:web": "node --import tsx --test tests/*.test.tsx",
+    "test:mcp": "npm test --workspace vibe-dictionary-mcp",
+    "build:mcp": "npm run build --workspace vibe-dictionary-mcp",
+    "start:mcp": "node packages/mcp/dist/index.js",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
