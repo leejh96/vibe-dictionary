@@ -9,13 +9,13 @@ UI·그래픽·레이아웃·스타일·모션 영상 기법의 데모를 보고
 **macOS / Linux**
 
 ```sh
-codex mcp add vibe-dictionary -- npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.1
+codex mcp add vibe-dictionary -- npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.2
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
-codex mcp add vibe-dictionary -- cmd /d /c npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.1
+codex mcp add vibe-dictionary -- cmd /d /c npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.2
 ```
 
 `npx`가 지정 버전을 npm에서 받아 캐시에 설치하므로 별도 `npm install -g`는 필요 없다. Codex 연결 설정은 사용자 전역 설정인 `~/.codex/config.toml`에 등록된다. Windows는 `%USERPROFILE%\.codex\config.toml`이며, `CODEX_HOME`을 지정했다면 그 폴더를 사용한다. Windows 명령은 `.cmd` 실행을 위해 `cmd /d /c`를 사용한다.
