@@ -83,8 +83,16 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <ElasticToggleSwitchDemo />;
     case 'combo-gauge-pop':
       return <ComboGaugeDemo />;
+    case 'gooey-menu-fab':
+      return <GooeyMenuFabDemo />;
+    case 'otp-pin-focus-bounce':
+      return <OtpPinFocusBounceDemo />;
+    case 'hold-to-confirm-ring':
+      return <HoldToConfirmRingDemo />;
+    case 'peek-password-lamp':
+      return <PeekPasswordLampDemo />;
 
-    /* ==================== DOMAIN 2: 그래픽 & 모션 연출 (22종) ==================== */
+    /* ==================== DOMAIN 2: 그래픽 & 모션 연출 (26종) ==================== */
     case 'mg-squash-stretch':
       return <MgSquashStretchDemo />;
     case 'mg-anticipation':
@@ -129,8 +137,16 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <MgDotMatrixGridDemo />;
     case 'mg-god-ray-beam':
       return <MgGodRayBeamDemo />;
+    case 'mg-radar-sonar-sweep':
+      return <MgRadarSonarSweepDemo />;
+    case 'mg-morphing-grid-wave':
+      return <MgMorphingGridWaveDemo />;
+    case 'mg-prism-rainbow-refraction':
+      return <MgPrismRainbowRefractionDemo />;
+    case 'mg-gravity-newton-cradle':
+      return <MgGravityNewtonCradleDemo />;
 
-    /* ==================== DOMAIN 3: 레이아웃 & 공간 구조 (16종) ==================== */
+    /* ==================== DOMAIN 3: 레이아웃 & 공간 구조 (20종) ==================== */
     case 'ly-bento-grid':
       return <LyBentoGridDemo />;
     case 'ly-masonry-waterfall':
@@ -163,8 +179,16 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <LyKanbanBoardDemo />;
     case 'ly-heatmap-grid':
       return <LyHeatmapGridDemo />;
+    case 'ly-floating-toc-spy':
+      return <LyFloatingTocSpyDemo />;
+    case 'ly-collapsible-rail-sidebar':
+      return <LyCollapsibleRailSidebarDemo />;
+    case 'ly-breadcrumb-folder-drill':
+      return <LyBreadcrumbFolderDrillDemo />;
+    case 'ly-resizable-split-pane':
+      return <LyResizableSplitPaneDemo />;
 
-    /* ==================== DOMAIN 4: 디자인 스타일 & 테마 (16종) ==================== */
+    /* ==================== DOMAIN 4: 디자인 스타일 & 테마 (20종) ==================== */
     case 'st-neo-brutalism':
       return <StNeoBrutalismDemo />;
     case 'st-liquid-acrylic':
@@ -197,8 +221,16 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <StSwissEditorialGridDemo />;
     case 'st-comic-halftone-pop':
       return <StComicHalftonePopDemo />;
+    case 'st-holographic-foil-card':
+      return <StHolographicFoilCardDemo />;
+    case 'st-receipt-thermal-mono':
+      return <StReceiptThermalMonoDemo />;
+    case 'st-vaporwave-y2k-chrome':
+      return <StVaporwaveY2kChromeDemo />;
+    case 'st-cyberpunk-neon-glitch':
+      return <StCyberpunkNeonGlitchDemo />;
 
-    /* ==================== DOMAIN 5: 모션 영상 & 쇼릴 (16종) ==================== */
+    /* ==================== DOMAIN 5: 모션 영상 & 쇼릴 (20종) ==================== */
     case 'vd-saas-launch-reel':
       return <VdSaasLaunchReelDemo />;
     case 'vd-device-3d-spin':
@@ -207,6 +239,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <VdAppWalkthroughZoomDemo />;
     case 'vd-split-promo-reel':
       return <VdSplitPromoReelDemo />;
+    case 'vd-glitch-cut-reel':
+      return <VdGlitchCutReelDemo />;
     case 'vd-stomp-beat-typo':
       return <VdStompBeatTypoDemo />;
     case 'vd-highlight-swipe-reveal':
@@ -215,6 +249,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <VdCountdownEnergeticIntroDemo />;
     case 'vd-chat-story-sequence':
       return <VdChatStorySequenceDemo />;
+    case 'vd-slot-jackpot-headline':
+      return <VdSlotJackpotHeadlineDemo />;
     case 'vd-animated-bar-race':
       return <VdAnimatedBarRaceDemo />;
     case 'vd-kpi-counter-explosion':
@@ -223,6 +259,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <VdNodeFlowPipelineDemo />;
     case 'vd-circular-ring-dashboard':
       return <VdCircularRingDashboardDemo />;
+    case 'vd-funnel-conversion-drop':
+      return <VdFunnelConversionDropDemo />;
     case 'vd-lower-third-banner':
       return <VdLowerThirdBannerDemo />;
     case 'vd-diagonal-shutter-wipe':
@@ -231,6 +269,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <VdLogoStingerOutroDemo />;
     case 'vd-audio-spectrum-visualizer':
       return <VdAudioSpectrumVisualizerDemo />;
+    case 'vd-breaking-news-ticker':
+      return <VdBreakingNewsTickerDemo />;
 
     default:
       return null;
@@ -516,7 +556,7 @@ const StaggeredListDemo: React.FC = () => {
   return (
     <div
       onClick={() => setReplayKey((k) => k + 1)}
-      className="w-full h-40 flex flex-col justify-center px-6 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col justify-center px-6 pt-5 cursor-pointer select-none"
     >
       <div key={replayKey} className="space-y-1.5">
         {['1. 첫 번째 카드 등장', '2. 두 번째 카드 등장', '3. 세 번째 카드 등장'].map((label, i) => (
@@ -525,7 +565,7 @@ const StaggeredListDemo: React.FC = () => {
             style={{
               animation: `stagger-up 0.42s cubic-bezier(0.16, 1, 0.3, 1) ${i * 100}ms backwards`,
             }}
-            className="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 flex items-center justify-between"
+            className="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1 text-[11px] text-slate-200 flex items-center justify-between"
           >
             <span>{label}</span>
             <span className="text-[10px] text-indigo-400 font-mono">+{i * 100}ms</span>
@@ -876,7 +916,7 @@ const ErrorShakeDemo: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center px-6 select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center px-6 pt-5 select-none">
       {showTip && (
         <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow">
           ⚠️ 값을 다시 확인해 주세요!
@@ -1017,14 +1057,14 @@ const SkeletonShimmerDemo: React.FC = () => {
 const SpotlightFocusDemo: React.FC = () => {
   const [focusIdx, setFocusIdx] = useState(1);
   return (
-    <div className="w-full h-40 flex items-center justify-center px-6 select-none">
+    <div className="w-full h-40 flex items-center justify-center px-6 pt-5 select-none">
       <div className="w-full space-y-1.5">
         {['1. 상단 메뉴 영역', '2. 포커스된 핵심 영역 (클릭)', '3. 하단 정보 영역'].map(
           (label, i) => (
             <div
               key={i}
               onClick={() => setFocusIdx((i + 1) % 3)}
-              className={`cursor-pointer rounded-lg px-3 py-1.5 text-xs font-bold transition-all duration-300 ${
+              className={`cursor-pointer rounded-lg px-3 py-1 text-[11px] font-bold transition-all duration-300 ${
                 focusIdx === i
                   ? 'bg-slate-800 text-white ring-2 ring-amber-400 scale-[1.02]'
                   : 'bg-slate-900/50 text-slate-500 opacity-30 blur-[0.4px]'
@@ -1146,7 +1186,7 @@ const ComboGaugeDemo: React.FC = () => {
   return (
     <div
       onClick={() => setCount((c) => c + 1)}
-      className="w-full h-40 flex flex-col items-center justify-center px-6 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center px-6 pt-4 cursor-pointer select-none"
     >
       <div className="flex items-center justify-between w-full mb-2">
         <span
@@ -1175,9 +1215,9 @@ const ComboGaugeDemo: React.FC = () => {
 /* 1. 스쿼시 앤 스트레치 */
 const MgSquashStretchDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none pt-3">
+    <div className="w-full h-40 flex flex-col items-center justify-center select-none pt-6">
       <div className="w-10 h-10 rounded-full bg-gradient-to-b from-amber-300 to-orange-500 shadow-lg shadow-orange-500/30 animate-squash-bounce" />
-      <div className="mt-5 w-16 h-1.5 rounded-full bg-slate-700/80" />
+      <div className="mt-[18px] w-16 h-1.5 rounded-full bg-slate-700/80" />
       <span className="mt-2 text-[10px] text-slate-400">충돌 시 납작 ➔ 도약 시 길쭉</span>
     </div>
   );
@@ -1263,18 +1303,18 @@ const MgEasingCurvesDemo: React.FC = () => {
   return (
     <div
       onClick={() => setActive(!active)}
-      className="w-full h-40 flex flex-col justify-center px-6 gap-2 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col justify-center px-6 pt-5 gap-2 cursor-pointer select-none"
     >
       {tracks.map((tr) => (
         <div key={tr.name} className="flex items-center gap-2">
           <span className="w-14 text-[10px] font-mono text-slate-400">{tr.name}</span>
-          <div className="flex-1 h-5 bg-slate-900 rounded-full border border-slate-800 px-1 flex items-center">
+          <div className="relative flex-1 h-5 bg-slate-900 rounded-full border border-slate-800 flex items-center">
             <div
               style={{
-                transition: `transform 0.9s ${tr.easing}`,
-                transform: active ? 'translateX(118px)' : 'translateX(0px)',
+                transition: `left 0.9s ${tr.easing}`,
+                left: active ? 'calc(100% - 18px)' : '4px',
               }}
-              className={`w-3.5 h-3.5 rounded-full ${tr.color}`}
+              className={`absolute w-3.5 h-3.5 rounded-full ${tr.color}`}
             />
           </div>
         </div>
@@ -1286,7 +1326,7 @@ const MgEasingCurvesDemo: React.FC = () => {
 /* 5. SVG 패스 라인 드로잉 */
 const MgSvgLineDrawDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <svg className="w-20 h-20" viewBox="0 0 100 100">
         <path
           d="M50 10 L63 36 L92 40 L71 60 L76 89 L50 75 L24 89 L29 60 L8 40 L37 36 Z"
@@ -1305,7 +1345,7 @@ const MgSvgLineDrawDemo: React.FC = () => {
 /* 6. 리퀴드 블롭 모핑 */
 const MgLiquidBlobMorphDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div className="w-20 h-20 bg-gradient-to-tr from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 animate-liquid-morph" />
       <span className="mt-2.5 text-[10px] text-slate-400">물방울처럼 곡률이 계속 변형됨</span>
     </div>
@@ -1315,7 +1355,7 @@ const MgLiquidBlobMorphDemo: React.FC = () => {
 /* 7. 구이 메타볼 퓨전 (SVG Gooey Filter) */
 const MgGooeyMetaballDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <svg className="hidden">
         <defs>
           <filter id="gooey-demo-filter">
@@ -1345,16 +1385,16 @@ const MgGooeyMetaballDemo: React.FC = () => {
 /* 8. 플래니터리 오빗 궤도 회전 */
 const MgOrbitRotationDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center select-none">
-      <div className="relative w-28 h-28 flex items-center justify-center">
+    <div className="w-full h-40 flex items-center justify-center pt-5 select-none">
+      <div className="relative w-24 h-24 flex items-center justify-center">
         {/* 중앙 코어 */}
         <div className="w-5 h-5 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50" />
         {/* 내부 궤도 */}
-        <div className="absolute w-16 h-16 rounded-full border border-dashed border-indigo-400/40 animate-orbit-spin">
+        <div className="absolute w-14 h-14 rounded-full border border-dashed border-indigo-400/40 animate-orbit-spin">
           <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 shadow" />
         </div>
         {/* 외부 역방향 궤도 */}
-        <div className="absolute inset-1 rounded-full border border-slate-700 animate-orbit-reverse">
+        <div className="absolute inset-0.5 rounded-full border border-slate-700 animate-orbit-reverse">
           <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-pink-400 shadow" />
         </div>
       </div>
@@ -2087,7 +2127,7 @@ const LyCommandPaletteDemo: React.FC = () => {
       <div className="w-full rounded-xl bg-slate-900/95 border border-slate-700 shadow-2xl overflow-hidden">
         <div className="px-3 py-1 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
           <span>🔍 Type a command...</span>
-          <kbd className="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono text-[9px]">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[9px]">⌘K</kbd>
         </div>
         <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
@@ -2148,33 +2188,45 @@ const LyDynamicIslandNavDemo: React.FC = () => {
 const LyRadialPieMenuDemo: React.FC = () => {
   const [open, setOpen] = useState(true);
   const items = [
-    { icon: '🎨', x: 0, y: -38 },
-    { icon: '⚡', x: 40, y: 0 },
-    { icon: '🚀', x: 0, y: 38 },
-    { icon: '✨', x: -40, y: 0 },
+    { icon: '🎨', x: -38, y: -28 },
+    { icon: '⚡', x: 38, y: -28 },
+    { icon: '🚀', x: 38, y: 28 },
+    { icon: '✨', x: -38, y: 28 },
   ];
   return (
-    <div className="relative w-full h-40 flex items-center justify-center pt-3 select-none">
+    <div className="relative w-full h-40 flex items-center justify-center pt-5 select-none">
       {items.map((it, idx) => (
         <button
           key={idx}
+          type="button"
           onClick={() => setOpen(!open)}
           style={{
             transform: open
               ? `translate(${it.x}px, ${it.y}px) scale(1)`
               : 'translate(0px, 0px) scale(0.2)',
             opacity: open ? 1 : 0,
+            transitionDelay: open ? `${idx * 35}ms` : '0ms',
           }}
-          className="absolute w-8 h-8 rounded-full bg-slate-800 border border-indigo-400/50 flex items-center justify-center text-xs transition-all duration-300"
+          className="absolute w-8 h-8 rounded-full bg-slate-800 border border-indigo-400/50 flex items-center justify-center text-xs transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer shadow-md"
         >
           {it.icon}
         </button>
       ))}
       <button
+        type="button"
         onClick={() => setOpen(!open)}
-        className="relative z-10 w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-xs shadow-lg"
+        aria-label="파이 메뉴 열기/닫기"
+        className="relative z-10 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg border border-indigo-400/40 cursor-pointer"
       >
-        {open ? '×' : '+'}
+        <svg
+          viewBox="0 0 20 20"
+          className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] ${
+            open ? 'rotate-45' : 'rotate-0'
+          }`}
+        >
+          <line x1="10" y1="3.5" x2="10" y2="16.5" strokeLinecap="round" />
+          <line x1="3.5" y1="10" x2="16.5" y2="10" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
   );
@@ -2542,21 +2594,28 @@ const StSynthwaveSunsetGridDemo: React.FC = () => {
 
 /* 13. SF 사이버네틱 HUD 프레임 (Sci-Fi Chamfered HUD) */
 const StScifiHudChamferDemo: React.FC = () => {
+  const chamferClip =
+    'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)';
   return (
     <div className="w-full h-40 flex items-center justify-center px-6 pt-4 select-none">
       <div
-        style={{
-          clipPath:
-            'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)',
-        }}
-        className="w-56 h-24 bg-cyan-950/60 border border-cyan-400/70 p-3.5 flex flex-col justify-between"
+        style={{ clipPath: chamferClip }}
+        className="w-56 h-24 p-[1.5px] bg-cyan-400/80 shadow-[0_0_16px_rgba(34,211,238,0.25)]"
       >
-        <div className="flex items-center justify-between text-[9px] font-mono text-cyan-300">
-          <span>SYS.HUD // 45° CHAMFER</span>
-          <span>ONLINE</span>
-        </div>
-        <div className="text-xs font-black tracking-wider text-white">
-          TACTICAL FRAME UI
+        <div
+          style={{ clipPath: chamferClip }}
+          className="w-full h-full bg-slate-950/90 p-3.5 flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between text-[9px] font-mono text-cyan-300">
+            <span>SYS.HUD // 45° CHAMFER</span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              ONLINE
+            </span>
+          </div>
+          <div className="text-xs font-black tracking-wider text-white">
+            TACTICAL FRAME UI
+          </div>
         </div>
       </div>
     </div>
@@ -2665,7 +2724,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
         <div className="animate-spring-pop w-48 bg-slate-900/95 border border-indigo-500/50 rounded-xl p-2.5 shadow-xl shadow-indigo-500/20 space-y-1.5">
           <div className="flex items-center justify-between">
             <span className="text-[9px] font-bold text-indigo-300">AI Dashboard</span>
-            <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold">
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">
               +142%
             </span>
           </div>
@@ -3065,7 +3124,7 @@ const VdAnimatedBarRaceDemo: React.FC = () => {
         {heights.map((h, i) => (
           <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
             {i === 4 && active && (
-              <span className="mb-1 px-1.5 py-0.2 rounded bg-emerald-500 text-slate-950 text-[9px] font-black animate-spring-pop whitespace-nowrap">
+              <span className="mb-1 px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 text-[9px] font-black animate-spring-pop whitespace-nowrap">
                 +340%
               </span>
             )}
@@ -3517,7 +3576,7 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
 
       <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
         <span
-          className={`px-1.5 py-0.2 rounded font-bold ${
+          className={`px-1.5 py-0.5 rounded font-bold ${
             playing
               ? 'bg-rose-500/20 text-rose-400'
               : 'bg-slate-800 text-slate-400'
@@ -3530,3 +3589,1203 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
     </div>
   );
 };
+
+/* ============================================================================
+ * EXPANDED DEMOS (+20종: 각 도메인별 4종 추가)
+ * ============================================================================ */
+
+/* [UI +1] 구이 플로팅 액션 버튼 (Spring Speed-Dial FAB) */
+const GooeyMenuFabDemo: React.FC = () => {
+  const [open, setOpen] = useState(true);
+  const [selected, setSelected] = useState<string | null>(null);
+  const actions = [
+    { id: 'rocket', label: '런칭', icon: Rocket, dx: -52, dy: -18, color: 'from-indigo-500 to-blue-500' },
+    { id: 'sparkles', label: 'AI 생성', icon: Sparkles, dx: 0, dy: -48, color: 'from-violet-500 to-fuchsia-500' },
+    { id: 'flame', label: '부스트', icon: Flame, dx: 52, dy: -18, color: 'from-amber-500 to-rose-500' },
+  ];
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-end pb-2.5 pt-7 select-none relative">
+      {/* 메인 버튼(반지름 20px)과 서브 버튼(반지름 17px)의 중심점을 동일하게 맞춘 컨테이너 */}
+      <div className="relative flex items-end justify-center h-[88px] w-48 pb-0.5">
+        {actions.map((act, idx) => {
+          const Icon = act.icon;
+          return (
+            <button
+              key={act.id}
+              type="button"
+              onClick={() => setSelected(act.label)}
+              style={{
+                transform: open
+                  ? `translate(${act.dx}px, ${act.dy}px) scale(1)`
+                  : 'translate(0px, 0px) scale(0.3)',
+                transitionDelay: open ? `${idx * 45}ms` : '0ms',
+              }}
+              className={`absolute bottom-[5px] w-[34px] h-[34px] rounded-full bg-gradient-to-br ${act.color} text-white flex items-center justify-center shadow-lg border border-white/25 transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+                open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+              }`}
+              title={act.label}
+            >
+              <Icon className="w-3.5 h-3.5" />
+            </button>
+          );
+        })}
+
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-label="플로팅 메뉴 열기/닫기"
+          className="relative z-10 w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/25 transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 cursor-pointer"
+        >
+          <svg
+            viewBox="0 0 20 20"
+            className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] ${
+              open ? 'rotate-45' : 'rotate-0'
+            }`}
+          >
+            <line x1="10" y1="3.5" x2="10" y2="16.5" strokeLinecap="round" />
+            <line x1="3.5" y1="10" x2="16.5" y2="10" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+      <span className="mt-1 text-[10px] font-medium text-slate-400">
+        {selected ? `${selected} 액션 선택됨 ✨` : open ? '아이콘 또는 × 버튼을 눌러보세요' : '+ 버튼을 눌러 메뉴 펼치기'}
+      </span>
+    </div>
+  );
+};
+
+/* [UI +2] OTP 핀 코드 바운스 인풋 */
+const OtpPinFocusBounceDemo: React.FC = () => {
+  const [digits, setDigits] = useState<string[]>(['4', '8', '2', '9', '', '']);
+  const [activeIdx, setActiveIdx] = useState<number>(4);
+  const [bounceIdx, setBounceIdx] = useState<number | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach((id) => window.clearTimeout(id));
+    timersRef.current = [];
+  }, []);
+
+  useEffect(() => () => clearTimers(), [clearTimers]);
+
+  const handleDigitClick = (idx: number) => {
+    clearTimers();
+    const nextNum = String(Math.floor(Math.random() * 9) + 1);
+    setDigits((prev) => {
+      const copy = [...prev];
+      copy[idx] = nextNum;
+      return copy;
+    });
+    setBounceIdx(idx);
+    setActiveIdx(Math.min(5, idx + 1));
+    const tid = window.setTimeout(() => setBounceIdx(null), 260);
+    timersRef.current.push(tid);
+  };
+
+  const handleAutoFill = () => {
+    clearTimers();
+    const pool = ['7', '3', '9', '1', '5', '8'];
+    setDigits(['', '', '', '', '', '']);
+    setActiveIdx(0);
+    pool.forEach((d, i) => {
+      const tid = window.setTimeout(() => {
+        setDigits((prev) => {
+          const copy = [...prev];
+          copy[i] = d;
+          return copy;
+        });
+        setActiveIdx(Math.min(5, i + 1));
+        setBounceIdx(i);
+      }, i * 110);
+      timersRef.current.push(tid);
+    });
+    const endTid = window.setTimeout(() => setBounceIdx(null), pool.length * 110 + 240);
+    timersRef.current.push(endTid);
+  };
+
+  const isComplete = digits.every((d) => d !== '');
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-center gap-2.5 pt-6 px-4 select-none">
+      <div className="flex items-center gap-1.5">
+        {digits.map((d, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => handleDigitClick(i)}
+            className={`w-7 h-9 rounded-lg font-mono text-xs font-black flex items-center justify-center border transition-all duration-200 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+              bounceIdx === i ? 'scale-125 -translate-y-1' : 'scale-100 translate-y-0'
+            } ${
+              isComplete
+                ? 'bg-emerald-500/15 border-emerald-400/70 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
+                : activeIdx === i
+                  ? 'bg-indigo-500/20 border-indigo-400 text-white ring-2 ring-indigo-500/30'
+                  : d
+                    ? 'bg-slate-800/90 border-slate-600 text-slate-100'
+                    : 'bg-slate-900/80 border-slate-700/80 text-slate-500'
+            }`}
+          >
+            {d || '·'}
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center gap-2">
+        <span className={`text-[10px] font-semibold ${isComplete ? 'text-emerald-400' : 'text-slate-400'}`}>
+          {isComplete ? '✓ 6자리 인증 완료!' : '칸을 누르거나 연속 입력을 실행하세요'}
+        </span>
+        <button
+          type="button"
+          onClick={handleAutoFill}
+          className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[9px] font-bold text-indigo-300 border border-slate-700 cursor-pointer"
+        >
+          연속 입력 재생
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/* [UI +3] 홀드 투 컨펌 (Hold-to-Confirm Progress Button) */
+const HoldToConfirmRingDemo: React.FC = () => {
+  const [progress, setProgress] = useState(0);
+  const [confirmed, setConfirmed] = useState(false);
+  const [holding, setHolding] = useState(false);
+
+  useEffect(() => {
+    if (!holding || confirmed) return;
+    const id = setInterval(() => {
+      setProgress((p) => Math.min(100, p + 5));
+    }, 35);
+    return () => clearInterval(id);
+  }, [holding, confirmed]);
+
+  useEffect(() => {
+    if (progress >= 100 && !confirmed) {
+      setConfirmed(true);
+      setHolding(false);
+    }
+  }, [progress, confirmed]);
+
+  useEffect(() => {
+    if (holding || confirmed || progress === 0) return;
+    const id = setInterval(() => {
+      setProgress((p) => Math.max(0, p - 10));
+    }, 25);
+    return () => clearInterval(id);
+  }, [holding, confirmed, progress]);
+
+  const reset = () => {
+    setConfirmed(false);
+    setProgress(0);
+    setHolding(false);
+  };
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-center gap-2.5 pt-6 select-none">
+      {confirmed ? (
+        <button
+          type="button"
+          onClick={reset}
+          className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/60 text-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 animate-spring-pop cursor-pointer"
+        >
+          <Check className="w-3.5 h-3.5" /> 배포 승인 완료 (초기화)
+        </button>
+      ) : (
+        <button
+          type="button"
+          onPointerDown={() => setHolding(true)}
+          onPointerUp={() => setHolding(false)}
+          onPointerLeave={() => setHolding(false)}
+          className={`relative overflow-hidden px-4 py-2 rounded-xl border text-xs font-bold transition-transform duration-150 cursor-pointer ${
+            holding
+              ? 'scale-95 border-rose-400 text-white shadow-lg shadow-rose-500/25'
+              : 'scale-100 border-slate-700 bg-slate-900/90 text-slate-200 hover:border-rose-500/50'
+          }`}
+        >
+          <span
+            style={{ width: `${progress}%` }}
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-500 transition-[width] duration-75"
+          />
+          <span className="relative z-10 flex items-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 text-amber-400" />
+            {holding ? `길게 누르는 중... ${progress}%` : '길게 눌러 프로덕션 배포'}
+          </span>
+        </button>
+      )}
+      <span className="text-[10px] text-slate-400">
+        {confirmed ? '클릭하면 다시 테스트할 수 있습니다' : '버튼을 꾹 누르고 있으면 게이지가 차오릅니다'}
+      </span>
+    </div>
+  );
+};
+
+/* [UI +4] 스포트라이트 패스워드 피크 (Flashlight Password Peek) */
+const PeekPasswordLampDemo: React.FC = () => {
+  const [lampOn, setLampOn] = useState(true);
+  const secret = 'Vibe#2026!';
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-center gap-2.5 pt-6 px-6 select-none">
+      <div className="relative w-full max-w-[215px] h-10 rounded-xl bg-slate-950 border border-slate-700/80 flex items-center px-3 overflow-hidden shadow-inner">
+        {/* 손전등 원뿔형 빛줄기 오버레이 */}
+        <div
+          style={{
+            clipPath: 'polygon(100% 50%, 0% -18%, 0% 118%)',
+          }}
+          className={`absolute inset-y-0 left-2 right-9 bg-gradient-to-l from-amber-300/40 via-amber-200/15 to-transparent pointer-events-none transition-all duration-300 origin-right ${
+            lampOn ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+          }`}
+        />
+
+        <div className="relative z-10 flex items-center justify-between w-full">
+          <div className="flex items-center font-mono text-xs font-bold">
+            {secret.split('').map((ch, idx) => (
+              <span
+                key={idx}
+                style={{ transitionDelay: `${(secret.length - 1 - idx) * 18}ms` }}
+                className={`inline-block w-[11px] text-center transition-all duration-200 ${
+                  lampOn
+                    ? 'text-amber-200 drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]'
+                    : 'text-slate-500'
+                }`}
+              >
+                {lampOn ? ch : '•'}
+              </span>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setLampOn((v) => !v)}
+            className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold transition-all cursor-pointer ${
+              lampOn
+                ? 'bg-amber-400 text-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.8)]'
+                : 'bg-slate-800 text-slate-400 hover:text-white'
+            }`}
+            title="손전등 토글"
+          >
+            🔦
+          </button>
+        </div>
+      </div>
+      <span className="text-[10px] text-slate-400">
+        우측 손전등(🔦)을 눌러 비밀번호 조명을 켜고 꺼보세요
+      </span>
+    </div>
+  );
+};
+
+/* [그래픽 +1] 소나 레이더 스윕 스캐너 (Sonar Radar Sweep Scanner) */
+const MgRadarSonarSweepDemo: React.FC = () => {
+  const [angle, setAngle] = useState(0);
+  const [fast, setFast] = useState(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setAngle((a) => (a + (fast ? 10 : 6)) % 360);
+    }, 40);
+    return () => clearInterval(id);
+  }, [fast]);
+
+  const blips = [
+    { x: 68, y: 28, deg: 45 },
+    { x: 74, y: 70, deg: 135 },
+    { x: 26, y: 66, deg: 220 },
+  ];
+
+  return (
+    <div
+      onClick={() => setFast((f) => !f)}
+      className="w-full h-40 flex items-center justify-center pt-5 cursor-pointer select-none"
+    >
+      <div className="relative w-24 h-24 rounded-full bg-emerald-950/60 border border-emerald-500/45 overflow-hidden flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.18)]">
+        {/* 동심원 & 십자선 */}
+        <div className="absolute w-16 h-16 rounded-full border border-emerald-500/25 pointer-events-none" />
+        <div className="absolute w-8 h-8 rounded-full border border-emerald-500/25 pointer-events-none" />
+        <div className="absolute inset-x-0 h-px bg-emerald-500/20 pointer-events-none" />
+        <div className="absolute inset-y-0 w-px bg-emerald-500/20 pointer-events-none" />
+
+        {/* 회전 스캔 콘 + 리딩 레이저 라인 */}
+        <div
+          style={{
+            transform: `rotate(${angle}deg)`,
+            background: 'conic-gradient(from 0deg, transparent 70%, rgba(16, 185, 129, 0.55) 100%)',
+          }}
+          className="absolute inset-0 rounded-full pointer-events-none"
+        >
+          <div className="absolute left-1/2 top-0 w-0.5 h-1/2 -translate-x-1/2 bg-emerald-300 shadow-[0_0_8px_#6ee7b7]" />
+        </div>
+
+        {/* 탐지 타겟 블립 */}
+        {blips.map((b, i) => {
+          const diff = (angle - b.deg + 360) % 360;
+          const active = diff < 105;
+          return (
+            <span
+              key={i}
+              style={{ left: `${b.x}%`, top: `${b.y}%` }}
+              className={`absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-150 ${
+                active
+                  ? 'bg-emerald-300 scale-125 shadow-[0_0_8px_#34d399]'
+                  : 'bg-emerald-500/25 scale-75'
+              }`}
+            />
+          );
+        })}
+
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-300 shadow-[0_0_6px_#34d399] z-10" />
+      </div>
+    </div>
+  );
+};
+
+/* [그래픽 +2] 스태거드 그리드 타일 웨이브 (Staggered Grid Tile Wave) */
+const MgMorphingGridWaveDemo: React.FC = () => {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTick((t) => (t + 1) % 8);
+    }, 260);
+    return () => clearInterval(id);
+  }, []);
+
+  const rows = 3;
+  const cols = 6;
+
+  return (
+    <div
+      onClick={() => setTick((t) => (t + 1) % 8)}
+      className="w-full h-40 flex flex-col items-center justify-center gap-2 pt-5 cursor-pointer select-none"
+    >
+      <div className="grid grid-cols-6 gap-1.5">
+        {Array.from({ length: rows * cols }).map((_, idx) => {
+          const r = Math.floor(idx / cols);
+          const c = idx % cols;
+          const diag = r + c;
+          const isWavePeak = diag === tick || diag === (tick + 1) % 8;
+          return (
+            <div
+              key={idx}
+              className={`w-5 h-5 rounded-md transition-all duration-300 ${
+                isWavePeak
+                  ? 'bg-gradient-to-br from-cyan-400 to-indigo-500 scale-110 -translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
+                  : 'bg-slate-800/80 border border-slate-700/60 scale-90 opacity-60'
+              }`}
+            />
+          );
+        })}
+      </div>
+      <span className="text-[9px] font-mono text-cyan-300/80">DIAGONAL WAVE (ROW + COL)</span>
+    </div>
+  );
+};
+
+/* [그래픽 +3] 프리즘 광선 분산 효과 (Optical Prism Light Dispersion) */
+const MgPrismRainbowRefractionDemo: React.FC = () => {
+  const [wide, setWide] = useState(true);
+  const spectrum = [
+    { color: '#f43f5e', yEnd: 18 },
+    { color: '#fbbf24', yEnd: 30 },
+    { color: '#34d399', yEnd: 42 },
+    { color: '#22d3ee', yEnd: 54 },
+    { color: '#818cf8', yEnd: 66 },
+    { color: '#e879f9', yEnd: 78 },
+  ];
+
+  return (
+    <div
+      onClick={() => setWide((w) => !w)}
+      className="w-full h-40 flex flex-col items-center justify-center pt-5 px-4 cursor-pointer select-none"
+    >
+      <svg viewBox="0 0 220 92" className="w-full max-w-[220px] h-24 overflow-visible">
+        <defs>
+          <linearGradient id="prismGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.38)" />
+            <stop offset="50%" stopColor="rgba(56,189,248,0.18)" />
+            <stop offset="100%" stopColor="rgba(99,102,241,0.32)" />
+          </linearGradient>
+        </defs>
+
+        {/* 좌측 백색 입사 광선 (좌하단 ➔ 프리즘 좌측 빗변) */}
+        <line
+          x1="8"
+          y1="62"
+          x2="92"
+          y2="46"
+          stroke="#ffffff"
+          strokeWidth="3"
+          strokeLinecap="round"
+          className="drop-shadow-[0_0_6px_#ffffff]"
+        />
+
+        {/* 프리즘 내부 굴절 브릿지 광선 */}
+        <polygon
+          points="92,46 126,38 130,56"
+          fill="rgba(255,255,255,0.35)"
+        />
+
+        {/* 우측 6색 무지개 스펙트럼 분산 빔 */}
+        {spectrum.map((ray, i) => {
+          const targetY = wide ? ray.yEnd : 48 + (ray.yEnd - 48) * 0.45;
+          return (
+            <line
+              key={i}
+              x1="127"
+              y1={42 + i * 2.2}
+              x2="212"
+              y2={targetY}
+              stroke={ray.color}
+              strokeWidth="3.2"
+              strokeLinecap="round"
+              strokeOpacity="0.9"
+              className="transition-all duration-500"
+              style={{ filter: `drop-shadow(0 0 5px ${ray.color})` }}
+            />
+          );
+        })}
+
+        {/* 중앙 삼각 유리 프리즘 (세 변 모두 선명한 유리 테두리 렌더링) */}
+        <polygon
+          points="110,12 76,78 144,78"
+          fill="url(#prismGlassGrad)"
+          stroke="rgba(255,255,255,0.65)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+};
+
+/* [그래픽 +4] 뉴턴의 요람 물리 진자 (Newton's Cradle Momentum Pendulum) */
+const MgGravityNewtonCradleDemo: React.FC = () => {
+  // 0: 좌측 스윙 아웃 -> 1: 중앙 충돌 -> 2: 우측 스윙 아웃 -> 3: 중앙 충돌
+  const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStep((s) => ((s + 1) % 4) as 0 | 1 | 2 | 3);
+    }, 320);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div
+      onClick={() => setStep((s) => ((s + 1) % 4) as 0 | 1 | 2 | 3)}
+      className="w-full h-40 flex flex-col items-center justify-center pt-5 cursor-pointer select-none"
+    >
+      {/* 상단 고정 지지대 */}
+      <div className="w-28 h-1 rounded-full bg-slate-600 shadow" />
+      <div className="flex items-start justify-center">
+        {[0, 1, 2, 3, 4].map((i) => {
+          const isLeft = i === 0;
+          const isRight = i === 4;
+          const deg = isLeft && step === 0 ? 34 : isRight && step === 2 ? -34 : 0;
+          const isSwingingOut = (isLeft && step === 0) || (isRight && step === 2);
+
+          return (
+            <div
+              key={i}
+              style={{
+                transform: `rotate(${deg}deg)`,
+                transformOrigin: 'top center',
+                transitionTimingFunction: isSwingingOut
+                  ? 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                  : 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
+              }}
+              className="flex flex-col items-center transition-transform duration-300"
+            >
+              <div className="w-px h-10 bg-slate-500/80" />
+              <div
+                className={`w-4 h-4 rounded-full bg-gradient-to-br transition-shadow duration-200 ${
+                  isSwingingOut
+                    ? 'from-cyan-300 via-indigo-400 to-slate-700 shadow-[0_0_10px_rgba(56,189,248,0.65)]'
+                    : 'from-slate-200 via-slate-400 to-slate-700'
+                }`}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+/* [레이아웃 +1] 스크롤스파이 플로팅 목차 (Scrollspy Floating TOC) */
+const LyFloatingTocSpyDemo: React.FC = () => {
+  const [activeSec, setActiveSec] = useState(0);
+  const sections = [
+    { title: '1. 개요', desc: '아키텍처 핵심 레이어 구조' },
+    { title: '2. 설치', desc: '패키지 및 환경변수 세팅' },
+    { title: '3. 배포', desc: '엣지 네트워크 무중단 배포' },
+  ];
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveSec((s) => (s + 1) % sections.length);
+    }, 1800);
+    return () => clearInterval(id);
+  }, [sections.length]);
+
+  return (
+    <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900/90 border border-slate-700/80 p-2.5 flex items-center gap-2.5">
+        {/* 좌측 스크롤 연동 문서 뷰포트 */}
+        <div className="flex-1 h-full bg-slate-950/80 rounded-lg border border-slate-800 overflow-hidden relative">
+          <div
+            style={{ transform: `translateY(-${activeSec * 100}%)` }}
+            className="h-full transition-transform duration-500 ease-out"
+          >
+            {sections.map((sec, idx) => (
+              <div key={sec.title} className="h-full p-2 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-indigo-300">{sec.title}</span>
+                  <span className="text-[8px] font-mono text-slate-500">0{idx + 1}/03</span>
+                </div>
+                <p className="text-[9px] text-slate-300 leading-tight">{sec.desc}</p>
+                <div className="w-full h-1 rounded-full bg-slate-800 overflow-hidden">
+                  <div
+                    style={{ width: `${((idx + 1) / sections.length) * 100}%` }}
+                    className="h-full bg-indigo-500"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 우측 Sticky Scrollspy TOC (정확한 22px 행 높이 동기화) */}
+        <div className="w-20 relative pl-2.5 border-l border-slate-800 flex flex-col">
+          <div
+            style={{ transform: `translateY(${activeSec * 22}px)` }}
+            className="absolute left-[-1.5px] top-[3px] w-0.5 h-4 bg-indigo-400 rounded-full transition-transform duration-300 shadow-[0_0_6px_#818cf8]"
+          />
+          {sections.map((sec, idx) => (
+            <button
+              key={sec.title}
+              type="button"
+              onClick={() => setActiveSec(idx)}
+              className={`h-[22px] flex items-center text-left text-[9px] truncate transition-colors cursor-pointer ${
+                activeSec === idx ? 'text-indigo-300 font-bold' : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              {sec.title}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [레이아웃 +2] 접이식 미니 레일 사이드바 (Collapsible Icon-Rail Sidebar) */
+const LyCollapsibleRailSidebarDemo: React.FC = () => {
+  const [expanded, setExpanded] = useState(true);
+  const [activeNav, setActiveNav] = useState(0);
+  const navs = [
+    { icon: '🏠', label: '대시보드' },
+    { icon: '📊', label: '애널리틱스' },
+    { icon: '⚡', label: '자동화 워크' },
+  ];
+
+  return (
+    <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900 border border-slate-700/80 overflow-hidden flex">
+        {/* 접이식 레일 사이드바 */}
+        <div
+          className={`h-full bg-slate-950 border-r border-slate-800 p-1.5 flex flex-col justify-between transition-[width] duration-300 ${
+            expanded ? 'w-28' : 'w-9'
+          }`}
+        >
+          <div className="space-y-1">
+            {navs.map((item, idx) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => setActiveNav(idx)}
+                className={`w-full h-5 rounded-md flex items-center gap-1.5 px-1.5 text-[9px] transition-colors cursor-pointer ${
+                  activeNav === idx
+                    ? 'bg-indigo-500/20 text-indigo-300 font-bold'
+                    : 'text-slate-400 hover:bg-slate-900'
+                }`}
+              >
+                <span className="shrink-0 text-[10px]">{item.icon}</span>
+                {expanded && <span className="truncate">{item.label}</span>}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setExpanded((e) => !e)}
+            className="w-full h-4 rounded bg-slate-900 hover:bg-slate-800 text-[8px] font-mono text-slate-400 flex items-center justify-center cursor-pointer"
+          >
+            {expanded ? '« 레일 축소' : '»'}
+          </button>
+        </div>
+
+        {/* 우측 메인 콘텐츠 */}
+        <div className="flex-1 p-2.5 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold text-white">{navs[activeNav].label}</span>
+            <span className="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-mono">
+              {expanded ? '220px' : '56px'}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5">
+            <div className="h-9 rounded bg-slate-800/80 border border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded bg-indigo-400/60 mb-1" />
+              <div className="w-12 h-2 rounded bg-slate-600/60" />
+            </div>
+            <div className="h-9 rounded bg-slate-800/80 border border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded bg-emerald-400/60 mb-1" />
+              <div className="w-10 h-2 rounded bg-slate-600/60" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [레이아웃 +3] 드릴다운 브레드크럼 파인더 (Drill-Down Breadcrumb Explorer) */
+const LyBreadcrumbFolderDrillDemo: React.FC = () => {
+  const [path, setPath] = useState<string[]>(['root', 'src', 'ui']);
+  const [selectedFile, setSelectedFile] = useState<string>('Button.tsx');
+
+  const folderMap: Record<string, string[]> = {
+    root: ['src/', 'public/', 'README.md'],
+    src: ['ui/', 'hooks/', 'App.tsx'],
+    public: ['logo.svg', 'favicon.svg', 'robots.txt'],
+    ui: ['Button.tsx', 'Modal.tsx', 'Card.tsx'],
+    hooks: ['useTheme.ts', 'useToast.ts', 'index.ts'],
+  };
+
+  const currentFolder = path[path.length - 1];
+  const currentItems = folderMap[currentFolder] || folderMap.root;
+
+  return (
+    <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900 border border-slate-700/80 p-2.5 flex flex-col justify-between">
+        {/* 상단 브레드크럼 경로 바 */}
+        <div className="flex items-center justify-between gap-1 text-[9px] font-mono bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+          <div className="flex items-center gap-0.5 truncate">
+            {path.map((seg, idx) => (
+              <React.Fragment key={`${seg}-${idx}`}>
+                {idx > 0 && <span className="text-slate-600">/</span>}
+                <button
+                  type="button"
+                  onClick={() => setPath((prev) => prev.slice(0, idx + 1))}
+                  className={`px-1 rounded transition-colors cursor-pointer ${
+                    idx === path.length - 1
+                      ? 'bg-indigo-500/20 text-indigo-300 font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {seg}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+          <span className="text-[8px] text-emerald-400 truncate max-w-[64px]">{selectedFile}</span>
+        </div>
+
+        {/* 하단 현재 계층 아이템 목록 (모든 폴더·파일 클릭 반응) */}
+        <div className="grid grid-cols-3 gap-1.5">
+          {currentItems.map((item) => {
+            const isFolder = item.endsWith('/');
+            const cleanName = item.replace(/\/$/, '');
+            const isSelected = !isFolder && selectedFile === item;
+            return (
+              <button
+                key={item}
+                type="button"
+                onClick={() => {
+                  if (isFolder) {
+                    setPath((prev) => [...prev, cleanName]);
+                  } else {
+                    setSelectedFile(item);
+                  }
+                }}
+                className={`h-10 rounded-lg border flex flex-col items-center justify-center gap-0.5 text-[9px] transition-all active:scale-95 cursor-pointer ${
+                  isSelected
+                    ? 'bg-indigo-500/20 border-indigo-400/70 text-indigo-200'
+                    : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/60 text-slate-200'
+                }`}
+              >
+                <span className="text-[11px]">{isFolder ? '📁' : '📄'}</span>
+                <span className="truncate max-w-[58px]">{item}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [레이아웃 +4] 리사이저블 스플릿 패인 (Resizable Dual Split Pane) */
+const LyResizableSplitPaneDemo: React.FC = () => {
+  const [leftRatio, setLeftRatio] = useState(45);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dragging, setDragging] = useState(false);
+
+  const handleMove = useCallback(
+    (clientX: number) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const pct = ((clientX - rect.left) / rect.width) * 100;
+      setLeftRatio(Math.min(75, Math.max(25, Math.round(pct))));
+    },
+    []
+  );
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-center gap-1.5 pt-5 px-4 select-none">
+      <div
+        ref={containerRef}
+        onPointerMove={(e) => {
+          if (dragging) handleMove(e.clientX);
+        }}
+        onPointerUp={() => setDragging(false)}
+        onPointerLeave={() => setDragging(false)}
+        className="w-full max-w-[230px] h-20 rounded-xl bg-slate-900 border border-slate-700/80 overflow-hidden flex"
+      >
+        {/* 좌측 Code 패인 */}
+        <div
+          style={{ width: `${leftRatio}%` }}
+          className="h-full bg-slate-950 p-2 flex flex-col justify-between overflow-hidden"
+        >
+          <span className="text-[8px] font-mono text-indigo-400">EDITOR ({leftRatio}%)</span>
+          <div className="space-y-1">
+            <div className="w-4/5 h-1.5 rounded bg-indigo-500/40" />
+            <div className="w-3/5 h-1.5 rounded bg-slate-700" />
+          </div>
+        </div>
+
+        {/* 중앙 드래그 가터 핸들 */}
+        <div
+          onPointerDown={() => setDragging(true)}
+          onClick={() => setLeftRatio((r) => (r === 45 ? 65 : r === 65 ? 30 : 45))}
+          className="w-2 h-full bg-slate-800 hover:bg-indigo-500 active:bg-indigo-400 flex items-center justify-center cursor-col-resize transition-colors shrink-0"
+          title="좌우로 드래그하거나 클릭하세요"
+        >
+          <MoveHorizontal className="w-2.5 h-2.5 text-slate-300" />
+        </div>
+
+        {/* 우측 Preview 패인 */}
+        <div className="flex-1 h-full bg-slate-900 p-2 flex flex-col justify-between overflow-hidden">
+          <span className="text-[8px] font-mono text-emerald-400">PREVIEW ({100 - leftRatio}%)</span>
+          <div className="w-full h-7 rounded bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">
+            LIVE VIEW
+          </div>
+        </div>
+      </div>
+      <span className="text-[9px] text-slate-400">중앙 분할선을 좌우로 드래그하거나 클릭해 보세요</span>
+    </div>
+  );
+};
+
+/* [스타일 +1] 홀로그래픽 포일 이리데슨트 (Holographic Foil Iridescent Style) */
+const StHolographicFoilCardDemo: React.FC = () => {
+  const [angle, setAngle] = useState(125);
+
+  return (
+    <div
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        setAngle(Math.round(90 + pct * 140));
+      }}
+      onClick={() => setAngle((a) => (a + 45) % 360)}
+      className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
+    >
+      <div
+        style={{
+          backgroundImage: `linear-gradient(${angle}deg, #ff0080 0%, #7928ca 28%, #00e5ff 58%, #00ff88 85%, #fde047 100%)`,
+        }}
+        className="relative w-full max-w-[205px] h-24 rounded-2xl p-[1.5px] shadow-[0_0_24px_rgba(0,229,255,0.25)] transition-all duration-200 overflow-hidden"
+      >
+        <div
+          style={{
+            backgroundImage: `linear-gradient(${angle}deg, rgba(255,0,128,0.32), rgba(0,229,255,0.32), rgba(0,255,136,0.28), rgba(253,224,71,0.32))`,
+          }}
+          className="w-full h-full rounded-[14px] bg-slate-950/80 backdrop-blur-md p-3 flex flex-col justify-between relative overflow-hidden"
+        >
+          <div className="flex items-center justify-between">
+            <span className="px-1.5 py-0.5 rounded bg-white/15 border border-white/30 text-[8px] font-black text-white tracking-wider">
+              ✦ HOLO FOIL
+            </span>
+            <span className="text-[9px] font-mono text-cyan-200">#001 SSR</span>
+          </div>
+          <div>
+            <div className="text-xs font-black text-white drop-shadow">IRIDESCENT PRISM</div>
+            <div className="text-[9px] text-white/80">마우스를 움직여 광택 각도 조절</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [스타일 +2] 서멀 영수증 & 바코드 티켓 (Thermal Receipt & Barcode Ticket) */
+const StReceiptThermalMonoDemo: React.FC = () => {
+  const [stamped, setStamped] = useState(true);
+  const bars = [2, 1, 3, 1, 2, 1, 4, 1, 2, 2, 1, 3, 1, 2, 1, 3, 2, 1];
+
+  return (
+    <div
+      onClick={() => setStamped((s) => !s)}
+      className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
+    >
+      <div className="relative w-full max-w-[195px] bg-[#faf8f5] text-zinc-900 rounded-sm px-3 py-2 font-mono shadow-lg border-y-2 border-dashed border-zinc-400">
+        <div className="flex items-center justify-between text-[9px] font-bold border-b border-dashed border-zinc-400 pb-1">
+          <span>VIBE MART #042</span>
+          <span>2026-10-17</span>
+        </div>
+        <div className="py-1 space-y-0.5 text-[9px]">
+          <div className="flex justify-between">
+            <span>1x UI PROMPT PACK</span>
+            <span className="font-bold">$24.00</span>
+          </div>
+          <div className="flex justify-between text-zinc-600">
+            <span>1x MOTION REEL</span>
+            <span className="font-bold">$18.00</span>
+          </div>
+        </div>
+        {/* 바코드 영역 */}
+        <div className="pt-1 border-t border-dashed border-zinc-400 flex items-center justify-between">
+          <div className="flex items-center gap-[1.5px] h-3.5">
+            {bars.map((w, i) => (
+              <span
+                key={i}
+                style={{ width: `${w * 1.5}px` }}
+                className="h-full bg-zinc-900 inline-block"
+              />
+            ))}
+          </div>
+          <span
+            className={`px-1 py-0.5 text-[8px] font-black border ${
+              stamped ? 'border-rose-600 text-rose-600 -rotate-6' : 'border-zinc-500 text-zinc-500'
+            } transition-transform`}
+          >
+            {stamped ? 'PAID ✓' : 'RECEIPT'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [스타일 +3] Y2K 애시드 크롬 & 파스텔 윈도우 (Y2K Metallic Chrome & Pastel UI) */
+const StVaporwaveY2kChromeDemo: React.FC = () => {
+  const [liked, setLiked] = useState(true);
+
+  return (
+    <div
+      onClick={() => setLiked((l) => !l)}
+      className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
+    >
+      <div className="w-full max-w-[205px] rounded-xl border-2 border-white bg-gradient-to-br from-pink-200 via-fuchsia-100 to-sky-200 p-2 shadow-[0_4px_16px_rgba(244,114,182,0.35)] text-slate-900">
+        {/* Y2K 메탈릭 크롬 상단 바 */}
+        <div
+          style={{
+            background: 'linear-gradient(180deg, #ffffff 0%, #cbd5e1 48%, #64748b 52%, #f1f5f9 100%)',
+          }}
+          className="rounded-lg px-2 py-0.5 border border-slate-400 flex items-center justify-between text-[9px] font-black text-slate-800 mb-1.5"
+        >
+          <span>✦ CYBER_GIRL_2000.EXE</span>
+          <span className="text-pink-600">♥</span>
+        </div>
+
+        <div className="flex items-center justify-between px-1 py-1">
+          <div>
+            <div className="text-[11px] font-black tracking-tight text-fuchsia-900">
+              AESTHETIC CHROME ✧
+            </div>
+            <div className="text-[9px] font-semibold text-sky-800">Track 01 · Bubblegum Pop</div>
+          </div>
+          <span
+            style={{
+              background: 'linear-gradient(180deg, #f8fafc 0%, #94a3b8 50%, #e2e8f0 100%)',
+            }}
+            className="px-2 py-1 rounded-full border border-slate-500 text-[9px] font-black text-slate-900 shadow-sm"
+          >
+            {liked ? '★ PLAY' : '☆ CUE'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [스타일 +4] 사이버펑크 하이볼티지 네온 (Cyberpunk High-Voltage Neon UI) */
+const StCyberpunkNeonGlitchDemo: React.FC = () => {
+  const [overdrive, setOverdrive] = useState(true);
+
+  return (
+    <div
+      onClick={() => setOverdrive((o) => !o)}
+      className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
+    >
+      <div
+        style={{
+          clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
+        }}
+        className="w-full max-w-[205px] bg-[#facc15] text-zinc-950 p-2.5 relative shadow-[0_0_20px_rgba(250,204,21,0.3)] border-l-4 border-cyan-400"
+      >
+        <div className="flex items-center justify-between mb-1">
+          <span className="bg-zinc-950 text-[#00f0ff] text-[8px] font-mono font-black px-1.5 py-0.5 tracking-wider">
+            NC-2077 // SYS
+          </span>
+          <span className="text-[8px] font-mono font-black text-zinc-900">VOLTAGE: 99.4V</span>
+        </div>
+
+        <div className="text-xs font-black tracking-tight uppercase leading-tight">
+          {overdrive ? '⚡ NEON OVERDRIVE' : '⚠️ BREACH PROTOCOL'}
+        </div>
+
+        {/* 하단 해저드 스트라이프 바 */}
+        <div
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(-45deg, #09090b 0px, #09090b 5px, #facc15 5px, #facc15 10px)',
+          }}
+          className="mt-2 h-2 w-full rounded-sm border border-zinc-950"
+        />
+      </div>
+    </div>
+  );
+};
+
+/* [모션 영상 +1] 사이버 글리치 컷 티저 릴 (Glitch Cut Spec Teaser Reel) */
+const VdGlitchCutReelDemo: React.FC = () => {
+  const [idx, setIdx] = useState(0);
+  const [glitching, setGlitching] = useState(false);
+
+  const specs = [
+    { tag: 'SCENE 01 // DISPLAY', title: '240Hz OLED', accent: 'text-cyan-300 border-cyan-400/50' },
+    { tag: 'SCENE 02 // SPEED', title: '0.03ms GTG', accent: 'text-rose-300 border-rose-400/50' },
+    { tag: 'SCENE 03 // CORE', title: 'NEURAL AI+', accent: 'text-amber-300 border-amber-400/50' },
+  ];
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setGlitching(true);
+      setTimeout(() => {
+        setIdx((i) => (i + 1) % specs.length);
+      }, 90);
+      setTimeout(() => {
+        setGlitching(false);
+      }, 220);
+    }, 1500);
+    return () => clearInterval(id);
+  }, [specs.length]);
+
+  const cur = specs[idx];
+
+  return (
+    <div
+      onClick={() => {
+        setGlitching(true);
+        setIdx((i) => (i + 1) % specs.length);
+        setTimeout(() => setGlitching(false), 200);
+      }}
+      className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
+    >
+      <div
+        className={`relative w-full max-w-[215px] h-24 rounded-xl bg-slate-950 border px-3 py-2.5 flex flex-col justify-between overflow-hidden transition-transform duration-75 ${
+          cur.accent
+        } ${glitching ? 'translate-x-1 -skew-x-6 shadow-[-4px_0_#ff0055,4px_0_#00e5ff]' : 'skew-x-0'}`}
+      >
+        {glitching && (
+          <div className="absolute inset-x-0 top-1/2 h-3 bg-cyan-400/30 mix-blend-screen pointer-events-none" />
+        )}
+        <div className="flex items-center justify-between text-[8px] font-mono text-slate-400">
+          <span>{cur.tag}</span>
+          <span className="text-rose-400 font-bold">● REC</span>
+        </div>
+        <div className="text-base font-black tracking-wider text-white font-mono">
+          {cur.title}
+        </div>
+        <div className="flex gap-1">
+          {specs.map((_, i) => (
+            <span
+              key={i}
+              className={`h-1 flex-1 rounded-full ${i === idx ? 'bg-cyan-400' : 'bg-slate-800'}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* [모션 영상 +2] 슬롯 릴 잭팟 헤드라인 씬 (Slot Reel Jackpot Headline Scene) */
+const VdSlotJackpotHeadlineDemo: React.FC = () => {
+  const [step, setStep] = useState(3);
+  const reels = [
+    ['SHIP', 'BUILD', 'CREATE'],
+    ['2X', '5X', '10X'],
+    ['BETTER', 'SMARTER', 'FASTER'],
+  ];
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStep((s) => (s >= 4 ? 0 : s + 1));
+    }, 680);
+    return () => clearInterval(id);
+  }, []);
+
+  const locked = step >= 3;
+
+  return (
+    <div
+      onClick={() => setStep(0)}
+      className="w-full h-40 flex flex-col items-center justify-center gap-2 pt-5 px-4 cursor-pointer select-none"
+    >
+      <div
+        className={`flex items-center gap-1.5 p-2 rounded-xl border transition-all duration-300 ${
+          locked
+            ? 'bg-emerald-950/30 border-emerald-400/70 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+            : 'bg-slate-900 border-slate-700'
+        }`}
+      >
+        {reels.map((words, rIdx) => {
+          const isStopped = step > rIdx;
+          const wordIdx = isStopped ? 2 : (step + rIdx) % 3;
+          return (
+            <div
+              key={rIdx}
+              className="w-16 h-9 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden relative"
+            >
+              <div
+                style={{
+                  transform: `translateY(-${wordIdx * 36}px)`,
+                }}
+                className="flex flex-col transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]"
+              >
+                {words.map((w) => (
+                  <div
+                    key={w}
+                    className={`h-9 flex items-center justify-center text-[10px] font-black tracking-tight ${
+                      isStopped ? 'text-emerald-300' : 'text-slate-400'
+                    }`}
+                  >
+                    {w}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <span className="text-[9px] font-mono text-slate-400">
+        {locked ? '★ JACKPOT: CREATE 10X FASTER' : 'ROLLING HEADLINE REELS...'}
+      </span>
+    </div>
+  );
+};
+
+/* [모션 영상 +3] 컨버전 퍼널 단계별 리빌 씬 (Conversion Funnel Stage Reveal) */
+const VdFunnelConversionDropDemo: React.FC = () => {
+  const [stage, setStage] = useState(3);
+  const steps = [
+    { label: 'VISITORS', val: '100%', width: 'w-44', color: 'from-indigo-500 to-blue-500' },
+    { label: 'SIGN UPS', val: '58%', width: 'w-32', color: 'from-violet-500 to-indigo-500' },
+    { label: 'PRO PAID', val: '28.4%', width: 'w-24', color: 'from-emerald-400 to-teal-500' },
+  ];
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStage((s) => (s >= 4 ? 1 : s + 1));
+    }, 900);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div
+      onClick={() => setStage(1)}
+      className="w-full h-40 flex flex-col items-center justify-center gap-1.5 pt-5 px-4 cursor-pointer select-none"
+    >
+      {steps.map((st, idx) => {
+        const visible = stage > idx;
+        return (
+          <div
+            key={st.label}
+            className={`${st.width} h-5 rounded-md bg-gradient-to-r ${st.color} px-2.5 flex items-center justify-between text-[9px] font-bold text-white shadow transition-all duration-300 ${
+              visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-15 scale-90 -translate-y-1'
+            }`}
+          >
+            <span>{st.label}</span>
+            <span className="font-mono">{st.val}</span>
+          </div>
+        );
+      })}
+      <div
+        className={`mt-0.5 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-[9px] font-mono font-bold text-emerald-300 transition-all duration-300 ${
+          stage >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+        }`}
+      >
+        ▲ FINAL CVR +28.4%
+      </div>
+    </div>
+  );
+};
+
+/* [모션 영상 +4] 브레이킹 뉴스 속보 & 티커 씬 (Breaking News Broadcast Overlay) */
+const VdBreakingNewsTickerDemo: React.FC = () => {
+  const [headIdx, setHeadIdx] = useState(0);
+  const headlines = [
+    'AI 바이브 사전 122종 인터랙션 돌파',
+    '클릭 한 번으로 모션 영상 프롬프트 복사',
+    '실시간 라이브 데모 프리뷰 전면 가동',
+  ];
+  const tickerText =
+    '[속보] UI 36 · 그래픽 26 · 레이아웃 20 · 스타일 20 · 모션 영상 20 총 122종 바이브 수록 완료   •   ';
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeadIdx((h) => (h + 1) % headlines.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [headlines.length]);
+
+  return (
+    <div
+      onClick={() => setHeadIdx((h) => (h + 1) % headlines.length)}
+      className="w-full h-40 flex items-center justify-center pt-5 px-4 cursor-pointer select-none"
+    >
+      <div className="w-full max-w-[225px] rounded-xl bg-slate-950 border border-rose-500/40 overflow-hidden shadow-lg">
+        {/* 상단 BREAKING LIVE 헤더 */}
+        <div className="bg-gradient-to-r from-rose-600 to-red-700 px-2.5 py-1 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+            <span className="text-[9px] font-black tracking-wider text-white">BREAKING NEWS</span>
+          </div>
+          <span className="text-[8px] font-mono text-rose-100">LIVE 24H</span>
+        </div>
+
+        {/* 중앙 수직 슬라이드 교체형 속보 헤드라인 */}
+        <div className="px-2.5 py-2 bg-slate-900 overflow-hidden">
+          <div
+            key={headIdx}
+            className="text-[10px] font-bold text-white truncate animate-toast-slide-up"
+          >
+            {headlines[headIdx]}
+          </div>
+        </div>
+
+        {/* 하단 무한 루프 뉴스 자막 티커 (.animate-marquee-left 2배 트랙) */}
+        <div className="bg-amber-400 text-slate-950 py-0.5 overflow-hidden whitespace-nowrap">
+          <div className="flex w-max animate-marquee-left text-[8px] font-mono font-black">
+            <span className="px-2">{tickerText}</span>
+            <span className="px-2">{tickerText}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+

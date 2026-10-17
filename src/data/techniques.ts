@@ -508,9 +508,57 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       '수치 증가 시 프로그레스 바 너비가 그라데이션과 함께 부드럽게 차오르고, 상단 카운터 배지가 일시적으로 `scale(1.26)`으로 튀어 오르는 Smooth Gauge & Pop 연출을 적용해 줘.',
   },
+  {
+    id: 'gooey-menu-fab',
+    domain: 'ui',
+    category: 'control',
+    vibeTag: '플러스 버튼을 누르면 물방울처럼 톡톡 튀어나오는 액션 메뉴',
+    vibeKeywords: ['물방울 플로팅 버튼', '구이 메뉴', 'FAB 확장', '스피드 다이얼', '플러스 메뉴'],
+    titleKo: '구이 플로팅 액션 버튼 (Speed-Dial FAB)',
+    titleEn: 'Spring Speed-Dial Floating Action Button',
+    summary: '메인 + 버튼을 누르면 45도 회전하며 서브 액션 아이콘들이 시간차 스프링으로 튀어나옴',
+    promptSnippet:
+      '메인 플로팅 액션 버튼(FAB) 클릭 시 `+` 아이콘이 `rotate(45deg)`로 회전하고, 숨겨져 있던 3개의 하위 원형 버튼들이 각각 다른 `transition-delay`(0ms, 40ms, 80ms)와 `cubic-bezier(0.34, 1.56, 0.64, 1)` 탄성 곡선으로 펼쳐지는 Speed-Dial FAB를 구현해 줘.',
+  },
+  {
+    id: 'otp-pin-focus-bounce',
+    domain: 'ui',
+    category: 'control',
+    vibeTag: '인증번호를 한 자리씩 칠 때마다 칸이 통통 튀며 다음 칸으로 넘어가는',
+    vibeKeywords: ['인증번호 6자리 입력창', 'OTP 입력', '핀 코드', '자동 포커스 이동', '바운스 인풋'],
+    titleKo: 'OTP 핀 코드 바운스 인풋',
+    titleEn: 'OTP Pin Auto-Focus Bounce Input',
+    summary: '숫자 입력 시 해당 슬롯이 탄성 있게 튀어 오르며 자동으로 다음 칸으로 포커스가 이동하고 완료 시 에메랄드 글로우 점등',
+    promptSnippet:
+      '6자리 OTP 인증번호 입력 UI를 만들고, 각 칸에 숫자가 입력될 때 `scale(1.12)` 바운스 애니메이션과 함께 다음 `<input>`으로 자동 포커스 이동하며, 6자리가 모두 채워지면 전체 슬롯 테두리가 에메랄드 빛으로 점등되게 구현해 줘.',
+  },
+  {
+    id: 'hold-to-confirm-ring',
+    domain: 'ui',
+    category: 'feedback',
+    vibeTag: '실수로 눌리지 않게 버튼을 꾹 누르고 있으면 게이지가 다 차야 실행되는',
+    vibeKeywords: ['길게 눌러 실행 버튼', '홀드 투 컨펌', '꾹 누르기', '롱프레스 버튼', '삭제 확인 버튼'],
+    titleKo: '홀드 투 컨펌 (Hold-to-Confirm)',
+    titleEn: 'Hold-to-Confirm Progress Button',
+    summary: '버튼을 길게 누르는 동안 게이지가 차오르고 중간에 떼면 취소되며 끝까지 채우면 실행 완료',
+    promptSnippet:
+      '중요한 작업을 실수로 실행하지 않도록 마우스/터치를 누르고 있는 동안(`onPointerDown`) 내부 프로그레스 레이어가 0%에서 100%까지 차오르고, 도중에 손을 떼면 즉시 0%로 감기며, 100% 도달 시 완료 상태로 전환되는 Hold-to-Confirm 버튼을 구현해 줘.',
+  },
+  {
+    id: 'peek-password-lamp',
+    domain: 'ui',
+    category: 'control',
+    vibeTag: '눈 아이콘을 켜면 손전등 빛이 비치며 가려진 비밀번호가 드러나는',
+    vibeKeywords: ['손전등 비밀번호 보기', '패스워드 피크', '비밀번호 표시 조명', '라이트 빔 인풋', '보안 입력창'],
+    titleKo: '스포트라이트 패스워드 피크',
+    titleEn: 'Flashlight Beam Password Peek',
+    summary: '우측 조명 토글을 켜면 원뿔형 손전등 빛줄기가 입력창을 비추며 마스킹된 비밀번호가 선명하게 나타남',
+    promptSnippet:
+      '비밀번호 입력창 우측의 눈/조명 아이콘을 토글하면 아이콘에서 입력창 왼쪽으로 원뿔형 빛줄기(`clip-path: polygon(100% 50%, 0% 0%, 0% 100%)`)가 펼쳐지며 가려진 문자(`••••`)가 실제 텍스트로 부드럽게 전환되는 Flashlight Password Peek 인터랙션을 구현해 줘.',
+  },
 
   /* =====================================================================
-   * DOMAIN 2: 그래픽 (22종)
+   * DOMAIN 2: 그래픽 (26종)
    * ===================================================================== */
   {
     id: 'mg-svg-line-draw',
@@ -776,9 +824,57 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       '배경에 서로 다른 높이와 속도를 가진 수평 그라데이션 스트리크(`h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent`)들을 배치해 왼쪽에서 오른쪽으로 빠르게 스쳐 지나가는 Speed Lines 연출을 구현해 줘.',
   },
+  {
+    id: 'mg-radar-sonar-sweep',
+    domain: 'motion',
+    category: 'shader',
+    vibeTag: '잠수함 레이더처럼 회전하는 스캔 광선이 타겟 점들을 차례로 포착하는',
+    vibeKeywords: ['소나 레이더 스캔', '레이더 스윕', '타겟 탐지', '원형 스캐너', '보안 스캔 그래픽'],
+    titleKo: '소나 레이더 스윕 스캐너',
+    titleEn: 'Sonar Radar Sweep Scanner',
+    summary: '360도 회전하는 원뿔형(conic-gradient) 레이더 빔이 동심원 격자 위의 타겟 블립을 점등시키는 그래픽',
+    promptSnippet:
+      '원형 동심원 그리드 위에 `conic-gradient(from 0deg, transparent 70%, rgba(16, 185, 129, 0.45) 100%)` 레이어를 얹고 360도 연속 회전(`animate-spin`)시켜 스캔 빔이 지나갈 때마다 타겟 포인트(Blip)가 반짝이며 탐지되는 Sonar Radar Sweep 그래픽을 구현해 줘.',
+  },
+  {
+    id: 'mg-morphing-grid-wave',
+    domain: 'motion',
+    category: 'graphic',
+    vibeTag: '바둑판 타일들이 대각선 파도를 타듯 차례대로 솟아올랐다 가라앉는',
+    vibeKeywords: ['대각선 타일 파도', '그리드 웨이브', '타일 리플', '스태거드 매트릭스', '입체 타일 물결'],
+    titleKo: '스태거드 그리드 타일 웨이브',
+    titleEn: 'Staggered Grid Tile Wave',
+    summary: '행+열 좌표 합(`row + col`)에 비례한 딜레이로 타일들이 대각선 물결처럼 크기와 색상이 변하는 모션',
+    promptSnippet:
+      '`N x M` 그리드 타일 각각에 `(row + col) * 90ms`의 `animation-delay`를 부여해 좌상단부터 우하단으로 대각선 파도가 퍼져나가듯 `scale(0.75)` ➔ `scale(1.1)`과 밝기 변화가 물결치는 Staggered Grid Wave 그래픽을 구현해 줘.',
+  },
+  {
+    id: 'mg-prism-rainbow-refraction',
+    domain: 'motion',
+    category: 'vfx',
+    vibeTag: '한 줄기 하얀 빛이 유리 삼각 프리즘을 통과하며 무지개 스펙트럼으로 퍼지는',
+    vibeKeywords: ['프리즘 무지개 굴절', '빛 분산 스펙트럼', '삼각 프리즘 광선', '광학 굴절', '스펙트럼 빔'],
+    titleKo: '프리즘 광선 분산 효과',
+    titleEn: 'Optical Prism Light Dispersion',
+    summary: '좌측 백색 입사광이 중앙 유리 프리즘에 닿아 우측으로 6색 무지개 스펙트럼 빔으로 굴절·확산되는 VFX',
+    promptSnippet:
+      '좌측에서 들어오는 백색 레이저 빔이 중앙의 반투명 삼각 프리즘(`backdrop-blur`)을 통과하는 순간 우측으로 Red·Amber·Emerald·Cyan·Indigo·Violet 다중 그라데이션 빔이 부채꼴 각도로 퍼져나가는 Optical Prism Dispersion 그래픽을 구현해 줘.',
+  },
+  {
+    id: 'mg-gravity-newton-cradle',
+    domain: 'motion',
+    category: 'physics',
+    vibeTag: '매달린 쇠구슬 중 양끝 구슬만 교대로 부딪히며 운동량을 전달하는',
+    vibeKeywords: ['뉴턴의 진자 구슬', '뉴턴의 요람', '진자 운동 물리', '탄성 충돌 구슬', '모멘텀 진자'],
+    titleKo: '뉴턴의 요람 물리 진자',
+    titleEn: "Newton's Cradle Momentum Pendulum",
+    summary: '중앙 구슬들은 정지한 채 좌측 끝 구슬과 우측 끝 구슬이 교대로 부딪히며 튀어 오르는 물리 진자 모션',
+    promptSnippet:
+      '5개의 금속 구슬이 상단 축(`transform-origin: top center`)에 매달린 뉴턴의 요람(Newton\'s Cradle)을 구현해 줘. 중앙 3개 구슬은 고정된 상태에서 좌측 끝 구슬이 내려와 충돌하는 즉시 우측 끝 구슬이 반대편으로 스윙하는 탄성 운동량 전달 키프레임을 적용해 줘.',
+  },
 
   /* =====================================================================
-   * DOMAIN 3: 레이아웃 (16종)
+   * DOMAIN 3: 레이아웃 (20종)
    * ===================================================================== */
 
   /* 1. 그리드·카드배치 (grid) */
@@ -980,9 +1076,57 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       '작은 정사각형 셀(`w-3.5 h-3.5 rounded-sm`)들을 7행 그리드로 촘촘히 배치하고, 각 셀의 데이터 값(0~4단계)에 따라 어두운 회색부터 밝은 에메랄드색까지 농도가 달라지는 GitHub 스타일 Contribution Heatmap을 구현해 줘.',
   },
+  {
+    id: 'ly-floating-toc-spy',
+    domain: 'layout',
+    category: 'scroll',
+    vibeTag: '본문을 읽어나가면 우측 미니 목차 바의 활성 인디케이터가 따라 내려오는',
+    vibeKeywords: ['스크롤 연동 목차 바', '스크롤스파이 TOC', '문서 목차 네비게이션', '플로팅 목차', '현재 섹션 표시'],
+    titleKo: '스크롤스파이 플로팅 목차 (TOC Spy)',
+    titleEn: 'Scrollspy Floating Table of Contents',
+    summary: '본문 스크롤 위치(IntersectionObserver)에 연동해 우측 목차 트랙의 활성 마커가 이동하고 클릭 시 해당 섹션으로 점프',
+    promptSnippet:
+      '문서 본문 우측에 `sticky` 플로팅 목차(Table of Contents)를 배치하고, `IntersectionObserver`로 현재 화면에 보이는 `<h2>/<h3>` 섹션을 감지해 목차 좌측의 수직 액센트 인디케이터 바가 부드럽게(`translateY`) 이동하는 Scrollspy TOC 레이아웃을 구현해 줘.',
+  },
+  {
+    id: 'ly-collapsible-rail-sidebar',
+    domain: 'layout',
+    category: 'nav',
+    vibeTag: '평소엔 좁은 아이콘 기둥이었다가 토글하면 텍스트 라벨까지 넓게 펼쳐지는',
+    vibeKeywords: ['아이콘 레일 사이드바', '접이식 사이드바', '미니 레일 메뉴', '사이드바 축소 확장', '대시보드 LNB'],
+    titleKo: '접이식 미니 레일 사이드바',
+    titleEn: 'Collapsible Icon-Rail Sidebar',
+    summary: '아이콘만 보이는 56px 슬림 레일 모드와 메뉴명이 함께 보이는 220px 확장 모드를 즉시 전환하는 대시보드 네비게이션',
+    promptSnippet:
+      '좌측 대시보드 사이드바가 축소 상태(`w-14`, 아이콘만 중앙 정렬 + 호버 툴팁)와 확장 상태(`w-56`, 아이콘 + 텍스트 라벨 + 배지 노출) 사이를 부드러운 폭 트랜지션(`transition-[width] duration-300`)으로 오가는 Collapsible Rail Sidebar 레이아웃을 구현해 줘.',
+  },
+  {
+    id: 'ly-breadcrumb-folder-drill',
+    domain: 'layout',
+    category: 'nav',
+    vibeTag: '상단 경로 바를 눌러 상위·하위 폴더 계층을 즉시 오가는 탐색기 구조',
+    vibeKeywords: ['계층형 폴더 브레드크럼', '드릴다운 탐색기', '경로 네비게이션', '파일 트리 이동', '상위 폴더 이동'],
+    titleKo: '드릴다운 브레드크럼 파인더',
+    titleEn: 'Drill-Down Breadcrumb Explorer',
+    summary: '하위 폴더로 들어갈 때마다 상단 경로 체인(`Root / src / ui`)이 쌓이고 중간 경로를 클릭하면 즉시 해당 계층으로 복귀',
+    promptSnippet:
+      '상단에 현재 탐색 경로를 보여주는 인터랙티브 Breadcrumb 바(`Workspace > src > components`)를 고정하고, 하단 그리드에서 폴더를 클릭하면 하위 계층으로 드릴다운되며 상단 경로 세그먼트를 클릭하면 해당 상위 계층으로 즉시 되돌아가는 Drill-Down Explorer 구조를 구현해 줘.',
+  },
+  {
+    id: 'ly-resizable-split-pane',
+    domain: 'layout',
+    category: 'panel',
+    vibeTag: '코드 에디터처럼 중앙 구분선을 잡고 좌우 화면 비율을 자유롭게 조절하는',
+    vibeKeywords: ['비율 조절 분할 패널', '리사이저블 스플릿', '구분선 드래그', 'IDE 분할 창', '가변 2단 레이아웃'],
+    titleKo: '리사이저블 스플릿 패인',
+    titleEn: 'Resizable Dual Split Pane',
+    summary: '좌우 두 패널 사이의 중앙 가터(Gutter) 핸들을 드래그하거나 프리셋으로 너비 비율(25:75 ~ 75:25)을 즉시 조절',
+    promptSnippet:
+      '좌측 패널과 우측 패널 사이에 드래그 가능한 리사이즈 핸들 바(`w-1.5 cursor-col-resize hover:bg-indigo-500`)를 배치하고, 포인터 이동이나 비율 프리셋에 따라 좌측 패널의 `width: ${ratio}%`가 실시간 조절되는 Resizable Split Pane 레이아웃을 구현해 줘.',
+  },
 
   /* =====================================================================
-   * DOMAIN 4: 스타일 (16종)
+   * DOMAIN 4: 스타일 (20종)
    * ===================================================================== */
 
   /* 1. 모던·트렌드 (modern) */
@@ -1184,9 +1328,57 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       '미국 코믹북/만화책 같은 Comic Halftone Pop-Art 스타일을 적용해 줘. 배경에 대각선 도트 망점(`radial-gradient(#000 1.5px, transparent 1.5px)`) 패턴을 깔고, 패널에 `skewX(-4deg)` 기울기와 3px 검은 외곽선, 강렬한 노랑·빨강 액션 배지를 결합해 줘.',
   },
+  {
+    id: 'st-holographic-foil-card',
+    domain: 'style',
+    category: 'modern',
+    vibeTag: '보는 각도에 따라 무지개빛 프리즘 홀로그램 광택이 일렁이는 포토카드 풍',
+    vibeKeywords: ['홀로그램 포토카드 광택', '이리데슨트 포일', '무지개 빛 반사', '프리즘 카드', '레어 카드 효과'],
+    titleKo: '홀로그래픽 포일 이리데슨트',
+    titleEn: 'Holographic Foil Iridescent Style',
+    summary: '다중 각도 무지개 그라데이션(`linear-gradient(125deg, #ff0080, #7928ca, #00e5ff, #00ff88)`)과 대각선 쉬머가 결합된 광택 화풍',
+    promptSnippet:
+      '트레이딩 포토카드나 Apple Pay 카드처럼 각도에 따라 무지개빛이 흐르는 Holographic Foil 스타일을 적용해 줘. 표면 위에 다중 스펙트럼 그라데이션(`background-size: 250% 250%`)과 `mix-blend-mode: color-dodge` 광택 레이어를 겹쳐 호버/이동 시 이리데슨트 프리즘 빛깔이 움직이게 해 줘.',
+  },
+  {
+    id: 'st-receipt-thermal-mono',
+    domain: 'style',
+    category: 'retro',
+    vibeTag: '하얀 감열지 영수증에 지그재그 절취선과 점선 구분선·바코드가 찍힌',
+    vibeKeywords: ['감열지 영수증 티켓', '모노스페이스 영수증', '바코드 티켓', '절취선 종이', '아날로그 영수증 UI'],
+    titleKo: '서멀 영수증 & 바코드 티켓',
+    titleEn: 'Thermal Receipt & Barcode Ticket',
+    summary: '크림 화이트 지류 배경, 상하단 톱니 절취선, 고정폭(`monospace`) 영수증 내역과 하단 바코드를 결합한 편집 화풍',
+    promptSnippet:
+      '실제 매장 감열지 영수증 같은 Thermal Paper Receipt 스타일로 카드를 디자인해 줘. 오프화이트(`#faf8f5`) 배경에 검은색 고정폭(`font-mono`) 텍스트를 쓰고, 항목 사이는 점선(`border-dashed border-zinc-400`)으로 구분하며, 상하단 지그재그 절취선과 하단 수직 바코드 그래픽을 배치해 줘.',
+  },
+  {
+    id: 'st-vaporwave-y2k-chrome',
+    domain: 'style',
+    category: 'retro',
+    vibeTag: '2000년대 초반 메탈릭 은빛 크롬 배지와 캔디 핑크·하늘색이 섞인 Y2K 감성',
+    vibeKeywords: ['Y2K 파스텔 크롬', '2000년대 하이틴', '메탈릭 실버', '버블검 핑크', '사이버 Y2K 윈도우'],
+    titleKo: 'Y2K 애시드 크롬 & 파스텔 윈도우',
+    titleEn: 'Y2K Metallic Chrome & Pastel UI',
+    summary: '광택 나는 리퀴드 실버 크롬 그라데이션과 핫핑크·베이비블루 그라데이션 창, 반짝이 별(✦) 장식이 어우러진 2000년대 화풍',
+    promptSnippet:
+      '2000년대 초반 Y2K Chrome & Pastel 스타일을 적용해 줘. 캔디 핑크·아쿠아 블루 파스텔 그라데이션 윈도우에 은빛 금속 광택이 나는 크롬 보더/배지(`linear-gradient(180deg, #ffffff 0%, #94a3b8 48%, #334155 52%, #e2e8f0 100%)`)와 반짝이 스타(`✦`) 아이콘을 조합해 줘.',
+  },
+  {
+    id: 'st-cyberpunk-neon-glitch',
+    domain: 'style',
+    category: 'scifi',
+    vibeTag: '강렬한 애시드 옐로우 패널에 블랙·시안 경고 띠와 네온 글리치가 박힌',
+    vibeKeywords: ['사이버펑크 나이트시티', '애시드 옐로우 HUD', '네온 경고문', '미래 도시 전광판', '하이테크 펑크'],
+    titleKo: '사이버펑크 하이볼티지 네온',
+    titleEn: 'Cyberpunk High-Voltage Neon UI',
+    summary: '고채도 사이버 옐로우(`#facc15`)와 딥 블랙 대비, 대각선 해저드 스트라이프, 일렉트릭 시안(`#00f0ff`) 액센트를 결합한 화풍',
+    promptSnippet:
+      '사이버펑크 2077 스타일의 High-Voltage Cyberpunk UI 화풍을 적용해 줘. 강렬한 애시드 옐로우(`#facc15`)와 블랙(`#09090b`)의 고대비 컬러 블록에 모서리 컷아웃(`clip-path`), 대각선 경고 줄무늬(`repeating-linear-gradient(-45deg)`), 일렉트릭 시안(`#00f0ff`) 네온 태그를 결합해 줘.',
+  },
 
   /* =====================================================================
-   * DOMAIN 5: 모션 영상 (16종 - 타임라인·쇼릴·시퀀스 연출)
+   * DOMAIN 5: 모션 영상 (20종 - 타임라인·쇼릴·시퀀스 연출)
    * ===================================================================== */
   /* 1. 런칭·쇼릴·홍보 (promo) */
   {
@@ -1236,6 +1428,18 @@ export const TECHNIQUES: TechniqueItem[] = [
     summary: '3개의 분할 컬럼이 상하 교차 슬라이드로 맞물려 들어온 뒤 전체 화면 타이틀로 합쳐지는 역동적인 구성',
     promptSnippet:
       '광고 쇼릴에 쓰이는 Multi-Screen Split 시퀀스를 구현해 줘. 화면을 3등분한 패널이 각각 위·아래·위 반대 방향(`translateY(-100%)`, `translateY(100%)`)에서 `cubic-bezier(0.22, 1, 0.36, 1)`로 동시에 맞물려 들어와 정지하고, 이어서 중앙 와이프와 함께 메인 카피가 오버레이되게 해 줘.',
+  },
+  {
+    id: 'vd-glitch-cut-reel',
+    domain: 'video',
+    category: 'promo',
+    vibeTag: '강렬한 RGB 노이즈 슬라이스와 함께 제품 스펙 키워드가 빠르게 컷 전환되는',
+    vibeKeywords: ['글리치 컷 전환 티저', '사이버 티저 릴', '스펙 하이라이트 영상', '게이밍 홍보 컷', 'RGB 컷 편집'],
+    titleKo: '사이버 글리치 컷 티저 릴',
+    titleEn: 'Glitch Cut Spec Teaser Reel',
+    summary: '장면이 바뀔 때마다 순간적인 RGB 색수차 플래시와 수평 슬라이스가 터지며 핵심 스펙이 연속 전환되는 티저',
+    promptSnippet:
+      '게이밍·테크 하드웨어 티저 영상처럼 Glitch Cut Teaser 시퀀스를 구현해 줘. 1.4초 간격으로 핵심 스펙 씬(`240Hz OLED` ➔ `0.03ms RESPONSE` ➔ `AI ENGINE`)이 전환될 때 180ms 동안 Red/Cyan 색수차 오프셋과 수평 노이즈 슬라이스 바가 번쩍이며 타격감 있게 컷이 바뀌게 해 줘.',
   },
 
   /* 2. 타이포·리듬 광고 (kinetic_ad) */
@@ -1287,6 +1491,18 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       'AI 서비스 홍보 영상에 쓰이는 Chat Storyboard Sequence를 구현해 줘. Step 1에서 우측 사용자 질문 말풍선이 아래에서 튀어 오르고, Step 2에서 좌측 타이핑 인디케이터(`...`)가 0.8초간 바운스한 뒤, Step 3에서 완성된 프리뷰 카드가 스프링 애니메이션으로 펼쳐지는 시퀀스를 자동 재생해 줘.',
   },
+  {
+    id: 'vd-slot-jackpot-headline',
+    domain: 'video',
+    category: 'kinetic_ad',
+    vibeTag: '슬롯머신 릴 3개가 회전하다가 철컥철컥 멈추며 핵심 카피 문장이 완성되는',
+    vibeKeywords: ['슬롯머신 카피 완성 씬', '잭팟 타이포 모션', '단어 롤링 광고', '릴 스핀 헤드라인', '랜덤 조합 카피'],
+    titleKo: '슬롯 릴 잭팟 헤드라인 씬',
+    titleEn: 'Slot Reel Jackpot Headline Scene',
+    summary: '3개의 단어 슬롯 윈도우가 빠르게 수직 회전한 뒤 좌측부터 순서대로 멈추며 슬로건 한 줄을 완성하는 연출',
+    promptSnippet:
+      '광고 영상용 Slot Reel Jackpot 헤드라인 시퀀스를 구현해 줘. 3개의 단어 창(`[CREATE]`, `[10X]`, `[FASTER]`)이 각각 수직으로 빠르게 롤링되다가 0.25초 시차로 왼쪽부터 차례대로 탄성 있게 철컥 멈추고, 3개가 모두 정렬되면 골드/에메랄드 테두리 하이라이트가 켜지게 해 줘.',
+  },
 
   /* 3. 데이터·차트 모션 (infographic) */
   {
@@ -1337,6 +1553,18 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       '애플 워치 액티비티 링 스타일의 Multi-Ring Progress 인포그래픽 씬을 구현해 줘. 반지름이 다른 3개의 동심원 SVG `<circle>`(`stroke-linecap="round"`)이 `stroke-dashoffset` 애니메이션으로 각각 92%, 78%, 64%까지 부드럽게 채워지고, 우측 범례 수치가 순차 점등되게 해 줘.',
   },
+  {
+    id: 'vd-funnel-conversion-drop',
+    domain: 'video',
+    category: 'infographic',
+    vibeTag: '상단 유입부터 최종 결제까지 단계별 깔때기 수치가 채워지며 전환율이 뜨는',
+    vibeKeywords: ['마케팅 퍼널 전환 모션', '깔때기 차트 영상', '전환율 인포그래픽', '세일즈 퍼널 시퀀스', 'CVR 데이터 모션'],
+    titleKo: '컨버전 퍼널 단계별 리빌 씬',
+    titleEn: 'Conversion Funnel Stage Reveal',
+    summary: 'Visit(100%) ➔ Sign Up(58%) ➔ Pro(28%) 3단계 퍼널 바가 위에서 아래로 순차 확장되며 최종 전환율 배지가 팝업되는 씬',
+    promptSnippet:
+      '마케팅·그로스 리포트 영상용 Conversion Funnel Reveal 시퀀스를 구현해 줘. 위에서 아래로 폭이 좁아지는 3단계 깔때기(Funnel) 바가 0.25초 간격으로 펼쳐지며 각 단계의 유저 수와 비율이 표시되고, 마지막 단계 완료 시 우측에 `CVR +28.4%` 하이라이트 배지가 탄성 있게 등장하게 해 줘.',
+  },
 
   /* 4. 방송·트랜지션·자막 (broadcast) */
   {
@@ -1386,5 +1614,17 @@ export const TECHNIQUES: TechniqueItem[] = [
     summary: '트랙 재생 타임라인과 함께 16채널 주파수 스펙트럼 바가 리듬감 있게 물결치며 움직이는 미디어 씬',
     promptSnippet:
       '뮤직비디오·팟캐스트 영상용 Audio Spectrum Visualizer 씬을 구현해 줘. 중앙에 그라데이션 수직 바 16개를 배치해 각기 다른 주기와 위상차(`animation-delay`)로 높이가 역동적으로 요동치게 하고, 상단 LIVE 배지와 하단 재생 타임코드(`01:24 / 03:45`) 프로그레스 바가 함께 흐르도록 구성해 줘.',
+  },
+  {
+    id: 'vd-breaking-news-ticker',
+    domain: 'video',
+    category: 'broadcast',
+    vibeTag: 'LIVE 속보 배지와 함께 상단 헤드라인이 바뀌고 하단 뉴스 자막띠가 흐르는',
+    vibeKeywords: ['뉴스 속보 티커 방송 씬', '브레이킹 뉴스 자막', '생방송 뉴스 오버레이', '하단 자막 롤링', '방송 스튜디오 그래픽'],
+    titleKo: '브레이킹 뉴스 속보 & 티커 씬',
+    titleEn: 'Breaking News Broadcast Overlay',
+    summary: '붉은 BREAKING 라이브 배지, 슬라이드 교체되는 메인 속보 헤드라인, 하단 연속 스크롤 뉴스띠를 결합한 방송 씬',
+    promptSnippet:
+      '뉴스 보도국 생방송 스타일의 Breaking News Broadcast 씬을 구현해 줘. 좌측에 붉은 `BREAKING LIVE` 펄스 배지를 고정하고, 중앙 메인 헤드라인은 2초 간격으로 수직 슬라이드 교체되며, 최하단 티커 바에는 실시간 속보 문구가 끊김 없이 좌측으로 흐르게 해 줘.',
   },
 ];

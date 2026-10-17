@@ -324,7 +324,7 @@ export default function App() {
                   {tab.icon}
                   <span>{tab.label}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                       isActive
                         ? 'bg-indigo-800/80 text-indigo-100'
                         : 'bg-slate-800 text-slate-400'
@@ -344,7 +344,7 @@ export default function App() {
           >
             <Wand2 className="w-3.5 h-3.5 text-indigo-400" />
             <span>조합기</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-indigo-600 text-white text-[10px]">
+            <span className="px-1.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px]">
               {cart.length}
             </span>
           </button>
