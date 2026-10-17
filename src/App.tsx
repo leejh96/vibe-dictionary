@@ -1,5 +1,13 @@
-import React, { useState, useMemo } from 'react';
-import { Sparkles, Wand2, Layers, Film, LayoutGrid, Palette } from 'lucide-react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import {
+  Wand2,
+  Layers,
+  Film,
+  LayoutGrid,
+  Palette,
+  ArrowUpToLine,
+  ChevronDown,
+} from 'lucide-react';
 import {
   TECHNIQUES,
   TechniqueItem,
@@ -10,6 +18,56 @@ import {
 import { FilterBar } from './components/FilterBar';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
+
+/* 사전 모양 커스텀 로고 아이콘 (favicon.svg와 동일한 아이덴티티) */
+const DictionaryLogo: React.FC = () => (
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    className="w-8 h-8 shrink-0 drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="logoBgGrad" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#6366F1" />
+        <stop offset="55%" stopColor="#4F46E5" />
+        <stop offset="100%" stopColor="#7C3AED" />
+      </linearGradient>
+      <linearGradient id="logoPageGrad" x1="16" y1="14" x2="48" y2="50" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#FFFFFF" />
+        <stop offset="100%" stopColor="#E0E7FF" />
+      </linearGradient>
+    </defs>
+    <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#logoBgGrad)" />
+    <path
+      d="M16 17C16 14.7909 17.7909 13 20 13H45C47.2091 13 49 14.7909 49 17V47C49 49.2091 47.2091 51 45 51H20C17.7909 51 16 49.2091 16 47V17Z"
+      fill="#312E81"
+      fillOpacity="0.55"
+    />
+    <path
+      d="M18 16C18 14.3431 19.3431 13 21 13H44C45.6569 13 47 14.3431 47 16V44C47 45.6569 45.6569 47 44 47H21C19.3431 47 18 45.6569 18 44V16Z"
+      fill="url(#logoPageGrad)"
+    />
+    <path d="M23 13V47" stroke="#A5B4FC" strokeWidth="2" />
+    <path
+      d="M18 44C18 42.3431 19.3431 41 21 41H47V46C47 47.6569 45.6569 49 44 49H21C19.3431 49 18 47.6569 18 46V44Z"
+      fill="#C7D2FE"
+    />
+    <path d="M21 45H44" stroke="#6366F1" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M37 13H43V25L40 22.5L37 25V13Z" fill="#F43F5E" />
+    <path
+      d="M28.5 23L32.5 34L36.5 23"
+      stroke="#4338CA"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M41.5 28L42.7 30.8L45.5 32L42.7 33.2L41.5 36L40.3 33.2L37.5 32L40.3 30.8L41.5 28Z"
+      fill="#F59E0B"
+    />
+  </svg>
+);
 
 function matchesSearch(item: TechniqueItem, query: string): boolean {
   const q = query.trim().toLowerCase();
@@ -37,6 +95,10 @@ export default function App() {
   const [cart, setCart] = useState<TechniqueItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(true);
+  const gridRef = useRef<HTMLDivElement>(null);
+
   const counts = useMemo(
     () => ({
       ui: TECHNIQUES.filter((t) => t.domain === 'ui').length,
@@ -46,6 +108,14 @@ export default function App() {
     }),
     []
   );
+
+  /* Vibe Dictionary 로고 클릭 시 홈(초기 상태 + 최상단 스크롤)으로 이동 */
+  const handleGoHome = () => {
+    setActiveDomain('ui');
+    setSelectedCategory('all');
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleDomainSwitch = (domain: DomainType) => {
     setActiveDomain(domain);
@@ -98,6 +168,70 @@ export default function App() {
     });
   }, [activeDomain, searchQuery, selectedCategory]);
 
+  /* 스크롤 위치 감지 (상단 이동 / 한 뎁스 아래 이동 활성화 여부) */
+  const updateScrollState = useCallback(() => {
+    const scrollTop = window.scrollY;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+    setCanScrollUp(scrollTop > 80);
+    setCanScrollDown(maxScroll - scrollTop > 20);
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+    return () => {
+      window.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory]);
+
+  /* 한번에 최상단으로 올라가는 핸들러 */
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /* 한 뎁스(다음 카드 행)씩 정확히 맞춰 스크롤을 내리는 핸들러 */
+  const handleScrollDownStep = () => {
+    const HEADER_OFFSET = 72;
+    const currentY = window.scrollY;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    if (gridRef.current) {
+      const children = Array.from(gridRef.current.children) as HTMLElement[];
+      const rowTargetYs: number[] = [];
+
+      for (const el of children) {
+        const top = Math.round(
+          el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET
+        );
+        if (!rowTargetYs.some((y) => Math.abs(y - top) < 24)) {
+          rowTargetYs.push(top);
+        }
+      }
+
+      rowTargetYs.sort((a, b) => a - b);
+
+      // 현재 스크롤 위치보다 최소 28px 이상 아래에 있는 다음 행(한 뎁스) 탐색
+      const nextRowY = rowTargetYs.find((y) => y > currentY + 28);
+      if (nextRowY !== undefined) {
+        window.scrollTo({
+          top: Math.min(nextRowY, maxScroll),
+          behavior: 'smooth',
+        });
+        return;
+      }
+    }
+
+    // 다음 행이 없거나 마지막 구간이면 페이지 하단까지 부드럽게 이동
+    window.scrollTo({
+      top: Math.min(currentY + Math.round(window.innerHeight * 0.65), maxScroll),
+      behavior: 'smooth',
+    });
+  };
+
   /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
   const otherDomainMatches = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -134,15 +268,18 @@ export default function App() {
       {/* 상단 헤더 + 4대 대분류 도메인 스위처 */}
       <header className="border-b border-slate-900 bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
-          {/* 로고 */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <h1 className="text-base font-black tracking-tight text-white">
+          {/* 사전 모양 로고 + 홈 이동 버튼 */}
+          <button
+            type="button"
+            onClick={handleGoHome}
+            title="홈으로 이동 (필터 초기화 및 맨 위로)"
+            className="group flex items-center gap-2.5 text-left focus:outline-none rounded-xl pr-2 py-0.5 transition-opacity hover:opacity-95"
+          >
+            <DictionaryLogo />
+            <span className="text-base font-black tracking-tight text-white group-hover:text-indigo-300 transition-colors">
               Vibe Dictionary
-            </h1>
-          </div>
+            </span>
+          </button>
 
           {/* 4대 대분류 도메인 탭: [UI] [그래픽] [레이아웃] [스타일] */}
           <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
@@ -241,7 +378,10 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div
+            ref={gridRef}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
             {filteredTechniques.map((item) => (
               <TechniqueCard
                 key={item.id}
@@ -253,6 +393,45 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* 우측 하단 플로팅 스크롤 컨트롤 (맨 위로 / 한 뎁스 아래로) */}
+      <div
+        className={`fixed right-5 z-40 flex flex-col gap-2 transition-all duration-300 ${
+          cart.length > 0 ? 'bottom-20' : 'bottom-5'
+        }`}
+      >
+        <button
+          type="button"
+          onClick={handleScrollToTop}
+          disabled={!canScrollUp}
+          title="한번에 맨 위로 이동"
+          aria-label="한번에 맨 위로 이동"
+          className={`w-11 h-11 rounded-2xl border flex flex-col items-center justify-center gap-0.5 shadow-xl backdrop-blur-md transition-all ${
+            canScrollUp
+              ? 'bg-slate-900/90 hover:bg-indigo-600 text-slate-200 hover:text-white border-slate-700/80 hover:border-indigo-500 cursor-pointer'
+              : 'bg-slate-900/40 text-slate-600 border-slate-800/50 cursor-not-allowed opacity-60'
+          }`}
+        >
+          <ArrowUpToLine className="w-4 h-4" />
+          <span className="text-[9px] font-extrabold leading-none">TOP</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={handleScrollDownStep}
+          disabled={!canScrollDown}
+          title="한 뎁스(다음 줄) 아래로 스크롤"
+          aria-label="한 뎁스 아래로 스크롤"
+          className={`w-11 h-11 rounded-2xl border flex flex-col items-center justify-center gap-0.5 shadow-xl backdrop-blur-md transition-all ${
+            canScrollDown
+              ? 'bg-slate-900/90 hover:bg-indigo-600 text-slate-200 hover:text-white border-slate-700/80 hover:border-indigo-500 cursor-pointer'
+              : 'bg-slate-900/40 text-slate-600 border-slate-800/50 cursor-not-allowed opacity-60'
+          }`}
+        >
+          <ChevronDown className="w-4 h-4" />
+          <span className="text-[9px] font-extrabold leading-none">1단</span>
+        </button>
+      </div>
 
       <PromptCartDrawer
         cart={cart}
