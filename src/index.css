@@ -161,7 +161,7 @@
 }
 
 @keyframes svg-draw {
-  0% { stroke-dashoffset: 320; fill: rgba(99, 102, 241, 0); }
+  0% { stroke-dashoffset: 1; fill: rgba(99, 102, 241, 0); }
   65% { stroke-dashoffset: 0; fill: rgba(99, 102, 241, 0); }
   85%, 100% { stroke-dashoffset: 0; fill: rgba(99, 102, 241, 0.25); }
 }
@@ -293,8 +293,8 @@
 .animate-squash-bounce { animation: squash-bounce 1.25s infinite; }
 .animate-anticipation-launch { animation: anticipation-launch 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 .animate-svg-draw {
-  stroke-dasharray: 320;
-  stroke-dashoffset: 320;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
   animation: svg-draw 2.4s ease-in-out infinite;
 }
 .animate-liquid-morph { animation: liquid-morph 5s ease-in-out infinite; }
