@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP } from '../data/techniques';
 import { InteractiveDemo } from './demos/InteractiveDemos';
@@ -16,6 +16,31 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const demoContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = demoContainerRef.current;
+    if (!el) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const latest = entries[entries.length - 1];
+        if (latest) {
+          setIsInView(latest.isIntersecting);
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const categoryLabel = CATEGORY_LABEL_MAP[item.category] ?? item.category;
 
@@ -35,7 +60,10 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
       }`}
     >
       {/* 1. 상단 인터랙티브 데모 캔버스 */}
-      <div className="relative bg-slate-950/90 border-b border-slate-800/70">
+      <div
+        ref={demoContainerRef}
+        className="relative bg-slate-950/90 border-b border-slate-800/70"
+      >
         <span className="absolute top-2.5 left-3 z-20 text-[10px] font-semibold text-slate-400 bg-slate-900/90 border border-slate-800 px-2 py-0.5 rounded-md">
           {categoryLabel}
         </span>
@@ -57,8 +85,10 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
           <div className="h-40 p-4 pt-10 flex items-center bg-slate-950 text-xs font-mono text-indigo-200 leading-relaxed overflow-y-auto break-keep">
             {item.promptSnippet}
           </div>
-        ) : (
+        ) : isInView ? (
           <InteractiveDemo techniqueId={item.id} />
+        ) : (
+          <div className="w-full h-40 bg-slate-950/90" aria-hidden="true" />
         )}
       </div>
 
