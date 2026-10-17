@@ -58,7 +58,7 @@
 | otp-pin-focus-bounce | [OtpPinFocusBounceDemo](../../../src/components/demos/InteractiveDemos.tsx#L3752) | 1.12→1.25·실제 버튼 입력/연속 재생·인증 아님 |
 | hold-to-confirm-ring | [HoldToConfirmRingDemo](../../../src/components/demos/InteractiveDemos.tsx#L3843) | 즉시 리셋 아닌 점진 감소·700ms·재누름/초기화 |
 | peek-password-lamp | [PeekPasswordLampDemo](../../../src/components/demos/InteractiveDemos.tsx#L3917) | 빛줄기 -18/118%·초기 ON·문자별 18ms·시연 범위 |
-| mg-svg-line-draw | [MgSvgLineDrawDemo](../../../src/components/demos/InteractiveDemos.tsx#L1327) | 데모 dash 320·2.4초·65/85% 채움 구간 |
+| mg-svg-line-draw | [MgSvgLineDrawDemo](../../../src/components/demos/InteractiveDemos.tsx#L1327) | dash 320·2.4초·0~65% 선 그리기 / 65~85% 채우기 / 85~100% 유지로 리뷰 지적 반영 |
 | mg-liquid-blob-morph | [MgLiquidBlobMorphDemo](../../../src/components/demos/InteractiveDemos.tsx#L1346) | 5초·누락된 세 번째 곡률/회전/축척 |
 | mg-gooey-metaball | [MgGooeyMetaballDemo](../../../src/components/demos/InteractiveDemos.tsx#L1356) | blur 8→7·blend·이동 경로/2.4초 |
 | mg-orbit-rotation | [MgOrbitRotationDemo](../../../src/components/demos/InteractiveDemos.tsx#L1386) | 2개 궤도·5/3.5초·코어 고정 |
