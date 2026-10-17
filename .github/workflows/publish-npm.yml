@@ -1,0 +1,61 @@
+name: Publish MCP to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'MCP package version already committed on master (for example 0.1.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - name: Require the original repository and master branch
+        env:
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: |
+          test "$RELEASE_REPOSITORY" = 'leejh96/vibe-dictionary'
+          test "$GITHUB_REF" = 'refs/heads/master'
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org/'
+          package-manager-cache: false
+      - name: Set up npm with OIDC support
+        run: npm install --global npm@11.21.0 --ignore-scripts --no-audit --no-fund
+      - name: Check requested version
+        run: |
+          node --input-type=module -e "import assert from 'node:assert/strict'; import {readFileSync} from 'node:fs'; const p=JSON.parse(readFileSync('apps/mcp/package.json','utf8')); assert.equal(process.env.RELEASE_VERSION,p.version);"
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Audit dependencies
+        run: npm audit --registry=https://registry.npmjs.org/
+      - name: Test web and MCP
+        run: npm test
+      - name: Build web and MCP
+        run: npm run build
+      - name: Verify the exact package with an isolated install
+        run: npm run check:package -- "$RUNNER_TEMP/mcp-package"
+      - name: Publish the verified tarball using OIDC
+        run: npm publish "$RUNNER_TEMP/mcp-package/keke1933-vibe-dictionary-mcp-$RELEASE_VERSION.tgz" --access public --ignore-scripts --registry=https://registry.npmjs.org/

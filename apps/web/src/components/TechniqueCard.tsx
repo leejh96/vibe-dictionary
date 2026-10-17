@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
-import { TechniqueItem, CATEGORY_LABEL_MAP } from '../data/techniques';
+import { TechniqueItem, CATEGORY_LABEL_MAP } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from './demos/InteractiveDemos';
 import { useClipboard } from '../hooks/useClipboard';
 

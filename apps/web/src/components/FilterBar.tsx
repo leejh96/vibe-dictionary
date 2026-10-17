@@ -4,7 +4,7 @@ import {
   DomainType,
   CategoryType,
   DOMAIN_CATEGORIES,
-} from '../data/techniques';
+} from '@vibe-dictionary/catalog';
 
 interface FilterBarProps {
   activeDomain: DomainType;

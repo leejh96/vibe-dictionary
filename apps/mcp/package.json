@@ -1,0 +1,41 @@
+{
+  "name": "@keke1933/vibe-dictionary-mcp",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "leejh96",
+  "description": "Read-only local MCP for searching Vibe Dictionary techniques and retrieving implementation prompts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leejh96/vibe-dictionary.git",
+    "directory": "apps/mcp"
+  },
+  "homepage": "https://leejh96.github.io/vibe-dictionary/",
+  "bugs": "https://github.com/leejh96/vibe-dictionary/issues",
+  "keywords": ["mcp", "model-context-protocol", "ui", "prompts", "vibe-coding"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "vibe-dictionary-mcp": "dist/index.js"
+  },
+  "files": ["dist/index.js", "README.md", "LICENSE"],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --external:@modelcontextprotocol/sdk --external:zod --outfile=dist/index.js",
+    "test": "npm run build && node --import tsx --test tests/*.test.ts",
+    "start": "node dist/index.js",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@vibe-dictionary/catalog": "0.1.0",
+    "esbuild": "0.28.2"
+  }
+}
