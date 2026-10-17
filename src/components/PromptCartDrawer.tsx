@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { X, Copy, Check, Trash2, Wand2 } from 'lucide-react';
-import { TechniqueItem } from '../data/techniques';
+import { TechniqueItem, DOMAIN_LABELS } from '../data/techniques';
 
 interface PromptCartDrawerProps {
   cart: TechniqueItem[];
@@ -22,17 +22,17 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
   const combinedPrompt = useMemo(() => {
     if (cart.length === 0) {
-      return '카탈로그에서 원하는 기법들을 [+ 담기]로 선택해 주세요.';
+      return '카탈로그에서 원하는 기법들을 [+ 조합기에 담기]로 선택해 주세요.';
     }
 
     const header = contextNote.trim()
-      ? `다음 화면/기능을 구현할 때 아래 UI·모션 기법들을 정확히 적용해 줘.\n- 적용 대상: ${contextNote.trim()}\n`
-      : `화면/컴포넌트를 구현할 때 아래 선택한 UI·모션 기법들을 정확히 적용해 줘.\n`;
+      ? `다음 화면/기능을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일 기법들을 정확히 적용해 줘.\n- 적용 대상: ${contextNote.trim()}\n`
+      : `화면/컴포넌트를 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일 기법들을 정확히 적용해 줘.\n`;
 
     const list = cart
       .map(
         (item, idx) =>
-          `${idx + 1}. **${item.titleKo} (${item.titleEn})**\n   - ${item.promptSnippet}`
+          `${idx + 1}. **[${DOMAIN_LABELS[item.domain]}] ${item.titleKo} (${item.titleEn})**\n   - ${item.promptSnippet}`
       )
       .join('\n\n');
 
@@ -113,6 +113,9 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                         key={item.id}
                         className="inline-flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200"
                       >
+                        <span className="text-[10px] font-mono text-indigo-400">
+                          [{DOMAIN_LABELS[item.domain]}]
+                        </span>
                         <strong className="font-bold">{item.titleKo}</strong>
                         <button
                           onClick={() => onRemoveItem(item.id)}

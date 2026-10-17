@@ -5,12 +5,32 @@ import {
   TechniqueItem,
   CategoryType,
   DomainType,
+  DOMAIN_LABELS,
 } from './data/techniques';
 import { FilterBar } from './components/FilterBar';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
 
-export function App() {
+function matchesSearch(item: TechniqueItem, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+
+  const searchableText = [
+    item.titleKo,
+    item.titleEn,
+    item.vibeTag,
+    item.summary,
+    item.promptSnippet,
+    ...item.vibeKeywords,
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  const tokens = q.split(/\s+/).filter(Boolean);
+  return tokens.every((token) => searchableText.includes(token));
+}
+
+export default function App() {
   const [activeDomain, setActiveDomain] = useState<DomainType>('ui');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'all'>('all');
@@ -33,29 +53,66 @@ export function App() {
     setSearchQuery('');
   };
 
+  /* 현재 선택된 카테고리('전체' 포함)의 기법 수와 1:1로 일치하는 추천 키워드 칩 생성 */
+  const currentVibeChips = useMemo(() => {
+    const items = TECHNIQUES.filter(
+      (item) =>
+        item.domain === activeDomain &&
+        (selectedCategory === 'all' || item.category === selectedCategory)
+    );
+    return items.map((item) => item.vibeKeywords[0] ?? item.titleKo);
+  }, [activeDomain, selectedCategory]);
+
+  /* 카테고리 탭 변경 시: 이전 카테고리의 키워드 칩 등이 걸려 있으면 검색어를 비워 해당 카테고리 전체가 보이도록 처리 */
+  const handleCategoryChange = (category: CategoryType | 'all') => {
+    setSelectedCategory(category);
+    if (searchQuery.trim()) {
+      setSearchQuery('');
+    }
+  };
+
+  /* 추천 키워드 칩 클릭 시: 현재 선택된 카테고리를 유지한 채 해당 키워드로만 필터링 */
+  const handleSelectChip = (chip: string) => {
+    setSearchQuery(chip);
+  };
+
+  /* 현재 도메인의 각 하위 카테고리별 고정 총 기법 수 계산 */
+  const categoryCounts = useMemo(() => {
+    const map: Record<string, number> = { all: 0 };
+    for (const item of TECHNIQUES) {
+      if (item.domain !== activeDomain) continue;
+      map.all += 1;
+      map[item.category] = (map[item.category] ?? 0) + 1;
+    }
+    return map;
+  }, [activeDomain]);
+
   const filteredTechniques = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
     return TECHNIQUES.filter((item) => {
       if (item.domain !== activeDomain) return false;
 
       const matchCategory =
         selectedCategory === 'all' || item.category === selectedCategory;
 
-      if (!q) return matchCategory;
-
-      const searchableText = [
-        item.titleKo,
-        item.titleEn,
-        item.vibeTag,
-        item.summary,
-        ...item.vibeKeywords,
-      ]
-        .join(' ')
-        .toLowerCase();
-
-      return matchCategory && searchableText.includes(q);
+      return matchCategory && matchesSearch(item, searchQuery);
     });
   }, [activeDomain, searchQuery, selectedCategory]);
+
+  /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
+  const otherDomainMatches = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style'];
+    return domainIds
+      .filter((id) => id !== activeDomain)
+      .map((id) => ({
+        id,
+        label: DOMAIN_LABELS[id],
+        count: TECHNIQUES.filter(
+          (t) => t.domain === id && matchesSearch(t, searchQuery)
+        ).length,
+      }))
+      .filter((d) => d.count > 0);
+  }, [activeDomain, searchQuery]);
 
   const handleToggleCart = (item: TechniqueItem) => {
     setCart((prev) =>
@@ -66,10 +123,10 @@ export function App() {
   };
 
   const domainTabs: { id: DomainType; label: string; count: number; icon: React.ReactNode }[] = [
-    { id: 'ui', label: 'UI', count: counts.ui, icon: <Layers className="w-3.5 h-3.5" /> },
-    { id: 'motion', label: '그래픽', count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
-    { id: 'layout', label: '레이아웃', count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-    { id: 'style', label: '스타일', count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
+    { id: 'ui', label: DOMAIN_LABELS.ui, count: counts.ui, icon: <Layers className="w-3.5 h-3.5" /> },
+    { id: 'motion', label: DOMAIN_LABELS.motion, count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
+    { id: 'layout', label: DOMAIN_LABELS.layout, count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+    { id: 'style', label: DOMAIN_LABELS.style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
   ];
 
   return (
@@ -138,24 +195,50 @@ export function App() {
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={handleCategoryChange}
+          onSelectChip={handleSelectChip}
+          vibeChips={currentVibeChips}
+          categoryCounts={categoryCounts}
           totalCount={filteredTechniques.length}
         />
 
         {filteredTechniques.length === 0 ? (
-          <div className="py-16 text-center space-y-2">
-            <p className="text-sm font-bold text-slate-400">
-              "{searchQuery}" 검색 결과가 없습니다.
+          <div className="py-16 text-center space-y-3 bg-slate-900/30 border border-slate-800/60 rounded-2xl">
+            <p className="text-sm font-bold text-slate-300">
+              현재 영역에 "{searchQuery}" 검색 결과가 없습니다.
             </p>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('all');
-              }}
-              className="text-xs text-indigo-400 underline"
-            >
-              필터 초기화
-            </button>
+
+            {otherDomainMatches.length > 0 && (
+              <div className="flex items-center justify-center gap-2 flex-wrap pt-1">
+                <span className="text-xs text-slate-400">
+                  다른 영역에서 찾은 결과:
+                </span>
+                {otherDomainMatches.map((d) => (
+                  <button
+                    key={d.id}
+                    onClick={() => {
+                      setActiveDomain(d.id);
+                      setSelectedCategory('all');
+                    }}
+                    className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors"
+                  >
+                    {d.label} 탭에서 보기 ({d.count}개)
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div>
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedCategory('all');
+                }}
+                className="text-xs text-indigo-400 hover:text-indigo-300 underline"
+              >
+                필터 및 검색어 초기화
+              </button>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -181,5 +264,3 @@ export function App() {
     </div>
   );
 }
-
-export default App;

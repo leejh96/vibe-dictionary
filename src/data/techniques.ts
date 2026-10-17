@@ -27,12 +27,12 @@ export type CategoryType =
   | 'retro'
   | 'scifi';
 
-export interface CategoryMeta {
+interface CategoryMeta {
   id: CategoryType | 'all';
   label: string;
 }
 
-export const UI_CATEGORIES: CategoryMeta[] = [
+const UI_CATEGORIES: CategoryMeta[] = [
   { id: 'all', label: '전체' },
   { id: 'hover', label: '버튼·호버' },
   { id: 'card', label: '카드·3D' },
@@ -43,7 +43,7 @@ export const UI_CATEGORIES: CategoryMeta[] = [
   { id: 'control', label: '슬라이더·토글' },
 ];
 
-export const MOTION_CATEGORIES: CategoryMeta[] = [
+const MOTION_CATEGORIES: CategoryMeta[] = [
   { id: 'all', label: '전체' },
   { id: 'graphic', label: '도형·SVG·모핑' },
   { id: 'shader', label: '배경·파티클·조명' },
@@ -53,7 +53,7 @@ export const MOTION_CATEGORIES: CategoryMeta[] = [
   { id: 'vfx', label: '화면전환·VFX' },
 ];
 
-export const LAYOUT_CATEGORIES: CategoryMeta[] = [
+const LAYOUT_CATEGORIES: CategoryMeta[] = [
   { id: 'all', label: '전체' },
   { id: 'grid', label: '그리드·카드배치' },
   { id: 'scroll', label: '스크롤·전환구조' },
@@ -61,7 +61,7 @@ export const LAYOUT_CATEGORIES: CategoryMeta[] = [
   { id: 'panel', label: '패널·보드·데이터뷰' },
 ];
 
-export const STYLE_CATEGORIES: CategoryMeta[] = [
+const STYLE_CATEGORIES: CategoryMeta[] = [
   { id: 'all', label: '전체' },
   { id: 'modern', label: '모던·트렌드' },
   { id: 'tactile', label: '입체·촉각질감' },
@@ -69,56 +69,28 @@ export const STYLE_CATEGORIES: CategoryMeta[] = [
   { id: 'scifi', label: 'SF·도면·팝아트' },
 ];
 
-export const DOMAIN_VIBE_CHIPS: Record<DomainType, string[]> = {
-  ui: [
-    '자석처럼',
-    '통통 튀는',
-    '반짝 스치는',
-    '입체 기울기',
-    '팡 터지는',
-    '부르르 떨리는',
-    '촤르륵 순서대로',
-    '암호 해독',
-    '유리 같은',
-    '스르륵 캡슐 탭',
-  ],
-  motion: [
-    '오로라 배경',
-    '별자리 선 연결',
-    '도트 패턴',
-    '빛기둥 조명',
-    '물방울 합체',
-    '펜으로 그리는 선',
-    '납작해졌다 튀는',
-    '파도치는 글자',
-    '입체 층 분리',
-    '지지직 글리치',
-  ],
-  layout: [
-    '도시락통 벤토',
-    '핀터레스트 벽돌',
-    '왼쪽 고정 스크롤',
-    '맥북 하단 독',
-    '단축키 검색창',
-    '다이나믹 아일랜드',
-    '원형 파이 메뉴',
-    '끌어올리는 서랍',
-    '칸반 보드',
-    '깃허브 잔디',
-  ],
-  style: [
-    '굵은 검은 테두리',
-    '볼록한 플라스틱',
-    '말랑한 3D 점토',
-    '모서리 깎인 SF',
-    '8비트 도트 게임',
-    '90년대 윈도우',
-    '브라운관 스캔라인',
-    '파란 설계도면',
-    '만화책 망점',
-    '리니어 다크',
-  ],
+export const DOMAIN_LABELS: Record<DomainType, string> = {
+  ui: 'UI',
+  motion: '그래픽',
+  layout: '레이아웃',
+  style: '스타일',
 };
+
+export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
+  ui: UI_CATEGORIES,
+  motion: MOTION_CATEGORIES,
+  layout: LAYOUT_CATEGORIES,
+  style: STYLE_CATEGORIES,
+};
+
+export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
+  [
+    ...UI_CATEGORIES,
+    ...MOTION_CATEGORIES,
+    ...LAYOUT_CATEGORIES,
+    ...STYLE_CATEGORIES,
+  ].map((c) => [c.id, c.label])
+);
 
 export interface TechniqueItem {
   id: string;

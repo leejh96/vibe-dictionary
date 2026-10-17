@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
-import {
-  TechniqueItem,
-  UI_CATEGORIES,
-  MOTION_CATEGORIES,
-  LAYOUT_CATEGORIES,
-  STYLE_CATEGORIES,
-} from '../data/techniques';
+import { TechniqueItem, CATEGORY_LABEL_MAP } from '../data/techniques';
 import { InteractiveDemo } from './demos/InteractiveDemos';
 
 interface TechniqueCardProps {
@@ -14,13 +8,6 @@ interface TechniqueCardProps {
   isSelected: boolean;
   onToggleCart: (item: TechniqueItem) => void;
 }
-
-const ALL_CATEGORIES = [
-  ...UI_CATEGORIES,
-  ...MOTION_CATEGORIES,
-  ...LAYOUT_CATEGORIES,
-  ...STYLE_CATEGORIES,
-];
 
 export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   item,
@@ -30,8 +17,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const [copied, setCopied] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
 
-  const categoryLabel =
-    ALL_CATEGORIES.find((c) => c.id === item.category)?.label ?? item.category;
+  const categoryLabel = CATEGORY_LABEL_MAP[item.category] ?? item.category;
 
   const handleCopy = () => {
     const text = `[${item.titleKo} / ${item.titleEn}]\n${item.promptSnippet}`;

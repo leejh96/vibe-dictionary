@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sparkles,
   Check,
@@ -84,7 +84,7 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
     case 'combo-gauge-pop':
       return <ComboGaugeDemo />;
 
-    /* ==================== DOMAIN 2: 모션 그래픽 & 연출 (18종) ==================== */
+    /* ==================== DOMAIN 2: 그래픽 & 모션 연출 (22종) ==================== */
     case 'mg-squash-stretch':
       return <MgSquashStretchDemo />;
     case 'mg-anticipation':
@@ -540,14 +540,25 @@ const SmoothAccordionDemo: React.FC = () => {
 
 const MorphingStateButtonDemo: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const trigger = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
     if (status !== 'idle') {
       setStatus('idle');
       return;
     }
     setStatus('loading');
-    setTimeout(() => setStatus('done'), 850);
+    timerRef.current = setTimeout(() => setStatus('done'), 850);
   };
 
   return (
@@ -679,14 +690,18 @@ const SlotNumberTickerDemo: React.FC = () => {
     const diff = target - start;
     const duration = 650;
     const startTime = performance.now();
+    let rafId = 0;
 
     const step = (now: number) => {
       const p = Math.min(1, (now - startTime) / duration);
       const eased = 1 - Math.pow(1 - p, 4);
       setVal(Math.round(start + diff * eased));
-      if (p < 1) requestAnimationFrame(step);
+      if (p < 1) {
+        rafId = requestAnimationFrame(step);
+      }
     };
-    requestAnimationFrame(step);
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
   }, [target]);
 
   return (
@@ -749,11 +764,19 @@ const MarkerHighlightDrawDemo: React.FC = () => {
 const ConfettiBurstDemo: React.FC = () => {
   const [burstKey, setBurstKey] = useState(0);
   const [active, setActive] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const fire = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
     setBurstKey((k) => k + 1);
     setActive(true);
-    setTimeout(() => setActive(false), 900);
+    timerRef.current = setTimeout(() => setActive(false), 900);
   };
 
   const particles = [
@@ -878,16 +901,16 @@ const ToastSlideStackDemo: React.FC = () => {
   return (
     <div
       onClick={pushToast}
-      className="w-full h-40 flex flex-col justify-between p-3.5 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col justify-between pt-9 pb-3 px-4 cursor-pointer select-none"
     >
       <span className="text-[10px] text-indigo-300 bg-indigo-950/70 px-2.5 py-0.5 rounded-full w-fit mx-auto">
         + 클릭해서 토스트 알림 띄우기
       </span>
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         {toasts.map((t) => (
           <div
             key={t.id}
-            className="animate-toast-slide-up w-full bg-slate-900 border border-indigo-500/40 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"
+            className="animate-toast-slide-up w-full bg-slate-900 border border-indigo-500/40 rounded-xl px-3 py-1.5 shadow-lg flex items-center gap-2"
           >
             <Bell className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
             <span className="text-xs font-bold text-white">{t.text}</span>
@@ -1112,7 +1135,7 @@ const ComboGaugeDemo: React.FC = () => {
 };
 
 /* ============================================================================
- * DOMAIN 2: 🎬 모션 그래픽 & 연출 데모 (18종)
+ * DOMAIN 2: 🎬 그래픽 & 모션 연출 데모 (22종)
  * ============================================================================ */
 
 /* 1. 스쿼시 앤 스트레치 */
@@ -1297,7 +1320,7 @@ const MgOrbitRotationDemo: React.FC = () => {
           <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 shadow" />
         </div>
         {/* 외부 역방향 궤도 */}
-        <div className="absolute w-26 h-26 inset-1 rounded-full border border-slate-700 animate-orbit-reverse">
+        <div className="absolute inset-1 rounded-full border border-slate-700 animate-orbit-reverse">
           <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-pink-400 shadow" />
         </div>
       </div>
@@ -1425,24 +1448,24 @@ const MgRackFocusBlurDemo: React.FC = () => {
   return (
     <div
       onClick={() => setFocusFront(!focusFront)}
-      className="relative w-full h-40 flex items-center justify-center cursor-pointer select-none px-6"
+      className="relative w-full h-40 flex items-center justify-center cursor-pointer select-none px-6 pt-5"
     >
-      {/* 배경 피사체 */}
+      {/* 배경 피사체 (상단 배지와 겹치지 않도록 top-10 및 z-10 이하로 배치) */}
       <div
-        className={`absolute right-8 top-5 px-3.5 py-2 rounded-xl bg-violet-600 text-white font-bold text-xs transition-all duration-500 ${
+        className={`absolute right-7 top-10 px-3.5 py-2 rounded-xl bg-violet-600 text-white font-bold text-xs transition-all duration-500 ${
           !focusFront
-            ? 'blur-0 scale-105 opacity-100 z-20 ring-2 ring-violet-300 shadow-xl'
-            : 'blur-[4px] scale-90 opacity-45 z-10'
+            ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-violet-300 shadow-xl'
+            : 'blur-[4px] scale-90 opacity-45 z-0'
         }`}
       >
         🏔️ 배경 피사체 (Back)
       </div>
       {/* 전경 피사체 */}
       <div
-        className={`absolute left-8 bottom-6 px-3.5 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs transition-all duration-500 ${
+        className={`absolute left-7 bottom-4 px-3.5 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs transition-all duration-500 ${
           focusFront
-            ? 'blur-0 scale-105 opacity-100 z-20 ring-2 ring-emerald-200 shadow-xl'
-            : 'blur-[4px] scale-90 opacity-45 z-10'
+            ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-emerald-200 shadow-xl'
+            : 'blur-[4px] scale-90 opacity-45 z-0'
         }`}
       >
         📷 전경 피사체 (클릭 전환)
@@ -1474,30 +1497,35 @@ const MgKenBurnsPanDemo: React.FC = () => {
 /* 15. 아이소메트릭 레이어 익스플로드 */
 const MgIsometricExplodeDemo: React.FC = () => {
   const [exploded, setExploded] = useState(true);
+  const layers = [
+    { label: 'L1', color: 'bg-slate-800/95 border-slate-500 text-slate-300' },
+    { label: 'L2', color: 'bg-indigo-600/85 border-indigo-300 text-white' },
+    { label: 'L3', color: 'bg-cyan-400/90 border-white text-slate-950' },
+  ];
   return (
     <div
       onClick={() => setExploded(!exploded)}
       onMouseEnter={() => setExploded(true)}
       onMouseLeave={() => setExploded(false)}
-      className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center pt-4 cursor-pointer select-none"
     >
-      <div className="relative w-24 h-20 flex items-center justify-center">
-        {[
-          { z: 0, color: 'bg-slate-800 border-slate-600' },
-          { z: 1, color: 'bg-indigo-600/80 border-indigo-400' },
-          { z: 2, color: 'bg-cyan-400/90 border-white' },
-        ].map((layer, i) => (
-          <div
-            key={i}
-            style={{
-              transform: `rotateX(55deg) rotateZ(-35deg) translateZ(${
-                exploded ? i * 22 : i * 4
-              }px)`,
-              transition: 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-            className={`absolute w-16 h-16 rounded-xl border ${layer.color} shadow-lg`}
-          />
-        ))}
+      <div className="relative w-24 h-20 flex items-center justify-center perspective-1000 preserve-3d">
+        {layers.map((layer, i) => {
+          const offsetY = exploded ? (1 - i) * 18 : (1 - i) * 5;
+          return (
+            <div
+              key={layer.label}
+              style={{
+                transform: `translateY(${offsetY}px) rotateX(55deg) rotateZ(-35deg)`,
+                transition: 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                zIndex: i + 1,
+              }}
+              className={`absolute w-16 h-16 rounded-xl border ${layer.color} shadow-lg flex items-end justify-end p-1.5 text-[9px] font-mono font-black`}
+            >
+              {layer.label}
+            </div>
+          );
+        })}
       </div>
       <span className="mt-2 text-[10px] text-slate-400">마우스 오버 / 클릭 시 입체 층 분리</span>
     </div>
@@ -1707,8 +1735,8 @@ const MgGodRayBeamDemo: React.FC = () => {
 const LyBentoGridDemo: React.FC = () => {
   const [activeTile, setActiveTile] = useState(0);
   return (
-    <div className="w-full h-40 flex items-center justify-center px-5 select-none">
-      <div className="w-full h-28 grid grid-cols-4 grid-rows-2 gap-1.5">
+    <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
+      <div className="w-full h-24 grid grid-cols-4 grid-rows-2 gap-1.5">
         <div
           onClick={() => setActiveTile(0)}
           className={`col-span-2 row-span-2 rounded-xl p-2.5 flex flex-col justify-between cursor-pointer border transition-all ${
@@ -1722,7 +1750,7 @@ const LyBentoGridDemo: React.FC = () => {
         </div>
         <div
           onClick={() => setActiveTile(1)}
-          className={`col-span-2 row-span-1 rounded-xl px-2.5 py-1.5 flex items-center justify-between cursor-pointer border transition-all ${
+          className={`col-span-2 row-span-1 rounded-xl px-2.5 py-1 flex items-center justify-between cursor-pointer border transition-all ${
             activeTile === 1
               ? 'bg-emerald-600/30 border-emerald-400 text-white'
               : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
@@ -1762,23 +1790,23 @@ const LyMasonryWaterfallDemo: React.FC = () => {
   return (
     <div
       onClick={() => setShuffled(!shuffled)}
-      className="w-full h-40 flex flex-col items-center justify-center px-6 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
       <div className="w-full grid grid-cols-3 gap-1.5 items-start">
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-9' : 'h-14'} rounded-lg bg-indigo-500/30 border border-indigo-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-indigo-200`}>H1</div>
-          <div className={`${shuffled ? 'h-14' : 'h-8'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H2</div>
+          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-indigo-500/30 border border-indigo-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-indigo-200`}>H1</div>
+          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H2</div>
         </div>
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-14' : 'h-8'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H3</div>
-          <div className={`${shuffled ? 'h-9' : 'h-14'} rounded-lg bg-cyan-500/30 border border-cyan-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-cyan-200`}>H4</div>
+          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H3</div>
+          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-cyan-500/30 border border-cyan-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-cyan-200`}>H4</div>
         </div>
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-11' : 'h-12'} rounded-lg bg-fuchsia-500/30 border border-fuchsia-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-fuchsia-200`}>H5</div>
-          <div className={`${shuffled ? 'h-12' : 'h-10'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H6</div>
+          <div className={`${shuffled ? 'h-10' : 'h-11'} rounded-lg bg-fuchsia-500/30 border border-fuchsia-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-fuchsia-200`}>H5</div>
+          <div className={`${shuffled ? 'h-11' : 'h-9'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H6</div>
         </div>
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">클릭 시 높이 단차 재배치</span>
+      <span className="mt-1.5 text-[10px] text-slate-400">클릭 시 높이 단차 재배치</span>
     </div>
   );
 };
@@ -1791,7 +1819,7 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => setHovered(!hovered)}
-      className="relative w-full h-40 flex items-center justify-center px-6 cursor-pointer select-none"
+      className="relative w-full h-40 flex items-center justify-center px-6 pt-4 cursor-pointer select-none"
     >
       <div
         className={`w-36 h-24 rounded-xl bg-gradient-to-br from-rose-500/40 to-indigo-600/40 border border-white/20 mr-10 transition-transform duration-300 ${
@@ -1799,7 +1827,7 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
         }`}
       />
       <div
-        className={`absolute right-7 bottom-7 w-32 rounded-lg bg-slate-900/95 border border-amber-400/50 p-2.5 shadow-xl transition-transform duration-300 ${
+        className={`absolute right-7 bottom-5 w-32 rounded-lg bg-slate-900/95 border border-amber-400/50 p-2.5 shadow-xl transition-transform duration-300 ${
           hovered ? 'translate-x-1 -translate-y-1' : ''
         }`}
       >
@@ -1815,7 +1843,7 @@ const LyHoneycombHexDemo: React.FC = () => {
   const [selected, setSelected] = useState(2);
   const hexes = ['AI', 'UI', 'VFX', '3D', 'CSS'];
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div className="flex items-center gap-1.5">
         {hexes.map((label, idx) => {
           const isOdd = idx % 2 === 1;
@@ -1856,9 +1884,9 @@ const LyStickyScrolltellingDemo: React.FC = () => {
   return (
     <div
       onClick={() => setStep((s) => (s + 1) % steps.length)}
-      className="w-full h-40 flex items-center justify-center px-5 cursor-pointer select-none"
+      className="w-full h-40 flex items-center justify-center px-5 pt-6 cursor-pointer select-none"
     >
-      <div className="w-full h-28 rounded-xl bg-slate-900 border border-slate-800 p-2.5 grid grid-cols-2 gap-2.5 items-center">
+      <div className="w-full h-24 rounded-xl bg-slate-900 border border-slate-800 p-2 grid grid-cols-2 gap-2.5 items-center">
         {/* 좌측 고정(Sticky) 비주얼 */}
         <div
           className={`h-full rounded-lg bg-gradient-to-br ${steps[step].color} flex flex-col items-center justify-center text-slate-950 font-black text-xs transition-all duration-300`}
@@ -1871,7 +1899,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
           {steps.map((s, i) => (
             <div
               key={s.title}
-              className={`px-2 py-1 rounded text-[10px] font-bold transition-all ${
+              className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
                 i === step
                   ? 'bg-indigo-600/30 border border-indigo-400 text-white'
                   : 'bg-slate-950 text-slate-500'
@@ -1893,7 +1921,7 @@ const LyFullpageSnapDemo: React.FC = () => {
   return (
     <div
       onClick={() => setPage((p) => (p + 1) % 3)}
-      className="w-full h-40 flex items-center justify-center px-6 cursor-pointer select-none"
+      className="w-full h-40 flex items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
       <div className="relative w-full h-24 rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
         <div
@@ -1929,9 +1957,9 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
   return (
     <div
       onClick={() => setIdx((i) => (i + 1) % 3)}
-      className="w-full h-40 flex flex-col items-center justify-center px-5 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center px-5 pt-4 cursor-pointer select-none"
     >
-      <div className="w-full overflow-hidden rounded-xl bg-slate-900 border border-slate-800 p-2.5">
+      <div className="w-full overflow-hidden rounded-xl bg-slate-900 border border-slate-800 p-2">
         <div
           style={{ transform: `translateX(-${idx * 72}px)` }}
           className="flex gap-2 transition-transform duration-500 ease-out"
@@ -1951,7 +1979,7 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
           ))}
         </div>
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">클릭해 가로 파노라마 트랙 이동</span>
+      <span className="mt-1.5 text-[10px] text-slate-400">클릭해 가로 파노라마 트랙 이동</span>
     </div>
   );
 };
@@ -1962,9 +1990,9 @@ const LyCurtainRevealDemo: React.FC = () => {
   return (
     <div
       onClick={() => setLifted(!lifted)}
-      className="w-full h-40 flex items-center justify-center px-6 cursor-pointer select-none"
+      className="w-full h-40 flex items-center justify-center px-6 pt-6 cursor-pointer select-none"
     >
-      <div className="relative w-full h-28 rounded-xl overflow-hidden border border-slate-800 bg-indigo-950 flex items-end justify-center p-2.5">
+      <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-800 bg-indigo-950 flex items-end justify-center p-2">
         {/* 바닥에 깔린 고정 레이어 */}
         <div className="text-center">
           <span className="text-[10px] font-mono text-indigo-300">FIXED FOOTER LAYER</span>
@@ -1973,7 +2001,7 @@ const LyCurtainRevealDemo: React.FC = () => {
         {/* 위를 덮은 본문 커튼 */}
         <div
           className={`absolute inset-0 bg-slate-900 border-b border-slate-700 flex flex-col items-center justify-center transition-transform duration-500 ${
-            lifted ? '-translate-y-14' : 'translate-y-0'
+            lifted ? '-translate-y-12' : 'translate-y-0'
           }`}
         >
           <span className="text-xs font-bold text-slate-200">
@@ -1992,7 +2020,7 @@ const LyMacosDockDemo: React.FC = () => {
   return (
     <div
       onMouseLeave={() => setHoverIdx(2)}
-      className="w-full h-40 flex flex-col items-center justify-center select-none"
+      className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none"
     >
       <div className="flex items-end gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 border border-slate-700/80 backdrop-blur-md h-14">
         {icons.map((ic, i) => {
@@ -2011,7 +2039,7 @@ const LyMacosDockDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-3 text-[10px] text-slate-400">아이콘 위에 마우스를 올려보세요</span>
+      <span className="mt-2.5 text-[10px] text-slate-400">아이콘 위에 마우스를 올려보세요</span>
     </div>
   );
 };
@@ -2021,18 +2049,18 @@ const LyCommandPaletteDemo: React.FC = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const cmds = ['⚡ 새 프로젝트 생성', '🎨 다크 테마 전환', '📋 프롬프트 전체 복사'];
   return (
-    <div className="w-full h-40 flex items-center justify-center px-6 select-none">
+    <div className="w-full h-40 flex items-center justify-center px-6 pt-6 select-none">
       <div className="w-full rounded-xl bg-slate-900/95 border border-slate-700 shadow-2xl overflow-hidden">
-        <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
+        <div className="px-3 py-1 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
           <span>🔍 Type a command...</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[9px]">⌘K</kbd>
+          <kbd className="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono text-[9px]">⌘K</kbd>
         </div>
-        <div className="p-1.5 space-y-1">
+        <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
             <div
               key={cmd}
               onClick={() => setSelectedIdx(i)}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer flex items-center justify-between transition-colors ${
+              className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold cursor-pointer flex items-center justify-between transition-colors ${
                 selectedIdx === i
                   ? 'bg-indigo-600 text-white'
                   : 'text-slate-400 hover:bg-slate-800'
@@ -2052,12 +2080,12 @@ const LyCommandPaletteDemo: React.FC = () => {
 const LyDynamicIslandNavDemo: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="w-full h-40 flex flex-col items-center justify-center select-none">
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div
         onClick={() => setExpanded(!expanded)}
         className={`bg-black border border-slate-700/80 shadow-xl cursor-pointer transition-all duration-300 overflow-hidden flex flex-col justify-center ${
           expanded
-            ? 'w-56 h-24 rounded-3xl px-4 py-2.5'
+            ? 'w-56 h-20 rounded-3xl px-4 py-2'
             : 'w-32 h-9 rounded-full px-3'
         }`}
       >
@@ -2071,13 +2099,13 @@ const LyDynamicIslandNavDemo: React.FC = () => {
           </span>
         </div>
         {expanded && (
-          <div className="mt-2 flex items-center justify-between text-[10px] text-slate-300 border-t border-slate-800 pt-1.5">
+          <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-300 border-t border-slate-800 pt-1.5">
             <span>🎵 Vibe Synth Track</span>
             <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold">LIVE</span>
           </div>
         )}
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">캡슐을 클릭해 확장/축소</span>
+      <span className="mt-2 text-[10px] text-slate-400">캡슐을 클릭해 확장/축소</span>
     </div>
   );
 };
@@ -2086,13 +2114,13 @@ const LyDynamicIslandNavDemo: React.FC = () => {
 const LyRadialPieMenuDemo: React.FC = () => {
   const [open, setOpen] = useState(true);
   const items = [
-    { icon: '🎨', x: 0, y: -42 },
-    { icon: '⚡', x: 42, y: 0 },
-    { icon: '🚀', x: 0, y: 42 },
-    { icon: '✨', x: -42, y: 0 },
+    { icon: '🎨', x: 0, y: -38 },
+    { icon: '⚡', x: 40, y: 0 },
+    { icon: '🚀', x: 0, y: 38 },
+    { icon: '✨', x: -40, y: 0 },
   ];
   return (
-    <div className="relative w-full h-40 flex items-center justify-center select-none">
+    <div className="relative w-full h-40 flex items-center justify-center pt-3 select-none">
       {items.map((it, idx) => (
         <button
           key={idx}
@@ -2124,20 +2152,20 @@ const LyBottomSheetDemo: React.FC = () => {
   return (
     <div
       onClick={() => setSnap(snap === 'half' ? 'full' : 'half')}
-      className="w-full h-40 flex items-end justify-center px-8 pt-4 cursor-pointer select-none"
+      className="w-full h-40 flex items-end justify-center px-8 pt-8 cursor-pointer select-none"
     >
       <div
         className={`w-full rounded-t-2xl bg-slate-900 border-t border-x border-slate-700 px-3.5 pt-2 transition-all duration-300 ${
-          snap === 'full' ? 'h-32' : 'h-16'
+          snap === 'full' ? 'h-24' : 'h-14'
         }`}
       >
-        <div className="w-8 h-1 rounded-full bg-slate-600 mx-auto mb-2" />
+        <div className="w-8 h-1 rounded-full bg-slate-600 mx-auto mb-1.5" />
         <div className="flex items-center justify-between text-xs font-bold text-white">
           <span>Bottom Sheet ({snap.toUpperCase()})</span>
           <span className="text-[10px] text-indigo-400">클릭해 높이 전환</span>
         </div>
         {snap === 'full' && (
-          <p className="mt-2 text-[11px] text-slate-400">
+          <p className="mt-1.5 text-[11px] text-slate-400">
             핸들바를 잡고 올린 것처럼 상세 컨텐츠가 펼쳐집니다.
           </p>
         )}
@@ -2155,14 +2183,14 @@ const LyMasterDetailSplitDemo: React.FC = () => {
     { name: 'Inbox #3', desc: '세 번째 리포트 상세 보기' },
   ];
   return (
-    <div className="w-full h-40 flex items-center justify-center px-5 select-none">
-      <div className="w-full h-28 rounded-xl bg-slate-900 border border-slate-800 grid grid-cols-5 overflow-hidden">
-        <div className="col-span-2 border-r border-slate-800 p-1.5 space-y-1">
+    <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
+      <div className="w-full h-24 rounded-xl bg-slate-900 border border-slate-800 grid grid-cols-5 overflow-hidden">
+        <div className="col-span-2 border-r border-slate-800 p-1.5 space-y-0.5">
           {items.map((it, idx) => (
             <button
               key={it.name}
               onClick={() => setActiveId(idx)}
-              className={`w-full text-left px-2 py-1 rounded text-[10px] font-bold transition-colors ${
+              className={`w-full text-left px-2 py-0.5 rounded text-[10px] font-bold transition-colors ${
                 activeId === idx
                   ? 'bg-indigo-600 text-white'
                   : 'text-slate-400 hover:bg-slate-800'
@@ -2175,7 +2203,7 @@ const LyMasterDetailSplitDemo: React.FC = () => {
         <div className="col-span-3 p-2.5 flex flex-col justify-center">
           <span className="text-[9px] font-mono text-indigo-400">DETAIL VIEW</span>
           <p className="text-xs font-extrabold text-white mt-0.5">{items[activeId].name}</p>
-          <p className="text-[10px] text-slate-400 mt-1">{items[activeId].desc}</p>
+          <p className="text-[10px] text-slate-400 mt-0.5">{items[activeId].desc}</p>
         </div>
       </div>
     </div>
@@ -2189,18 +2217,18 @@ const LyKanbanBoardDemo: React.FC = () => {
   return (
     <div
       onClick={() => setCol(((col + 1) % 3) as 0 | 1 | 2)}
-      className="w-full h-40 flex flex-col items-center justify-center px-5 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center px-5 pt-5 cursor-pointer select-none"
     >
       <div className="w-full grid grid-cols-3 gap-1.5">
         {cols.map((title, i) => (
-          <div key={title} className="rounded-lg bg-slate-900 border border-slate-800 p-2 h-24">
-            <div className="text-[9px] font-mono text-slate-400 mb-1.5">{title}</div>
+          <div key={title} className="rounded-lg bg-slate-900 border border-slate-800 p-2 h-20">
+            <div className="text-[9px] font-mono text-slate-400 mb-1">{title}</div>
             {col === i ? (
-              <div className="rounded bg-indigo-600/30 border border-indigo-400 p-1.5 text-[10px] font-bold text-white animate-spring-pop">
+              <div className="rounded bg-indigo-600/30 border border-indigo-400 p-1 text-[10px] font-bold text-white animate-spring-pop">
                 태스크 카드 →
               </div>
             ) : (
-              <div className="h-7 rounded border border-dashed border-slate-800" />
+              <div className="h-6 rounded border border-dashed border-slate-800" />
             )}
           </div>
         ))}
@@ -2223,7 +2251,7 @@ const LyHeatmapGridDemo: React.FC = () => {
   return (
     <div
       onClick={() => setSeed((s) => s + 1)}
-      className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
+      className="w-full h-40 flex flex-col items-center justify-center pt-4 cursor-pointer select-none"
     >
       <div className="grid grid-cols-10 gap-1 p-2.5 rounded-xl bg-slate-900 border border-slate-800">
         {Array.from({ length: 40 }).map((_, idx) => {
@@ -2276,7 +2304,7 @@ const StLiquidAcrylicDemo: React.FC = () => {
 /* 3. 리니어풍 다크 미니멀 (Linear-Style Dark Minimal) */
 const StLinearDarkMinimalDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center bg-[#090A0F] px-6 select-none">
+    <div className="w-full h-40 flex items-center justify-center bg-[#090A0F] px-6 pt-5 select-none">
       <div className="relative w-full h-24 rounded-xl bg-[#12131A] border border-white/10 p-3.5 flex flex-col justify-between overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-indigo-400/80 to-transparent" />
         <span className="text-[10px] font-mono text-slate-400">1PX TOP HAIRLINE</span>
@@ -2383,7 +2411,7 @@ const StSkeuomorphismTactileDemo: React.FC = () => {
 /* 8. 페이퍼 컷아웃 레이어 (Paper Cutout Collage) */
 const StPaperCutoutLayerDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center select-none">
+    <div className="w-full h-40 flex items-center justify-center pt-3 select-none">
       <div className="relative w-48 h-24 flex items-center justify-center">
         <div className="absolute inset-0 rounded-xl bg-amber-400 rotate-[-4deg] shadow-md" />
         <div className="absolute inset-0 rounded-xl bg-rose-500 rotate-[3deg] shadow-md" />
@@ -2416,7 +2444,7 @@ const St8BitPixelRetroDemo: React.FC = () => {
 /* 10. 윈도우95 클래식 데스크탑 (Win95 Classic OS) */
 const StWin95RetroOsDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center bg-[#008080] px-6 select-none">
+    <div className="w-full h-40 flex items-center justify-center bg-[#008080] px-6 pt-4 select-none">
       <div
         style={{
           borderTop: '2px solid #ffffff',
@@ -2461,7 +2489,7 @@ const StCrtScanlineTerminalDemo: React.FC = () => {
 const StSynthwaveSunsetGridDemo: React.FC = () => {
   return (
     <div className="relative w-full h-40 flex flex-col items-center justify-end overflow-hidden bg-gradient-to-b from-[#1a052e] via-[#3b0764] to-[#be185d] select-none pb-3">
-      <div className="w-14 h-14 rounded-full bg-gradient-to-b from-amber-300 to-rose-500 mb-2 shadow-[0_0_20px_#f43f5e]" />
+      <div className="w-12 h-12 rounded-full bg-gradient-to-b from-amber-300 to-rose-500 mb-2 shadow-[0_0_20px_#f43f5e]" />
       <div
         style={{
           backgroundImage:
@@ -2481,7 +2509,7 @@ const StSynthwaveSunsetGridDemo: React.FC = () => {
 /* 13. SF 사이버네틱 HUD 프레임 (Sci-Fi Chamfered HUD) */
 const StScifiHudChamferDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center px-6 select-none">
+    <div className="w-full h-40 flex items-center justify-center px-6 pt-4 select-none">
       <div
         style={{
           clipPath:
@@ -2525,13 +2553,13 @@ const StArchitectBlueprintDemo: React.FC = () => {
 /* 15. 스위스 국제 타이포그래피 그리드 (Swiss International Grid) */
 const StSwissEditorialGridDemo: React.FC = () => {
   return (
-    <div className="w-full h-40 flex items-center justify-center bg-stone-100 text-stone-950 px-6 select-none">
-      <div className="w-full h-28 border-2 border-stone-950 grid grid-cols-3">
+    <div className="w-full h-40 flex items-center justify-center bg-stone-100 text-stone-950 px-6 pt-6 select-none">
+      <div className="w-full h-24 border-2 border-stone-950 grid grid-cols-3">
         <div className="border-r-2 border-stone-950 bg-red-600 text-white p-2 flex flex-col justify-between">
           <span className="text-[9px] font-mono font-bold">01</span>
           <span className="text-sm font-black">SWISS</span>
         </div>
-        <div className="col-span-2 p-2.5 flex flex-col justify-between">
+        <div className="col-span-2 p-2 flex flex-col justify-between">
           <span className="text-[9px] font-mono uppercase tracking-widest">
              Grid System 1957
           </span>
