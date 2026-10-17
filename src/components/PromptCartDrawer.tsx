@@ -24,14 +24,20 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
   onRemoveItem,
   onClearCart,
 }) => {
+  const applicationTarget = contextNote.trim();
+  const targetMissing = applicationTarget.length === 0;
+  const copyBlocked = cart.length === 0 || targetMissing;
+
   const combinedPrompt = useMemo(() => {
     if (cart.length === 0) {
       return '카탈로그에서 원하는 기법들을 [+ 조합기에 담기]로 선택해 주세요.';
     }
 
-    const header = contextNote.trim()
-      ? `다음 화면/영상을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일·모션 영상 기법들을 정확히 적용해 줘.\n- 적용 대상: ${contextNote.trim()}\n`
-      : `화면/컴포넌트/영상을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일·모션 영상 기법들을 정확히 적용해 줘.\n`;
+    if (!applicationTarget) {
+      return '공통 적용 대상을 입력하면 조합된 프롬프트가 표시됩니다.';
+    }
+
+    const header = `아래 기법들을 다음 공통 적용 대상에 적용해 줘.\n- 공통 적용 대상: ${applicationTarget}\n- 적용 범위: 선택한 모든 기법은 위 대상 안에서만 구현해 줘. 각 기법에 나오는 버튼·카드·배경·화면 등의 표현도 위 대상 안의 해당 요소를 뜻해. 대상 밖의 화면이나 컴포넌트는 변경하지 말고, 요청한 기법과 관계없는 기존 동작은 유지해 줘.\n`;
 
     const list = cart
       .map(
@@ -41,13 +47,13 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
       .join('\n\n');
 
     return `${header}\n${list}`;
-  }, [cart, contextNote]);
+  }, [cart, applicationTarget]);
 
   const { status: copyStatus, copy } = useClipboard(combinedPrompt, 1800);
   const copiedPrompt = copyStatus === 'copied';
 
   const handleCopyPrompt = () => {
-    if (cart.length === 0) return;
+    if (copyBlocked) return;
     void copy();
   };
 
@@ -139,18 +145,27 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                 )}
               </div>
 
-              {/* 어디에 적용할지 한 줄 메모 (선택) */}
+              {/* 모든 기법에 공통으로 적용할 대상 */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
-                  어디에 적용할까요? (선택사항)
+                <label htmlFor="prompt-application-target" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
+                  공통 적용 대상 (필수)
                 </label>
                 <input
+                  id="prompt-application-target"
                   type="text"
+                  required
+                  aria-invalid={targetMissing}
+                  aria-describedby="prompt-target-help"
                   value={contextNote}
                   onChange={(e) => onContextNoteChange(e.target.value)}
                   placeholder="예: 랜딩페이지 메인 버튼, 대시보드 통계 카드, 결제 모달..."
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-hidden focus:border-indigo-500"
                 />
+                <p id="prompt-target-help" role="status" className="mt-2 text-xs text-slate-600 dark:text-slate-400">
+                  {targetMissing
+                    ? '적용 대상을 입력해야 복사할 수 있습니다. 공백만 입력한 경우에도 복사가 차단됩니다.'
+                    : '담은 모든 기법에 같은 적용 대상이 사용됩니다.'}
+                </p>
               </div>
 
               {/* 생성된 프롬프트 */}
@@ -173,9 +188,9 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
               )}
               <button
                 onClick={handleCopyPrompt}
-                disabled={cart.length === 0 || copyStatus === 'copying'}
+                disabled={copyBlocked || copyStatus === 'copying'}
                 className={`w-full py-3 rounded-xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all ${
-                  cart.length === 0
+                  copyBlocked
                     ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
                     : copiedPrompt
                     ? 'bg-emerald-500 text-slate-950'
