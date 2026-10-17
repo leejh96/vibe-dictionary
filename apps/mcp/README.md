@@ -32,13 +32,13 @@ codex --version
 **macOS / Linux**
 
 ```sh
-codex mcp add vibe-dictionary -- npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.1
+codex mcp add vibe-dictionary -- npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.2
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
-codex mcp add vibe-dictionary -- cmd /d /c npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.1
+codex mcp add vibe-dictionary -- cmd /d /c npx -y --registry=https://registry.npmjs.org/ @keke1933/vibe-dictionary-mcp@0.1.2
 ```
 
 `npx`가 지정한 패키지를 npm 캐시에 설치해 실행한다. `-y`는 다운로드 확인 질문에 자동 동의하는 옵션이다. 별도 전역 패키지 설치는 필요 없으며, 프로젝트의 `package.json`에도 의존성을 추가하지 않는다. Windows는 `.cmd`를 실행할 수 있도록 `cmd /d /c`로 감싼다. `/d`는 cmd의 AutoRun 명령을 사용하지 않게 한다.
@@ -51,7 +51,7 @@ codex mcp add vibe-dictionary -- cmd /d /c npx -y --registry=https://registry.np
 codex mcp get vibe-dictionary
 ```
 
-실행 인수에 `@keke1933/vibe-dictionary-mcp@0.1.1`이 있고 등록이 활성화되었는지 확인한다. 이 명령은 설정을 보여줄 뿐 서버의 실제 연결 성공을 보장하지는 않는다. 앱의 MCP 서버를 재시작하거나 새 Codex 세션에서 다음과 같이 요청한다.
+실행 인수에 `@keke1933/vibe-dictionary-mcp@0.1.2`이 있고 등록이 활성화되었는지 확인한다. 이 명령은 설정을 보여줄 뿐 서버의 실제 연결 성공을 보장하지는 않는다. 앱의 MCP 서버를 재시작하거나 새 Codex 세션에서 다음과 같이 요청한다.
 
 > vibe-dictionary MCP에서 마그네틱 기법을 검색한 뒤 magnetic-hover의 프롬프트 원문을 가져와 줘. 코드는 수정하지 마.
 
@@ -66,7 +66,7 @@ CLI 등록 대신 아래 설정을 같은 파일의 기존 내용과 합칠 수 
 ```toml
 [mcp_servers.vibe-dictionary]
 command = "npx"
-args = ["-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.1"]
+args = ["-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.2"]
 ```
 
 **Windows**
@@ -74,7 +74,7 @@ args = ["-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictiona
 ```toml
 [mcp_servers.vibe-dictionary]
 command = "cmd"
-args = ["/d", "/c", "npx", "-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.1"]
+args = ["/d", "/c", "npx", "-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.2"]
 ```
 
 다른 MCP 클라이언트도 `stdio` 전송 방식으로 위 `command`와 `args`를 등록하면 된다. 클라이언트마다 설정 형식은 다르다. 표준 출력은 MCP 통신 전용이므로 실행 명령을 `npm run start`로 감싸지 않는다.
@@ -84,7 +84,7 @@ args = ["/d", "/c", "npx", "-y", "--registry=https://registry.npmjs.org/", "@kek
 실행 파일을 직접 설치해 관리하고 싶다면 `npx` 방식 대신 전역 설치를 사용할 수 있다. 다음 명령으로 패키지를 설치한다.
 
 ```sh
-npm install --global @keke1933/vibe-dictionary-mcp@0.1.1 --registry=https://registry.npmjs.org/
+npm install --global @keke1933/vibe-dictionary-mcp@0.1.2 --registry=https://registry.npmjs.org/
 ```
 
 설치 후 **macOS / Linux**에서는 다음과 같이 등록한다.
@@ -103,7 +103,7 @@ npm 전역 실행 파일 폴더가 Codex의 `PATH`에 있어야 한다. `npx` �
 
 ### 버전 변경과 연결 해제
 
-예제는 재현 가능한 실행을 위해 `0.1.1`을 고정한다. 새 버전을 사용하려면 원하는 버전이 npm에 공개되었는지 확인한 후 등록 명령의 버전을 바꿔 다시 실행하고 MCP를 재시작한다. 전역 설치 방식은 `npm install --global`의 버전을 바꿔 재설치한다. 새 버전 게시만으로 기존 설정의 버전이 자동으로 바뀌지는 않는다.
+예제는 재현 가능한 실행을 위해 버전을 `0.1.2`로 고정한다. 새 버전을 사용하려면 원하는 버전이 npm에 공개되었는지 확인한 후 등록 명령의 버전을 바꿔 다시 실행하고 MCP를 재시작한다. 전역 설치 방식은 `npm install --global`의 버전을 바꿔 재설치한다. 새 버전 게시만으로 기존 설정의 버전이 자동으로 바뀌지는 않는다.
 
 ```sh
 codex mcp remove vibe-dictionary
