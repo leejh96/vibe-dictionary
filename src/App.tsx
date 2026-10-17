@@ -143,7 +143,7 @@ export default function App() {
     []
   );
 
-  /* Vibe Dictionary 로고 클릭 시 홈(초기 상태 + 최상단 스크롤)으로 이동 */
+  /* 바이브 코딩 사전 로고 클릭 시 홈(초기 상태 + 최상단 스크롤)으로 이동 */
   const handleGoHome = () => {
     setActiveDomain('ui');
     setSelectedCategory('all');
@@ -202,13 +202,13 @@ export default function App() {
     });
   }, [activeDomain, searchQuery, selectedCategory]);
 
-  /* 스크롤 위치 감지 (상단 이동 / 한 뎁스 아래 이동 활성화 여부) */
+  /* 스크롤 가능한 거리를 기준으로 이동 버튼 활성화 (소수점 오차 1px 허용) */
   const updateScrollState = useCallback(() => {
     const scrollTop = window.scrollY;
     const maxScroll =
       document.documentElement.scrollHeight - window.innerHeight;
-    setCanScrollUp(scrollTop > 80);
-    setCanScrollDown(maxScroll - scrollTop > 20);
+    setCanScrollUp(scrollTop > 1);
+    setCanScrollDown(maxScroll - scrollTop > 1);
   }, []);
 
   useEffect(() => {
@@ -443,7 +443,7 @@ export default function App() {
             >
               <DictionaryLogo />
               <span className="text-base font-black tracking-tight text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">
-                Vibe Dictionary
+                바이브 코딩 사전
               </span>
             </button>
 
