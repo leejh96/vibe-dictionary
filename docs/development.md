@@ -45,7 +45,8 @@ Node.js 24와 npm을 기준으로 개발한다. 모든 명령은 저장소 루�
 | --- | --- |
 | `npm ci` | 단일 잠금 파일로 모든 workspace 설치·연결 |
 | `npm run dev` | 웹 개발 서버 |
-| `npm test` | 웹과 MCP 회귀 테스트 |
+| `npm test` | 카탈로그·웹·MCP 회귀 테스트 |
+| `npm run test:catalog` | 한영 번역·검색 메타데이터·관련도 회귀 테스트 |
 | `npm run test:web` | 웹 테스트만 실행 |
 | `npm run test:mcp` | MCP 빌드 후 stdio 연결 테스트 |
 | `npm run build` | 웹과 MCP 전체 빌드 |
@@ -69,6 +70,8 @@ npm install <package> --workspace @keke1933/vibe-dictionary-mcp
 MCP의 npm 이름은 `@keke1933/vibe-dictionary-mcp`다. 패키지 검증과 공개 게시 절차는 [npm 게시 안내](npm-publishing.md)를 따른다.
 
 `publish-npm.yml`은 `master`에서 수동 실행하며 입력 버전 확인, 전체 테스트·빌드, 취약점 검사와 독립 설치 검증 후 검증한 tarball만 OIDC로 게시한다. 루트·웹·내부 카탈로그는 `private: true`를 유지한다. 워크플로 추가나 `master` push만으로 npm에 게시하지 않는다.
+
+언어·검색 데이터 구조와 추가 절차는 [카탈로그 언어와 검색](catalog-language-search.md)을 따른다.
 
 기법 수정은 `packages/catalog/src/techniques.ts`, 데모 수정은 `apps/web/src/components/demos/InteractiveDemos.tsx`에서 한다. 데이터 변경 시 두 앱을 검증하고, 프롬프트와 데모가 같은 효과를 설명하는지 확인한다.
 

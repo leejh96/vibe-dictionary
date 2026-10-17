@@ -6,7 +6,7 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES } from '../packages/catalog/src/index.ts';
+import { TECHNIQUES, getTechniqueText } from '../packages/catalog/src/index.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(await readFile(join(root, 'apps/mcp/package.json'), 'utf8'));
@@ -70,9 +70,18 @@ try {
     const detail = await client.callTool({ name: 'get_technique', arguments: { id: item.id } });
     assert.notEqual(detail.isError, true);
     for (const [key, value] of Object.entries(item)) assert.deepEqual(detail.structuredContent[key], value);
+    const english = await client.callTool({ name: 'get_technique', arguments: { id: item.id, locale: 'en' } });
+    assert.notEqual(english.isError, true);
+    assert.equal(english.structuredContent.promptSnippet, getTechniqueText(item, 'en').promptSnippet);
+    assert.equal(english.structuredContent.locale, 'en');
   }
+  const ranked = await client.callTool({ name: 'search_techniques', arguments: { query: '마우스를 올리면 버튼이 자석처럼 따라오는 디자인', target: 'button', trigger: 'pointer-move', locale: 'en', limit: 5 } });
+  assert.notEqual(ranked.isError, true);
+  assert.equal(ranked.structuredContent.items[0].id, 'magnetic-hover');
+  assert.equal(ranked.structuredContent.items[0].locale, 'en');
+  assert.ok(!('promptSnippet' in ranked.structuredContent.items[0]));
   assert.equal(stderr, '');
-  console.log(JSON.stringify({ tarball, name: packed.name, version: packed.version, files: packed.files.map(({ path }) => path), catalogCount: ids.length, isolatedInstall: true, runtimeVulnerabilities: runtimeAudit.metadata.vulnerabilities.total, integrity: packed.integrity }, null, 2));
+  console.log(JSON.stringify({ tarball, name: packed.name, version: packed.version, files: packed.files.map(({ path }) => path), catalogCount: ids.length, isolatedInstall: true, englishPrompts: ids.length, rankedSearch: true, runtimeVulnerabilities: runtimeAudit.metadata.vulnerabilities.total, integrity: packed.integrity }, null, 2));
 } finally {
   await client.close();
   const cleanupPath = await realpath(isolatedDir);

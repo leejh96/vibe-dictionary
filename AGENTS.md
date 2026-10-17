@@ -22,7 +22,10 @@
 | --- | --- |
 | `apps/web/src/App.tsx` | 도메인·검색·카테고리 상태, 테마, 조합기 연결, 페이지 스크롤 이동 |
 | `packages/catalog/src/techniques.ts` | 기법 타입·분류·표시 이름·검색 키워드·복사용 `promptSnippet` |
-| `packages/catalog/src/search.ts` | 웹과 MCP가 공유하는 검색어 매칭 규칙 |
+| `packages/catalog/src/search.ts` | 웹과 MCP의 한영 동의어·관련도 검색 |
+| `packages/catalog/src/search-metadata.ts` | 기법별 적용 대상·실제 입력·한영 사용 상황·별칭 |
+| `packages/catalog/src/localization.ts`, `translations/en.ts` | 언어별 분류·기법 조회와 영어 번역 |
+| `apps/web/src/i18n/` | 웹·데모 문구 번역과 언어 상태 |
 | `packages/catalog/src/index.ts` | 공용 카탈로그의 유일한 공개 진입점 |
 | `apps/mcp/` | 로컬 MCP 실행 파일·스키마·연결 테스트·사용 안내 |
 | `apps/web/src/components/FilterBar.tsx` | 카테고리·검색·추천 키워드 UI |
@@ -51,6 +54,12 @@
 - 분류를 바꾸면 도메인·카테고리 타입과 메타데이터, 필터·검색·개수 표시의 영향을 확인한다. 기법 개수를 별도 상수로 중복 관리하지 않는다.
 - 기법 ID는 데모 연결뿐 아니라 저장된 선택 복원에도 쓰인다. 이름이나 문구 변경만으로 ID를 바꾸지 않는다. 삭제·ID 변경이 필요하면 기존 저장 데이터의 영향을 확인한다.
 
+### 언어와 검색
+
+- 기법 추가·변경 시 영어 요약·키워드·프롬프트와 검색 메타데이터도 함께 유지한다. 번역과 메타데이터의 전체 ID 일치 테스트를 통과해야 한다. 상세 기준은 [카탈로그 언어와 검색](docs/catalog-language-search.md)을 따른다.
+- 표시 언어와 검색 언어를 분리한다. 검색은 한영 정보를 함께 사용하고 웹·MCP는 같은 관련도 함수를 사용한다. 검색 결과에는 프롬프트 전문을 포함하지 않는다.
+- 언어 전환으로 기법 ID·조합기 선택 순서·사용자 입력 대상을 바꾸지 않는다. 복사는 선택 언어의 원문을 사용한다.
+
 ### 조합기·저장·복사
 
 - 조합기는 **하나의 공통 적용 대상**을 사용한다. 선택 기법이 없거나 대상이 비었거나 공백뿐이면 버튼과 핸들러 모두에서 복사를 차단한다. 개별 카드 복사에는 이 대상 입력을 요구하지 않는다.
@@ -75,7 +84,7 @@
 | --- | --- |
 | `npm ci` | 잠금 파일 기준 의존성 설치 |
 | `npm run dev` | 개발 서버 |
-| `npm test` | 웹 회귀 테스트와 MCP 빌드·stdio 연결 테스트 |
+| `npm test` | 카탈로그·웹 회귀 테스트와 MCP 빌드·stdio 연결 테스트 |
 | `npm run build` | 웹과 MCP 전체 타입 검사·빌드 |
 | `npm run build:web` | 웹 타입 검사와 Vite 프로덕션 빌드 |
 | `npm run build:mcp` | MCP 타입 검사와 카탈로그를 포함한 실행 파일 빌드 |
