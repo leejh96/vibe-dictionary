@@ -16,3 +16,141 @@
     transform: rotateY(180deg);
   }
 }
+
+/* 모든 핵심 모션 키프레임을 직접 정의하여 브라우저에서 100% 즉시 동작 보장 */
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  15%, 45%, 75% { transform: translateX(-8px) rotate(-1deg); }
+  30%, 60%, 90% { transform: translateX(8px) rotate(1deg); }
+}
+
+@keyframes spring-pop {
+  0% { transform: scale(0.45); opacity: 0; }
+  60% { transform: scale(1.14); opacity: 1; }
+  80% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes shadow-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(0.65); opacity: 0.25; }
+}
+
+@keyframes combo-pop {
+  0% { transform: scale(0.7) rotate(-6deg); }
+  50% { transform: scale(1.26) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-160%) skewX(-20deg); }
+  100% { transform: translateX(260%) skewX(-20deg); }
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ripple-expand {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.65; }
+  100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
+}
+
+@keyframes neon-breathe {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.55), 0 0 24px rgba(34, 211, 238, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.95), 0 0 42px rgba(34, 211, 238, 0.55);
+  }
+}
+
+@keyframes toast-slide-up {
+  0% { transform: translateY(24px) scale(0.92); opacity: 0; }
+  65% { transform: translateY(-3px) scale(1.02); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes heart-ring-burst {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(1.85); opacity: 0; }
+}
+
+@keyframes glass-orb-1 {
+  0%, 100% { transform: translate(-28px, -12px) scale(1); }
+  50% { transform: translate(28px, 14px) scale(1.15); }
+}
+
+@keyframes glass-orb-2 {
+  0%, 100% { transform: translate(28px, 12px) scale(1); }
+  50% { transform: translate(-28px, -14px) scale(1.15); }
+}
+
+.animate-error-shake {
+  animation: error-shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-spring-pop {
+  animation: spring-pop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-float-bob {
+  animation: float-bob 2.2s ease-in-out infinite;
+}
+
+.animate-shadow-breathe {
+  animation: shadow-breathe 2.2s ease-in-out infinite;
+}
+
+.animate-combo-pop {
+  animation: combo-pop 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-shimmer-sweep {
+  animation: shimmer-sweep 2s ease-in-out infinite;
+}
+
+.animate-marquee-left {
+  animation: marquee-left 9s linear infinite;
+}
+
+.animate-gradient-flow {
+  background-size: 220% 220%;
+  animation: gradient-flow 3s ease infinite;
+}
+
+.animate-ripple-expand {
+  animation: ripple-expand 0.65s ease-out forwards;
+}
+
+.animate-neon-breathe {
+  animation: neon-breathe 2s ease-in-out infinite;
+}
+
+.animate-toast-slide-up {
+  animation: toast-slide-up 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-heart-ring {
+  animation: heart-ring-burst 0.5s ease-out forwards;
+}
+
+.animate-glass-orb-1 {
+  animation: glass-orb-1 4s ease-in-out infinite;
+}
+
+.animate-glass-orb-2 {
+  animation: glass-orb-2 4s ease-in-out infinite;
+}

@@ -1,233 +1,418 @@
-export type SituationType = 'correct' | 'wrong' | 'explain' | 'practice';
+export type CategoryType =
+  | 'hover'
+  | 'card'
+  | 'motion'
+  | 'text'
+  | 'feedback'
+  | 'layout'
+  | 'control';
 
-export interface SituationMeta {
-  id: SituationType | 'all';
+export interface CategoryMeta {
+  id: CategoryType | 'all';
   label: string;
-  emoji: string;
-  description: string;
-  badgeClass: string;
 }
 
-export const SITUATION_CATEGORIES: SituationMeta[] = [
-  {
-    id: 'all',
-    label: '전체 기법 보기',
-    emoji: '✨',
-    description: '모든 인터랙션과 모션 기법을 한눈에 둘러봅니다.',
-    badgeClass: 'bg-slate-800 text-slate-200 border-slate-700',
-  },
-  {
-    id: 'correct',
-    label: '정답 맞혔을 때',
-    emoji: '🎉',
-    description: '성취감과 타격감을 극대화해 다음 문제도 풀고 싶게 만드는 보상 연출',
-    badgeClass: 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60',
-  },
-  {
-    id: 'wrong',
-    label: '틀렸을 때',
-    emoji: '💥',
-    description: '좌절감 대신 즉각적인 시각 피드백과 단계별 힌트를 자연스럽게 건네는 연출',
-    badgeClass: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
-  },
-  {
-    id: 'explain',
-    label: '개념 설명할 때',
-    emoji: '💡',
-    description: '지루한 줄글 대신 시선을 집중시키고 코드 흐름을 직관적으로 이해시키는 연출',
-    badgeClass: 'bg-amber-950/80 text-amber-300 border-amber-700/60',
-  },
-  {
-    id: 'practice',
-    label: '직접 실습할 때',
-    emoji: '🧩',
-    description: '학습자가 마우스로 만지고 조립하며 손맛을 느끼게 해주는 조작형 인터랙션',
-    badgeClass: 'bg-indigo-950/80 text-indigo-300 border-indigo-700/60',
-  },
+export const CATEGORIES: CategoryMeta[] = [
+  { id: 'all', label: '전체' },
+  { id: 'hover', label: '버튼·호버' },
+  { id: 'card', label: '카드·3D' },
+  { id: 'motion', label: '등장·모션' },
+  { id: 'text', label: '텍스트·타이포' },
+  { id: 'feedback', label: '피드백·파티클' },
+  { id: 'layout', label: '레이아웃·배너' },
+  { id: 'control', label: '조작·인터랙션' },
 ];
 
 export const QUICK_VIBE_CHIPS = [
+  '자석처럼',
   '통통 튀는',
+  '반짝 스치는',
+  '입체 기울기',
   '팡 터지는',
   '부르르 떨리는',
-  '착 달라붙는',
-  '휙 뒤집히는',
-  '촤르륵 나오는',
-  '다다닥 타이핑',
-  '형광펜 이동',
-  '손전등 집중',
-  '차오르는 게이지',
-  '스르륵 펼쳐지는',
+  '촤르륵 순서대로',
+  '암호 해독',
+  '유리 같은',
+  '스르륵 캡슐 탭',
+  '무한 흐르는',
+  '드르륵 숫자',
 ];
 
 export interface TechniqueItem {
   id: string;
-  vibePhrase: string;
+  category: CategoryType;
+  vibeTag: string;
   vibeKeywords: string[];
   titleKo: string;
   titleEn: string;
-  situations: SituationType[];
-  plainDescription: string;
-  whyItWorks: string;
+  summary: string;
   promptSnippet: string;
-  codeHint: string;
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
-  {
-    id: 'card-flip-3d',
-    vibePhrase: '휙 입체적으로 뒤집히는 느낌',
-    vibeKeywords: ['휙 뒤집히는', '앞뒤 카드', '입체적인', '회전', '퀴즈 카드', '정답 확인', '플립', '뒤집기'],
-    titleKo: '3D 카드 플립',
-    titleEn: '3D Card Flip with Perspective',
-    situations: ['explain', 'practice'],
-    plainDescription: '카드를 클릭하면 실제 트럼프 카드를 뒤집듯 Y축으로 180도 입체 회전하며 뒷면의 정답 코드나 해설을 보여줍니다.',
-    whyItWorks: '처음부터 정답이나 개념을 다 보여주지 않고, 학습자가 스스로 생각한 뒤 직접 뒤집어 확인하게 만들어 능동적 학습을 유도합니다.',
-    promptSnippet:
-      '개념/퀴즈 카드를 클릭하면 CSS `perspective: 1000px`와 `transform-style: preserve-3d`, `rotateY(180deg)`를 적용해 0.6초 동안 입체적으로 뒤집히며 뒷면의 정답 코드와 해설이 나타나도록 구현해 줘. `backface-visibility: hidden`으로 앞/뒤 면이 겹치지 않게 처리해 줘.',
-    codeHint: 'perspective: 1000px; transform-style: preserve-3d; transform: rotateY(180deg);',
-  },
-  {
-    id: 'confetti-burst',
-    vibePhrase: '팡 터지는 축하 폭죽과 꽃가루',
-    vibeKeywords: ['팡 터지는', '꽃가루', '폭죽', '축하', '파티클', '화려한', '성공', '보상'],
-    titleKo: '컨페티 파티클 버스트',
-    titleEn: 'Confetti Particle Burst',
-    situations: ['correct'],
-    plainDescription: '정답을 맞히거나 미션을 클리어한 순간 버튼 주변에서 알록달록한 폭죽 조각들이 중력과 속도를 가지고 사방으로 흩날립니다.',
-    whyItWorks: '문제를 풀었을 때 즉각적인 도파민과 시각적 보상감을 주어 코딩 실습의 피로도를 낮추고 성취감을 극대화합니다.',
-    promptSnippet:
-      '정답 판정 시 화면 중앙 또는 제출 버튼 위치에서 Confetti Particle Burst(폭죽 꽃가루 효과)가 터지도록 구현해 줘. 다양한 색상의 파티클 30~40개가 방사형 속도와 중력 가속도를 갖고 1.2초 동안 퍼지며 서서히 사라지는 애니메이션을 넣어 줘.',
-    codeHint: 'Radial particle velocity (vx, vy) + gravity decay + rotation transform',
-  },
-  {
-    id: 'error-shake-tooltip',
-    vibePhrase: '부르르 떨리면서 말풍선 힌트가 뜨는 느낌',
-    vibeKeywords: ['부르르 떨리는', '도리도리', '흔들리는', '진동', '오답', '틀렸을 때', '말풍선', '띠용'],
-    titleKo: '에러 셰이크 & 플로팅 힌트',
-    titleEn: 'Horizontal Error Shake & Floating Tooltip',
-    situations: ['wrong'],
-    plainDescription: '틀린 답을 제출하면 입력창이 도리도리하듯 좌우로 부르르 떨리고, 위쪽에 둥둥 떠다니는 말풍선 힌트가 부드럽게 나타납니다.',
-    whyItWorks: '딱딱한 경고창(alert) 대신 직관적인 물리 진동으로 오답임을 알리고, 시선이 머무는 자리에 바로 힌트를 띄워 재시도를 돕습니다.',
-    promptSnippet:
-      '오답 입력 시 컨테이너가 0.45초 동안 좌우(`±8px`)로 빠르게 진동하는 Horizontal Error Shake 애니메이션을 재생하고, 동시에 요소 상단에 위아래로 살랑거리는(Floating Bobbing) 말풍선 툴팁으로 왜 틀렸는지 핵심 힌트를 띄워 줘.',
-    codeHint: '@keyframes shake { 15%, 45%, 75% { transform: translateX(-8px) } 30%, 60%, 90% { transform: translateX(8px) } }',
-  },
+  /* ==================== 1. 버튼·호버 (hover) ==================== */
   {
     id: 'magnetic-hover',
-    vibePhrase: '자석처럼 커서에 착 달라붙어 따라오는 느낌',
-    vibeKeywords: ['착 달라붙는', '자석처럼', '쫀득한', '따라오는', '마우스 반응', '버튼 강조', '호버'],
-    titleKo: '마그네틱 커서 호버',
-    titleEn: 'Magnetic Cursor Hover Effect',
-    situations: ['explain', 'practice'],
-    plainDescription: '마우스 커서를 버튼 위에 올리고 움직이면, 버튼이 자석에 이끌리듯 커서 위치를 향해 쫀득하게 따라 움직입니다.',
-    whyItWorks: '학습자가 다음에 눌러야 할 핵심 실행 버튼(예: 코드 실행, 다음 미션)에 손이 가도록 무의식적인 조작 재미를 부여합니다.',
+    category: 'hover',
+    vibeTag: '자석처럼 착 달라붙는',
+    vibeKeywords: ['자석처럼', '착 달라붙는', '쫀득한', '마우스 따라오는', '마그네틱', '버튼 호버'],
+    titleKo: '마그네틱 호버',
+    titleEn: 'Magnetic Cursor Hover',
+    summary: '커서 방향으로 버튼이 자석처럼 끌려오는 효과',
     promptSnippet:
-      '주요 액션 버튼에 Magnetic Hover 효과를 적용해 줘. 마우스가 버튼 영역 안에서 움직일 때 버튼 중심점과 마우스 좌표의 오프셋(`dx, dy`)을 계산해 버튼이 커서 방향으로 25~30% 정도 부드럽게 끌려오고, 마우스가 벗어나면 탄성 있게 원위치로 복귀하게 해 줘.',
-    codeHint: 'onMouseMove: translate(dx * 0.3, dy * 0.3) with transition: transform 150ms ease-out',
+      '버튼에 Magnetic Cursor Hover 효과를 적용해 줘. 마우스가 요소 영역 안에서 움직일 때 중심점과 커서 좌표 오프셋(dx, dy)의 35%만큼 요소가 따라 움직이고, 마우스가 나가면 spring 이징으로 복귀하게 해 줘.',
   },
+  {
+    id: 'shimmer-sweep',
+    category: 'hover',
+    vibeTag: '반짝 빛이 스쳐 지나가는',
+    vibeKeywords: ['반짝 스치는', '광택', '빛나는', '시머', '고급스러운', '하이라이트 버튼'],
+    titleKo: '시머 광택 스윕',
+    titleEn: 'Shimmer Light Sweep',
+    summary: '대각선 빛줄기가 표면을 주기적으로 스쳐가는 연출',
+    promptSnippet:
+      '버튼/배지 위에 Shimmer Light Sweep 효과를 적용해 줘. 반투명 흰색 그라데이션(`via-white/30`) 레이어를 `skewX(-20deg)`로 기울여 왼쪽(`-150%`)에서 오른쪽(`250%`)으로 미끄러지듯 지나가게 해 줘.',
+  },
+  {
+    id: 'ripple-click',
+    category: 'hover',
+    vibeTag: '클릭한 곳에서 물결이 퍼지는',
+    vibeKeywords: ['물결', '리플', '파동', '클릭 타격감', '퍼져나가는', '터치 반응'],
+    titleKo: '리플 물결 클릭',
+    titleEn: 'Material Ripple Click',
+    summary: '클릭 지점부터 동심원 물결이 부드럽게 퍼지는 효과',
+    promptSnippet:
+      '버튼 클릭 시 클릭한 정확한 마우스 좌표(`clientX - rect.left`)에서 원형 Ripple 물결이 `scale(0)`에서 `scale(4)`로 커지며 `opacity: 0`으로 사라지는 Material Ripple 이펙트를 구현해 줘.',
+  },
+  {
+    id: 'neon-glow-pulse',
+    category: 'hover',
+    vibeTag: '네온사인이 은은하게 숨 쉬는',
+    vibeKeywords: ['네온', '글로우', '빛이 번지는', '사이버펑크', '발광', '강조 버튼'],
+    titleKo: '네온 글로우 펄스',
+    titleEn: 'Neon Drop-Shadow Pulse',
+    summary: '버튼 주변으로 네온 빛 번짐이 부드럽게 맥동하는 효과',
+    promptSnippet:
+      '호버 및 활성 상태에서 다중 `box-shadow`(`0 0 15px`, `0 0 35px`)와 밝은 테두리를 사용해 네온사인이 숨 쉬듯 은은하게 발광하는 Neon Glow Pulse 효과를 적용해 줘.',
+  },
+  {
+    id: 'liquid-slide-fill',
+    category: 'hover',
+    vibeTag: '배경색이 옆에서 촤악 차오르는',
+    vibeKeywords: ['차오르는', '슬라이드 채움', '색이 채워지는', '호버 반전', '리퀴드'],
+    titleKo: '슬라이드 컬러 필',
+    titleEn: 'Slide Background Fill Button',
+    summary: '마우스를 올리면 배경색 레이어가 미끄러져 채워지는 버튼',
+    promptSnippet:
+      '마우스 호버 시 버튼 내부의 배경 레이어가 `translateX(-100%)`에서 `translateX(0)`으로 빠르게 슬라이드되며 배경색과 텍스트 색상이 반전되는 Slide Fill Button을 구현해 줘.',
+  },
+
+  /* ==================== 2. 카드·3D (card) ==================== */
+  {
+    id: 'card-flip-3d',
+    category: 'card',
+    vibeTag: '앞뒤로 휙 입체 회전하는',
+    vibeKeywords: ['휙 뒤집히는', '앞뒤 카드', '입체 회전', '플립', '뒷면 보기', '3D'],
+    titleKo: '3D 카드 플립',
+    titleEn: '3D Perspective Card Flip',
+    summary: '클릭하면 Y축 180도로 입체 회전하며 뒷면 노출',
+    promptSnippet:
+      '카드 컨테이너에 `perspective: 1000px`, 내부 래퍼에 `transform-style: preserve-3d`를 주고 클릭 시 `rotateY(180deg)`로 0.6초 동안 회전하며 뒷면이 나타나는 3D Card Flip을 구현해 줘.',
+  },
+  {
+    id: 'tilt-3d-card',
+    category: 'card',
+    vibeTag: '마우스 따라 입체로 기울어지는',
+    vibeKeywords: ['입체 기울기', '틸트', '홀로그램', '각도 변화', '마우스 반응 카드', '3D'],
+    titleKo: '3D 퍼스펙티브 틸트',
+    titleEn: '3D Interactive Mouse Tilt',
+    summary: '커서 위치에 맞춰 카드가 상하좌우 입체로 기울어짐',
+    promptSnippet:
+      '카드 위에서 마우스 이동 시 중심 대비 좌표를 계산해 `perspective(800px) rotateX(...) rotateY(...)`를 실시간 적용하고, 마우스가 떠나면 부드럽게 수평으로 돌아오는 3D Tilt Card를 구현해 줘.',
+  },
+  {
+    id: 'glassmorphism-card',
+    category: 'card',
+    vibeTag: '반투명 간유리처럼 뒤가 비치는',
+    vibeKeywords: ['유리 같은', '블러', '반투명', '글래스모피즘', '애플 스타일', '모던'],
+    titleKo: '프로스티드 글래스모피즘',
+    titleEn: 'Frosted Glassmorphism UI',
+    summary: '배경 빛이 은은하게 투과되는 반투명 블러 유리 질감',
+    promptSnippet:
+      '배경의 컬러풀한 오브젝트가 은은하게 비치도록 `backdrop-filter: blur(16px)`, 반투명 배경(`bg-white/10`), 얇은 하이라이트 보더(`border-white/20`)를 조합한 Glassmorphism 카드를 적용해 줘.',
+  },
+  {
+    id: 'spotlight-border-card',
+    category: 'card',
+    vibeTag: '마우스 따라 카드 테두리가 빛나는',
+    vibeKeywords: ['테두리 빛', '스포트라이트 보더', '라디얼 글로우', 'Linear 스타일', '마우스 조명'],
+    titleKo: '라디얼 커서 스포트라이트',
+    titleEn: 'Radial Cursor Glow Card',
+    summary: '커서가 위치한 곳만 은은한 원형 조명이 비치는 카드',
+    promptSnippet:
+      '카드 위에서 마우스 좌표(`x, y`)를 추적해 `radial-gradient(220px circle at ${x}px ${y}px, rgba(99,102,241,0.28), transparent 80%)` 조명이 커서를 따라다니는 Radial Spotlight Card를 만들어 줘.',
+  },
+  {
+    id: 'stacked-card-cycle',
+    category: 'card',
+    vibeTag: '겹쳐진 카드를 한 장씩 휙 넘기는',
+    vibeKeywords: ['겹쳐진 카드', '스택', '카드 덱', '스와이프', '다음 카드', '캐러셀'],
+    titleKo: '스택 카드 사이클',
+    titleEn: 'Stacked Card Deck Switcher',
+    summary: '여러 장 겹쳐진 카드가 스케일과 깊이를 바꾸며 순환',
+    promptSnippet:
+      '3장의 카드가 `scale`과 `translateY` 오프셋으로 겹쳐진 Stacked Card Deck을 만들고, 클릭할 때마다 맨 앞 카드가 뒤로 넘어가며 다음 카드가 부드럽게 앞으로 나오는 인터랙션을 구현해 줘.',
+  },
+
+  /* ==================== 3. 등장·모션 (motion) ==================== */
   {
     id: 'spring-bounce-modal',
-    vibePhrase: '통통 튀며 탱글탱글하게 뿅 나타나는 느낌',
-    vibeKeywords: ['통통 튀는', '탱글탱글', '탄성 있는', '뿅 나타나는', '젤리 같은', '바운스', '팝업'],
-    titleKo: '스프링 바운스 팝업',
-    titleEn: 'Spring Physics Overshoot Pop-up',
-    situations: ['correct', 'explain'],
-    plainDescription: '알림창이나 배지가 나타날 때 원래 크기보다 살짝 더 커졌다가(112%) 통통 튕기며 제자리(100%)로 안착하는 탄성 모션입니다.',
-    whyItWorks: '선형(linear) 애니메이션보다 생명력 있는 캐주얼 게임 느낌을 주어 어린 학습자나 입문자의 흥미를 즉시 끌어올립니다.',
+    category: 'motion',
+    vibeTag: '통통 튀며 탱글하게 나타나는',
+    vibeKeywords: ['통통 튀는', '탱글탱글', '탄성', '바운스', '젤리 같은', '뿅 나타나는', '오버슈트'],
+    titleKo: '스프링 바운스 팝',
+    titleEn: 'Spring Physics Overshoot Pop',
+    summary: '살짝 더 커졌다가(112%) 탄성 있게 제자리로 안착하는 모션',
     promptSnippet:
-      '결과 배지나 안내 모달이 등장할 때 단순 페이드인이 아니라 Spring Physics Overshoot 이징(`cubic-bezier(0.34, 1.56, 0.64, 1)`)을 사용해 `scale(0.5)`에서 `scale(1.12)`까지 살짝 커졌다가 `scale(1)`로 통통 튀며 안착하는 바운스 애니메이션을 적용해 줘.',
-    codeHint: 'transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);',
-  },
-  {
-    id: 'typewriter-streaming',
-    vibePhrase: '타자기처럼 글자가 다다닥 한 글자씩 나오는 느낌',
-    vibeKeywords: ['다다닥 타이핑', '타자기', '한글자씩', '말하는 느낌', 'NPC 대화', '스토리텔링', '커서 깜빡임'],
-    titleKo: '타이프라이터 스트리밍 텍스트',
-    titleEn: 'Typewriter Text & Blinking Caret',
-    situations: ['explain'],
-    plainDescription: '멘토 캐릭터나 AI 선생님이 실시간으로 말을 건네듯 텍스트가 한 글자씩 타이핑되며 끝에 깜빡이는 커서가 따라붙습니다.',
-    whyItWorks: '긴 설명문을 한꺼번에 띄우면 읽지 않고 넘기지만, 타이핑 효과로 한 문장씩 출력하면 시선이 글자 끝을 따라가며 끝까지 읽게 됩니다.',
-    promptSnippet:
-      '개념 설명이나 미션 지문 영역에 Typewriter Streaming 효과를 적용해 줘. 텍스트가 35ms 간격으로 한 글자씩 순차 출력되고 문장 끝에 깜빡이는 블록 커서(`▋`)가 표시되도록 하며, 클릭 시 전체 문장을 즉시 다 보여주는 스킵/재재생 토글도 지원해 줘.',
-    codeHint: 'setInterval slice(0, idx) + blinking cursor span (animate-pulse)',
+      '요소가 등장할 때 `cubic-bezier(0.34, 1.56, 0.64, 1)` 스프링 오버슈트 이징을 적용해 `scale(0.5)`에서 `scale(1.12)`까지 튕겼다가 `scale(1)`로 안착하는 탄성 팝 모션을 적용해 줘.',
   },
   {
     id: 'staggered-list',
-    vibePhrase: '도미노처럼 차례대로 촤르륵 올라오는 느낌',
-    vibeKeywords: ['촤르륵 나오는', '차례대로', '순차 등장', '도미노처럼', '물결처럼', '목록 애니메이션', '부드럽게'],
-    titleKo: '스태거드 페이드인 리스트',
-    titleEn: 'Staggered Slide & Fade-in List',
-    situations: ['explain'],
-    plainDescription: '여러 개의 학습 단계나 알고리즘 순서 카드가 한 번에 툭 뜨지 않고 0.08초 간격으로 아래에서 위로 촤르륵 순차 등장합니다.',
-    whyItWorks: '알고리즘의 1단계 ➔ 2단계 ➔ 3단계처럼 순서가 중요한 코딩 개념을 시각적인 시간차로 자연스럽게 인지시킵니다.',
+    category: 'motion',
+    vibeTag: '도미노처럼 촤르륵 순서대로 뜨는',
+    vibeKeywords: ['촤르륵 순서대로', '차례대로', '도미노', '물결 등장', '스태거드', '리스트 모션'],
+    titleKo: '스태거드 캐스케이드',
+    titleEn: 'Staggered Cascade Fade-in',
+    summary: '목록 아이템이 짧은 시간차를 두고 아래서 위로 순차 등장',
     promptSnippet:
-      '학습 단계나 선택지 목록이 렌더링될 때 Staggered Fade-in 효과를 적용해 줘. 각 아이템에 `index * 80ms`의 `animation-delay`를 부여해 아래(`translateY(14px)`, `opacity: 0`)에서 원래 위치로 차례대로 촤르륵 미끄러져 올라오게 만들어 줘.',
-    codeHint: 'style={{ transitionDelay: `${index * 80}ms` }} + translate-y-0 opacity-100',
+      '목록 아이템들에 `index * 80ms`의 `animation-delay`를 부여해 아래(`translateY(14px)`, `opacity: 0`)에서 위로 도미노처럼 촤르륵 순차 등장하는 Staggered Cascade 애니메이션을 적용해 줘.',
   },
   {
-    id: 'drag-snap-slot',
-    vibePhrase: '블록을 빈칸에 끌어서 착 끼워 맞추는 느낌',
-    vibeKeywords: ['끌어서 끼우는', '착 들어맞는', '빈칸 조립', '착 달라붙는', '블록 코딩', '퍼즐', '드래그 앤 드롭'],
-    titleKo: '드래그 앤 스냅 코드 슬롯',
-    titleEn: 'Drag & Snap-to-Slot Code Block',
-    situations: ['practice'],
-    plainDescription: '코드 조각 블록을 선택하거나 드래그하면 빈칸 슬롯이 반짝이며 반응하고, 자석처럼 빈칸 안에 착 끼워 맞춰지며 문장이 완성됩니다.',
-    whyItWorks: '영어 타이핑 오타 때문에 문법 에러를 겪는 초보자에게, 퍼즐 조각을 맞추는 손맛으로 코드 구조를 먼저 깨치게 해줍니다.',
+    id: 'smooth-accordion',
+    category: 'motion',
+    vibeTag: '접힌 영역이 스르륵 펼쳐지는',
+    vibeKeywords: ['스르륵 펼쳐지는', '아코디언', '접기 펼치기', 'FAQ', '드로어', '높이 전환'],
+    titleKo: '스무스 확장 아코디언',
+    titleEn: 'Smooth Height Expand Accordion',
+    summary: '클릭 시 끊김 없이 부드러운 높이 변화로 열리고 닫힘',
     promptSnippet:
-      '코드 빈칸 채우기 실습에 Snap-to-Slot 인터랙션을 구현해 줘. 사용자가 보기 블록을 드래그하거나 클릭하면 빈칸 슬롯 테두리가 하이라이트되고, 블록이 슬롯에 들어갈 때 짧은 탄성 스케일 모션과 함께 착 달라붙어 전체 코드가 완성되도록 해 줘.',
-    codeHint: 'Slot active glow ring + spring scale snap transition on drop/select',
+      '클릭 시 숨겨진 상세 영역이 CSS Grid `grid-template-rows: 0fr`에서 `1fr`로 전환되며 높이와 투명도가 스르륵 부드럽게 펼쳐지는 Smooth Accordion을 구현해 줘.',
+  },
+  {
+    id: 'morphing-state-button',
+    category: 'motion',
+    vibeTag: '버튼이 로딩·완료 모양으로 변신하는',
+    vibeKeywords: ['변신하는', '모핑', '로딩 버튼', '상태 전환', '스피너 체크', '부드러운 변화'],
+    titleKo: '모핑 스테이트 버튼',
+    titleEn: 'Morphing Multi-State Button',
+    summary: '기본 ➔ 로딩 스피너 ➔ 완료 체크로 폭과 색상이 매끄럽게 변형',
+    promptSnippet:
+      '버튼 클릭 시 [Idle ➔ Loading ➔ Success] 3단계로 버튼 너비, 배경색, 내부 아이콘이 레이아웃 덜컥거림 없이 매끄럽게 변형되는 Morphing State Button을 구현해 줘.',
+  },
+  {
+    id: 'floating-levitation',
+    category: 'motion',
+    vibeTag: '무중력처럼 공중에 둥둥 떠 있는',
+    vibeKeywords: ['둥둥 떠다니는', '무중력', '플로팅', '살랑살랑', '부유하는', '히어로 아이콘'],
+    titleKo: '플로팅 레비테이션',
+    titleEn: 'Floating Levitation Loop',
+    summary: '위아래로 천천히 오르내리며 바닥 그림자 크기도 함께 반응',
+    promptSnippet:
+      '요소가 2.2초 주기로 위아래(`translateY(-7px)`)로 부드럽게 둥둥 떠다니고, 동시에 하단 그림자(`blur`, `scale`)가 멀어질 때 작아지고 가까워질 때 진해지는 Floating Levitation 효과를 넣어 줘.',
+  },
+
+  /* ==================== 4. 텍스트·타이포 (text) ==================== */
+  {
+    id: 'typewriter-streaming',
+    category: 'text',
+    vibeTag: '타자기처럼 다다닥 한 글자씩 치는',
+    vibeKeywords: ['다다닥 타이핑', '타자기', '한글자씩', '커서 깜빡임', 'AI 스트리밍'],
+    titleKo: '타이프라이터 타이핑',
+    titleEn: 'Typewriter Streaming Text',
+    summary: '깜빡이는 커서와 함께 글자가 실시간으로 타이핑되는 효과',
+    promptSnippet:
+      '텍스트가 35ms 간격으로 한 글자씩 순차 출력되고 끝에 깜빡이는 커서(`▋`)가 따라붙는 Typewriter Streaming Text 효과를 구현해 줘.',
+  },
+  {
+    id: 'scramble-decode-text',
+    category: 'text',
+    vibeTag: '암호가 해독되듯 샤라락 바뀌는 글자',
+    vibeKeywords: ['암호 해독', '샤라락', '매트릭스', '랜덤 글자', '스크램블', '사이버', '글리치'],
+    titleKo: '스크램블 텍스트 디코드',
+    titleEn: 'Scramble / Cipher Text Decode',
+    summary: '무작위 기호들이 빠르게 회전하다가 원래 문장으로 맞춰짐',
+    promptSnippet:
+      '호버하거나 클릭할 때 알파벳/기호(`!<>-_\\/[]{}—=+*^?#`)가 빠르게 무작위로 바뀌다가 왼쪽부터 한 글자씩 원래 텍스트로 해독되는 Scramble Text Decode 효과를 구현해 줘.',
+  },
+  {
+    id: 'gradient-flow-text',
+    category: 'text',
+    vibeTag: '글자 안에 오로라 빛깔이 흐르는',
+    vibeKeywords: ['무지개 글자', '오로라', '그라데이션 텍스트', '빛이 흐르는 글자', '타이틀 강조'],
+    titleKo: '애니메이티드 그라데이션 텍스트',
+    titleEn: 'Animated Flowing Gradient Text',
+    summary: '텍스트 내부의 다중 컬러 그라데이션이 끊임없이 이동',
+    promptSnippet:
+      '헤드라인 텍스트에 `bg-clip-text text-transparent`와 `background-size: 200% auto`를 주고, 그라데이션 포지션이 좌우로 계속 흐르는 Animated Gradient Text를 적용해 줘.',
+  },
+  {
+    id: 'slot-number-ticker',
+    category: 'text',
+    vibeTag: '숫자가 드르륵 빠르게 올라가는',
+    vibeKeywords: ['드르륵 숫자', '카운트업', '슬롯머신', '통계 숫자', '점수 올라가는', '티커'],
+    titleKo: '넘버 카운트업 티커',
+    titleEn: 'Animated Number Count-up Ticker',
+    summary: '목표 숫자까지 감속 곡선을 그리며 드르륵 올라가는 카운터',
+    promptSnippet:
+      '숫자 지표가 변경될 때 `requestAnimationFrame`과 easeOutQuart 감속 함수를 사용해 0에서 목표 수치까지 0.8초 동안 드르륵 부드럽게 카운트업되는 Number Ticker를 구현해 줘.',
+  },
+  {
+    id: 'marker-highlight-draw',
+    category: 'text',
+    vibeTag: '중요한 문장에 형광펜을 슥 긋는',
+    vibeKeywords: ['형광펜', '밑줄 긋기', '마커 드로잉', '강조 줄', '슥 그어지는'],
+    titleKo: '형광펜 마커 드로잉',
+    titleEn: 'Animated Marker Highlight Draw',
+    summary: '핵심 단어 뒤로 형광펜 배경이 왼쪽에서 오른쪽으로 칠해짐',
+    promptSnippet:
+      '강조할 텍스트 뒤에 인라인 그라데이션 배경을 깔고 `background-size`가 `0% 100%`에서 `100% 100%`로 0.5초 동안 슥 그어지듯 채워지는 Marker Highlight 효과를 적용해 줘.',
+  },
+
+  /* ==================== 5. 피드백·파티클 (feedback) ==================== */
+  {
+    id: 'confetti-burst',
+    category: 'feedback',
+    vibeTag: '팡 터지는 화려한 꽃가루 폭죽',
+    vibeKeywords: ['팡 터지는', '폭죽', '꽃가루', '축하', '컨페티', '파티클', '성공'],
+    titleKo: '컨페티 파티클 버스트',
+    titleEn: 'Confetti Particle Burst',
+    summary: '클릭 지점에서 다채로운 폭죽 조각들이 사방으로 퍼져나감',
+    promptSnippet:
+      '완료/성공 액션 시 버튼 위치에서 다채로운 색상의 파티클 조각들이 방사형 속도와 회전을 갖고 0.85초 동안 사방으로 터져 나가는 Confetti Particle Burst를 구현해 줘.',
+  },
+  {
+    id: 'error-shake-tooltip',
+    category: 'feedback',
+    vibeTag: '부르르 도리도리 떨리는 진동',
+    vibeKeywords: ['부르르 떨리는', '도리도리', '진동', '에러 흔들림', '경고', '셰이크'],
+    titleKo: '에러 셰이크 & 플로팅 배지',
+    titleEn: 'Horizontal Error Shake',
+    summary: '잘못된 동작 시 좌우로 빠르게 진동하며 안내 배지 노출',
+    promptSnippet:
+      '유효성 실패 시 입력 박스가 0.42초 동안 좌우(`±8px`)로 빠르게 진동하는 Horizontal Error Shake 키프레임을 실행하고 상단에 플로팅 안내 툴팁을 띄워 줘.',
+  },
+  {
+    id: 'heart-like-burst',
+    category: 'feedback',
+    vibeTag: '하트가 뿅 커지며 링이 퍼지는',
+    vibeKeywords: ['하트', '좋아요', '뿅 커지는', '트위터 하트', '북마크', '파티클 링'],
+    titleKo: '라이크 버스트 팝',
+    titleEn: 'Heart Like Ring & Particle Pop',
+    summary: '클릭 시 아이콘이 탄성 있게 튀어 오르며 주변에 점들이 퍼짐',
+    promptSnippet:
+      '좋아요 버튼 클릭 시 하트 아이콘이 스프링 바운스로 커지고, 동시에 외곽 원형 링과 미니 도트 파티클 6개가 바깥으로 톡 튀어나가는 Heart Burst 애니메이션을 구현해 줘.',
+  },
+  {
+    id: 'toast-slide-stack',
+    category: 'feedback',
+    vibeTag: '화면 구석에서 쏙 올라오는 알림창',
+    vibeKeywords: ['쏙 올라오는', '토스트', '알림창', '스낵바', '슬라이드 알림', '팝업'],
+    titleKo: '스택 슬라이드 토스트',
+    titleEn: 'Slide-in Toast Notification',
+    summary: '하단에서 탄성 있게 미끄러져 올라와 쌓이는 미니 알림 바',
+    promptSnippet:
+      '액션 발생 시 하단에서 위로 스프링 이징과 함께 쏙 미끄러져 올라오고 진행률 게이지가 줄어드는 Slide-in Toast Notification 컴포넌트를 구현해 줘.',
+  },
+
+  /* ==================== 6. 레이아웃·배너 (layout) ==================== */
+  {
+    id: 'sliding-pill-tabs',
+    category: 'layout',
+    vibeTag: '배경 캡슐이 스르륵 따라다니는 탭',
+    vibeKeywords: ['스르륵 캡슐 탭', '슬라이딩 탭', '움직이는 배경', '세그먼트 컨트롤', 'iOS 탭'],
+    titleKo: '슬라이딩 필 인디케이터 탭',
+    titleEn: 'Sliding Pill Tab Indicator',
+    summary: '탭을 바꿀 때 활성 배경 캡슐이 선택한 탭 위치로 미끄러짐',
+    promptSnippet:
+      '탭 메뉴 전환 시 활성 탭을 감싸는 둥근 배경 Pill 요소가 `translateX` 트랜지션으로 선택된 탭 위치까지 스르륵 미끄러져 이동하는 Sliding Pill Tabs를 구현해 줘.',
+  },
+  {
+    id: 'infinite-marquee',
+    category: 'layout',
+    vibeTag: '끊김 없이 무한히 흘러가는 배너',
+    vibeKeywords: ['무한 흐르는', '전광판', '마키', '로고 슬라이더', '티커 배너', '자동 스크롤'],
+    titleKo: '인피니트 마키 티커',
+    titleEn: 'Infinite Seamless Marquee',
+    summary: '로고나 키워드 트랙이 끊기는 구간 없이 계속 옆으로 흐름',
+    promptSnippet:
+      '동일한 아이템 그룹 2개를 나란히 배치하고 `translateX(0%)`에서 `translateX(-50%)`까지 선형(linear) 무한 반복하며 마우스 호버 시 일시정지되는 Infinite Marquee 배너를 구현해 줘.',
+  },
+  {
+    id: 'skeleton-shimmer',
+    category: 'layout',
+    vibeTag: '로딩 중에 은은한 빛이 흐르는 뼈대',
+    vibeKeywords: ['로딩 뼈대', '스켈레톤', '자리표시자', '은은하게 흐르는', '플레이스홀더'],
+    titleKo: '스켈레톤 쉬머 로더',
+    titleEn: 'Skeleton Shimmer Placeholder',
+    summary: '데이터가 뜨기 전 UI 윤곽선 위로 부드러운 광택이 흐름',
+    promptSnippet:
+      '데이터 로딩 상태에서 실제 카드 레이아웃 모양의 회색 블록 위로 밝은 그라데이션이 부드럽게 스쳐 지나가는 Skeleton Shimmer Loader를 적용해 줘.',
   },
   {
     id: 'spotlight-focus',
-    vibePhrase: '주변을 어둡게 끄고 손전등처럼 여기만 비추는 느낌',
-    vibeKeywords: ['손전등 집중', '주변을 어둡게', '여기만 강조', '스포트라이트', '포커스', '튜토리얼 가이드', '시선 집중'],
-    titleKo: '스포트라이트 포커스 오버레이',
-    titleEn: 'Spotlight Dimmed Focus Overlay',
-    situations: ['explain'],
-    plainDescription: '복잡한 화면 전체를 반투명한 어두운 막으로 덮고, 지금 봐야 하는 핵심 코드 줄이나 버튼 하나만 손전등을 비춘 듯 또렷하게 강조합니다.',
-    whyItWorks: '화면 어디를 봐야 할지 헤매는 입문자의 시각적 인지 부하(Cognitive Load)를 줄이고 설명 중인 핵심 요소에만 100% 집중시킵니다.',
+    category: 'layout',
+    vibeTag: '주변은 어둡게 끄고 여기만 비추는',
+    vibeKeywords: ['손전등 집중', '주변 어둡게', '스포트라이트', '포커스', '하이라이트', '온보딩'],
+    titleKo: '스포트라이트 딤 포커스',
+    titleEn: 'Spotlight Dimmed Focus',
+    summary: '나머지 요소를 흐리게 죽이고 선택한 요소만 선명하게 강조',
     promptSnippet:
-      '단계별 튜토리얼 설명 시 Spotlight Focus Overlay 기법을 적용해 줘. 배경 전체에 반투명 다크 오버레이(`bg-black/75`)를 깔고, 현재 설명 대상인 코드 블록이나 UI 요소만 밝은 하이라이트 링과 높은 z-index로 또렷하게 부각되게 만들어 줘.',
-    codeHint: 'Backdrop dim overlay (opacity: 0.75) + target element z-20 ring-4 glow',
+      '비활성 항목들은 `opacity-25 blur-[0.5px]`로 낮추고, 현재 포커스된 항목만 밝은 링(`ring-2`)과 스케일 업으로 또렷하게 부각하는 Spotlight Focus 효과를 적용해 줘.',
+  },
+
+  /* ==================== 7. 조작·인터랙션 (control) ==================== */
+  {
+    id: 'before-after-slider',
+    category: 'control',
+    vibeTag: '막대를 좌우로 밀어 전후를 비교하는',
+    vibeKeywords: ['전후 비교', '비포 애프터', '슬라이더 분할', '커튼 밀기', '화면 비교'],
+    titleKo: '비포 & 애프터 비교 슬라이더',
+    titleEn: 'Before / After Split Comparison',
+    summary: '중앙 핸들을 좌우로 움직여 두 화면의 차이를 즉석 비교',
+    promptSnippet:
+      '두 개의 레이어를 겹쳐 놓고 드래그/레인지 값(0~100%)에 따라 상단 레이어의 `clip-path: inset(0 ${100 - pos}% 0 0)`와 분할선 핸들 위치를 조절하는 Before/After Comparison Slider를 구현해 줘.',
+  },
+  {
+    id: 'drag-snap-slot',
+    category: 'control',
+    vibeTag: '조각을 빈칸에 자석처럼 착 끼우는',
+    vibeKeywords: ['착 끼우는', '빈칸 조립', '블록 스냅', '퍼즐 맞추기', '슬롯 장착'],
+    titleKo: '스냅 투 슬롯 블록',
+    titleEn: 'Snap-to-Slot Token Block',
+    summary: '아이템을 선택하면 빈 슬롯에 탄성 있게 착 끼워 맞춰짐',
+    promptSnippet:
+      '토큰/칩을 클릭하거나 드래그했을 때 타겟 슬롯이 하이라이트되며 스프링 바운스 모션과 함께 슬롯 내부에 착 장착되는 Snap-to-Slot 인터랙션을 구현해 줘.',
+  },
+  {
+    id: 'elastic-toggle-switch',
+    category: 'control',
+    vibeTag: '스위치가 쫀득하게 늘어났다 넘어가는',
+    vibeKeywords: ['쫀득한 스위치', '토글', '온오프', '탄성 스위치', 'iOS 스위치'],
+    titleKo: '일래스틱 토글 스위치',
+    titleEn: 'Elastic Spring Toggle Switch',
+    summary: 'ON/OFF 전환 시 노브가 탄성 있게 튕기며 배경색이 전환됨',
+    promptSnippet:
+      '토글 스위치 클릭 시 내부 원형 노브가 `cubic-bezier(0.34, 1.56, 0.64, 1)` 탄성 곡선으로 이동하고 클릭 순간 가로로 살짝 늘어나는 Elastic Toggle Switch를 구현해 줘.',
   },
   {
     id: 'combo-gauge-pop',
-    vibePhrase: '숫자가 통 커지면서 게이지가 쭉 차오르는 타격감',
-    vibeKeywords: ['차오르는 게이지', '숫자가 커지는', '연속 정답', '콤보', '타격감', '경험치 바', '레벨업'],
-    titleKo: '콤보 카운터 팝 & 스무스 게이지',
-    titleEn: 'Combo Scale Pop & Smooth Progress Fill',
-    situations: ['correct', 'practice'],
-    plainDescription: '문제를 맞히거나 클릭할 때마다 콤보 숫자가 쾅 찍히듯 커졌다 줄어들고, 하단 경험치 게이지가 빛나며 부드럽게 차오릅니다.',
-    whyItWorks: '반복적인 코딩 문법 연습도 리듬 게임이나 클리커 게임처럼 느껴지게 만들어 지루함 없이 연속 문제를 풀게 만듭니다.',
+    category: 'control',
+    vibeTag: '게이지가 차오르며 배지가 통 튀는',
+    vibeKeywords: ['차오르는 게이지', '프로그레스 바', '타격감', '콤보 팝', '달성률'],
+    titleKo: '스무스 게이지 & 스케일 팝',
+    titleEn: 'Smooth Progress & Scale Pop',
+    summary: '진행 바가 부드럽게 차오르며 상태 배지가 탄성 있게 튀어 오름',
     promptSnippet:
-      '연속 정답/실습 진행 시 Combo Scale Pop과 Smooth Progress Bar 연출을 넣어 줘. 점수가 오를 때마다 `COMBO xN!` 배지가 일시적으로 1.28배 커지며 살짝 기울어졌다가 돌아오는 타격감 모션을 주고, 진행률 바는 그라데이션 광택과 함께 부드럽게 차오르게 구현해 줘.',
-    codeHint: 'Combo keyframe scale(1.28) rotate(4deg) + progress width transition 400ms',
-  },
-  {
-    id: 'step-line-highlighter',
-    vibePhrase: '코드 한 줄씩 형광펜이 미끄러지며 실행되는 느낌',
-    vibeKeywords: ['형광펜 이동', '한줄씩 따라가는', '실행 순서', '코드 추적', '디버거', '변수 변화', '스텝 실행'],
-    titleKo: '코드 라인 스텝 하이라이터',
-    titleEn: 'Step-by-Step Code Line Highlighter',
-    situations: ['explain', 'practice'],
-    plainDescription: '[다음 줄 실행]을 누를 때마다 코드 줄을 비추는 형광펜 바가 위에서 아래로 부드럽게 미끄러져 내려가며 우측의 변수 상자 값이 실시간으로 바뀝니다.',
-    whyItWorks: '컴퓨터가 코드를 위에서 아래로, 혹은 반복문으로 어떻게 읽고 변수 값이 왜 바뀌는지 눈으로 직접 쫓아갈 수 있게 해줍니다.',
-    promptSnippet:
-      '코드 실행 과정을 보여주는 Step-by-Step Line Highlighter를 구현해 줘. 사용자가 [다음 스텝] 버튼을 누를 때마다 현재 실행 중인 코드 라인의 배경 하이라이트 바가 `translateY`로 부드럽게 이동하고, 옆의 메모리/변수 상태 패널 값이 실시간으로 업데이트되게 해 줘.',
-    codeHint: 'Active line indicator absolute bar with translateY(lineIndex * rowHeight)',
-  },
-  {
-    id: 'progressive-hint-accordion',
-    vibePhrase: '잠긴 힌트가 한 단계씩 스르륵 펼쳐지는 느낌',
-    vibeKeywords: ['스르륵 펼쳐지는', '단계별 힌트', '하나씩 열기', '아코디언', '스포일러 방지', '점진적 공개'],
-    titleKo: '프로그레시브 힌트 아코디언',
-    titleEn: 'Progressive Disclosure Hint Accordion',
-    situations: ['wrong', 'practice'],
-    plainDescription: '정답을 한 번에 알려주지 않고 [1단계: 생각의 실마리] ➔ [2단계: 핵심 문법] ➔ [3단계: 정답 코드] 순으로 클릭할 때마다 스르륵 펼쳐집니다.',
-    whyItWorks: '학습자가 너무 쉽게 정답을 베끼는 것을 방지하면서도, 막혔을 때 포기하지 않도록 필요한 만큼만 도움을 줍니다.',
-    promptSnippet:
-      '실습 화면 하단에 Progressive Disclosure(점진적 공개) 힌트 아코디언을 구현해 줘. 1단계 힌트를 열어야만 2단계 힌트 버튼이 활성화되도록 순차 해금 로직을 적용하고, 각 단계가 열릴 때 높이와 투명도가 부드럽게 펼쳐지는 트랜지션을 적용해 줘.',
-    codeHint: 'Sequential unlock state (unlockedLevel) + smooth max-height/opacity transition',
+      '수치 증가 시 프로그레스 바 너비가 그라데이션과 함께 부드럽게 차오르고, 상단 카운터 배지가 일시적으로 `scale(1.22)`로 튀어 오르는 Smooth Gauge & Pop 연출을 적용해 줘.',
   },
 ];
