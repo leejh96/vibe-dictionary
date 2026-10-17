@@ -1297,7 +1297,7 @@ const MgEasingCurvesDemo: React.FC = () => {
   const tracks = [
     { name: 'Linear', easing: 'linear', color: 'bg-slate-400' },
     { name: 'Ease-Out', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', color: 'bg-cyan-400' },
-    { name: 'Spring', easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', color: 'bg-amber-400' },
+    { name: 'Spring', easing: 'cubic-bezier(0.34, 1.30, 0.64, 1)', color: 'bg-amber-400' },
   ];
 
   return (
@@ -1308,11 +1308,11 @@ const MgEasingCurvesDemo: React.FC = () => {
       {tracks.map((tr) => (
         <div key={tr.name} className="flex items-center gap-2">
           <span className="w-14 text-[10px] font-mono text-slate-400">{tr.name}</span>
-          <div className="relative flex-1 h-5 bg-slate-900 rounded-full border border-slate-800 flex items-center">
+          <div className="relative flex-1 h-5 bg-slate-900 rounded-full border border-slate-800 flex items-center overflow-hidden">
             <div
               style={{
                 transition: `left 0.9s ${tr.easing}`,
-                left: active ? 'calc(100% - 18px)' : '4px',
+                left: active ? 'calc(100% - 22px)' : '8px',
               }}
               className={`absolute w-3.5 h-3.5 rounded-full ${tr.color}`}
             />
@@ -1912,37 +1912,98 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
   );
 };
 
-/* 4. 허니컴 육각형 타일 (Honeycomb Grid) */
+/* 4. 허니컴 육각형 타일 (Honeycomb Grid) - 라이트/다크 모드 고대비 벡터 타일 */
 const LyHoneycombHexDemo: React.FC = () => {
   const [selected, setSelected] = useState(2);
-  const hexes = ['AI', 'UI', 'VFX', '3D', 'CSS'];
-  return (
-    <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
-      <div className="flex items-center gap-1.5">
-        {hexes.map((label, idx) => {
-          const isOdd = idx % 2 === 1;
-          const active = selected === idx;
-          return (
-            <div
-              key={label}
-              onClick={() => setSelected(idx)}
-              style={{
-                clipPath: 'polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%)',
-              }}
-              className={`w-11 h-11 flex items-center justify-center text-[10px] font-black cursor-pointer transition-all ${
-                isOdd ? 'translate-y-3' : '-translate-y-1'
-              } ${
-                active
-                  ? 'bg-amber-400 text-slate-950 scale-110'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-              }`}
-            >
-              {label}
-            </div>
-          );
-        })}
+  const hexes = [
+    { id: 0, label: 'AI', role: 'CORE' },
+    { id: 1, label: 'UI', role: 'VIEW' },
+    { id: 2, label: 'VFX', role: 'ANIM' },
+    { id: 3, label: '3D', role: 'MESH' },
+    { id: 4, label: 'CSS', role: 'STYLE' },
+  ];
+
+  const row1 = hexes.slice(0, 3);
+  const row2 = hexes.slice(3, 5);
+
+  const renderHex = (item: (typeof hexes)[0]) => {
+    const active = selected === item.id;
+    return (
+      <div
+        key={item.id}
+        role="button"
+        tabIndex={0}
+        onClick={() => setSelected(item.id)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSelected(item.id);
+          }
+        }}
+        aria-label={`${item.label} 육각형 셀`}
+        style={{
+          outline: 'none',
+          border: 'none',
+          WebkitTapHighlightColor: 'transparent',
+          boxShadow: 'none',
+        }}
+        className={`relative w-12 h-14 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none group border-0 border-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 ${
+          active
+            ? 'scale-110 z-20 drop-shadow-[0_6px_14px_rgba(245,158,11,0.45)]'
+            : 'hover:scale-105 z-10 drop-shadow-[0_2px_5px_rgba(15,23,42,0.12)] dark:drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]'
+        }`}
+      >
+        <svg
+          viewBox="0 0 100 115"
+          className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
+        >
+          <polygon
+            points="50,4 96,31 96,84 50,111 4,84 4,31"
+            className={`transition-colors duration-200 ${
+              active
+                ? 'fill-amber-400 dark:fill-amber-400 stroke-amber-500 dark:stroke-amber-300 stroke-[3]'
+                : 'fill-white dark:fill-slate-900 stroke-slate-300 dark:stroke-slate-700 stroke-[2] group-hover:stroke-indigo-500 dark:group-hover:stroke-indigo-400 group-hover:fill-indigo-50/70 dark:group-hover:fill-slate-800'
+            }`}
+          />
+        </svg>
+
+        <span
+          className={`relative z-10 text-[11px] font-black tracking-tight leading-none transition-colors pointer-events-none ${
+            active
+              ? 'text-slate-950'
+              : 'text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-white'
+          }`}
+        >
+          {item.label}
+        </span>
+        <span
+          className={`relative z-10 text-[7px] font-extrabold tracking-widest mt-0.5 leading-none transition-colors pointer-events-none ${
+            active
+              ? 'text-slate-900/80 font-bold'
+              : 'text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-slate-300'
+          }`}
+        >
+          {item.role}
+        </span>
       </div>
-      <span className="mt-5 text-[10px] text-slate-400">육각형 셀을 클릭해 보세요</span>
+    );
+  };
+
+  return (
+    <div className="w-full h-40 flex flex-col items-center justify-center pt-1 select-none">
+      <div className="flex flex-col items-center">
+        {/* 상단 1열 (3셀) */}
+        <div className="flex items-center gap-2">
+          {row1.map(renderHex)}
+        </div>
+        {/* 하단 2열 (2셀, 상단 1열의 골짜기에 맞물리는 오프셋) */}
+        <div className="flex items-center gap-2 -mt-3.5">
+          {row2.map(renderHex)}
+        </div>
+      </div>
+      <span className="mt-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+        육각형 셀을 클릭해 보세요
+      </span>
     </div>
   );
 };
@@ -2030,30 +2091,50 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
   const [idx, setIdx] = useState(0);
   return (
     <div
-      onClick={() => setIdx((i) => (i + 1) % 3)}
-      className="w-full h-40 flex flex-col items-center justify-center px-5 pt-4 cursor-pointer select-none"
+      onClick={() => setIdx((i) => (i + 1) % 4)}
+      className="w-full h-40 flex flex-col items-center justify-center px-5 pt-3 cursor-pointer select-none"
     >
       <div className="w-full overflow-hidden rounded-xl bg-slate-900 border border-slate-800 p-2">
         <div
-          style={{ transform: `translateX(-${idx * 72}px)` }}
+          style={{ transform: `translateX(-${idx * 76}px)` }}
           className="flex gap-2 transition-transform duration-500 ease-out"
         >
           {['CARD 01', 'CARD 02', 'CARD 03', 'CARD 04'].map((c, i) => (
             <div
               key={c}
-              className={`shrink-0 w-24 h-16 rounded-lg border flex flex-col items-center justify-center text-[10px] font-bold ${
+              className={`shrink-0 w-24 h-16 rounded-lg border flex flex-col items-center justify-center text-[10px] font-bold transition-all duration-300 ${
                 i === idx
-                  ? 'bg-indigo-600/30 border-indigo-400 text-white'
+                  ? 'bg-indigo-600 text-white border-indigo-400 shadow-md scale-[1.02]'
                   : 'bg-slate-950 border-slate-800 text-slate-400'
               }`}
             >
               <span>{c}</span>
-              <span className="text-[9px] text-indigo-300">→ 가로 이동</span>
+              <span
+                className={`text-[9px] ${
+                  i === idx ? 'text-indigo-100 font-semibold' : 'text-indigo-400/80'
+                }`}
+              >
+                스냅 슬라이드
+              </span>
             </div>
           ))}
         </div>
       </div>
-      <span className="mt-1.5 text-[10px] text-slate-400">클릭해 가로 파노라마 트랙 이동</span>
+      <div className="flex items-center gap-1.5 mt-2">
+        {[0, 1, 2, 3].map((dot) => (
+          <span
+            key={dot}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              dot === idx
+                ? 'w-4 bg-indigo-500'
+                : 'w-1.5 bg-slate-400/40 dark:bg-slate-700'
+            }`}
+          />
+        ))}
+        <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 ml-1">
+          {idx + 1} / 4
+        </span>
+      </div>
     </div>
   );
 };
@@ -2124,20 +2205,20 @@ const LyCommandPaletteDemo: React.FC = () => {
   const cmds = ['⚡ 새 프로젝트 생성', '🎨 다크 테마 전환', '📋 프롬프트 전체 복사'];
   return (
     <div className="w-full h-40 flex items-center justify-center px-6 pt-6 select-none">
-      <div className="w-full rounded-xl bg-slate-900/95 border border-slate-700 shadow-2xl overflow-hidden">
-        <div className="px-3 py-1 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
+      <div className="w-full rounded-xl bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+        <div className="px-3 py-1.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
           <span>🔍 Type a command...</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[9px]">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] border border-slate-200 dark:border-transparent">⌘K</kbd>
         </div>
         <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
             <div
               key={cmd}
               onClick={() => setSelectedIdx(i)}
-              className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold cursor-pointer flex items-center justify-between transition-colors ${
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer flex items-center justify-between transition-colors ${
                 selectedIdx === i
                   ? 'bg-indigo-600 text-white'
-                  : 'text-slate-400 hover:bg-slate-800'
+                  : 'text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <span>{cmd}</span>
@@ -2157,29 +2238,33 @@ const LyDynamicIslandNavDemo: React.FC = () => {
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div
         onClick={() => setExpanded(!expanded)}
-        className={`bg-black border border-slate-700/80 shadow-xl cursor-pointer transition-all duration-300 overflow-hidden flex flex-col justify-center ${
+        className={`bg-white dark:bg-black border border-slate-200/90 dark:border-slate-700/80 shadow-lg shadow-indigo-950/5 dark:shadow-2xl cursor-pointer transition-all duration-300 overflow-hidden flex flex-col justify-center ${
           expanded
             ? 'w-56 h-20 rounded-3xl px-4 py-2'
             : 'w-32 h-9 rounded-full px-3'
         }`}
       >
-        <div className="flex items-center justify-between text-xs font-bold text-white">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px]">{expanded ? 'Now Playing' : 'Island'}</span>
+        <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
+          <span className="flex items-center gap-1.5 text-slate-900 dark:text-white">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+            <span className="text-[11px] font-black tracking-tight text-slate-900 dark:text-white">
+              {expanded ? 'Now Playing' : 'Island'}
+            </span>
           </span>
-          <span className="text-[10px] font-mono text-indigo-400">
+          <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-300 font-bold">
             {expanded ? '접기' : '클릭'}
           </span>
         </div>
         {expanded && (
-          <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-300 border-t border-slate-800 pt-1.5">
-            <span>🎵 Vibe Synth Track</span>
-            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold">LIVE</span>
+          <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-600 dark:text-slate-200 border-t border-slate-100 dark:border-slate-800/80 pt-1.5">
+            <span className="text-slate-700 dark:text-slate-200 font-medium">🎵 Vibe Synth Track</span>
+            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold shadow-sm">
+              LIVE
+            </span>
           </div>
         )}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">캡슐을 클릭해 확장/축소</span>
+      <span className="mt-2 text-[10px] text-slate-500 dark:text-slate-400">캡슐을 클릭해 확장/축소</span>
     </div>
   );
 };
@@ -2207,7 +2292,7 @@ const LyRadialPieMenuDemo: React.FC = () => {
             opacity: open ? 1 : 0,
             transitionDelay: open ? `${idx * 35}ms` : '0ms',
           }}
-          className="absolute w-8 h-8 rounded-full bg-slate-800 border border-indigo-400/50 flex items-center justify-center text-xs transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer shadow-md"
+          className="absolute w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-indigo-400/50 flex items-center justify-center text-xs text-slate-700 dark:text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer shadow-md hover:bg-indigo-50 dark:hover:bg-slate-700"
         >
           {it.icon}
         </button>
@@ -2241,17 +2326,17 @@ const LyBottomSheetDemo: React.FC = () => {
       className="w-full h-40 flex items-end justify-center px-8 pt-8 cursor-pointer select-none"
     >
       <div
-        className={`w-full rounded-t-2xl bg-slate-900 border-t border-x border-slate-700 px-3.5 pt-2 transition-all duration-300 ${
+        className={`w-full rounded-t-2xl bg-white dark:bg-slate-900 border-t border-x border-slate-200 dark:border-slate-700 px-3.5 pt-2 transition-all duration-300 shadow-lg ${
           snap === 'full' ? 'h-24' : 'h-14'
         }`}
       >
-        <div className="w-8 h-1 rounded-full bg-slate-600 mx-auto mb-1.5" />
-        <div className="flex items-center justify-between text-xs font-bold text-white">
+        <div className="w-8 h-1 rounded-full bg-slate-300 dark:bg-slate-600 mx-auto mb-1.5" />
+        <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
           <span>Bottom Sheet ({snap.toUpperCase()})</span>
-          <span className="text-[10px] text-indigo-400">클릭해 높이 전환</span>
+          <span className="text-[10px] text-indigo-600 dark:text-indigo-400">클릭해 높이 전환</span>
         </div>
         {snap === 'full' && (
-          <p className="mt-1.5 text-[11px] text-slate-400">
+          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
             핸들바를 잡고 올린 것처럼 상세 컨텐츠가 펼쳐집니다.
           </p>
         )}
@@ -2270,8 +2355,8 @@ const LyMasterDetailSplitDemo: React.FC = () => {
   ];
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
-      <div className="w-full h-24 rounded-xl bg-slate-900 border border-slate-800 grid grid-cols-5 overflow-hidden">
-        <div className="col-span-2 border-r border-slate-800 p-1.5 space-y-0.5">
+      <div className="w-full h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-5 overflow-hidden shadow-sm">
+        <div className="col-span-2 border-r border-slate-200 dark:border-slate-800 p-1.5 space-y-0.5">
           {items.map((it, idx) => (
             <button
               key={it.name}
@@ -2279,7 +2364,7 @@ const LyMasterDetailSplitDemo: React.FC = () => {
               className={`w-full text-left px-2 py-0.5 rounded text-[10px] font-bold transition-colors ${
                 activeId === idx
                   ? 'bg-indigo-600 text-white'
-                  : 'text-slate-400 hover:bg-slate-800'
+                  : 'text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               {it.name}
@@ -2287,9 +2372,9 @@ const LyMasterDetailSplitDemo: React.FC = () => {
           ))}
         </div>
         <div className="col-span-3 p-2.5 flex flex-col justify-center">
-          <span className="text-[9px] font-mono text-indigo-400">DETAIL VIEW</span>
-          <p className="text-xs font-extrabold text-white mt-0.5">{items[activeId].name}</p>
-          <p className="text-[10px] text-slate-400 mt-0.5">{items[activeId].desc}</p>
+          <span className="text-[9px] font-mono text-indigo-600 dark:text-indigo-400">DETAIL VIEW</span>
+          <p className="text-xs font-extrabold text-slate-900 dark:text-white mt-0.5">{items[activeId].name}</p>
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">{items[activeId].desc}</p>
         </div>
       </div>
     </div>
@@ -2902,16 +2987,24 @@ const VdSplitPromoReelDemo: React.FC = () => {
         {cols.map((c) => (
           <div
             key={c.label}
-            className={`${c.bg} ${c.offset} rounded-lg flex items-center justify-center text-[10px] font-black text-white tracking-wider transition-transform duration-500`}
+            className={`${c.bg} ${c.offset} ${
+              stage === 2 ? 'opacity-0' : 'opacity-100'
+            } rounded-lg flex items-center justify-center text-[10px] font-black text-white tracking-wider transition-all duration-300`}
           >
             {c.label}
           </div>
         ))}
         {stage === 2 && (
-          <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px] flex items-center justify-center animate-spring-pop">
-            <span className="px-3 py-1 rounded-full bg-white text-slate-950 text-xs font-black tracking-tight shadow-lg">
-              ALL-IN-ONE REEL
-            </span>
+          <div className="absolute inset-0 z-10 bg-slate-950 flex flex-col items-center justify-center gap-1.5 rounded-xl border border-indigo-500/50 shadow-xl">
+            <div className="animate-spring-pop flex flex-col items-center gap-1">
+              <span className="px-3.5 py-1.5 rounded-full bg-indigo-600 text-white text-xs font-black tracking-tight shadow-lg flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                ALL-IN-ONE REEL
+              </span>
+              <span className="text-[9px] font-mono font-bold text-indigo-400 tracking-wider">
+                UNIFIED MASTER CUT
+              </span>
+            </div>
           </div>
         )}
       </div>
@@ -3731,13 +3824,13 @@ const OtpPinFocusBounceDemo: React.FC = () => {
         ))}
       </div>
       <div className="flex items-center gap-2">
-        <span className={`text-[10px] font-semibold ${isComplete ? 'text-emerald-400' : 'text-slate-400'}`}>
+        <span className={`text-[10px] font-semibold ${isComplete ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
           {isComplete ? '✓ 6자리 인증 완료!' : '칸을 누르거나 연속 입력을 실행하세요'}
         </span>
         <button
           type="button"
           onClick={handleAutoFill}
-          className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[9px] font-bold text-indigo-300 border border-slate-700 cursor-pointer"
+          className="px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-[9px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-slate-700 cursor-pointer transition-colors"
         >
           연속 입력 재생
         </button>
@@ -3787,7 +3880,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
         <button
           type="button"
           onClick={reset}
-          className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/60 text-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 animate-spring-pop cursor-pointer"
+          className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 animate-spring-pop cursor-pointer"
         >
           <Check className="w-3.5 h-3.5" /> 배포 승인 완료 (초기화)
         </button>
@@ -3800,7 +3893,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
           className={`relative overflow-hidden px-4 py-2 rounded-xl border text-xs font-bold transition-transform duration-150 cursor-pointer ${
             holding
               ? 'scale-95 border-rose-400 text-white shadow-lg shadow-rose-500/25'
-              : 'scale-100 border-slate-700 bg-slate-900/90 text-slate-200 hover:border-rose-500/50'
+              : 'scale-100 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:border-rose-400 dark:hover:border-rose-500/50 shadow-sm'
           }`}
         >
           <span
@@ -3808,7 +3901,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
             className="absolute inset-y-0 left-0 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-500 transition-[width] duration-75"
           />
           <span className="relative z-10 flex items-center gap-1.5">
-            <Flame className="w-3.5 h-3.5 text-amber-400" />
+            <Flame className="w-3.5 h-3.5 text-amber-500" />
             {holding ? `길게 누르는 중... ${progress}%` : '길게 눌러 프로덕션 배포'}
           </span>
         </button>
@@ -4130,9 +4223,9 @@ const LyFloatingTocSpyDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900/90 border border-slate-700/80 p-2.5 flex items-center gap-2.5">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/80 p-2.5 flex items-center gap-2.5 shadow-sm">
         {/* 좌측 스크롤 연동 문서 뷰포트 */}
-        <div className="flex-1 h-full bg-slate-950/80 rounded-lg border border-slate-800 overflow-hidden relative">
+        <div className="flex-1 h-full bg-slate-50 dark:bg-slate-950/80 rounded-lg border border-slate-200/80 dark:border-slate-800 overflow-hidden relative">
           <div
             style={{ transform: `translateY(-${activeSec * 100}%)` }}
             className="h-full transition-transform duration-500 ease-out"
@@ -4140,11 +4233,11 @@ const LyFloatingTocSpyDemo: React.FC = () => {
             {sections.map((sec, idx) => (
               <div key={sec.title} className="h-full p-2 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black text-indigo-300">{sec.title}</span>
-                  <span className="text-[8px] font-mono text-slate-500">0{idx + 1}/03</span>
+                  <span className="text-[10px] font-black text-indigo-700 dark:text-indigo-300">{sec.title}</span>
+                  <span className="text-[8px] font-mono text-slate-400 dark:text-slate-500">0{idx + 1}/03</span>
                 </div>
-                <p className="text-[9px] text-slate-300 leading-tight">{sec.desc}</p>
-                <div className="w-full h-1 rounded-full bg-slate-800 overflow-hidden">
+                <p className="text-[9px] text-slate-700 dark:text-slate-300 leading-tight">{sec.desc}</p>
+                <div className="w-full h-1 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                   <div
                     style={{ width: `${((idx + 1) / sections.length) * 100}%` }}
                     className="h-full bg-indigo-500"
@@ -4156,10 +4249,10 @@ const LyFloatingTocSpyDemo: React.FC = () => {
         </div>
 
         {/* 우측 Sticky Scrollspy TOC (정확한 22px 행 높이 동기화) */}
-        <div className="w-20 relative pl-2.5 border-l border-slate-800 flex flex-col">
+        <div className="w-20 relative pl-2.5 border-l border-slate-200 dark:border-slate-800 flex flex-col">
           <div
             style={{ transform: `translateY(${activeSec * 22}px)` }}
-            className="absolute left-[-1.5px] top-[3px] w-0.5 h-4 bg-indigo-400 rounded-full transition-transform duration-300 shadow-[0_0_6px_#818cf8]"
+            className="absolute left-[-1.5px] top-[3px] w-0.5 h-4 bg-indigo-500 rounded-full transition-transform duration-300 shadow-[0_0_6px_#818cf8]"
           />
           {sections.map((sec, idx) => (
             <button
@@ -4167,7 +4260,9 @@ const LyFloatingTocSpyDemo: React.FC = () => {
               type="button"
               onClick={() => setActiveSec(idx)}
               className={`h-[22px] flex items-center text-left text-[9px] truncate transition-colors cursor-pointer ${
-                activeSec === idx ? 'text-indigo-300 font-bold' : 'text-slate-500 hover:text-slate-300'
+                activeSec === idx
+                  ? 'text-indigo-600 dark:text-indigo-300 font-bold'
+                  : 'text-slate-600 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-slate-300'
               }`}
             >
               {sec.title}
@@ -4191,10 +4286,10 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900 border border-slate-700/80 overflow-hidden flex">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 overflow-hidden flex shadow-sm">
         {/* 접이식 레일 사이드바 */}
         <div
-          className={`h-full bg-slate-950 border-r border-slate-800 p-1.5 flex flex-col justify-between transition-[width] duration-300 ${
+          className={`h-full bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-1.5 flex flex-col justify-between transition-[width] duration-300 ${
             expanded ? 'w-28' : 'w-9'
           }`}
         >
@@ -4206,8 +4301,8 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
                 onClick={() => setActiveNav(idx)}
                 className={`w-full h-5 rounded-md flex items-center gap-1.5 px-1.5 text-[9px] transition-colors cursor-pointer ${
                   activeNav === idx
-                    ? 'bg-indigo-500/20 text-indigo-300 font-bold'
-                    : 'text-slate-400 hover:bg-slate-900'
+                    ? 'bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-900'
                 }`}
               >
                 <span className="shrink-0 text-[10px]">{item.icon}</span>
@@ -4218,7 +4313,7 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
           <button
             type="button"
             onClick={() => setExpanded((e) => !e)}
-            className="w-full h-4 rounded bg-slate-900 hover:bg-slate-800 text-[8px] font-mono text-slate-400 flex items-center justify-center cursor-pointer"
+            className="w-full h-4 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-[8px] font-mono text-slate-600 dark:text-slate-400 flex items-center justify-center cursor-pointer border border-slate-200/80 dark:border-transparent transition-colors"
           >
             {expanded ? '« 레일 축소' : '»'}
           </button>
@@ -4227,19 +4322,19 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
         {/* 우측 메인 콘텐츠 */}
         <div className="flex-1 p-2.5 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-white">{navs[activeNav].label}</span>
-            <span className="text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-mono">
+            <span className="text-[10px] font-bold text-slate-900 dark:text-white">{navs[activeNav].label}</span>
+            <span className="text-[8px] px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-mono border border-indigo-100 dark:border-transparent">
               {expanded ? '220px' : '56px'}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
-            <div className="h-9 rounded bg-slate-800/80 border border-slate-700/50 p-1.5">
-              <div className="w-8 h-1.5 rounded bg-indigo-400/60 mb-1" />
-              <div className="w-12 h-2 rounded bg-slate-600/60" />
+            <div className="h-9 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded bg-indigo-500/60 mb-1" />
+              <div className="w-12 h-2 rounded bg-slate-300 dark:bg-slate-600/60" />
             </div>
-            <div className="h-9 rounded bg-slate-800/80 border border-slate-700/50 p-1.5">
-              <div className="w-8 h-1.5 rounded bg-emerald-400/60 mb-1" />
-              <div className="w-10 h-2 rounded bg-slate-600/60" />
+            <div className="h-9 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded bg-emerald-500/60 mb-1" />
+              <div className="w-10 h-2 rounded bg-slate-300 dark:bg-slate-600/60" />
             </div>
           </div>
         </div>
@@ -4266,20 +4361,20 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-slate-900 border border-slate-700/80 p-2.5 flex flex-col justify-between">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 p-2.5 flex flex-col justify-between shadow-sm">
         {/* 상단 브레드크럼 경로 바 */}
-        <div className="flex items-center justify-between gap-1 text-[9px] font-mono bg-slate-950 px-2 py-1 rounded-lg border border-slate-800">
+        <div className="flex items-center justify-between gap-1 text-[9px] font-mono bg-slate-50 dark:bg-slate-950 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-0.5 truncate">
             {path.map((seg, idx) => (
               <React.Fragment key={`${seg}-${idx}`}>
-                {idx > 0 && <span className="text-slate-600">/</span>}
+                {idx > 0 && <span className="text-slate-400 dark:text-slate-600">/</span>}
                 <button
                   type="button"
                   onClick={() => setPath((prev) => prev.slice(0, idx + 1))}
                   className={`px-1 rounded transition-colors cursor-pointer ${
                     idx === path.length - 1
-                      ? 'bg-indigo-500/20 text-indigo-300 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-bold'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white'
                   }`}
                 >
                   {seg}
@@ -4287,7 +4382,7 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
               </React.Fragment>
             ))}
           </div>
-          <span className="text-[8px] text-emerald-400 truncate max-w-[64px]">{selectedFile}</span>
+          <span className="text-[8px] text-emerald-600 dark:text-emerald-400 font-bold truncate max-w-[64px]">{selectedFile}</span>
         </div>
 
         {/* 하단 현재 계층 아이템 목록 (모든 폴더·파일 클릭 반응) */}
@@ -4309,8 +4404,8 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
                 }}
                 className={`h-10 rounded-lg border flex flex-col items-center justify-center gap-0.5 text-[9px] transition-all active:scale-95 cursor-pointer ${
                   isSelected
-                    ? 'bg-indigo-500/20 border-indigo-400/70 text-indigo-200'
-                    : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/60 text-slate-200'
+                    ? 'bg-indigo-50 border-indigo-400 text-indigo-700 dark:bg-indigo-500/20 dark:border-indigo-400/70 dark:text-indigo-200 font-bold shadow-sm'
+                    : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-800 dark:border-slate-700/60 dark:text-slate-200'
                 }`}
               >
                 <span className="text-[11px]">{isFolder ? '📁' : '📄'}</span>

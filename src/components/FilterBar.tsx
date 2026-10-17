@@ -99,23 +99,23 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const hiddenChipCount = vibeChips.length - visibleChips.length;
 
   return (
-    <section className="space-y-3 bg-slate-900/40 border border-slate-800/80 rounded-2xl p-4">
+    <section className="space-y-3 bg-white dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm dark:shadow-none transition-colors duration-200">
       {/* 1단: 고정 폭이 보장되는 독립 검색창 + 결과 개수/초기화 */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={DOMAIN_PLACEHOLDERS[activeDomain]}
-            className="w-full pl-10 pr-9 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+            className="w-full pl-10 pr-9 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
           />
           {searchQuery && (
             <button
               onClick={() => onSearchChange('')}
               title="검색어 지우기"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white"
             >
               <X className="w-4 h-4" />
             </button>
@@ -129,14 +129,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 onCategoryChange('all');
                 onSearchChange('');
               }}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-bold text-slate-300 flex items-center gap-1 transition-colors"
+              className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
               <span>필터 초기화</span>
             </button>
           )}
-          <span className="text-xs text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800/80">
-            표시 <strong className="text-indigo-400 font-bold">{totalCount}</strong>개
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80">
+            표시 <strong className="text-indigo-600 dark:text-indigo-400 font-bold">{totalCount}</strong>개
           </span>
         </div>
       </div>
@@ -150,18 +150,18 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <button
               key={cat.id}
               onClick={() => onCategoryChange(cat.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 border transition-all ${
                 active
-                  ? 'bg-white text-slate-950 shadow-sm'
-                  : 'bg-slate-950 text-slate-300 border border-slate-800 hover:text-white hover:border-slate-700'
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm shadow-indigo-500/20'
+                  : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border-slate-200/90 dark:border-slate-800 hover:text-indigo-600 dark:hover:text-white hover:border-indigo-300 dark:hover:border-slate-700 hover:bg-indigo-50/50 dark:hover:bg-slate-900'
               }`}
             >
               <span>{cat.label}</span>
               <span
-                className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${
                   active
-                    ? 'bg-slate-900/15 text-slate-900 font-extrabold'
-                    : 'bg-slate-900 text-slate-500'
+                    ? 'bg-white/20 text-white font-extrabold'
+                    : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400'
                 }`}
               >
                 {count}
@@ -173,7 +173,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {shouldTruncateCategories && (
           <button
             onClick={() => setIsCategoriesExpanded((prev) => !prev)}
-            className="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-slate-900/90 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-950/50 hover:border-indigo-500/60 flex items-center gap-1 transition-all"
+            className="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-indigo-50 dark:bg-slate-900/90 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100/80 dark:hover:bg-indigo-950/50 hover:border-indigo-300 dark:hover:border-indigo-500/60 flex items-center gap-1 transition-all"
           >
             {isCategoriesExpanded ? (
               <>
@@ -191,9 +191,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {/* 3단: 빠른 느낌 키워드 칩 (10개 초과 시 +N개 더보기 / 접기 토글) */}
-      <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-800/60">
+      <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-200/80 dark:border-slate-800/60">
         <span className="text-[11px] font-semibold text-slate-500 mr-1">
-          추천 키워드 <span className="font-mono text-slate-600">({vibeChips.length})</span>:
+          추천 키워드 <span className="font-mono text-slate-400 dark:text-slate-600">({vibeChips.length})</span>:
         </span>
         {visibleChips.map((chip) => {
           const active = normalizedQuery === chip.toLowerCase();
@@ -203,8 +203,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               onClick={() => onSelectChip(active ? '' : chip)}
               className={`text-[11px] px-2.5 py-1 rounded-lg border transition-all ${
                 active
-                  ? 'bg-indigo-600/30 text-indigo-200 border-indigo-500 font-bold'
-                  : 'bg-slate-950/70 text-slate-400 border-slate-800/80 hover:text-slate-200 hover:border-slate-700'
+                  ? 'bg-indigo-600/15 dark:bg-indigo-600/30 text-indigo-700 dark:text-indigo-200 border-indigo-500 font-bold'
+                  : 'bg-white dark:bg-slate-950/70 text-slate-600 dark:text-slate-400 border-slate-200/90 dark:border-slate-800/80 hover:text-indigo-600 dark:hover:text-slate-200 hover:border-indigo-300 dark:hover:border-slate-700 hover:bg-indigo-50/50 dark:hover:bg-slate-900'
               }`}
             >
               #{chip}
@@ -215,7 +215,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {shouldTruncateChips && (
           <button
             onClick={() => setIsChipsExpanded((prev) => !prev)}
-            className="text-[11px] px-2.5 py-1 rounded-lg bg-indigo-950/40 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-900/50 hover:border-indigo-400 font-semibold flex items-center gap-1 transition-all"
+            className="text-[11px] px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100/80 dark:hover:bg-indigo-900/50 hover:border-indigo-300 dark:hover:border-indigo-400 font-semibold flex items-center gap-1 transition-all"
           >
             {isChipsExpanded ? (
               <>

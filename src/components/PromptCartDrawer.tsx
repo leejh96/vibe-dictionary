@@ -66,19 +66,19 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
       {/* 슬라이드 드로어 */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-slate-900 border-l border-slate-800 h-full flex flex-col shadow-2xl">
+        <div className="fixed inset-0 z-50 flex justify-end bg-slate-900/40 dark:bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-lg bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-full flex flex-col shadow-2xl transition-colors duration-200">
             {/* 헤더 */}
-            <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Wand2 className="w-4 h-4 text-indigo-400" />
-                <h2 className="text-sm font-extrabold text-white">
+                <Wand2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <h2 className="text-sm font-extrabold text-slate-900 dark:text-white">
                   바이브 프롬프트 조합기 ({cart.length})
                 </h2>
               </div>
               <button
                 onClick={() => onOpenChange(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -89,13 +89,13 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
               {/* 선택한 기법 칩 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-400">
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-400">
                     담은 기법
                   </span>
                   {cart.length > 0 && (
                     <button
                       onClick={onClearCart}
-                      className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1"
+                      className="text-[11px] text-rose-500 dark:text-rose-400 hover:text-rose-600 dark:hover:text-rose-300 flex items-center gap-1"
                     >
                       <Trash2 className="w-3 h-3" /> 비우기
                     </button>
@@ -103,7 +103,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                 </div>
 
                 {cart.length === 0 ? (
-                  <div className="py-8 text-center text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl">
+                  <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
                     선택된 기법이 없습니다.
                   </div>
                 ) : (
@@ -111,15 +111,15 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                     {cart.map((item) => (
                       <span
                         key={item.id}
-                        className="inline-flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+                        className="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200"
                       >
-                        <span className="text-[10px] font-mono text-indigo-400">
+                        <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400">
                           [{DOMAIN_LABELS[item.domain]}]
                         </span>
                         <strong className="font-bold">{item.titleKo}</strong>
                         <button
                           onClick={() => onRemoveItem(item.id)}
-                          className="text-slate-500 hover:text-rose-400"
+                          className="text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -131,7 +131,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
               {/* 어디에 적용할지 한 줄 메모 (선택) */}
               <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
                   어디에 적용할까요? (선택사항)
                 </label>
                 <input
@@ -139,29 +139,29 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                   value={contextNote}
                   onChange={(e) => setContextNote(e.target.value)}
                   placeholder="예: 랜딩페이지 메인 버튼, 대시보드 통계 카드, 결제 모달..."
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               {/* 생성된 프롬프트 */}
               <div>
-                <span className="block text-xs font-bold text-slate-400 mb-1.5">
+                <span className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
                   조합된 프롬프트
                 </span>
-                <pre className="w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
+                <pre className="w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
                   {combinedPrompt}
                 </pre>
               </div>
             </div>
 
             {/* 하단 복사 버튼 */}
-            <div className="p-4 border-t border-slate-800 bg-slate-950/80">
+            <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/80">
               <button
                 onClick={handleCopyPrompt}
                 disabled={cart.length === 0}
                 className={`w-full py-3 rounded-xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all ${
                   cart.length === 0
-                    ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                    ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
                     : copiedPrompt
                     ? 'bg-emerald-500 text-slate-950'
                     : 'bg-indigo-600 hover:bg-indigo-500 text-white'
