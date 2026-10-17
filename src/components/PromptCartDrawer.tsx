@@ -1,9 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { X, Copy, Check, Trash2, Wand2 } from 'lucide-react';
 import { TechniqueItem, DOMAIN_LABELS } from '../data/techniques';
+import { useClipboard } from '../hooks/useClipboard';
 
 interface PromptCartDrawerProps {
   cart: TechniqueItem[];
+  contextNote: string;
+  onContextNoteChange: (note: string) => void;
+  storageError: string | null;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onRemoveItem: (id: string) => void;
@@ -12,14 +16,14 @@ interface PromptCartDrawerProps {
 
 export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
   cart,
+  contextNote,
+  onContextNoteChange,
+  storageError,
   isOpen,
   onOpenChange,
   onRemoveItem,
   onClearCart,
 }) => {
-  const [contextNote, setContextNote] = useState('');
-  const [copiedPrompt, setCopiedPrompt] = useState(false);
-
   const combinedPrompt = useMemo(() => {
     if (cart.length === 0) {
       return '카탈로그에서 원하는 기법들을 [+ 조합기에 담기]로 선택해 주세요.';
@@ -39,11 +43,12 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
     return `${header}\n${list}`;
   }, [cart, contextNote]);
 
+  const { status: copyStatus, copy } = useClipboard(combinedPrompt, 1800);
+  const copiedPrompt = copyStatus === 'copied';
+
   const handleCopyPrompt = () => {
     if (cart.length === 0) return;
-    navigator.clipboard.writeText(combinedPrompt);
-    setCopiedPrompt(true);
-    setTimeout(() => setCopiedPrompt(false), 1800);
+    void copy();
   };
 
   return (
@@ -66,7 +71,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
       {/* 슬라이드 드로어 */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-slate-900/40 dark:bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex justify-end bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs">
           <div className="w-full max-w-lg bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-full flex flex-col shadow-2xl transition-colors duration-200">
             {/* 헤더 */}
             <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
@@ -86,6 +91,11 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
             {/* 본문 */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              {storageError && (
+                <p role="status" className="text-xs text-amber-700 dark:text-amber-300">
+                  {storageError}
+                </p>
+              )}
               {/* 선택한 기법 칩 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
@@ -137,9 +147,9 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                 <input
                   type="text"
                   value={contextNote}
-                  onChange={(e) => setContextNote(e.target.value)}
+                  onChange={(e) => onContextNoteChange(e.target.value)}
                   placeholder="예: 랜딩페이지 메인 버튼, 대시보드 통계 카드, 결제 모달..."
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-hidden focus:border-indigo-500"
                 />
               </div>
 
@@ -156,9 +166,14 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
             {/* 하단 복사 버튼 */}
             <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/80">
+              {copyStatus === 'error' && (
+                <p role="alert" className="mb-2 text-xs text-rose-600 dark:text-rose-400">
+                  복사하지 못했습니다. 다시 시도하거나 위 프롬프트를 선택해 직접 복사해 주세요.
+                </p>
+              )}
               <button
                 onClick={handleCopyPrompt}
-                disabled={cart.length === 0}
+                disabled={cart.length === 0 || copyStatus === 'copying'}
                 className={`w-full py-3 rounded-xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all ${
                   cart.length === 0
                     ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
@@ -175,7 +190,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                 ) : (
                   <>
                     <Copy className="w-4 h-4" />
-                    프롬프트 전체 복사하기
+                    {copyStatus === 'copying' ? '복사 중…' : '프롬프트 전체 복사하기'}
                   </>
                 )}
               </button>

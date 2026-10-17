@@ -23,6 +23,7 @@ import {
 import { FilterBar } from './components/FilterBar';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
+import { usePromptCart } from './hooks/usePromptCart';
 
 const THEME_STORAGE_KEY = 'vibe-dictionary-theme';
 type ThemeMode = 'dark' | 'light';
@@ -32,7 +33,7 @@ const DictionaryLogo: React.FC = () => (
   <svg
     viewBox="0 0 64 64"
     fill="none"
-    className="w-8 h-8 shrink-0 drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
+    className="w-8 h-8 shrink-0 drop-shadow-xs transition-transform duration-200 group-hover:scale-105"
     aria-hidden="true"
   >
     <defs>
@@ -124,7 +125,7 @@ export default function App() {
   const [activeDomain, setActiveDomain] = useState<DomainType>('ui');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'all'>('all');
-  const [cart, setCart] = useState<TechniqueItem[]>([]);
+  const { cart, setCart, contextNote, setContextNote, storageError } = usePromptCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const [canScrollUp, setCanScrollUp] = useState(false);
@@ -395,7 +396,7 @@ export default function App() {
             onClick={() => handleDomainSwitch(tab.id)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer ${
               isActive
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
+                ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/30'
                 : 'text-slate-600 dark:text-slate-400 hover:text-indigo-700 dark:hover:text-slate-200'
             }`}
           >
@@ -417,7 +418,7 @@ export default function App() {
   );
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen bg-linear-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-200 overflow-x-hidden">
       {/* 라이트 모드 전용 상단 파스텔 오로라 앰비언트 조명 */}
       <div
         className="pointer-events-none fixed inset-x-0 top-0 h-80 overflow-hidden z-0 dark:hidden"
@@ -429,7 +430,7 @@ export default function App() {
       </div>
 
       {/* 상단 헤더 + 5대 대분류 도메인 스위처 */}
-      <header className="border-b border-indigo-100/90 dark:border-slate-900 bg-white/85 dark:bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md shadow-sm shadow-indigo-500/[0.04] dark:shadow-none transition-colors duration-200">
+      <header className="border-b border-indigo-100/90 dark:border-slate-900 bg-white/85 dark:bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md shadow-xs shadow-indigo-500/4 dark:shadow-none transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">
           {/* 상단 1행: 로고 (좌측) + [데스크탑 전용] 대분류 탭 (중앙) + 프롬프트 조합기 (우측 고정) */}
           <div className="flex items-center justify-between gap-3">
@@ -438,7 +439,7 @@ export default function App() {
               type="button"
               onClick={handleGoHome}
               title="홈으로 이동 (필터 초기화 및 맨 위로)"
-              className="group flex items-center gap-2.5 text-left focus:outline-none rounded-xl pr-2 py-0.5 transition-opacity hover:opacity-95 shrink-0 cursor-pointer"
+              className="group flex items-center gap-2.5 text-left focus:outline-hidden rounded-xl pr-2 py-0.5 transition-opacity hover:opacity-95 shrink-0 cursor-pointer"
             >
               <DictionaryLogo />
               <span className="text-base font-black tracking-tight text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">
@@ -453,7 +454,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="px-3 py-1.5 rounded-xl bg-indigo-50/90 hover:bg-indigo-100/80 dark:bg-slate-900 dark:hover:bg-slate-800 border border-indigo-200/80 dark:border-slate-800 text-xs font-bold text-indigo-900 dark:text-slate-200 flex items-center gap-1.5 transition-colors shadow-sm shadow-indigo-500/5 dark:shadow-none shrink-0 cursor-pointer active:scale-95"
+              className="px-3 py-1.5 rounded-xl bg-indigo-50/90 hover:bg-indigo-100/80 dark:bg-slate-900 dark:hover:bg-slate-800 border border-indigo-200/80 dark:border-slate-800 text-xs font-bold text-indigo-900 dark:text-slate-200 flex items-center gap-1.5 transition-colors shadow-xs shadow-indigo-500/5 dark:shadow-none shrink-0 cursor-pointer active:scale-95"
             >
               <Wand2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>조합기</span>
@@ -483,7 +484,7 @@ export default function App() {
         />
 
         {filteredTechniques.length === 0 ? (
-          <div className="py-16 text-center space-y-3 bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 rounded-2xl shadow-sm dark:shadow-none">
+          <div className="py-16 text-center space-y-3 bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 rounded-2xl shadow-xs dark:shadow-none">
             <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
               현재 영역에 "{searchQuery}" 검색 결과가 없습니다.
             </p>
@@ -650,6 +651,9 @@ export default function App() {
 
       <PromptCartDrawer
         cart={cart}
+        contextNote={contextNote}
+        onContextNoteChange={setContextNote}
+        storageError={storageError}
         isOpen={isCartOpen}
         onOpenChange={setIsCartOpen}
         onRemoveItem={(id) => setCart((prev) => prev.filter((i) => i.id !== id))}

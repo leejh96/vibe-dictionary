@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP } from '../data/techniques';
 import { InteractiveDemo } from './demos/InteractiveDemos';
+import { useClipboard } from '../hooks/useClipboard';
 
 /* 암실·야간 광원·네온·CRT·영상 쇼릴 등 어두운 배경이 기법의 핵심인 데모 ID 목록 */
 const DARK_STAGE_IDS = new Set<string>([
@@ -56,7 +57,10 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   isSelected,
   onToggleCart,
 }) => {
-  const [copied, setCopied] = useState(false);
+  const { status: copyStatus, copy } = useClipboard(
+    `[${item.titleKo} / ${item.titleEn}]\n${item.promptSnippet}`
+  );
+  const copied = copyStatus === 'copied';
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const demoContainerRef = useRef<HTMLDivElement | null>(null);
@@ -87,13 +91,6 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const categoryLabel = CATEGORY_LABEL_MAP[item.category] ?? item.category;
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
 
-  const handleCopy = () => {
-    const text = `[${item.titleKo} / ${item.titleEn}]\n${item.promptSnippet}`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
   return (
     <article
       className={`group rounded-2xl border transition-all duration-200 flex flex-col overflow-hidden ${
@@ -112,10 +109,10 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         }`}
       >
         <span
-          className={`absolute top-2.5 left-3 z-20 text-[10px] font-bold px-2 py-0.5 rounded-md border backdrop-blur-sm ${
+          className={`absolute top-2.5 left-3 z-20 text-[10px] font-bold px-2 py-0.5 rounded-md border backdrop-blur-xs ${
             keepDarkStage
               ? 'text-slate-300 bg-slate-900/90 border-slate-800'
-              : 'text-indigo-700 dark:text-slate-300 bg-white/90 dark:bg-slate-900/90 border-indigo-200/80 dark:border-slate-800 shadow-sm dark:shadow-none'
+              : 'text-indigo-700 dark:text-slate-300 bg-white/90 dark:bg-slate-900/90 border-indigo-200/80 dark:border-slate-800 shadow-xs dark:shadow-none'
           }`}
         >
           {categoryLabel}
@@ -124,12 +121,12 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         <button
           onClick={() => setShowPrompt(!showPrompt)}
           title="프롬프트 문구 보기"
-          className={`absolute top-2.5 right-3 z-20 px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 transition-colors backdrop-blur-sm ${
+          className={`absolute top-2.5 right-3 z-20 px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 transition-colors backdrop-blur-xs ${
             showPrompt
-              ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+              ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs'
               : keepDarkStage
               ? 'bg-slate-900/90 text-slate-300 border-slate-800 hover:text-white'
-              : 'bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 border-slate-200/90 dark:border-slate-800 hover:text-indigo-600 dark:hover:text-white shadow-sm dark:shadow-none'
+              : 'bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 border-slate-200/90 dark:border-slate-800 hover:text-indigo-600 dark:hover:text-white shadow-xs dark:shadow-none'
           }`}
         >
           <Code2 className="w-3 h-3" />
@@ -174,7 +171,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         {/* 하단 액션 버튼 바 */}
         <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/70">
           <button
-            onClick={handleCopy}
+            onClick={copy}
+            disabled={copyStatus === 'copying'}
             className="flex-1 h-8 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-indigo-50/60 dark:bg-slate-950 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 hover:text-indigo-700 dark:text-slate-300 dark:hover:text-white flex items-center justify-center gap-1.5 transition-colors"
           >
             {copied ? (
@@ -182,14 +180,14 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
-            <span>{copied ? '복사됨!' : '프롬프트 복사'}</span>
+            <span>{copied ? '복사됨!' : copyStatus === 'copying' ? '복사 중…' : '프롬프트 복사'}</span>
           </button>
 
           <button
             onClick={() => onToggleCart(item)}
             className={`flex-1 h-8 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all ${
               isSelected
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm dark:bg-indigo-500/15 dark:border-indigo-500/50 dark:text-indigo-300 hover:bg-indigo-500 dark:hover:bg-indigo-500/25'
+                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs dark:bg-indigo-500/15 dark:border-indigo-500/50 dark:text-indigo-300 hover:bg-indigo-500 dark:hover:bg-indigo-500/25'
                 : 'bg-indigo-50/70 hover:bg-indigo-100/80 dark:bg-slate-900 dark:hover:bg-slate-800 border-indigo-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-slate-700 text-indigo-700 dark:text-slate-300 hover:text-indigo-900 dark:hover:text-white'
             }`}
           >
@@ -206,6 +204,11 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             )}
           </button>
         </div>
+        {copyStatus === 'error' && (
+          <p role="alert" className="mt-2 text-xs text-rose-600 dark:text-rose-400">
+            복사하지 못했습니다. 다시 시도하거나 프롬프트를 열어 직접 복사해 주세요.
+          </p>
+        )}
       </div>
     </article>
   );

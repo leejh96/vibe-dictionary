@@ -318,13 +318,13 @@ const ShimmerSweepDemo: React.FC = () => {
       <button
         key={boostKey}
         onClick={() => setBoostKey((k) => k + 1)}
-        className="relative overflow-hidden px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 border border-indigo-400/50 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 active:scale-95 transition-transform"
+        className="relative overflow-hidden px-6 py-3 rounded-xl bg-linear-to-r from-indigo-600 via-violet-600 to-indigo-600 border border-indigo-400/50 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 active:scale-95 transition-transform"
       >
         <span className="relative z-10 flex items-center gap-1.5">
           <Sparkles className="w-4 h-4 text-amber-300" />
           Shimmer Sweep Button
         </span>
-        <span className="pointer-events-none absolute top-0 bottom-0 left-0 w-20 bg-gradient-to-r from-transparent via-white/55 to-transparent animate-shimmer-sweep" />
+        <span className="pointer-events-none absolute top-0 bottom-0 left-0 w-20 bg-linear-to-r from-transparent via-white/55 to-transparent animate-shimmer-sweep" />
       </button>
     </div>
   );
@@ -418,11 +418,11 @@ const CardFlipDemo: React.FC = () => {
             flipped ? 'rotate-y-180' : ''
           }`}
         >
-          <div className="absolute inset-0 backface-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-violet-700 p-3.5 flex flex-col justify-between border border-indigo-400/40 shadow-lg">
+          <div className="absolute inset-0 backface-hidden rounded-xl bg-linear-to-br from-indigo-600 to-violet-700 p-3.5 flex flex-col justify-between border border-indigo-400/40 shadow-lg">
             <span className="text-[10px] font-bold text-indigo-200">FRONT SIDE</span>
             <p className="text-xs font-extrabold text-white">클릭해 카드 뒤집기 ↻</p>
           </div>
-          <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 p-3.5 flex flex-col justify-between border border-emerald-400/40 shadow-lg">
+          <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl bg-linear-to-br from-emerald-600 to-teal-700 p-3.5 flex flex-col justify-between border border-emerald-400/40 shadow-lg">
             <span className="text-[10px] font-bold text-emerald-100">BACK SIDE</span>
             <p className="text-xs font-extrabold text-white">뒷면 정보 노출 ✨ (다시 클릭)</p>
           </div>
@@ -452,7 +452,7 @@ const Tilt3DCardDemo: React.FC = () => {
           transform: `perspective(550px) rotateX(${rot.x}deg) rotateY(${rot.y}deg)`,
           transition: rot.x === 0 ? 'transform 0.4s ease-out' : 'transform 0.04s linear',
         }}
-        className="relative overflow-hidden w-52 h-24 rounded-xl bg-gradient-to-tr from-fuchsia-600 via-indigo-600 to-cyan-500 p-3.5 shadow-xl border border-white/25 flex flex-col justify-between"
+        className="relative overflow-hidden w-52 h-24 rounded-xl bg-linear-to-tr from-fuchsia-600 via-indigo-600 to-cyan-500 p-3.5 shadow-xl border border-white/25 flex flex-col justify-between"
       >
         <div
           style={{
@@ -523,7 +523,7 @@ const StackedCardCycleDemo: React.FC = () => {
             zIndex: 10 - idx,
             opacity: 1 - idx * 0.25,
           }}
-          className={`absolute w-52 h-24 rounded-xl bg-gradient-to-r ${c.color} p-3.5 shadow-lg border border-white/20 flex flex-col justify-between transition-all duration-300`}
+          className={`absolute w-52 h-24 rounded-xl bg-linear-to-r ${c.color} p-3.5 shadow-lg border border-white/20 flex flex-col justify-between transition-all duration-300`}
         >
           <span className="text-[10px] font-mono text-white/80">STACKED DECK</span>
           <span className="text-xs font-black text-white">{c.label}</span>
@@ -542,7 +542,7 @@ const SpringBounceDemo: React.FC = () => {
     >
       <div
         key={popKey}
-        className="animate-spring-pop bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 px-5 py-2.5 rounded-2xl shadow-lg font-black text-xs"
+        className="animate-spring-pop bg-linear-to-br from-amber-400 to-orange-500 text-slate-950 px-5 py-2.5 rounded-2xl shadow-lg font-black text-xs"
       >
         🎉 통통 튀는 바운스!
       </div>
@@ -663,7 +663,7 @@ const MorphingStateButtonDemo: React.FC = () => {
 const FloatingLevitationDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
-      <div className="animate-float-bob w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg">
+      <div className="animate-float-bob w-12 h-12 rounded-2xl bg-linear-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg">
         <Zap className="w-6 h-6 text-slate-950 fill-current" />
       </div>
       <div className="mt-3 w-10 h-1.5 rounded-full bg-indigo-400/50 blur-[2px] animate-shadow-breathe" />
@@ -875,7 +875,7 @@ const ConfettiBurstDemo: React.FC = () => {
           {particles.map((p, i) => (
             <span
               key={i}
-              className={`w-2.5 h-2.5 rounded-sm ${p.color} absolute`}
+              className={`w-2.5 h-2.5 rounded-xs ${p.color} absolute`}
               style={{ animation: `c-fly-${i} 0.78s ease-out forwards` }}
             />
           ))}
@@ -918,7 +918,7 @@ const ErrorShakeDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-6 pt-5 select-none">
       {showTip && (
-        <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow">
+        <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">
           ⚠️ 값을 다시 확인해 주세요!
         </div>
       )}
@@ -931,7 +931,7 @@ const ErrorShakeDemo: React.FC = () => {
         }`}
       >
         <span className="text-xs font-mono text-rose-300">Invalid Input</span>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm bg-rose-500/20 text-rose-300">
           클릭해 진동
         </span>
       </div>
@@ -1045,10 +1045,10 @@ const SkeletonShimmerDemo: React.FC = () => {
       <div className="relative overflow-hidden w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-slate-800 shrink-0" />
         <div className="flex-1 space-y-2">
-          <div className="h-3 w-3/4 rounded bg-slate-800" />
-          <div className="h-2.5 w-1/2 rounded bg-slate-800/80" />
+          <div className="h-3 w-3/4 rounded-sm bg-slate-800" />
+          <div className="h-2.5 w-1/2 rounded-sm bg-slate-800/80" />
         </div>
-        <div className="pointer-events-none absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer-sweep" />
+        <div className="pointer-events-none absolute inset-0 w-1/2 bg-linear-to-r from-transparent via-white/10 to-transparent animate-shimmer-sweep" />
       </div>
     </div>
   );
@@ -1084,7 +1084,7 @@ const BeforeAfterSliderDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-6 select-none">
       <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-700">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-cyan-500 flex items-center justify-end pr-4 text-xs font-black text-white">
+        <div className="absolute inset-0 bg-linear-to-r from-indigo-600 to-cyan-500 flex items-center justify-end pr-4 text-xs font-black text-white">
           AFTER ✨
         </div>
         <div
@@ -1200,7 +1200,7 @@ const ComboGaugeDemo: React.FC = () => {
       <div className="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
         <div
           style={{ width: `${pct}%` }}
-          className="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
+          className="h-full bg-linear-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
         />
       </div>
       <span className="mt-2 text-[10px] text-slate-400">클릭해 게이지 채우기</span>
@@ -1216,7 +1216,7 @@ const ComboGaugeDemo: React.FC = () => {
 const MgSquashStretchDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none pt-6">
-      <div className="w-10 h-10 rounded-full bg-gradient-to-b from-amber-300 to-orange-500 shadow-lg shadow-orange-500/30 animate-squash-bounce" />
+      <div className="w-10 h-10 rounded-full bg-linear-to-b from-amber-300 to-orange-500 shadow-lg shadow-orange-500/30 animate-squash-bounce" />
       <div className="mt-[18px] w-16 h-1.5 rounded-full bg-slate-700/80" />
       <span className="mt-2 text-[10px] text-slate-400">충돌 시 납작 ➔ 도약 시 길쭉</span>
     </div>
@@ -1233,7 +1233,7 @@ const MgAnticipationDemo: React.FC = () => {
     >
       <div
         key={runKey}
-        className="animate-anticipation-launch w-12 h-10 rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 flex items-center justify-center shadow-lg"
+        className="animate-anticipation-launch w-12 h-10 rounded-xl bg-linear-to-r from-rose-500 to-amber-400 flex items-center justify-center shadow-lg"
       >
         <Rocket className="w-5 h-5 text-slate-950 rotate-45" />
       </div>
@@ -1275,7 +1275,7 @@ const MgFollowTrailDemo: React.FC = () => {
                   transform: `translateX(${right ? '62px' : '-62px'})`,
                   opacity: 1 - idx * 0.22,
                 }}
-                className="absolute rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-300 shadow-md"
+                className="absolute rounded-full bg-linear-to-tr from-indigo-500 to-cyan-300 shadow-md"
               />
             );
           })}
@@ -1346,7 +1346,7 @@ const MgSvgLineDrawDemo: React.FC = () => {
 const MgLiquidBlobMorphDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
-      <div className="w-20 h-20 bg-gradient-to-tr from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 animate-liquid-morph" />
+      <div className="w-20 h-20 bg-linear-to-tr from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 animate-liquid-morph" />
       <span className="mt-2.5 text-[10px] text-slate-400">물방울처럼 곡률이 계속 변형됨</span>
     </div>
   );
@@ -1391,11 +1391,11 @@ const MgOrbitRotationDemo: React.FC = () => {
         <div className="w-5 h-5 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50" />
         {/* 내부 궤도 */}
         <div className="absolute w-14 h-14 rounded-full border border-dashed border-indigo-400/40 animate-orbit-spin">
-          <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 shadow" />
+          <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 shadow-sm" />
         </div>
         {/* 외부 역방향 궤도 */}
         <div className="absolute inset-0.5 rounded-full border border-slate-700 animate-orbit-reverse">
-          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-pink-400 shadow" />
+          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-pink-400 shadow-sm" />
         </div>
       </div>
     </div>
@@ -1529,7 +1529,7 @@ const MgRackFocusBlurDemo: React.FC = () => {
         className={`absolute right-7 top-10 px-3.5 py-2 rounded-xl bg-violet-600 text-white font-bold text-xs transition-all duration-500 ${
           !focusFront
             ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-violet-300 shadow-xl'
-            : 'blur-[4px] scale-90 opacity-45 z-0'
+            : 'blur-xs scale-90 opacity-45 z-0'
         }`}
       >
         🏔️ 배경 피사체 (Back)
@@ -1539,7 +1539,7 @@ const MgRackFocusBlurDemo: React.FC = () => {
         className={`absolute left-7 bottom-4 px-3.5 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs transition-all duration-500 ${
           focusFront
             ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-emerald-200 shadow-xl'
-            : 'blur-[4px] scale-90 opacity-45 z-0'
+            : 'blur-xs scale-90 opacity-45 z-0'
         }`}
       >
         📷 전경 피사체 (클릭 전환)
@@ -1553,14 +1553,14 @@ const MgKenBurnsPanDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none px-6">
       <div className="relative w-52 h-24 rounded-xl overflow-hidden border border-slate-700">
-        <div className="w-full h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-amber-700 animate-ken-burns flex items-center justify-center">
+        <div className="w-full h-full bg-linear-to-br from-indigo-900 via-purple-900 to-amber-700 animate-ken-burns flex items-center justify-center">
           <div className="text-center">
             <span className="text-[10px] font-mono text-amber-200 block">CAMERA PAN & ZOOM</span>
             <span className="text-xs font-black text-white">Ken Burns Effect</span>
           </div>
         </div>
         {/* 카메라 뷰파인더 가이드 */}
-        <div className="pointer-events-none absolute inset-2 border border-white/25 rounded flex items-start justify-between p-1">
+        <div className="pointer-events-none absolute inset-2 border border-white/25 rounded-sm flex items-start justify-between p-1">
           <span className="text-[8px] font-mono text-rose-400">● REC</span>
         </div>
       </div>
@@ -1621,7 +1621,7 @@ const MgIrisCircleWipeDemo: React.FC = () => {
             clipPath: closed ? 'circle(0% at 50% 50%)' : 'circle(120% at 50% 50%)',
             transition: 'clip-path 0.65s cubic-bezier(0.65, 0, 0.35, 1)',
           }}
-          className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-emerald-500 flex items-center justify-center"
+          className="absolute inset-0 bg-linear-to-r from-indigo-600 to-emerald-500 flex items-center justify-center"
         >
           <span className="text-xs font-black text-white">SCENE #1 (클릭해 조리개 닫기)</span>
         </div>
@@ -1659,7 +1659,7 @@ const MgSpeedLinesStreakDemo: React.FC = () => {
         <span
           key={i}
           style={{ top: l.top, animationDelay: l.delay }}
-          className={`pointer-events-none absolute left-0 h-0.5 ${l.width} bg-gradient-to-r from-transparent via-cyan-400 to-white animate-speed-streak`}
+          className={`pointer-events-none absolute left-0 h-0.5 ${l.width} bg-linear-to-r from-transparent via-cyan-400 to-white animate-speed-streak`}
         />
       ))}
       <div className="relative z-10 px-4 py-1.5 rounded-full bg-indigo-600 text-white font-black text-xs italic shadow-lg">
@@ -1676,7 +1676,7 @@ const MgAuroraMeshDemo: React.FC = () => {
       <div className="w-32 h-32 rounded-full bg-indigo-500/60 blur-2xl absolute animate-aurora-1" />
       <div className="w-32 h-32 rounded-full bg-emerald-400/50 blur-2xl absolute animate-aurora-2" />
       <div className="w-28 h-28 rounded-full bg-fuchsia-500/50 blur-2xl absolute animate-glass-orb-1" />
-      <span className="relative z-10 text-xs font-black tracking-wider text-white/90 bg-slate-950/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/15">
+      <span className="relative z-10 text-xs font-black tracking-wider text-white/90 bg-slate-950/40 backdrop-blur-xs px-3 py-1 rounded-full border border-white/15">
         AURORA MESH
       </span>
     </div>
@@ -1766,7 +1766,7 @@ const MgDotMatrixGridDemo: React.FC = () => {
               }}
               className={`w-2 h-2 rounded-full transition-all duration-150 ${
                 dist === 0
-                  ? 'bg-cyan-400 shadow-sm shadow-cyan-400'
+                  ? 'bg-cyan-400 shadow-xs shadow-cyan-400'
                   : dist === 1
                   ? 'bg-indigo-400'
                   : 'bg-slate-800'
@@ -1896,7 +1896,7 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
       className="relative w-full h-40 flex items-center justify-center px-6 pt-4 cursor-pointer select-none"
     >
       <div
-        className={`w-36 h-24 rounded-xl bg-gradient-to-br from-rose-500/40 to-indigo-600/40 border border-white/20 mr-10 transition-transform duration-300 ${
+        className={`w-36 h-24 rounded-xl bg-linear-to-br from-rose-500/40 to-indigo-600/40 border border-white/20 mr-10 transition-transform duration-300 ${
           hovered ? '-translate-x-2 scale-105' : ''
         }`}
       />
@@ -1947,7 +1947,7 @@ const LyHoneycombHexDemo: React.FC = () => {
           WebkitTapHighlightColor: 'transparent',
           boxShadow: 'none',
         }}
-        className={`relative w-12 h-14 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none group border-0 border-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 ${
+        className={`relative w-12 h-14 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none group border-0 border-none outline-hidden focus:outline-hidden focus-visible:outline-hidden ring-0 focus:ring-0 focus-visible:ring-0 ${
           active
             ? 'scale-110 z-20 drop-shadow-[0_6px_14px_rgba(245,158,11,0.45)]'
             : 'hover:scale-105 z-10 drop-shadow-[0_2px_5px_rgba(15,23,42,0.12)] dark:drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]'
@@ -1961,8 +1961,8 @@ const LyHoneycombHexDemo: React.FC = () => {
             points="50,4 96,31 96,84 50,111 4,84 4,31"
             className={`transition-colors duration-200 ${
               active
-                ? 'fill-amber-400 dark:fill-amber-400 stroke-amber-500 dark:stroke-amber-300 stroke-[3]'
-                : 'fill-white dark:fill-slate-900 stroke-slate-300 dark:stroke-slate-700 stroke-[2] group-hover:stroke-indigo-500 dark:group-hover:stroke-indigo-400 group-hover:fill-indigo-50/70 dark:group-hover:fill-slate-800'
+                ? 'fill-amber-400 dark:fill-amber-400 stroke-amber-500 dark:stroke-amber-300 stroke-3'
+                : 'fill-white dark:fill-slate-900 stroke-slate-300 dark:stroke-slate-700 stroke-2 group-hover:stroke-indigo-500 dark:group-hover:stroke-indigo-400 group-hover:fill-indigo-50/70 dark:group-hover:fill-slate-800'
             }`}
           />
         </svg>
@@ -2024,7 +2024,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
       <div className="w-full h-24 rounded-xl bg-slate-900 border border-slate-800 p-2 grid grid-cols-2 gap-2.5 items-center">
         {/* 좌측 고정(Sticky) 비주얼 */}
         <div
-          className={`h-full rounded-lg bg-gradient-to-br ${steps[step].color} flex flex-col items-center justify-center text-slate-950 font-black text-xs transition-all duration-300`}
+          className={`h-full rounded-lg bg-linear-to-br ${steps[step].color} flex flex-col items-center justify-center text-slate-950 font-black text-xs transition-all duration-300`}
         >
           <span className="text-[9px] font-mono opacity-75">STICKY LEFT</span>
           <span>{steps[step].title}</span>
@@ -2208,7 +2208,7 @@ const LyCommandPaletteDemo: React.FC = () => {
       <div className="w-full rounded-xl bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
         <div className="px-3 py-1.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
           <span>🔍 Type a command...</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] border border-slate-200 dark:border-transparent">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] border border-slate-200 dark:border-transparent">⌘K</kbd>
         </div>
         <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
@@ -2258,7 +2258,7 @@ const LyDynamicIslandNavDemo: React.FC = () => {
         {expanded && (
           <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-600 dark:text-slate-200 border-t border-slate-100 dark:border-slate-800/80 pt-1.5">
             <span className="text-slate-700 dark:text-slate-200 font-medium">🎵 Vibe Synth Track</span>
-            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold shadow-sm">
+            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold shadow-xs">
               LIVE
             </span>
           </div>
@@ -2292,7 +2292,7 @@ const LyRadialPieMenuDemo: React.FC = () => {
             opacity: open ? 1 : 0,
             transitionDelay: open ? `${idx * 35}ms` : '0ms',
           }}
-          className="absolute w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-indigo-400/50 flex items-center justify-center text-xs text-slate-700 dark:text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer shadow-md hover:bg-indigo-50 dark:hover:bg-slate-700"
+          className="absolute w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-indigo-400/50 flex items-center justify-center text-xs text-slate-700 dark:text-white transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer shadow-md hover:bg-indigo-50 dark:hover:bg-slate-700"
         >
           {it.icon}
         </button>
@@ -2305,7 +2305,7 @@ const LyRadialPieMenuDemo: React.FC = () => {
       >
         <svg
           viewBox="0 0 20 20"
-          className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] ${
+          className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
             open ? 'rotate-45' : 'rotate-0'
           }`}
         >
@@ -2355,7 +2355,7 @@ const LyMasterDetailSplitDemo: React.FC = () => {
   ];
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
-      <div className="w-full h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-5 overflow-hidden shadow-sm">
+      <div className="w-full h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-5 overflow-hidden shadow-xs">
         <div className="col-span-2 border-r border-slate-200 dark:border-slate-800 p-1.5 space-y-0.5">
           {items.map((it, idx) => (
             <button
@@ -2395,11 +2395,11 @@ const LyKanbanBoardDemo: React.FC = () => {
           <div key={title} className="rounded-lg bg-slate-900 border border-slate-800 p-2 h-20">
             <div className="text-[9px] font-mono text-slate-400 mb-1">{title}</div>
             {col === i ? (
-              <div className="rounded bg-indigo-600/30 border border-indigo-400 p-1 text-[10px] font-bold text-white animate-spring-pop">
+              <div className="rounded-sm bg-indigo-600/30 border border-indigo-400 p-1 text-[10px] font-bold text-white animate-spring-pop">
                 태스크 카드 →
               </div>
             ) : (
-              <div className="h-6 rounded border border-dashed border-slate-800" />
+              <div className="h-6 rounded-sm border border-dashed border-slate-800" />
             )}
           </div>
         ))}
@@ -2464,7 +2464,7 @@ const StLiquidAcrylicDemo: React.FC = () => {
     <div className="relative w-full h-40 flex items-center justify-center overflow-hidden select-none">
       <div className="w-24 h-24 rounded-full bg-fuchsia-500/70 blur-xl absolute -left-2 animate-aurora-1" />
       <div className="w-24 h-24 rounded-full bg-cyan-400/70 blur-xl absolute right-2 animate-aurora-2" />
-      <div className="relative z-10 w-52 h-24 rounded-2xl bg-gradient-to-b from-white/20 to-white/5 backdrop-blur-xl border border-white/30 shadow-2xl p-3.5 flex flex-col justify-between">
+      <div className="relative z-10 w-52 h-24 rounded-2xl bg-linear-to-b from-white/20 to-white/5 backdrop-blur-xl border border-white/30 shadow-2xl p-3.5 flex flex-col justify-between">
         <span className="text-[10px] font-mono text-white/90">LIQUID ACRYLIC</span>
         <span className="text-xs font-extrabold text-white">영롱한 다중 굴절 아크릴</span>
       </div>
@@ -2477,9 +2477,9 @@ const StLinearDarkMinimalDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex items-center justify-center bg-[#090A0F] px-6 pt-5 select-none">
       <div className="relative w-full h-24 rounded-xl bg-[#12131A] border border-white/10 p-3.5 flex flex-col justify-between overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-indigo-400/80 to-transparent" />
+        <div className="pointer-events-none absolute top-0 left-6 right-6 h-px bg-linear-to-r from-transparent via-indigo-400/80 to-transparent" />
         <span className="text-[10px] font-mono text-slate-400">1PX TOP HAIRLINE</span>
-        <span className="text-xs font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+        <span className="text-xs font-bold bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent">
           Linear Precision Dark UI
         </span>
       </div>
@@ -2560,7 +2560,7 @@ const StSkeuomorphismTactileDemo: React.FC = () => {
             ? 'inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.15)'
             : '0 6px 10px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.35)',
         }}
-        className={`px-6 py-3 rounded-xl border border-slate-700 bg-gradient-to-b from-slate-700 to-slate-900 flex items-center gap-2.5 transition-all ${
+        className={`px-6 py-3 rounded-xl border border-slate-700 bg-linear-to-b from-slate-700 to-slate-900 flex items-center gap-2.5 transition-all ${
           on ? 'translate-y-0.5' : ''
         }`}
       >
@@ -2585,7 +2585,7 @@ const StPaperCutoutLayerDemo: React.FC = () => {
     <div className="w-full h-40 flex items-center justify-center pt-3 select-none">
       <div className="relative w-48 h-24 flex items-center justify-center">
         <div className="absolute inset-0 rounded-xl bg-amber-400 rotate-[-4deg] shadow-md" />
-        <div className="absolute inset-0 rounded-xl bg-rose-500 rotate-[3deg] shadow-md" />
+        <div className="absolute inset-0 rounded-xl bg-rose-500 rotate-3 shadow-md" />
         <div className="relative z-10 w-full h-full rounded-xl bg-slate-900 border-2 border-white/80 flex flex-col items-center justify-center shadow-lg">
           <span className="text-xs font-black text-white">PAPER CUTOUT</span>
           <span className="text-[10px] text-amber-300">겹겹이 오려 붙인 종이 단차</span>
@@ -2659,8 +2659,8 @@ const StCrtScanlineTerminalDemo: React.FC = () => {
 /* 12. 신스웨이브 선셋 그리드 (Synthwave 80s Grid) */
 const StSynthwaveSunsetGridDemo: React.FC = () => {
   return (
-    <div className="relative w-full h-40 flex flex-col items-center justify-end overflow-hidden bg-gradient-to-b from-[#1a052e] via-[#3b0764] to-[#be185d] select-none pb-3">
-      <div className="w-12 h-12 rounded-full bg-gradient-to-b from-amber-300 to-rose-500 mb-2 shadow-[0_0_20px_#f43f5e]" />
+    <div className="relative w-full h-40 flex flex-col items-center justify-end overflow-hidden bg-linear-to-b from-[#1a052e] via-[#3b0764] to-[#be185d] select-none pb-3">
+      <div className="w-12 h-12 rounded-full bg-linear-to-b from-amber-300 to-rose-500 mb-2 shadow-[0_0_20px_#f43f5e]" />
       <div
         style={{
           backgroundImage:
@@ -2792,7 +2792,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
   return (
     <div
       onClick={() => setScene((s) => (s + 1) % 3)}
-      className="w-full h-40 relative overflow-hidden flex flex-col items-center justify-center pt-5 pb-3 px-5 cursor-pointer select-none bg-gradient-to-br from-slate-950 via-indigo-950/60 to-slate-950"
+      className="w-full h-40 relative overflow-hidden flex flex-col items-center justify-center pt-5 pb-3 px-5 cursor-pointer select-none bg-linear-to-br from-slate-950 via-indigo-950/60 to-slate-950"
     >
       {scene === 0 && (
         <div className="animate-spring-pop text-center space-y-1">
@@ -2809,14 +2809,14 @@ const VdSaasLaunchReelDemo: React.FC = () => {
         <div className="animate-spring-pop w-48 bg-slate-900/95 border border-indigo-500/50 rounded-xl p-2.5 shadow-xl shadow-indigo-500/20 space-y-1.5">
           <div className="flex items-center justify-between">
             <span className="text-[9px] font-bold text-indigo-300">AI Dashboard</span>
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">
+            <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-emerald-500/20 text-emerald-300 font-bold">
               +142%
             </span>
           </div>
           <div className="grid grid-cols-3 gap-1.5">
-            <div className="h-7 rounded bg-indigo-500/30 border border-indigo-400/40" />
-            <div className="h-7 rounded bg-violet-500/30 border border-violet-400/40" />
-            <div className="h-7 rounded bg-cyan-500/30 border border-cyan-400/40" />
+            <div className="h-7 rounded-sm bg-indigo-500/30 border border-indigo-400/40" />
+            <div className="h-7 rounded-sm bg-violet-500/30 border border-violet-400/40" />
+            <div className="h-7 rounded-sm bg-cyan-500/30 border border-cyan-400/40" />
           </div>
         </div>
       )}
@@ -2872,12 +2872,12 @@ const VdDevice3DSpinDemo: React.FC = () => {
       >
         <div className="w-8 h-1 rounded-full bg-slate-700 mx-auto mb-1.5" />
         <div className="space-y-1.5">
-          <div className="h-3 w-2/3 rounded bg-slate-800" />
+          <div className="h-3 w-2/3 rounded-sm bg-slate-800" />
           <div
             style={{
               transform: front ? 'translateZ(26px) scale(1.06)' : 'translateZ(0px)',
             }}
-            className="p-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[10px] font-extrabold shadow-lg transition-transform duration-700 flex items-center justify-between"
+            className="p-1.5 rounded-lg bg-linear-to-r from-indigo-600 to-violet-600 text-white text-[10px] font-extrabold shadow-lg transition-transform duration-700 flex items-center justify-between"
           >
             <span>✨ 결제 승인 완료</span>
             <Check className="w-3 h-3" />
@@ -2911,8 +2911,8 @@ const VdAppWalkthroughZoomDemo: React.FC = () => {
         className="relative w-48 h-24 rounded-xl bg-slate-900 border border-slate-800 p-3 flex items-center justify-between transition-transform duration-500"
       >
         <div className="space-y-1">
-          <div className="w-16 h-2 rounded bg-slate-700" />
-          <div className="w-12 h-2 rounded bg-slate-800" />
+          <div className="w-16 h-2 rounded-sm bg-slate-700" />
+          <div className="w-12 h-2 rounded-sm bg-slate-800" />
         </div>
 
         <div className="relative">
@@ -3085,7 +3085,7 @@ const VdHighlightSwipeRevealDemo: React.FC = () => {
                 ? 'translateX(0%)'
                 : 'translateX(102%)',
           }}
-          className={`absolute inset-0 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-amber-400 ${
+          className={`absolute inset-0 bg-linear-to-r from-indigo-500 via-fuchsia-500 to-amber-400 ${
             phase === 0 ? 'transition-none' : 'transition-transform duration-300 ease-out'
           }`}
         />
@@ -3217,7 +3217,7 @@ const VdAnimatedBarRaceDemo: React.FC = () => {
         {heights.map((h, i) => (
           <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
             {i === 4 && active && (
-              <span className="mb-1 px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 text-[9px] font-black animate-spring-pop whitespace-nowrap">
+              <span className="mb-1 px-1.5 py-0.5 rounded-sm bg-emerald-500 text-slate-950 text-[9px] font-black animate-spring-pop whitespace-nowrap">
                 +340%
               </span>
             )}
@@ -3228,7 +3228,7 @@ const VdAnimatedBarRaceDemo: React.FC = () => {
               }}
               className={`w-full rounded-t-md transition-all duration-500 ${
                 i === 4
-                  ? 'bg-gradient-to-t from-indigo-600 to-emerald-400'
+                  ? 'bg-linear-to-t from-indigo-600 to-emerald-400'
                   : 'bg-slate-700'
               }`}
             />
@@ -3462,7 +3462,7 @@ const VdLowerThirdBannerDemo: React.FC = () => {
   return (
     <div
       onClick={() => setVisible((v) => !v)}
-      className="w-full h-40 flex items-end justify-start pb-5 pl-6 pt-6 cursor-pointer select-none bg-gradient-to-tr from-slate-950 via-slate-900 to-slate-950"
+      className="w-full h-40 flex items-end justify-start pb-5 pl-6 pt-6 cursor-pointer select-none bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950"
     >
       <div className="flex items-stretch gap-2">
         <div
@@ -3586,14 +3586,14 @@ const VdLogoStingerOutroDemo: React.FC = () => {
           transform: stage === 0 ? 'translateX(-42px) scaleX(1)' : 'translateX(0px) scaleX(0.2)',
           opacity: stage === 0 ? 1 : 0,
         }}
-        className="absolute h-1 w-20 rounded-full bg-gradient-to-r from-transparent to-cyan-400 transition-all duration-300 pointer-events-none"
+        className="absolute h-1 w-20 rounded-full bg-linear-to-r from-transparent to-cyan-400 transition-all duration-300 pointer-events-none"
       />
       <div
         style={{
           transform: stage === 0 ? 'translateX(42px) scaleX(1)' : 'translateX(0px) scaleX(0.2)',
           opacity: stage === 0 ? 1 : 0,
         }}
-        className="absolute h-1 w-20 rounded-full bg-gradient-to-l from-transparent to-fuchsia-400 transition-all duration-300 pointer-events-none"
+        className="absolute h-1 w-20 rounded-full bg-linear-to-l from-transparent to-fuchsia-400 transition-all duration-300 pointer-events-none"
       />
 
       {/* Stage 1: 중앙 충돌 쇼크웨이브 링 */}
@@ -3610,7 +3610,7 @@ const VdLogoStingerOutroDemo: React.FC = () => {
           stage >= 1 ? 'scale-100 opacity-100' : 'scale-50 opacity-0'
         }`}
       >
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/20">
+        <div className="w-10 h-10 rounded-2xl bg-linear-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/20">
           <Zap className="w-5 h-5 text-white" />
         </div>
         <span
@@ -3660,7 +3660,7 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
               animationDuration: `${650 + (i % 4) * 140}ms`,
               animationPlayState: playing ? 'running' : 'paused',
             }}
-            className={`flex-1 rounded-full bg-gradient-to-t from-indigo-600 via-violet-500 to-cyan-400 origin-bottom animate-spectrum-bar transition-opacity duration-200 ${
+            className={`flex-1 rounded-full bg-linear-to-t from-indigo-600 via-violet-500 to-cyan-400 origin-bottom animate-spectrum-bar transition-opacity duration-200 ${
               playing ? 'opacity-100' : 'opacity-70'
             }`}
           />
@@ -3714,7 +3714,7 @@ const GooeyMenuFabDemo: React.FC = () => {
                   : 'translate(0px, 0px) scale(0.3)',
                 transitionDelay: open ? `${idx * 45}ms` : '0ms',
               }}
-              className={`absolute bottom-[5px] w-[34px] h-[34px] rounded-full bg-gradient-to-br ${act.color} text-white flex items-center justify-center shadow-lg border border-white/25 transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+              className={`absolute bottom-[5px] w-[34px] h-[34px] rounded-full bg-linear-to-br ${act.color} text-white flex items-center justify-center shadow-lg border border-white/25 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
                 open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
               }`}
               title={act.label}
@@ -3728,11 +3728,11 @@ const GooeyMenuFabDemo: React.FC = () => {
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-label="플로팅 메뉴 열기/닫기"
-          className="relative z-10 w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/25 transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 cursor-pointer"
+          className="relative z-10 w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/25 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 cursor-pointer"
         >
           <svg
             viewBox="0 0 20 20"
-            className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] ${
+            className={`w-4 h-4 stroke-current stroke-[2.4] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
               open ? 'rotate-45' : 'rotate-0'
             }`}
           >
@@ -3807,7 +3807,7 @@ const OtpPinFocusBounceDemo: React.FC = () => {
             key={i}
             type="button"
             onClick={() => handleDigitClick(i)}
-            className={`w-7 h-9 rounded-lg font-mono text-xs font-black flex items-center justify-center border transition-all duration-200 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+            className={`w-7 h-9 rounded-lg font-mono text-xs font-black flex items-center justify-center border transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
               bounceIdx === i ? 'scale-125 -translate-y-1' : 'scale-100 translate-y-0'
             } ${
               isComplete
@@ -3830,7 +3830,7 @@ const OtpPinFocusBounceDemo: React.FC = () => {
         <button
           type="button"
           onClick={handleAutoFill}
-          className="px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-[9px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-slate-700 cursor-pointer transition-colors"
+          className="px-2 py-0.5 rounded-sm bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-[9px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-slate-700 cursor-pointer transition-colors"
         >
           연속 입력 재생
         </button>
@@ -3893,12 +3893,12 @@ const HoldToConfirmRingDemo: React.FC = () => {
           className={`relative overflow-hidden px-4 py-2 rounded-xl border text-xs font-bold transition-transform duration-150 cursor-pointer ${
             holding
               ? 'scale-95 border-rose-400 text-white shadow-lg shadow-rose-500/25'
-              : 'scale-100 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:border-rose-400 dark:hover:border-rose-500/50 shadow-sm'
+              : 'scale-100 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:border-rose-400 dark:hover:border-rose-500/50 shadow-xs'
           }`}
         >
           <span
             style={{ width: `${progress}%` }}
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-500 transition-[width] duration-75"
+            className="absolute inset-y-0 left-0 bg-linear-to-r from-rose-600 via-amber-500 to-emerald-500 transition-[width] duration-75"
           />
           <span className="relative z-10 flex items-center gap-1.5">
             <Flame className="w-3.5 h-3.5 text-amber-500" />
@@ -3926,7 +3926,7 @@ const PeekPasswordLampDemo: React.FC = () => {
           style={{
             clipPath: 'polygon(100% 50%, 0% -18%, 0% 118%)',
           }}
-          className={`absolute inset-y-0 left-2 right-9 bg-gradient-to-l from-amber-300/40 via-amber-200/15 to-transparent pointer-events-none transition-all duration-300 origin-right ${
+          className={`absolute inset-y-0 left-2 right-9 bg-linear-to-l from-amber-300/40 via-amber-200/15 to-transparent pointer-events-none transition-all duration-300 origin-right ${
             lampOn ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
           }`}
         />
@@ -4062,7 +4062,7 @@ const MgMorphingGridWaveDemo: React.FC = () => {
               key={idx}
               className={`w-5 h-5 rounded-md transition-all duration-300 ${
                 isWavePeak
-                  ? 'bg-gradient-to-br from-cyan-400 to-indigo-500 scale-110 -translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
+                  ? 'bg-linear-to-br from-cyan-400 to-indigo-500 scale-110 -translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
                   : 'bg-slate-800/80 border border-slate-700/60 scale-90 opacity-60'
               }`}
             />
@@ -4169,7 +4169,7 @@ const MgGravityNewtonCradleDemo: React.FC = () => {
       className="w-full h-40 flex flex-col items-center justify-center pt-5 cursor-pointer select-none"
     >
       {/* 상단 고정 지지대 */}
-      <div className="w-28 h-1 rounded-full bg-slate-600 shadow" />
+      <div className="w-28 h-1 rounded-full bg-slate-600 shadow-sm" />
       <div className="flex items-start justify-center">
         {[0, 1, 2, 3, 4].map((i) => {
           const isLeft = i === 0;
@@ -4191,7 +4191,7 @@ const MgGravityNewtonCradleDemo: React.FC = () => {
             >
               <div className="w-px h-10 bg-slate-500/80" />
               <div
-                className={`w-4 h-4 rounded-full bg-gradient-to-br transition-shadow duration-200 ${
+                className={`w-4 h-4 rounded-full bg-linear-to-br transition-shadow duration-200 ${
                   isSwingingOut
                     ? 'from-cyan-300 via-indigo-400 to-slate-700 shadow-[0_0_10px_rgba(56,189,248,0.65)]'
                     : 'from-slate-200 via-slate-400 to-slate-700'
@@ -4223,7 +4223,7 @@ const LyFloatingTocSpyDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/80 p-2.5 flex items-center gap-2.5 shadow-sm">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/80 p-2.5 flex items-center gap-2.5 shadow-xs">
         {/* 좌측 스크롤 연동 문서 뷰포트 */}
         <div className="flex-1 h-full bg-slate-50 dark:bg-slate-950/80 rounded-lg border border-slate-200/80 dark:border-slate-800 overflow-hidden relative">
           <div
@@ -4286,7 +4286,7 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 overflow-hidden flex shadow-sm">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 overflow-hidden flex shadow-xs">
         {/* 접이식 레일 사이드바 */}
         <div
           className={`h-full bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-1.5 flex flex-col justify-between transition-[width] duration-300 ${
@@ -4313,7 +4313,7 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
           <button
             type="button"
             onClick={() => setExpanded((e) => !e)}
-            className="w-full h-4 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-[8px] font-mono text-slate-600 dark:text-slate-400 flex items-center justify-center cursor-pointer border border-slate-200/80 dark:border-transparent transition-colors"
+            className="w-full h-4 rounded-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-[8px] font-mono text-slate-600 dark:text-slate-400 flex items-center justify-center cursor-pointer border border-slate-200/80 dark:border-transparent transition-colors"
           >
             {expanded ? '« 레일 축소' : '»'}
           </button>
@@ -4323,18 +4323,18 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
         <div className="flex-1 p-2.5 flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-slate-900 dark:text-white">{navs[activeNav].label}</span>
-            <span className="text-[8px] px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-mono border border-indigo-100 dark:border-transparent">
+            <span className="text-[8px] px-1.5 py-0.5 rounded-sm bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-mono border border-indigo-100 dark:border-transparent">
               {expanded ? '220px' : '56px'}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
-            <div className="h-9 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
-              <div className="w-8 h-1.5 rounded bg-indigo-500/60 mb-1" />
-              <div className="w-12 h-2 rounded bg-slate-300 dark:bg-slate-600/60" />
+            <div className="h-9 rounded-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded-sm bg-indigo-500/60 mb-1" />
+              <div className="w-12 h-2 rounded-sm bg-slate-300 dark:bg-slate-600/60" />
             </div>
-            <div className="h-9 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
-              <div className="w-8 h-1.5 rounded bg-emerald-500/60 mb-1" />
-              <div className="w-10 h-2 rounded bg-slate-300 dark:bg-slate-600/60" />
+            <div className="h-9 rounded-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 p-1.5">
+              <div className="w-8 h-1.5 rounded-sm bg-emerald-500/60 mb-1" />
+              <div className="w-10 h-2 rounded-sm bg-slate-300 dark:bg-slate-600/60" />
             </div>
           </div>
         </div>
@@ -4361,7 +4361,7 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
 
   return (
     <div className="w-full h-40 flex items-center justify-center pt-5 px-4 select-none">
-      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 p-2.5 flex flex-col justify-between shadow-sm">
+      <div className="w-full max-w-[230px] h-24 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 p-2.5 flex flex-col justify-between shadow-xs">
         {/* 상단 브레드크럼 경로 바 */}
         <div className="flex items-center justify-between gap-1 text-[9px] font-mono bg-slate-50 dark:bg-slate-950 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-0.5 truncate">
@@ -4404,7 +4404,7 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
                 }}
                 className={`h-10 rounded-lg border flex flex-col items-center justify-center gap-0.5 text-[9px] transition-all active:scale-95 cursor-pointer ${
                   isSelected
-                    ? 'bg-indigo-50 border-indigo-400 text-indigo-700 dark:bg-indigo-500/20 dark:border-indigo-400/70 dark:text-indigo-200 font-bold shadow-sm'
+                    ? 'bg-indigo-50 border-indigo-400 text-indigo-700 dark:bg-indigo-500/20 dark:border-indigo-400/70 dark:text-indigo-200 font-bold shadow-xs'
                     : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-800 dark:border-slate-700/60 dark:text-slate-200'
                 }`}
               >
@@ -4453,8 +4453,8 @@ const LyResizableSplitPaneDemo: React.FC = () => {
         >
           <span className="text-[8px] font-mono text-indigo-400">EDITOR ({leftRatio}%)</span>
           <div className="space-y-1">
-            <div className="w-4/5 h-1.5 rounded bg-indigo-500/40" />
-            <div className="w-3/5 h-1.5 rounded bg-slate-700" />
+            <div className="w-4/5 h-1.5 rounded-sm bg-indigo-500/40" />
+            <div className="w-3/5 h-1.5 rounded-sm bg-slate-700" />
           </div>
         </div>
 
@@ -4471,7 +4471,7 @@ const LyResizableSplitPaneDemo: React.FC = () => {
         {/* 우측 Preview 패인 */}
         <div className="flex-1 h-full bg-slate-900 p-2 flex flex-col justify-between overflow-hidden">
           <span className="text-[8px] font-mono text-emerald-400">PREVIEW ({100 - leftRatio}%)</span>
-          <div className="w-full h-7 rounded bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">
+          <div className="w-full h-7 rounded-sm bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">
             LIVE VIEW
           </div>
         </div>
@@ -4508,13 +4508,13 @@ const StHolographicFoilCardDemo: React.FC = () => {
           className="w-full h-full rounded-[14px] bg-slate-950/80 backdrop-blur-md p-3 flex flex-col justify-between relative overflow-hidden"
         >
           <div className="flex items-center justify-between">
-            <span className="px-1.5 py-0.5 rounded bg-white/15 border border-white/30 text-[8px] font-black text-white tracking-wider">
+            <span className="px-1.5 py-0.5 rounded-sm bg-white/15 border border-white/30 text-[8px] font-black text-white tracking-wider">
               ✦ HOLO FOIL
             </span>
             <span className="text-[9px] font-mono text-cyan-200">#001 SSR</span>
           </div>
           <div>
-            <div className="text-xs font-black text-white drop-shadow">IRIDESCENT PRISM</div>
+            <div className="text-xs font-black text-white drop-shadow-sm">IRIDESCENT PRISM</div>
             <div className="text-[9px] text-white/80">마우스를 움직여 광택 각도 조절</div>
           </div>
         </div>
@@ -4533,7 +4533,7 @@ const StReceiptThermalMonoDemo: React.FC = () => {
       onClick={() => setStamped((s) => !s)}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >
-      <div className="relative w-full max-w-[195px] bg-[#faf8f5] text-zinc-900 rounded-sm px-3 py-2 font-mono shadow-lg border-y-2 border-dashed border-zinc-400">
+      <div className="relative w-full max-w-[195px] bg-[#faf8f5] text-zinc-900 rounded-xs px-3 py-2 font-mono shadow-lg border-y-2 border-dashed border-zinc-400">
         <div className="flex items-center justify-between text-[9px] font-bold border-b border-dashed border-zinc-400 pb-1">
           <span>VIBE MART #042</span>
           <span>2026-10-17</span>
@@ -4581,7 +4581,7 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
       onClick={() => setLiked((l) => !l)}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >
-      <div className="w-full max-w-[205px] rounded-xl border-2 border-white bg-gradient-to-br from-pink-200 via-fuchsia-100 to-sky-200 p-2 shadow-[0_4px_16px_rgba(244,114,182,0.35)] text-slate-900">
+      <div className="w-full max-w-[205px] rounded-xl border-2 border-white bg-linear-to-br from-pink-200 via-fuchsia-100 to-sky-200 p-2 shadow-[0_4px_16px_rgba(244,114,182,0.35)] text-slate-900">
         {/* Y2K 메탈릭 크롬 상단 바 */}
         <div
           style={{
@@ -4604,7 +4604,7 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
             style={{
               background: 'linear-gradient(180deg, #f8fafc 0%, #94a3b8 50%, #e2e8f0 100%)',
             }}
-            className="px-2 py-1 rounded-full border border-slate-500 text-[9px] font-black text-slate-900 shadow-sm"
+            className="px-2 py-1 rounded-full border border-slate-500 text-[9px] font-black text-slate-900 shadow-xs"
           >
             {liked ? '★ PLAY' : '☆ CUE'}
           </span>
@@ -4646,7 +4646,7 @@ const StCyberpunkNeonGlitchDemo: React.FC = () => {
             backgroundImage:
               'repeating-linear-gradient(-45deg, #09090b 0px, #09090b 5px, #facc15 5px, #facc15 10px)',
           }}
-          className="mt-2 h-2 w-full rounded-sm border border-zinc-950"
+          className="mt-2 h-2 w-full rounded-xs border border-zinc-950"
         />
       </div>
     </div>
@@ -4758,7 +4758,7 @@ const VdSlotJackpotHeadlineDemo: React.FC = () => {
                 style={{
                   transform: `translateY(-${wordIdx * 36}px)`,
                 }}
-                className="flex flex-col transition-transform duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]"
+                className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
               >
                 {words.map((w) => (
                   <div
@@ -4808,7 +4808,7 @@ const VdFunnelConversionDropDemo: React.FC = () => {
         return (
           <div
             key={st.label}
-            className={`${st.width} h-5 rounded-md bg-gradient-to-r ${st.color} px-2.5 flex items-center justify-between text-[9px] font-bold text-white shadow transition-all duration-300 ${
+            className={`${st.width} h-5 rounded-md bg-linear-to-r ${st.color} px-2.5 flex items-center justify-between text-[9px] font-bold text-white shadow transition-all duration-300 ${
               visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-15 scale-90 -translate-y-1'
             }`}
           >
@@ -4853,7 +4853,7 @@ const VdBreakingNewsTickerDemo: React.FC = () => {
     >
       <div className="w-full max-w-[225px] rounded-xl bg-slate-950 border border-rose-500/40 overflow-hidden shadow-lg">
         {/* 상단 BREAKING LIVE 헤더 */}
-        <div className="bg-gradient-to-r from-rose-600 to-red-700 px-2.5 py-1 flex items-center justify-between">
+        <div className="bg-linear-to-r from-rose-600 to-red-700 px-2.5 py-1 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
             <span className="text-[9px] font-black tracking-wider text-white">BREAKING NEWS</span>
