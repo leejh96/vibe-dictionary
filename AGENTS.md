@@ -11,7 +11,7 @@
 
 ## 구조와 의존 방향
 
-- 실행·배포하는 앱은 `apps/web`, `apps/mcp`, 공통 기법·분류·검색은 `packages/catalog`에 둔다. 루트는 공통 실행 명령·개발 도구·잠금 파일을 관리한다. 상세 구조는 [README](README.md)를 따른다.
+- 실행·배포하는 앱은 `apps/web`, `apps/mcp`, 공통 기법·분류·검색은 `packages/catalog`에 둔다. 루트는 공통 실행 명령·개발 도구·잠금 파일을 관리한다. 상세 구조는 [개발 안내](docs/development.md)를 따른다.
 - 웹과 MCP는 `@vibe-dictionary/catalog`를 통해 공용 코드에 접근한다. 다른 앱의 소스나 공용 패키지의 내부 파일을 상대 경로로 직접 가져오지 않는다. 공용 패키지는 앱·React·MCP SDK·브라우저 API에 의존하지 않는다.
 - 앱 전용 의존성은 앱의 `package.json`에, 공통 개발 도구만 루트에 선언한다. npm 잠금 파일은 루트 하나만 관리한다.
 - MCP는 내부 카탈로그를 번들에 포함한다. 공개 실행 의존성에는 MCP SDK·입력 검증 라이브러리만 두고, 카탈로그를 사용자 설치 시 내려받는 의존성으로 남기지 않는다.
@@ -35,6 +35,7 @@
 | `apps/web/tests/prompt-behavior.test.tsx` | Node 테스트 러너와 React Test Renderer를 사용한 복사·저장·조합기 회귀 테스트 |
 | `apps/web/tests/demo-behavior.test.tsx` | 데모의 입력·상태 전환 회귀 테스트 |
 | `docs/README.md` | 공유 문서 안내와 현재 지침·과거 기록 구분 |
+| `docs/development.md` | 저장소 구조와 개발·검증·배포 개요 |
 | `docs/prompt-quality.md` | 효과 재현을 목표로 하는 프롬프트 작성·검증 기준 |
 | `docs/tasks/prompt-demo-alignment/02-research.md` | 프롬프트와 데모 대조 당시 확정 범위·판단·검증 기록 |
 
@@ -91,6 +92,7 @@
 ## 문서 관리
 
 - 프로젝트 사용·개발 지침과 반복해서 참고할 규칙·결정 근거는 `docs/`에 공유한다. 문서 안내는 [docs/README.md](docs/README.md)를 기준으로 한다.
+- 루트 `README.md`와 npm에 포함되는 `apps/mcp/README.md`는 서비스 소개·설치·사용 안내 중심으로 작성한다. 구조·개발·검증은 `docs/development.md`, npm 공개 게시 절차는 `docs/npm-publishing.md`에서 관리한다.
 - 작업 중 초안, 일회성 조사 보고서, 원시 로그·측정 JSON·생성 UI·임시 스크린샷·백업은 Git에서 제외되는 `docs/local/`에 둔다. 모든 작업마다 공유 보고서를 자동으로 추가하지 않는다.
 - 보관 가치가 있는 작업 기록만 `docs/tasks/<task>/`에 남긴다. PR·코드·테스트와 중복되는 실행 과정은 줄이고 원인, 결정 이유, 중요한 검증 결과와 한계를 요약한다.
 - 공유 문서는 다른 사람이 읽고 사용할 수 있어야 한다. 개인 PC 절대 경로나 localhost·세션 전용 링크를 넣지 않고, 저장소 상대 링크 또는 접근 가능한 고정 커밋·PR 링크를 사용한다. 필요한 공유 첨부만 해당 문서 가까이에 보관한다.
