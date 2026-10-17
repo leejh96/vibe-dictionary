@@ -227,6 +227,20 @@
   50% { transform: rotate(-6deg) scaleX(1.25); opacity: 0.85; }
 }
 
+@keyframes stomp-hit {
+  0% { transform: scale(2.15); opacity: 0; }
+  45% { transform: scale(0.94); opacity: 1; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes spectrum-dance {
+  0%, 100% { transform: scaleY(0.22); }
+  35% { transform: scaleY(1); }
+  65% { transform: scaleY(0.48); }
+  85% { transform: scaleY(0.85); }
+}
+
 .animate-error-shake { animation: error-shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 .animate-spring-pop { animation: spring-pop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 .animate-float-bob { animation: float-bob 2.2s ease-in-out infinite; }
@@ -262,3 +276,8 @@
 .animate-aurora-1 { animation: aurora-drift-1 5s ease-in-out infinite; }
 .animate-aurora-2 { animation: aurora-drift-2 6s ease-in-out infinite; }
 .animate-beam-sway { animation: beam-sway 4s ease-in-out infinite; }
+.animate-stomp-hit { animation: stomp-hit 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-spectrum-bar {
+  transform-origin: bottom;
+  animation: spectrum-dance 0.9s ease-in-out infinite;
+}

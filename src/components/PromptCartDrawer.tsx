@@ -26,8 +26,8 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
     }
 
     const header = contextNote.trim()
-      ? `다음 화면/기능을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일 기법들을 정확히 적용해 줘.\n- 적용 대상: ${contextNote.trim()}\n`
-      : `화면/컴포넌트를 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일 기법들을 정확히 적용해 줘.\n`;
+      ? `다음 화면/영상을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일·모션 영상 기법들을 정확히 적용해 줘.\n- 적용 대상: ${contextNote.trim()}\n`
+      : `화면/컴포넌트/영상을 구현할 때 아래 선택한 UI·그래픽·레이아웃·스타일·모션 영상 기법들을 정확히 적용해 줘.\n`;
 
     const list = cart
       .map(

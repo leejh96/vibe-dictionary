@@ -5,6 +5,7 @@ import {
   Film,
   LayoutGrid,
   Palette,
+  Clapperboard,
   ArrowUpToLine,
   ChevronDown,
 } from 'lucide-react';
@@ -105,6 +106,7 @@ export default function App() {
       motion: TECHNIQUES.filter((t) => t.domain === 'motion').length,
       layout: TECHNIQUES.filter((t) => t.domain === 'layout').length,
       style: TECHNIQUES.filter((t) => t.domain === 'style').length,
+      video: TECHNIQUES.filter((t) => t.domain === 'video').length,
     }),
     []
   );
@@ -187,15 +189,25 @@ export default function App() {
     };
   }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory]);
 
+  const lastTargetYRef = useRef(0);
+  const lastStepTimeRef = useRef(0);
+
   /* 한번에 최상단으로 올라가는 핸들러 */
   const handleScrollToTop = () => {
+    lastTargetYRef.current = 0;
+    lastStepTimeRef.current = 0;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   /* 한 뎁스(다음 카드 행)씩 정확히 맞춰 스크롤을 내리는 핸들러 */
   const handleScrollDownStep = () => {
     const HEADER_OFFSET = 72;
-    const currentY = window.scrollY;
+    const now = performance.now();
+    // 연속 클릭 시 이전 smooth 스크롤 목표 위치를 기준으로 다음 행 계산
+    const baseY =
+      now - lastStepTimeRef.current < 500
+        ? Math.max(window.scrollY, lastTargetYRef.current)
+        : window.scrollY;
     const maxScroll =
       document.documentElement.scrollHeight - window.innerHeight;
 
@@ -214,20 +226,33 @@ export default function App() {
 
       rowTargetYs.sort((a, b) => a - b);
 
-      // 현재 스크롤 위치보다 최소 28px 이상 아래에 있는 다음 행(한 뎁스) 탐색
-      const nextRowY = rowTargetYs.find((y) => y > currentY + 28);
+      // 최상단(baseY < 30)에서는 첫 번째 카드 행이 이미 화면에 다 보이므로 두 번째 행을 우선 타겟팅
+      const candidates =
+        baseY < 30 && rowTargetYs.length > 1 && rowTargetYs[0] < 240
+          ? rowTargetYs.slice(1)
+          : rowTargetYs;
+
+      const nextRowY = candidates.find((y) => y > baseY + 24);
       if (nextRowY !== undefined) {
+        const target = Math.min(nextRowY, maxScroll);
+        lastTargetYRef.current = target;
+        lastStepTimeRef.current = now;
         window.scrollTo({
-          top: Math.min(nextRowY, maxScroll),
+          top: target,
           behavior: 'smooth',
         });
         return;
       }
     }
 
-    // 다음 행이 없거나 마지막 구간이면 페이지 하단까지 부드럽게 이동
+    const fallbackTarget = Math.min(
+      baseY + Math.round(window.innerHeight * 0.65),
+      maxScroll
+    );
+    lastTargetYRef.current = fallbackTarget;
+    lastStepTimeRef.current = now;
     window.scrollTo({
-      top: Math.min(currentY + Math.round(window.innerHeight * 0.65), maxScroll),
+      top: fallbackTarget,
       behavior: 'smooth',
     });
   };
@@ -235,7 +260,7 @@ export default function App() {
   /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
   const otherDomainMatches = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style'];
+    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'video'];
     return domainIds
       .filter((id) => id !== activeDomain)
       .map((id) => ({
@@ -261,11 +286,12 @@ export default function App() {
     { id: 'motion', label: DOMAIN_LABELS.motion, count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
     { id: 'layout', label: DOMAIN_LABELS.layout, count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
     { id: 'style', label: DOMAIN_LABELS.style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
+    { id: 'video', label: DOMAIN_LABELS.video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
   ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 pb-20">
-      {/* 상단 헤더 + 4대 대분류 도메인 스위처 */}
+      {/* 상단 헤더 + 5대 대분류 도메인 스위처 */}
       <header className="border-b border-slate-900 bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
           {/* 사전 모양 로고 + 홈 이동 버튼 */}
@@ -281,7 +307,7 @@ export default function App() {
             </span>
           </button>
 
-          {/* 4대 대분류 도메인 탭: [UI] [그래픽] [레이아웃] [스타일] */}
+          {/* 5대 대분류 도메인 탭: [UI] [그래픽] [레이아웃] [스타일] [모션 영상] */}
           <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
             {domainTabs.map((tab) => {
               const isActive = activeDomain === tab.id;

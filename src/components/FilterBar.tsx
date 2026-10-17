@@ -23,6 +23,7 @@ const DOMAIN_PLACEHOLDERS: Record<DomainType, string> = {
   motion: '그래픽 기법 검색 (예: 오로라 배경, 별자리 선 연결, 물방울 합체, 글리치...)',
   layout: '레이아웃 검색 (예: 도시락 격자, 맥북 독바, 핀터레스트, 칸반 보드...)',
   style: '디자인 스타일 검색 (예: 네오 브루탈리즘, 클레이 3D, 픽셀 레트로, 윈도우95...)',
+  video: '모션 영상·쇼릴 검색 (예: 프로덕트 런칭, 스톰프 타이포, 로어써드 자막, 차트 상승...)',
 };
 
 const MAX_VISIBLE_CATEGORIES = 8;

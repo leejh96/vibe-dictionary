@@ -1,4 +1,4 @@
-export type DomainType = 'ui' | 'motion' | 'layout' | 'style';
+export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'video';
 
 export type CategoryType =
   /* 1. UI 하위 카테고리 */
@@ -25,7 +25,12 @@ export type CategoryType =
   | 'modern'
   | 'tactile'
   | 'retro'
-  | 'scifi';
+  | 'scifi'
+  /* 5. 모션 영상 하위 카테고리 */
+  | 'promo'
+  | 'kinetic_ad'
+  | 'infographic'
+  | 'broadcast';
 
 interface CategoryMeta {
   id: CategoryType | 'all';
@@ -69,11 +74,20 @@ const STYLE_CATEGORIES: CategoryMeta[] = [
   { id: 'scifi', label: 'SF·도면·팝아트' },
 ];
 
+const VIDEO_CATEGORIES: CategoryMeta[] = [
+  { id: 'all', label: '전체' },
+  { id: 'promo', label: '런칭·쇼릴·홍보' },
+  { id: 'kinetic_ad', label: '타이포·리듬 광고' },
+  { id: 'infographic', label: '데이터·차트 모션' },
+  { id: 'broadcast', label: '방송·트랜지션·자막' },
+];
+
 export const DOMAIN_LABELS: Record<DomainType, string> = {
   ui: 'UI',
   motion: '그래픽',
   layout: '레이아웃',
   style: '스타일',
+  video: '모션 영상',
 };
 
 export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
@@ -81,6 +95,7 @@ export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
   motion: MOTION_CATEGORIES,
   layout: LAYOUT_CATEGORIES,
   style: STYLE_CATEGORIES,
+  video: VIDEO_CATEGORIES,
 };
 
 export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
@@ -89,6 +104,7 @@ export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
     ...MOTION_CATEGORIES,
     ...LAYOUT_CATEGORIES,
     ...STYLE_CATEGORIES,
+    ...VIDEO_CATEGORIES,
   ].map((c) => [c.id, c.label])
 );
 
@@ -1167,5 +1183,208 @@ export const TECHNIQUES: TechniqueItem[] = [
     summary: '도트 망점 배경 위에 살짝 기울어진(`skew-x`) 원색 패널과 만화 효과음 배지를 결합한 스타일',
     promptSnippet:
       '미국 코믹북/만화책 같은 Comic Halftone Pop-Art 스타일을 적용해 줘. 배경에 대각선 도트 망점(`radial-gradient(#000 1.5px, transparent 1.5px)`) 패턴을 깔고, 패널에 `skewX(-4deg)` 기울기와 3px 검은 외곽선, 강렬한 노랑·빨강 액션 배지를 결합해 줘.',
+  },
+
+  /* =====================================================================
+   * DOMAIN 5: 모션 영상 (16종 - 타임라인·쇼릴·시퀀스 연출)
+   * ===================================================================== */
+  /* 1. 런칭·쇼릴·홍보 (promo) */
+  {
+    id: 'vd-saas-launch-reel',
+    domain: 'video',
+    category: 'promo',
+    vibeTag: '타이틀 등장 후 대시보드 UI가 줌인되며 핵심 기능이 컷 전환되는 런칭 영상',
+    vibeKeywords: ['프로덕트 런칭 영상', 'SaaS 쇼릴', '홍보 티저', '씬 시퀀스', '타임라인 쇼케이스'],
+    titleKo: 'SaaS 프로덕트 런칭 쇼릴',
+    titleEn: 'SaaS Product Launch Showreel',
+    summary: 'Scene 1(슬로건 줌인) ➔ Scene 2(대시보드 등장) ➔ Scene 3(CTA 피날레)로 이어지는 3단계 프로모션 시퀀스',
+    promptSnippet:
+      'Remotion/모션 그래픽 스타일의 3단계 SaaS 프로덕트 런칭 쇼릴 시퀀스를 구현해 줘. Scene 1(0~1.5s)에서 슬로건이 spring 스케일업으로 등장하고, Scene 2(1.5~3.5s)에서 대시보드 목업이 3D 원근 각도에서 정면으로 펴지며 핵심 위젯이 하이라이트되고, Scene 3(3.5~5s)에서 브랜드 로고와 CTA 배지로 스냅 전환되게 해 줘.',
+  },
+  {
+    id: 'vd-device-3d-spin',
+    domain: 'video',
+    category: 'promo',
+    vibeTag: '스마트폰·랩탑 목업이 입체 회전하며 화면 속 앱 기능이 클로즈업되는',
+    vibeKeywords: ['3D 기기 회전 목업', '아이폰 목업 영상', '앱 프리뷰 투어', '디바이스 쇼케이스', '제품 홍보 컷'],
+    titleKo: '3D 디바이스 목업 투어',
+    titleEn: '3D Device Mockup Showcase',
+    summary: '기울어진 모바일/데스크탑 프레임이 부드럽게 회전하며 내부 UI 위젯이 레이어별로 떠오르는 홍보 연출',
+    promptSnippet:
+      '앱 홍보 영상처럼 3D 디바이스 목업 투어 모션을 만들어 줘. `perspective: 900px` 공간에서 디바이스 프레임이 `rotateY(-28deg) rotateX(12deg)`에서 정면(`0deg`)으로 회전하며 등장하고, 회전이 멈추는 타이밍에 화면 안의 핵심 알림 카드가 `translateZ(30px)`로 팝아웃되며 강조되게 해 줘.',
+  },
+  {
+    id: 'vd-app-walkthrough-zoom',
+    domain: 'video',
+    category: 'promo',
+    vibeTag: '가상 마우스 커서가 이동해 버튼을 누르는 순간 화면이 2배로 줌인되는',
+    vibeKeywords: ['커서 추적 카메라 줌', '튜토리얼 워크스루', '마우스 클릭 줌인', '기능 가이드 영상', '포커스 카메라'],
+    titleKo: '인터랙티브 커서 줌 워크스루',
+    titleEn: 'Cursor Follow Zoom Walkthrough',
+    summary: '가상 포인터가 타겟 버튼으로 이동해 클릭 리플을 일으키면 카메라가 해당 영역을 클로즈업하는 데모 연출',
+    promptSnippet:
+      '제품 사용법 영상처럼 Cursor Follow Zoom 워크스루 시퀀스를 구현해 줘. 가상 커서가 베지어 곡선을 그리며 타겟 버튼으로 이동할 때 전체 캔버스가 해당 좌표(`transform-origin`)를 기준으로 `scale(1.65)` 줌인되고, 클릭 파동 후 완료 배지가 뜨면서 다시 `scale(1)` 전체 뷰로 복귀하게 해 줘.',
+  },
+  {
+    id: 'vd-split-promo-reel',
+    domain: 'video',
+    category: 'promo',
+    vibeTag: '화면이 2~3분할로 쪼개져 서로 반대 방향으로 미끄러지듯 교차하는 광고 컷',
+    vibeKeywords: ['다중 분할 쇼릴', '스플릿 스크린 광고', '교차 슬라이드 컷', '패션 커머스 영상', '멀티 프레임'],
+    titleKo: '멀티 스크린 스플릿 쇼릴',
+    titleEn: 'Multi-Screen Split Promo Reel',
+    summary: '3개의 분할 컬럼이 상하 교차 슬라이드로 맞물려 들어온 뒤 전체 화면 타이틀로 합쳐지는 역동적인 구성',
+    promptSnippet:
+      '광고 쇼릴에 쓰이는 Multi-Screen Split 시퀀스를 구현해 줘. 화면을 3등분한 패널이 각각 위·아래·위 반대 방향(`translateY(-100%)`, `translateY(100%)`)에서 `cubic-bezier(0.22, 1, 0.36, 1)`로 동시에 맞물려 들어와 정지하고, 이어서 중앙 와이프와 함께 메인 카피가 오버레이되게 해 줘.',
+  },
+
+  /* 2. 타이포·리듬 광고 (kinetic_ad) */
+  {
+    id: 'vd-stomp-beat-typo',
+    domain: 'video',
+    category: 'kinetic_ad',
+    vibeTag: '빠른 박자에 맞춰 굵은 단어가 화면을 쾅쾅 찍듯 바뀌며 배경색이 반전되는',
+    vibeKeywords: ['박자 맞춰 찍히는 글자', '스톰프 타이포', '애플 광고 스타일', '배경 반전 비트', '리듬 텍스트 컷'],
+    titleKo: '스톰프 비트 타이포그래피',
+    titleEn: 'Stomp Beat Rhythm Typography',
+    summary: '비트마다 단어가 거대한 스케일에서 쾅 찍히듯 수축하고 배경과 글자 색상이 흑백/원색으로 강렬하게 반전되는 연출',
+    promptSnippet:
+      '애플 "Don\'t Blink" 광고처럼 Stomp Beat Typography 시퀀스를 구현해 줘. 0.55초 비트 간격마다 키워드("THINK", "BUILD", "SHIP", "FAST.")가 `scale(2.2)`에서 `scale(1)`로 강하게 찍히듯 등장하고, 매 비트마다 컨테이너 배경색과 텍스트 색상이 반전(다크 ➔ 인디고 ➔ 앰버 ➔ 화이트)되게 해 줘.',
+  },
+  {
+    id: 'vd-highlight-swipe-reveal',
+    domain: 'video',
+    category: 'kinetic_ad',
+    vibeTag: '형광 마커 바가 문장을 휙 훑고 지나가며 핵심 키워드와 서브 카피가 켜지는',
+    vibeKeywords: ['형광펜 스와이프 자막', '하이라이트 바 리빌', '광고 카피 모션', '키워드 마스킹', '타이포 시퀀스'],
+    titleKo: '하이라이트 마커 스와이프 씬',
+    titleEn: 'Marker Swipe Headline Reveal',
+    summary: '컬러 블록 바가 좌에서 우로 빠르게 스와이프하며 헤드라인을 드러내고 하단 요약 태그가 순차 팝업되는 구성',
+    promptSnippet:
+      '모션 광고의 Marker Swipe Reveal 타이틀 씬을 구현해 줘. 먼저 컬러 마커 블록이 `scaleX(0)`에서 `scaleX(1)`(`transform-origin: left`)로 뻗어나간 뒤 `transform-origin: right`로 수축하면서 그 아래 숨겨져 있던 굵은 헤드라인 텍스트를 드러내고, 직후에 서브 태그 칩들이 0.1초 간격으로 올라오게 해 줘.',
+  },
+  {
+    id: 'vd-countdown-energetic-intro',
+    domain: 'video',
+    category: 'kinetic_ad',
+    vibeTag: '3·2·1 대형 카운트다운과 회전 링이 맞물려 돌아간 뒤 메인 타이틀이 터지는 오프닝',
+    vibeKeywords: ['321 카운트다운 인트로', '영상 오프닝 시퀀스', '에너지틱 인트로', '타이머 폭발', '쇼릴 오프닝'],
+    titleKo: '에너지틱 카운트다운 오프닝',
+    titleEn: 'Energetic Countdown Opener',
+    summary: '회전하는 레이더 서클 안에서 3·2·1 숫자가 타격감 있게 바뀐 뒤 "LIVE NOW" 메인 배너로 전환되는 인트로',
+    promptSnippet:
+      '쇼릴/이벤트 오프닝용 Countdown Opener 시퀀스를 만들어 줘. 대시 원형 링이 회전하는 가운데 숫자 `3` ➔ `2` ➔ `1`이 매초 `scale(1.6)` 탄성 애니메이션과 파동 링을 동반하며 전환되고, `0`이 되는 순간 화면 전체가 밝게 플래시된 뒤 메인 런칭 타이틀이 펼쳐지게 해 줘.',
+  },
+  {
+    id: 'vd-chat-story-sequence',
+    domain: 'video',
+    category: 'kinetic_ad',
+    vibeTag: '메신저 질문 말풍선과 점 세 개 타이핑 후 AI 결과 카드가 리듬감 있게 쌓이는',
+    vibeKeywords: ['메신저 대화 광고 영상', '채팅 말풍선 시퀀스', 'AI 프롬프트 영상', '스토리텔링 릴스', '대화형 모션'],
+    titleKo: '메신저 대화 빌드업 씬',
+    titleEn: 'Chat Bubble Storyboard Sequence',
+    summary: '사용자 질문 말풍선 ➔ 타이핑 점(`...`) ➔ 완성된 UI 결과 카드가 시나리오 순서대로 탄성 있게 쌓이는 연출',
+    promptSnippet:
+      'AI 서비스 홍보 영상에 쓰이는 Chat Storyboard Sequence를 구현해 줘. Step 1에서 우측 사용자 질문 말풍선이 아래에서 튀어 오르고, Step 2에서 좌측 타이핑 인디케이터(`...`)가 0.8초간 바운스한 뒤, Step 3에서 완성된 프리뷰 카드가 스프링 애니메이션으로 펼쳐지는 시퀀스를 자동 재생해 줘.',
+  },
+
+  /* 3. 데이터·차트 모션 (infographic) */
+  {
+    id: 'vd-animated-bar-race',
+    domain: 'video',
+    category: 'infographic',
+    vibeTag: '막대 차트가 바닥에서 목표치까지 솟구치며 +340% 성장 배지가 팡 뜨는',
+    vibeKeywords: ['차트 급상승 모션', '성장 그래프 영상', '피치덱 인포그래픽', '막대차트 애니메이션', '매출 상승 연출'],
+    titleKo: '다이내믹 차트 성장 시퀀스',
+    titleEn: 'Animated Growth Chart Scene',
+    summary: '분기별 막대 차트가 시간차로 솟아오른 뒤 최고점 막대 위에 상승률(`+340%`) 콜아웃 배지가 팝업되는 씬',
+    promptSnippet:
+      'IR/피치덱 모션 그래픽처럼 Animated Growth Chart 시퀀스를 구현해 줘. 5개의 분기별 바가 0.1초 간격(stagger)으로 바닥(`height: 0%`)에서 목표 높이까지 `cubic-bezier(0.34, 1.56, 0.64, 1)`로 솟아오르고, 마지막 바가 완료되면 상단에 `+340% 성장` 하이라이트 배지가 팝업되게 해 줘.',
+  },
+  {
+    id: 'vd-kpi-counter-explosion',
+    domain: 'video',
+    category: 'infographic',
+    vibeTag: '핵심 성과 지표 카드 3개가 순서대로 뒤집히며 숫자가 빠르게 롤링되는',
+    vibeKeywords: ['KPI 실적 발표 모션', '지표 카드 시퀀스', '숫자 롤링 인포그래픽', '데이터 리포트 영상', '성과 하이라이트'],
+    titleKo: 'KPI 메트릭 리빌 시퀀스',
+    titleEn: 'KPI Metric Reveal Sequence',
+    summary: '3개의 핵심 지표 카드가 시간차로 등장하며 게이지 바와 핵심 수치(`99.9%`, `12x`, `0.2s`)가 동시에 채워지는 연출',
+    promptSnippet:
+      '실적 발표 영상용 KPI Metric Reveal 시퀀스를 만들어 줘. 3개의 지표 카드가 순차적으로 슬라이드 업 + 페이드인되면서 각 카드의 숫자가 0부터 목표값까지 카운트업되고, 하단 미니 프로그레스 바가 목표 비율까지 스르륵 채워지는 타임라인 애니메이션을 적용해 줘.',
+  },
+  {
+    id: 'vd-node-flow-pipeline',
+    domain: 'video',
+    category: 'infographic',
+    vibeTag: '입력 노드에서 AI 엔진을 거쳐 결과 노드로 빛 입자가 흐르며 차례로 켜지는',
+    vibeKeywords: ['파이프라인 흐름도 영상', '노드 연결 모션', '아키텍처 설명 그래픽', '데이터 전송 펄스', '워크플로우 시퀀스'],
+    titleKo: '데이터 파이프라인 플로우 씬',
+    titleEn: 'Data Pipeline Node Flow Scene',
+    summary: 'Input ➔ AI Core ➔ Output 3단계 노드를 따라 광선 패킷이 이동하며 도착한 노드가 네온 빛으로 점등되는 연출',
+    promptSnippet:
+      '기술 소개 영상에 쓰이는 Data Pipeline Node Flow 모션을 구현해 줘. 좌측 입력 노드에서 중앙 코어, 우측 결과 노드로 이어진 연결선을 따라 발광 패킷이 이동하고, 패킷이 도달하는 순서대로 각 노드의 테두리와 상태 배지가 활성화(`Active`)되는 단계별 타임라인을 보여줘.',
+  },
+  {
+    id: 'vd-circular-ring-dashboard',
+    domain: 'video',
+    category: 'infographic',
+    vibeTag: '3중 원형 게이지 링이 시간차로 돌아가며 채워지고 중앙 점수가 올라가는',
+    vibeKeywords: ['3중 원형 링 차트', '애플워치 액티비티 링', '도넛 차트 모션', '원형 대시보드 영상', '게이지 충전 씬'],
+    titleKo: '멀티 링 게이지 인포그래픽',
+    titleEn: 'Multi-Ring Progress Infographic',
+    summary: '외곽·중간·내부 3개의 SVG 원형 링이 서로 다른 속도와 색상으로 회전하며 채워지는 데이터 비주얼라이제이션',
+    promptSnippet:
+      '애플 워치 액티비티 링 스타일의 Multi-Ring Progress 인포그래픽 씬을 구현해 줘. 반지름이 다른 3개의 동심원 SVG `<circle>`(`stroke-linecap="round"`)이 `stroke-dashoffset` 애니메이션으로 각각 92%, 78%, 64%까지 부드럽게 채워지고, 우측 범례 수치가 순차 점등되게 해 줘.',
+  },
+
+  /* 4. 방송·트랜지션·자막 (broadcast) */
+  {
+    id: 'vd-lower-third-banner',
+    domain: 'video',
+    category: 'broadcast',
+    vibeTag: '화면 좌측 하단에 컬러 라인이 먼저 그어진 뒤 이름과 직함 자막 바가 미끄러져 나오는',
+    vibeKeywords: ['유튜브 인터뷰 자막바', '로어써드 자막 모션', '방송 하단 네임택', '발표자 소개 배너', '뉴스 자막 연출'],
+    titleKo: '모던 로어써드 방송 자막',
+    titleEn: 'Broadcast Lower Third Title',
+    summary: '수직 액센트 바가 뻗은 뒤 마스크 안쪽에서 발표자 이름·소속 배너가 시간차로 슬라이드 인/아웃되는 방송 자막',
+    promptSnippet:
+      '유튜브·방송 인터뷰용 Lower Third 자막 애니메이션을 구현해 줘. 1단계로 좌측 수직 인디고 액센트 바가 위아래로 펼쳐지고(`scaleY(1)`), 2단계로 `overflow-hidden` 마스크 안에서 메인 이름 바가 좌측(`translateX(-100%)`)에서 슬라이드 인, 3단계로 0.15초 뒤 서브 직함 태그가 따라 나오는 시퀀스로 구성해 줘.',
+  },
+  {
+    id: 'vd-diagonal-shutter-wipe',
+    domain: 'video',
+    category: 'broadcast',
+    vibeTag: '3겹의 대각선 컬러 슬라이스가 시간차로 화면을 휙 쓸고 지나가며 장면이 바뀌는',
+    vibeKeywords: ['대각선 스팅어 화면전환', '방송 와이프 트랜지션', '3단 컬러 셔터', '유튜브 씬 전환', '다이어고널 와이프'],
+    titleKo: '다이어고널 멀티 와이프 전환',
+    titleEn: 'Diagonal Multi-Layer Stinger Wipe',
+    summary: '인디고·바이올렛·시안 3겹의 대각선 레이어가 짧은 시간차로 화면을 덮고 지나가며 Scene A를 Scene B로 전환',
+    promptSnippet:
+      '방송 스팅어(Stinger) 같은 Diagonal Multi-Layer Wipe 화면 전환을 구현해 줘. `skewX(-18deg)`로 기울어진 3개의 컬러 레이어가 0.08초 간격으로 화면 왼쪽 밖에서 오른쪽 밖으로 빠르게 가로질러 지나가고, 중앙을 덮는 순간 배경 씬(Scene A ➔ Scene B)이 매끄럽게 교체되게 해 줘.',
+  },
+  {
+    id: 'vd-logo-stinger-outro',
+    domain: 'video',
+    category: 'broadcast',
+    vibeTag: '양쪽에서 빛 줄기가 중앙으로 날아와 부딪힌 뒤 브랜드 로고와 슬로건이 완성되는 엔딩',
+    vibeKeywords: ['로고 스팅어 엔딩', '아웃트로 로고 리빌', '브랜드 범퍼 영상', '네온 충돌 오프닝', '영상 엔딩 카드'],
+    titleKo: '네온 로고 스팅어 아웃트로',
+    titleEn: 'Logo Reveal Stinger Outro',
+    summary: '좌우 빛 에너지가 중앙 코어에서 충돌해 충격파 링을 퍼뜨린 뒤 브랜드 심볼과 구독·CTA 버튼이 등장하는 엔딩 씬',
+    promptSnippet:
+      '유튜브·브랜드 필름 엔딩용 Logo Stinger Outro 시퀀스를 구현해 줘. 좌우에서 날아온 두 개의 네온 광선이 중앙에서 충돌하는 순간 원형 충격파(`scale(0)` ➔ `scale(2.5)`)가 퍼지고, 동시에 브랜드 로고 심볼이 탄성 있게 팝업된 뒤 하단 슬로건이 레터링 간격(`letter-spacing`)을 좁히며 자리 잡게 해 줘.',
+  },
+  {
+    id: 'vd-audio-spectrum-visualizer',
+    domain: 'video',
+    category: 'broadcast',
+    vibeTag: '음악 비트와 보컬 파형에 맞춰 수직 스펙트럼 바들이 살아 움직이는 뮤직비디오 씬',
+    vibeKeywords: ['오디오 파형 스펙트럼', '음악 비주얼라이저', '팟캐스트 음성 파형', '이퀄라이저 바 모션', '뮤직비디오 플레이어'],
+    titleKo: '오디오 스펙트럼 비주얼라이저',
+    titleEn: 'Audio Spectrum Waveform Scene',
+    summary: '트랙 재생 타임라인과 함께 16채널 주파수 스펙트럼 바가 리듬감 있게 물결치며 움직이는 미디어 씬',
+    promptSnippet:
+      '뮤직비디오·팟캐스트 영상용 Audio Spectrum Visualizer 씬을 구현해 줘. 중앙에 그라데이션 수직 바 16개를 배치해 각기 다른 주기와 위상차(`animation-delay`)로 높이가 역동적으로 요동치게 하고, 상단 LIVE 배지와 하단 재생 타임코드(`01:24 / 03:45`) 프로그레스 바가 함께 흐르도록 구성해 줘.',
   },
 ];
