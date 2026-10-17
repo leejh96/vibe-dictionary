@@ -7,25 +7,33 @@
 - **바이브 코딩 사전**은 UI·그래픽·레이아웃·스타일·모션 영상 기법을 탐색하고, 데모를 보며 구현용 프롬프트를 복사하는 한국어 웹 앱이다.
 - 핵심 흐름: 도메인·카테고리·검색으로 기법 탐색 → 카드 데모와 프롬프트 확인 → 개별 복사 또는 조합기에 담기 → 공통 적용 대상 입력 후 조합 프롬프트 복사.
 - 현재 구조는 React 18 + TypeScript + Vite 6 + Tailwind CSS 4의 정적 사이트다. 서버·DB·AI API 호출 없이 브라우저에서 동작한다. 새 서버나 외부 서비스를 전제로 기능을 설계하지 말고, 요청에 필요하면 도입 이유와 영향을 먼저 확인한다.
-- `packages/mcp`는 같은 카탈로그를 사용하는 읽기 전용 로컬 MCP다. 운영 서버 없이 stdio로 연결하며 기법 목록·검색과 상세·프롬프트 원문 조회만 제공한다. 조합·쓰기·코드 실행 기능은 추가하지 않는다.
+- `apps/mcp`는 같은 카탈로그를 사용하는 읽기 전용 로컬 MCP다. 운영 서버 없이 stdio로 연결하며 기법 목록·검색과 상세·프롬프트 원문 조회만 제공한다. 조합·쓰기·코드 실행 기능은 추가하지 않는다.
+
+## 구조와 의존 방향
+
+- 실행·배포하는 앱은 `apps/web`, `apps/mcp`, 공통 기법·분류·검색은 `packages/catalog`에 둔다. 루트는 공통 실행 명령·개발 도구·잠금 파일을 관리한다. 상세 구조는 [README](README.md)를 따른다.
+- 웹과 MCP는 `@vibe-dictionary/catalog`를 통해 공용 코드에 접근한다. 다른 앱의 소스나 공용 패키지의 내부 파일을 상대 경로로 직접 가져오지 않는다. 공용 패키지는 앱·React·MCP SDK·브라우저 API에 의존하지 않는다.
+- 앱 전용 의존성은 앱의 `package.json`에, 공통 개발 도구만 루트에 선언한다. npm 잠금 파일은 루트 하나만 관리한다.
+- MCP는 내부 카탈로그를 번들에 포함한다. 공개 실행 의존성에는 MCP SDK·입력 검증 라이브러리만 두고, 카탈로그를 사용자 설치 시 내려받는 의존성으로 남기지 않는다.
 
 ## 파일별 책임
 
 | 경로 | 역할 |
 | --- | --- |
-| `src/App.tsx` | 도메인·검색·카테고리 상태, 테마, 조합기 연결, 페이지 스크롤 이동 |
-| `src/data/techniques.ts` | 기법 타입·분류·표시 이름·검색 키워드·복사용 `promptSnippet` |
-| `src/data/search.ts` | 웹과 MCP가 공유하는 검색어 매칭 규칙 |
-| `packages/mcp/` | 로컬 MCP 실행 파일·스키마·연결 테스트·사용 안내 |
-| `src/components/FilterBar.tsx` | 카테고리·검색·추천 키워드 UI |
-| `src/components/TechniqueCard.tsx` | 카드, 개별 복사, 조합기 선택, 화면 근처 데모 마운트, 데모 배경 예외 |
-| `src/components/demos/InteractiveDemos.tsx` | 기법 ID별 데모 매핑과 실제 상호작용 |
-| `src/components/PromptCartDrawer.tsx` | 공통 적용 대상 입력, 조합 프롬프트 생성·미리보기·복사 |
-| `src/hooks/usePromptCart.ts` | 선택 기법과 공통 적용 대상의 저장·복원 |
-| `src/hooks/useClipboard.ts` | 비동기 복사 결과와 오류 상태 |
-| `src/index.css` | Tailwind 설정, 공통 유틸리티와 애니메이션 키프레임 |
-| `tests/prompt-behavior.test.tsx` | Node 테스트 러너와 React Test Renderer를 사용한 복사·저장·조합기 회귀 테스트 |
-| `tests/demo-behavior.test.tsx` | 데모의 입력·상태 전환 회귀 테스트 |
+| `apps/web/src/App.tsx` | 도메인·검색·카테고리 상태, 테마, 조합기 연결, 페이지 스크롤 이동 |
+| `packages/catalog/src/techniques.ts` | 기법 타입·분류·표시 이름·검색 키워드·복사용 `promptSnippet` |
+| `packages/catalog/src/search.ts` | 웹과 MCP가 공유하는 검색어 매칭 규칙 |
+| `packages/catalog/src/index.ts` | 공용 카탈로그의 유일한 공개 진입점 |
+| `apps/mcp/` | 로컬 MCP 실행 파일·스키마·연결 테스트·사용 안내 |
+| `apps/web/src/components/FilterBar.tsx` | 카테고리·검색·추천 키워드 UI |
+| `apps/web/src/components/TechniqueCard.tsx` | 카드, 개별 복사, 조합기 선택, 화면 근처 데모 마운트, 데모 배경 예외 |
+| `apps/web/src/components/demos/InteractiveDemos.tsx` | 기법 ID별 데모 매핑과 실제 상호작용 |
+| `apps/web/src/components/PromptCartDrawer.tsx` | 공통 적용 대상 입력, 조합 프롬프트 생성·미리보기·복사 |
+| `apps/web/src/hooks/usePromptCart.ts` | 선택 기법과 공통 적용 대상의 저장·복원 |
+| `apps/web/src/hooks/useClipboard.ts` | 비동기 복사 결과와 오류 상태 |
+| `apps/web/src/index.css` | Tailwind 설정, 공통 유틸리티와 애니메이션 키프레임 |
+| `apps/web/tests/prompt-behavior.test.tsx` | Node 테스트 러너와 React Test Renderer를 사용한 복사·저장·조합기 회귀 테스트 |
+| `apps/web/tests/demo-behavior.test.tsx` | 데모의 입력·상태 전환 회귀 테스트 |
 | `docs/README.md` | 공유 문서 안내와 현재 지침·과거 기록 구분 |
 | `docs/prompt-quality.md` | 효과 재현을 목표로 하는 프롬프트 작성·검증 기준 |
 | `docs/tasks/prompt-demo-alignment/02-research.md` | 프롬프트와 데모 대조 당시 확정 범위·판단·검증 기록 |
@@ -60,15 +68,17 @@
 
 ## 실행과 검증
 
-패키지 관리자는 **npm workspaces**이며 루트 `package-lock.json`을 함께 관리한다. CI는 Node.js 24를 사용한다. MCP 실행 요구사항과 연결 방법은 [MCP 안내](packages/mcp/README.md)를 따른다.
+패키지 관리자는 **npm workspaces**이며 루트 `package-lock.json`을 함께 관리한다. CI는 Node.js 24를 사용한다. MCP 실행 요구사항과 연결 방법은 [MCP 안내](apps/mcp/README.md)를 따른다.
 
 | 명령 | 목적 |
 | --- | --- |
 | `npm ci` | 잠금 파일 기준 의존성 설치 |
 | `npm run dev` | 개발 서버 |
 | `npm test` | 웹 회귀 테스트와 MCP 빌드·stdio 연결 테스트 |
-| `npm run build` | `tsc -b` 타입 검사와 Vite 프로덕션 빌드 |
+| `npm run build` | 웹과 MCP 전체 타입 검사·빌드 |
+| `npm run build:web` | 웹 타입 검사와 Vite 프로덕션 빌드 |
 | `npm run build:mcp` | MCP 타입 검사와 카탈로그를 포함한 실행 파일 빌드 |
+| `npm run check:package` | MCP tarball 파일 목록·독립 설치·도구와 전체 프롬프트 검증 |
 | `npm run start:mcp` | 빌드된 MCP 실행(클라이언트 등록 시에는 안내의 node 직접 실행 사용) |
 | `npm run preview` | 빌드 결과의 로컬 미리보기 |
 
@@ -89,7 +99,9 @@
 
 ## 배포와 작업 범위
 
-- `vite.config.ts`의 `base`는 `/vibe-dictionary/`다. 자산 URL과 경로를 바꿀 때 GitHub Pages 하위 경로에서 동작하는지 확인한다.
-- `.github/workflows/check-pr.yml`은 `master` 대상 PR에서 테스트·빌드를 수행한다. `deploy-pages.yml`은 `master` push 또는 수동 실행 시 테스트·빌드 후 `dist`를 GitHub Pages에 배포한다. `master`에 push하면 배포까지 이어진다는 점을 고려하고, 커밋 요청을 push·배포 승인으로 해석하지 않는다.
+- `apps/web/vite.config.ts`의 `base`는 `/vibe-dictionary/`다. 자산 URL과 경로를 바꿀 때 GitHub Pages 하위 경로에서 동작하는지 확인한다.
+- `.github/workflows/check-pr.yml`은 `master` 대상 PR에서 테스트·빌드를 수행한다. `deploy-pages.yml`은 `master` push 또는 수동 실행 시 전체 테스트·웹 빌드 후 `apps/web/dist/`를 GitHub Pages에 배포한다. `master`에 push하면 배포까지 이어진다는 점을 고려하고, 커밋 요청을 push·배포 승인으로 해석하지 않는다.
 - `dist/`, `node_modules/`, `*.tsbuildinfo`는 생성물이다. 원본 코드를 수정하고 생성물은 커밋하지 않는다.
+- npm 공개 패키지는 `@keke1933/vibe-dictionary-mcp` 하나다. 루트·웹·내부 카탈로그의 `private: true`를 유지한다. `publish-npm.yml`은 `master`에서 수동 실행하고 버전·감사·테스트·빌드·독립 설치 검증을 통과한 tarball을 OIDC로 게시한다. 준비·커밋·push 요청을 npm 게시 승인으로 해석하지 않는다. 최초 설정은 [npm 게시 안내](docs/npm-publishing.md)를 따른다.
+- 직접 작성한 코드·기법 데이터·프롬프트는 MIT다. 루트 `LICENSE`와 배포용 `apps/mcp/LICENSE`를 함께 유지하고, `check:package`의 일치 검증을 통과시킨다. 제3자 의존성 라이선스는 별개다.
 - 저장소 지침·문서를 바꾸는 요청에는 관련 없는 앱 코드, 패키지, CI 설정 변경을 섞지 않는다.

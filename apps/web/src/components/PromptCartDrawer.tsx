@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { X, Copy, Check, Trash2, Wand2 } from 'lucide-react';
-import { TechniqueItem, DOMAIN_LABELS } from '../data/techniques';
+import { TechniqueItem, DOMAIN_LABELS } from '@vibe-dictionary/catalog';
 import { useClipboard } from '../hooks/useClipboard';
 
 interface PromptCartDrawerProps {

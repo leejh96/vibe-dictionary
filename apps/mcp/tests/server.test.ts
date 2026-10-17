@@ -6,8 +6,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES } from '../../../src/data/techniques';
-import { matchesSearch } from '../../../src/data/search';
+import { TECHNIQUES, matchesSearch } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const entry = fileURLToPath(new URL('../dist/index.js', import.meta.url));

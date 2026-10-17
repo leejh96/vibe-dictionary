@@ -1,7 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod/v4';
-import { TECHNIQUES, DOMAIN_CATEGORIES, DOMAIN_LABELS, type TechniqueItem } from '../../../src/data/techniques';
-import { matchesSearch } from '../../../src/data/search';
+import { TECHNIQUES, DOMAIN_CATEGORIES, DOMAIN_LABELS, matchesSearch, type TechniqueItem } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const domainSchema = z.enum(['ui', 'motion', 'layout', 'style', 'video']);

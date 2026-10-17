@@ -4,7 +4,7 @@ import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { useClipboard } from '../src/hooks/useClipboard';
 import { PROMPT_CART_STORAGE_KEY, usePromptCart } from '../src/hooks/usePromptCart';
-import { TECHNIQUES } from '../src/data/techniques';
+import { TECHNIQUES } from '@vibe-dictionary/catalog';
 import { TechniqueCard } from '../src/components/TechniqueCard';
 import { PromptCartDrawer } from '../src/components/PromptCartDrawer';
 

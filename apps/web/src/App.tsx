@@ -19,9 +19,9 @@ import {
   CategoryType,
   DomainType,
   DOMAIN_LABELS,
-} from './data/techniques';
+  matchesSearch,
+} from '@vibe-dictionary/catalog';
 import { FilterBar } from './components/FilterBar';
-import { matchesSearch } from './data/search';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
 import { usePromptCart } from './hooks/usePromptCart';

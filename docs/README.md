@@ -6,7 +6,9 @@
 
 - [프로젝트 작업 지침](../AGENTS.md): 코드 변경·검증·배포와 문서 관리 규칙.
 - [프롬프트 품질 기준](prompt-quality.md): 의도한 효과와 상호작용을 재현하기 위한 작성·검증 기준.
-- [로컬 MCP 사용 안내](../packages/mcp/README.md): 기법 검색·프롬프트 조회, Codex 연결과 패키지 검증 방법.
+- [저장소 구조와 실행 안내](../README.md): 웹·MCP·공용 카탈로그의 책임과 명령.
+- [로컬 MCP 사용 안내](../apps/mcp/README.md): 기법 검색·프롬프트 조회, Codex 연결과 패키지 검증 방법.
+- [npm 공개 게시 안내](npm-publishing.md): 최초 게시, npm Trusted Publisher 설정과 GitHub 수동 게시 절차.
 
 현재 기준은 관련 코드와 요구사항이 바뀔 때 함께 갱신한다.
 
