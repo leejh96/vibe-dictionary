@@ -570,7 +570,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'SVG Stroke Dasharray Path Drawing',
     summary: '아이콘이나 일러스트 외곽선이 시작점부터 끝점까지 실시간으로 그려지는 기법',
     promptSnippet:
-      "지정한 SVG 도형의 외곽선이 그려지는 Path Drawing을 구현해 줘. 데모 별 모양 path는 stroke #818cf8, stroke-width 4, round cap/join이며 stroke-dasharray와 stroke-dashoffset을 320으로 시작해 줘. 2.4초 ease-in-out 무한 반복에서 0~65% 구간에는 내부 fill을 투명하게 유지하며 dashoffset을 320→0으로 줄여 외곽선을 그려 줘. 65~85% 구간에는 dashoffset을 0으로 유지하고 내부 fill을 투명→인디고 25%(rgba(99,102,241,0.25))로 채운 뒤, 85~100%에는 완성된 외곽선과 채움을 유지해 줘. 다른 도형에 적용할 때는 그 path 길이에 맞춰 dash 길이를 산정해 줘.",
+      "지정한 SVG 도형의 외곽선이 그려지는 Path Drawing을 구현해 줘. path마다 pathLength=\"1\"로 길이를 정규화하고 stroke-dasharray: 1, 초기 stroke-dashoffset: 1을 적용해, 실제 도형 길이와 관계없이 시작 시 외곽선 전체가 숨겨지게 해 줘. 고정된 실제 길이 320을 임의 도형에 재사용하지 말아 줘. stroke #818cf8, stroke-width 4, round cap/join을 사용해 줘. 2.4초 ease-in-out 무한 반복에서 0~65% 구간에는 내부 fill을 투명하게 유지하며 dashoffset을 1→0으로 줄여 외곽선을 그려 줘. 65~85% 구간에는 dashoffset을 0으로 유지하고 내부 fill을 투명→인디고 25%(rgba(99,102,241,0.25))로 채운 뒤, 85~100%에는 완성된 외곽선과 채움을 유지해 줘.",
   },
   {
     id: 'mg-liquid-blob-morph',

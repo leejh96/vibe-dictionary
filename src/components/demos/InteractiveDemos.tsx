@@ -283,25 +283,30 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
 
 const MagneticHoverDemo: React.FC = () => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isTracking, setIsTracking] = useState(false);
   return (
     <div
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
+        setIsTracking(true);
         setOffset({
           x: (e.clientX - (rect.left + rect.width / 2)) * 0.42,
           y: (e.clientY - (rect.top + rect.height / 2)) * 0.42,
         });
       }}
-      onMouseLeave={() => setOffset({ x: 0, y: 0 })}
+      onMouseLeave={() => {
+        setIsTracking(false);
+        setOffset({ x: 0, y: 0 });
+      }}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
       <button
         style={{
           transform: `translate(${offset.x}px, ${offset.y}px)`,
           transition:
-            offset.x === 0
-              ? 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)'
-              : 'transform 0.05s ease-out',
+            isTracking
+              ? 'transform 0.05s ease-out'
+              : 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
         className="px-5 py-2.5 rounded-full bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/35"
       >
@@ -1330,6 +1335,7 @@ const MgSvgLineDrawDemo: React.FC = () => {
       <svg className="w-20 h-20" viewBox="0 0 100 100">
         <path
           d="M50 10 L63 36 L92 40 L71 60 L76 89 L50 75 L24 89 L29 60 L8 40 L37 36 Z"
+          pathLength="1"
           stroke="#818cf8"
           strokeWidth="4"
           strokeLinecap="round"
