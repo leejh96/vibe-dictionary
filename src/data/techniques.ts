@@ -134,7 +134,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Magnetic Cursor Hover',
     summary: '커서 방향으로 버튼이 자석처럼 끌려오는 효과',
     promptSnippet:
-      '버튼에 Magnetic Cursor Hover 효과를 적용해 줘. 마우스가 요소 영역 안에서 움직일 때 중심점과 커서 좌표 오프셋(dx, dy)의 35%만큼 요소가 따라 움직이고, 마우스가 나가면 spring 이징으로 복귀하게 해 줘.',
+      "지정한 버튼을 감싼 영역에서 마우스 위치를 추적하는 Magnetic Cursor Hover를 구현해 줘. 추적 영역 중심과 커서의 좌표 차이(dx, dy)의 42%만큼 버튼을 translate하고, 이동 중에는 0.05초 ease-out으로 따라가게 해 줘. 영역을 벗어나면 오프셋을 (0, 0)으로 초기화하고 0.45초 cubic-bezier(0.34, 1.56, 0.64, 1)로 복귀시켜 줘.",
   },
   {
     id: 'shimmer-sweep',
@@ -146,7 +146,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Shimmer Light Sweep',
     summary: '대각선 빛줄기가 표면을 주기적으로 스쳐가는 연출',
     promptSnippet:
-      '버튼/배지 위에 Shimmer Light Sweep 효과를 적용해 줘. 반투명 흰색 그라데이션(`via-white/50`) 레이어를 `skewX(-20deg)`로 기울여 왼쪽(`-160%`)에서 오른쪽(`260%`)으로 미끄러지듯 지나가게 해 줘.',
+      "지정한 버튼/배지 안에 overflow-hidden과 pointer-events-none 광택 레이어를 두는 Shimmer Light Sweep을 구현해 줘. 투명→흰색 55%→투명 그라데이션을 skewX(-20deg)로 기울이고 translateX(-160%)에서 260%까지 2초 ease-in-out으로 무한 반복해 줘. 텍스트는 광택보다 위에 두고, 버튼을 클릭하면 광택 애니메이션을 처음부터 재생해 줘.",
   },
   {
     id: 'ripple-click',
@@ -158,7 +158,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Material Ripple Click',
     summary: '클릭 지점부터 동심원 물결이 부드럽게 퍼지는 효과',
     promptSnippet:
-      '버튼 클릭 시 클릭한 정확한 마우스 좌표(`clientX - rect.left`)에서 원형 Ripple 물결이 `scale(0)`에서 `scale(14)`로 커지며 `opacity: 0`으로 사라지는 Material Ripple 이펙트를 구현해 줘.',
+      "지정한 버튼을 클릭한 위치(clientX - rect.left, clientY - rect.top)에 16px 원형 Ripple을 생성해 줘. 버튼 내부에서만 보이게 하고 pointer-events-none으로 입력을 가로막지 않게 해 줘. 0.65초 ease-out 동안 translate(-50%, -50%)를 유지하며 scale(0)→14, opacity 0.65→0으로 확산한 뒤 원을 제거해 줘. 연속 클릭은 각각 독립된 물결로 처리해 줘.",
   },
   {
     id: 'neon-glow-pulse',
@@ -170,7 +170,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Neon Drop-Shadow Pulse',
     summary: '버튼 주변으로 네온 빛 번짐이 부드럽게 맥동하는 효과',
     promptSnippet:
-      '호버 및 활성 상태에서 다중 `box-shadow`(`0 0 15px`, `0 0 35px`)와 밝은 테두리를 사용해 네온사인이 숨 쉬듯 은은하게 발광하는 Neon Glow Pulse 효과를 적용해 줘.',
+      "지정한 버튼에 클릭으로 ON/OFF가 전환되는 Neon Glow Pulse를 구현해 줘. 초기값은 ON이며 ON일 때만 시안색 테두리와 box-shadow를 2초 ease-in-out으로 반복해 줘. 그림자는 0/100%에서 번짐 10px·24px(불투명도 0.55·0.25), 50%에서 20px·42px(0.95·0.55)로 맥동하게 해 줘. OFF에서는 반복 발광을 없애고 어두운 배경·테두리·문자로 전환해 줘.",
   },
   {
     id: 'liquid-slide-fill',
@@ -182,7 +182,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Slide Background Fill Button',
     summary: '마우스를 올리면 배경색 레이어가 미끄러져 채워지는 버튼',
     promptSnippet:
-      '마우스 호버 시 버튼 내부의 배경 레이어가 `translateX(-100%)`에서 `translateX(0)`으로 빠르게 슬라이드되며 배경색과 텍스트 색상이 반전되는 Slide Fill Button을 구현해 줘.',
+      "지정한 버튼 안에서 에메랄드 배경 레이어가 translateX(-100%)→0으로 채워지는 Slide Fill을 구현해 줘. 초기에는 비어 있고 마우스 진입 시 채움, 이탈 시 비움, 클릭 시 현재 채움 상태를 반전시켜 줘. 배경 이동은 0.3초 ease-out, 텍스트 색상 전환도 0.3초로 맞추고, 채워졌을 때 어두운 텍스트로 바꿔 줘. 배경은 버튼 안에서 잘리고 텍스트보다 뒤에 있어야 해.",
   },
   {
     id: 'card-flip-3d',
@@ -194,7 +194,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '3D Perspective Card Flip',
     summary: '클릭하면 Y축 180도로 입체 회전하며 뒷면 노출',
     promptSnippet:
-      '카드 컨테이너에 `perspective: 1000px`, 내부 래퍼에 `transform-style: preserve-3d`를 주고 클릭 시 `rotateY(180deg)`로 0.6초 동안 회전하며 뒷면이 나타나는 3D Card Flip을 구현해 줘.',
+      "지정한 카드에 클릭할 때마다 앞면/뒷면을 토글하는 3D Card Flip을 구현해 줘. 외부에는 perspective: 1000px, 내부에는 transform-style: preserve-3d와 0.5초 transform 전환을 적용해 줘. 양면 모두 backface-visibility: hidden을 적용하고 뒷면은 미리 rotateY(180deg)로 배치해 줘. 내부 래퍼를 0deg↔180deg로 돌려 초기 앞면에서 뒷면으로, 재클릭 시 앞면으로 돌아오게 해 줘.",
   },
   {
     id: 'tilt-3d-card',
@@ -206,7 +206,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '3D Interactive Mouse Tilt',
     summary: '커서 위치에 맞춰 카드가 상하좌우 입체로 기울어짐',
     promptSnippet:
-      '카드 위에서 마우스 이동 시 중심 대비 좌표를 계산해 `perspective(600px) rotateX(...) rotateY(...)`와 광택 하이라이트를 실시간 적용하고, 마우스가 떠나면 수평으로 돌아오는 3D Tilt Card를 구현해 줘.',
+      "지정한 카드의 추적 영역에서 정규화한 커서 좌표(px, py: 0~1)를 사용해 perspective(550px), rotateX((py - 0.5) * -28deg), rotateY((px - 0.5) * 28deg)를 적용하는 3D Tilt를 구현해 줘. 이동 중에는 0.04초 linear로 추적하고 커서 위치에 흰색 35%→transparent 60% radial-gradient 광택을 배치해 줘. 마우스 이탈 시 기울기를 0deg로, 광택 중심을 (50%, 50%)로 초기화하고 0.4초 ease-out으로 복귀해 줘.",
   },
   {
     id: 'glassmorphism-card',
@@ -218,7 +218,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Frosted Glassmorphism UI',
     summary: '배경 빛이 은은하게 투과되는 반투명 블러 유리 질감',
     promptSnippet:
-      '배경의 컬러풀한 오브젝트가 은은하게 비치도록 `backdrop-filter: blur(16px)`, 반투명 배경(`bg-white/10`), 얇은 하이라이트 보더(`border-white/25`)를 조합한 Glassmorphism 카드를 적용해 줘.',
+      "지정한 카드에 bg-white/10, backdrop-blur-md, border-white/25와 둥근 모서리·그림자를 조합한 Frosted Glassmorphism을 적용해 줘. 뒤에는 분홍색·시안색 원형 광원을 흐리게 두고, 각각 반대 방향으로 (-28px, -12px)↔(28px, 14px) 및 (28px, 12px)↔(-28px, -14px) 이동하며 scale(1)↔1.15로 4초 ease-in-out 반복해 줘. 카드 앞의 텍스트는 선명하게 유지하고 광원이 유리를 통해 비치게 해 줘.",
   },
   {
     id: 'spotlight-border-card',
@@ -230,7 +230,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Radial Cursor Glow Card',
     summary: '커서가 위치한 곳만 은은한 원형 조명이 비치는 카드',
     promptSnippet:
-      '카드 위에서 마우스 좌표(`x, y`)를 추적해 `radial-gradient(120px circle at ${x}px ${y}px, rgba(129,140,248,0.4), transparent 80%)` 조명이 커서를 따라다니는 Radial Spotlight Card를 만들어 줘.',
+      "지정한 카드 내부의 마우스 좌표를 따라가는 Radial Spotlight를 구현해 줘. 초기 조명 중심은 (100px, 45px)이며 radial-gradient(120px circle at xpx ypx, rgba(129,140,248,0.42), rgba(15,23,42,0.95) 80%)를 카드 배경으로 사용해 줘. 마우스 이동 시 중심만 갱신하고, 이탈 시에는 마지막 위치를 유지해 줘. 조명은 텍스트와 입력을 가리지 않아야 해.",
   },
   {
     id: 'stacked-card-cycle',
@@ -242,7 +242,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Stacked Card Deck Switcher',
     summary: '여러 장 겹쳐진 카드가 스케일과 깊이를 바꾸며 순환',
     promptSnippet:
-      '3장의 카드가 `scale`과 `translateY` 오프셋으로 겹쳐진 Stacked Card Deck을 만들고, 클릭할 때마다 맨 앞 카드가 뒤로 넘어가며 다음 카드가 부드럽게 앞으로 나오는 인터랙션을 구현해 줘.',
+      "지정한 카드 덱을 3장으로 겹치고 클릭할 때마다 첫 카드를 배열 끝으로 보내 순환하는 Stacked Card Deck을 구현해 줘. 앞에서부터 index에 따라 translateY(-9px * index), scale(1 - 0.07 * index), opacity(1 - 0.25 * index), z-index(10 - index)를 적용해 줘. 순환에 따른 위치·크기·투명도 변화는 0.3초로 전환해 줘.",
   },
   {
     id: 'spring-bounce-modal',
@@ -254,7 +254,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Spring Physics Overshoot Pop',
     summary: '살짝 더 커졌다가(114%) 탄성 있게 제자리로 안착하는 모션',
     promptSnippet:
-      '요소가 등장할 때 `cubic-bezier(0.34, 1.56, 0.64, 1)` 스프링 오버슈트 이징을 적용해 `scale(0.45)`에서 `scale(1.14)`까지 튕겼다가 `scale(1)`로 안착하는 탄성 팝 모션을 적용해 줘.',
+      "지정한 요소가 처음 나타날 때와 클릭으로 재생할 때 0.48초 cubic-bezier(0.34, 1.56, 0.64, 1)의 Spring Pop을 실행해 줘. 0%에서는 scale(0.45)·opacity 0, 60%에서는 scale(1.14)·opacity 1, 80%에서는 scale(0.95), 100%에서는 scale(1)로 안착하고 마지막 상태를 유지해 줘. 반복 클릭하면 애니메이션을 처음부터 다시 시작해 줘.",
   },
   {
     id: 'staggered-list',
@@ -266,7 +266,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Staggered Cascade Fade-in',
     summary: '목록 아이템이 짧은 시간차를 두고 아래서 위로 순차 등장',
     promptSnippet:
-      '목록 아이템들에 `index * 90ms`의 `animation-delay`를 부여해 아래(`translateY(12px)`, `opacity: 0`)에서 위로 도미노처럼 촤르륵 순차 등장하는 Staggered Cascade 애니메이션을 적용해 줘.',
+      "지정한 목록의 항목을 index * 100ms 간격으로 순차 등장시키는 Staggered Cascade를 구현해 줘. 각 항목은 0.42초 cubic-bezier(0.16, 1, 0.3, 1) 동안 opacity 0·translateY(12px)에서 opacity 1·translateY(0)으로 전환해 줘. 지연 중에도 시작 상태를 유지하도록 backwards를 적용하고, 처음 표시될 때 재생하며 목록을 클릭하면 전체 시퀀스를 재시작해 줘.",
   },
   {
     id: 'smooth-accordion',
@@ -278,7 +278,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Smooth Height Expand Accordion',
     summary: '클릭 시 끊김 없이 부드러운 높이 변화로 열리고 닫힘',
     promptSnippet:
-      '클릭 시 숨겨진 상세 영역이 CSS Grid `grid-template-rows: 0fr`에서 `1fr`로 전환되며 높이와 투명도가 스르륵 부드럽게 펼쳐지는 Smooth Accordion을 구현해 줘.',
+      "지정한 아코디언은 초기 열린 상태로 두고 클릭할 때마다 접기/펼치기를 토글해 줘. 상세 영역을 CSS Grid grid-template-rows: 0fr↔1fr와 opacity: 0↔1로 0.3초 ease-out 전환하고, 내부에는 overflow-hidden을 적용해 줘. 열릴 때만 상단 간격을 주고 화살표는 0.3초 동안 180deg 회전해 줘.",
   },
   {
     id: 'morphing-state-button',
@@ -290,7 +290,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Morphing Multi-State Button',
     summary: '기본 ➔ 로딩 스피너 ➔ 완료 체크로 폭과 색상이 매끄럽게 변형',
     promptSnippet:
-      '버튼 클릭 시 [Idle ➔ Loading ➔ Success] 3단계로 버튼 너비, 배경색, 내부 아이콘이 레이아웃 덜컥거림 없이 매끄럽게 변형되는 Morphing State Button을 구현해 줘.',
+      "지정한 버튼을 Idle→Loading→Done으로 바꾸는 시연용 Morphing State Button을 구현해 줘. Idle 클릭 시 너비 144px의 인디고 버튼이 40px의 원형 로딩 스피너로 변하고, 850ms 뒤 너비 128px의 에메랄드 완료 버튼으로 전환되게 해 줘. 너비·색상 변화는 0.3초로 맞춰 줘. Loading 또는 Done에서 재클릭하면 타이머를 취소하고 Idle로 복귀시켜 줘. 850ms 전환은 데모용 타이머이며 실제 요청의 성공을 의미하지 않아.",
   },
   {
     id: 'floating-levitation',
@@ -302,7 +302,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Floating Levitation Loop',
     summary: '위아래로 천천히 오르내리며 바닥 그림자 크기도 함께 반응',
     promptSnippet:
-      '요소가 2.2초 주기로 위아래(`translateY(-9px)`)로 부드럽게 둥둥 떠다니고, 동시에 하단 그림자(`blur`, `scale`)가 멀어질 때 작아지고 가까워질 때 진해지는 Floating Levitation 효과를 넣어 줘.',
+      "지정한 요소와 아래의 별도 그림자 레이어를 2.2초 ease-in-out으로 함께 반복하는 Floating Levitation을 구현해 줘. 요소는 translateY(0)→-9px→0으로 떠다니고, 그림자는 같은 타이밍에 scale(1)·opacity 0.55→scale(0.65)·opacity 0.25→원래 값으로 변하게 해 줘. 그림자는 blur(2px)로 부드럽게 하고 요소가 높이 뜰수록 작고 옅어지게 해 줘.",
   },
   {
     id: 'typewriter-streaming',
@@ -314,7 +314,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Typewriter Streaming Text',
     summary: '깜빡이는 커서와 함께 글자가 실시간으로 타이핑되는 효과',
     promptSnippet:
-      '텍스트가 50ms 간격으로 한 글자씩 순차 출력되고 끝에 깜빡이는 커서(`▋`)가 따라붙는 Typewriter Streaming Text 효과를 구현해 줘.',
+      "지정한 텍스트를 처음 표시할 때 55ms 간격으로 한 글자씩 출력하는 Typewriter 효과를 구현해 줘. 끝에는 에메랄드색 막대 커서가 펄스 형태로 깜빡이게 해 줘. 전체 문장을 출력하면 타이핑 타이머를 멈추고, 영역을 클릭하면 기존 출력을 비운 뒤 처음부터 다시 타이핑해 줘.",
   },
   {
     id: 'scramble-decode-text',
@@ -326,7 +326,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Scramble / Cipher Text Decode',
     summary: '무작위 기호들이 빠르게 회전하다가 원래 문장으로 맞춰짐',
     promptSnippet:
-      '호버하거나 클릭할 때 알파벳/기호(`!<>-_\\/[]{}—=+*^?#`)가 빠르게 무작위로 바뀌다가 왼쪽부터 한 글자씩 원래 텍스트로 해독되는 Scramble Text Decode 효과를 구현해 줘.',
+      "지정한 텍스트가 처음 표시되거나 마우스 진입·클릭할 때 Scramble Decode를 재생해 줘. 35ms마다 무작위 기호(!<>-_\\\\/[]{}—=+*^?#01)를 갱신하고, 공백은 유지해 줘. frame > index * 2인 문자부터 원문으로 고정해 왼쪽에서 오른쪽으로 해독하고, frame이 전체 글자 수의 2배를 넘으면 타이머를 멈춰 줘. 재실행 전의 타이머는 정리해 줘.",
   },
   {
     id: 'gradient-flow-text',
@@ -338,7 +338,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Animated Flowing Gradient Text',
     summary: '텍스트 내부의 다중 컬러 그라데이션이 끊임없이 이동',
     promptSnippet:
-      '헤드라인 텍스트에 `bg-clip-text text-transparent`와 `background-size: 220% 220%`를 주고, 그라데이션 포지션이 좌우로 계속 흐르는 Animated Gradient Text를 적용해 줘.',
+      "지정한 헤드라인에 bg-clip-text와 text-transparent를 적용하고, #818cf8→#f472b6→#fbbf24→#34d399→#818cf8의 90deg 그라데이션을 글자 안에만 보이게 해 줘. background-size: 220% 220%로 확대하고 background-position을 0% 50%→100% 50%→0% 50%로 3초 ease 무한 반복하는 Animated Gradient Text를 구현해 줘.",
   },
   {
     id: 'slot-number-ticker',
@@ -350,7 +350,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Animated Number Count-up Ticker',
     summary: '목표 숫자까지 감속 곡선을 그리며 드르륵 올라가는 카운터',
     promptSnippet:
-      '숫자 지표가 변경될 때 `requestAnimationFrame`과 easeOutQuart 감속 함수를 사용해 시작 값에서 목표 수치까지 0.65초 동안 드르륵 부드럽게 카운트업되는 Number Ticker를 구현해 줘.',
+      "지정한 숫자 지표를 requestAnimationFrame과 easeOutQuart(1 - (1 - p)^4)로 0.65초 동안 현재 표시값에서 목표값까지 보간하는 Number Ticker를 구현해 줘. 매 프레임 정수로 반올림하고 천 단위 구분자를 표시해 줘. 데모는 최초 0→2,480으로 시작하고 클릭할 때 목표값에 400~1,599를 더해 다시 재생해. 목표 변경/언마운트 시 기존 프레임을 취소하고 새 목표는 현재 표시값에서 이어서 시작해 줘.",
   },
   {
     id: 'marker-highlight-draw',
@@ -362,7 +362,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Animated Marker Highlight Draw',
     summary: '핵심 단어 뒤로 형광펜 배경이 왼쪽에서 오른쪽으로 칠해짐',
     promptSnippet:
-      '강조할 텍스트 뒤에 인라인 그라데이션 배경을 깔고 `background-size`가 `0% 85%`에서 `100% 85%`로 0.55초 동안 슥 그어지듯 채워지는 Marker Highlight 효과를 적용해 줘.',
+      "지정한 강조 텍스트 뒤에 노란색 45%의 인라인 배경을 no-repeat, background-position: 0 90%로 배치해 줘. 최초 표시 200ms 뒤 background-size: 0% 85%→100% 85%를 0.55초 cubic-bezier(0.16, 1, 0.3, 1)로 채우는 Marker Highlight를 구현해 줘. 클릭하면 전환 없이 폭을 0으로 되돌리고 120ms 뒤 다시 그어 줘.",
   },
   {
     id: 'confetti-burst',
@@ -374,7 +374,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Confetti Particle Burst',
     summary: '클릭 지점에서 다채로운 폭죽 조각들이 사방으로 퍼져나감',
     promptSnippet:
-      '완료/성공 액션 시 버튼 위치에서 다채로운 색상의 파티클 조각들이 방사형 속도와 회전을 갖고 0.8초 동안 사방으로 터져 나가는 Confetti Particle Burst를 구현해 줘.',
+      "지정한 버튼을 클릭할 때 중앙에서 9개의 다색 10px 파티클이 퍼지는 Confetti Burst를 구현해 줘. 파티클은 x -80~80px, y -80~50px 범위의 데모상 고정된 9방향으로 0.78초 ease-out 이동하면서 scale(0.4)→1.15, rotate(0)→120deg, opacity 1→0으로 변하게 해 줘. 장식 레이어는 pointer-events-none으로 두고 900ms 뒤 제거하며, 재클릭 시 이전 정리 타이머를 취소하고 새 폭죽을 재생해 줘. 클릭은 시연 트리거이며 실제 작업의 성공을 의미하지 않아.",
   },
   {
     id: 'error-shake-tooltip',
@@ -386,7 +386,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Horizontal Error Shake',
     summary: '잘못된 동작 시 좌우로 빠르게 진동하며 안내 배지 노출',
     promptSnippet:
-      '유효성 실패 시 입력 박스가 0.42초 동안 좌우(`±8px`)로 빠르게 진동하는 Horizontal Error Shake 키프레임을 실행하고 상단에 플로팅 안내 툴팁을 띄워 줘.',
+      "지정한 입력 박스 모양 영역에 클릭으로 유효성 실패 표현을 시연하는 Error Shake를 구현해 줘. 0.42초 cubic-bezier(0.36, 0.07, 0.19, 0.97) 동안 translateX(0)→±8px와 rotate(±1deg)를 교차한 뒤 원위치로 돌아오게 해 줘. 클릭 시 빨간 테두리를 적용하고 재클릭 시 15ms 간격으로 애니메이션을 재시작해 줘. 상단 안내 배지는 처음부터 표시하고 2.2초 주기의 float-bob으로 띄워 줘. 데모에는 실제 입력값 검사나 안내 자동 숨김은 없어.",
   },
   {
     id: 'heart-like-burst',
@@ -398,7 +398,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Heart Like Ring & Particle Pop',
     summary: '클릭 시 아이콘이 탄성 있게 튀어 오르며 외곽 링이 확산됨',
     promptSnippet:
-      '좋아요 버튼 클릭 시 하트 아이콘이 스프링 바운스로 커지고, 동시에 외곽 원형 링이 `scale(0.5)`에서 `scale(1.85)`로 퍼지며 사라지는 Heart Ring Burst 애니메이션을 구현해 줘.',
+      "지정한 좋아요 버튼의 하트와 둥근 사각 테두리 링을 처음 표시할 때와 클릭할 때마다 함께 재생해 줘. 하트에는 0.48초 Spring Pop(scale 0.45→1.14→0.95→1)을, 링에는 0.5초 ease-out으로 scale(0.5)→1.85와 opacity 0.9→0을 적용해 줘. 재클릭 시 두 애니메이션을 처음부터 다시 시작하고, 좋아요 서버 저장 여부와는 구분된 시각 효과로 구현해 줘.",
   },
   {
     id: 'toast-slide-stack',
@@ -410,7 +410,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Slide-in Toast Notification',
     summary: '하단에서 탄성 있게 미끄러져 올라와 쌓이는 미니 알림 바',
     promptSnippet:
-      '액션 발생 시 하단(`translateY(24px)`)에서 위로 스프링 이징과 함께 쏙 미끄러져 올라와 쌓이는 Slide-in Toast Notification 컴포넌트를 구현해 줘.',
+      "지정한 알림 영역에 초기 토스트 1개를 보여주고 클릭할 때마다 새 토스트를 추가하는 Slide-in Toast Stack을 구현해 줘. 최신 2개만 유지하며 자동으로 사라지게 하지는 말아 줘. 새 토스트는 0.38초 cubic-bezier(0.34, 1.56, 0.64, 1) 동안 translateY(24px)·scale(0.92)·opacity 0에서 65% 지점의 translateY(-3px)·scale(1.02)를 거쳐 원위치·scale(1)·opacity 1로 안착하게 해 줘. 알림 문구는 시연용이며 실제 저장 완료를 의미하지 않아.",
   },
   {
     id: 'sliding-pill-tabs',
@@ -422,7 +422,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Sliding Pill Tab Indicator',
     summary: '탭을 바꿀 때 활성 배경 캡슐이 선택한 탭 위치로 미끄러짐',
     promptSnippet:
-      '탭 메뉴 전환 시 활성 탭을 감싸는 둥근 배경 Pill 요소가 `translateX` 트랜지션으로 선택된 탭 위치까지 스르륵 미끄러져 이동하는 Sliding Pill Tabs를 구현해 줘.',
+      "지정한 탭 메뉴를 동일 너비의 3칸으로 배치하고 초기에는 첫 탭을 활성화해 줘. 탭 클릭 시 인디고색 둥근 배경 Pill이 translateX(activeIndex * 100%)로 0.3초 ease-out 이동하고, 활성 탭의 텍스트는 흰색·비활성 탭은 회색으로 전환해 줘. Pill은 버튼보다 뒤에 두고 메뉴 내부에서만 이동하게 해 줘.",
   },
   {
     id: 'infinite-marquee',
@@ -434,7 +434,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Infinite Seamless Marquee',
     summary: '로고나 키워드 트랙이 끊기는 구간 없이 계속 옆으로 흐름',
     promptSnippet:
-      '동일한 아이템 그룹 2개를 나란히 배치하고 `translateX(0%)`에서 `translateX(-50%)`까지 선형(linear) 무한 반복하는 Infinite Marquee 배너를 구현해 줘.',
+      "지정한 배너 안에 같은 아이템 목록을 두 번 연속 배치하고 바깥에는 overflow-hidden을 적용해 줘. 전체 트랙을 translateX(0%)→-50%로 9초 linear 무한 반복하는 Infinite Marquee를 구현해 줘. 두 사본의 구성과 간격을 같게 맞춰 반복 경계에서 같은 목록이 이어지게 하고, 별도 호버 정지 기능은 추가하지 말아 줘.",
   },
   {
     id: 'skeleton-shimmer',
@@ -446,7 +446,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Skeleton Shimmer Placeholder',
     summary: '데이터가 뜨기 전 UI 윤곽선 위로 부드러운 광택이 흐름',
     promptSnippet:
-      '데이터 로딩 상태에서 실제 카드 레이아웃 모양의 플레이스홀더 블록 위로 반투명 광택 그라데이션(`via-white/10`)이 가로질러 흐르는 Skeleton Shimmer Loader를 적용해 줘.',
+      "지정한 로딩 플레이스홀더를 원형 아바타 1개와 너비가 다른 텍스트 막대 2개로 구성해 줘. 카드 내부의 절반 너비 광택 레이어에 투명→흰색 10%→투명 그라데이션을 주고 translateX(-160%)→260% 및 skewX(-20deg)를 2초 ease-in-out 무한 반복하는 Skeleton Shimmer를 구현해 줘. 광택은 카드 내부에서 잘리고 입력을 가로막지 않게 해 줘. 데모는 정적 로딩 시연이며 실제 데이터 요청/완료 전환은 없어.",
   },
   {
     id: 'spotlight-focus',
@@ -458,7 +458,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Spotlight Dimmed Focus',
     summary: '나머지 요소를 흐리게 죽이고 선택한 요소만 선명하게 강조',
     promptSnippet:
-      '비활성 항목들은 `opacity-30 blur-[0.4px]`로 낮추고, 현재 포커스된 항목만 밝은 링(`ring-2`)과 스케일 업으로 또렷하게 부각하는 Spotlight Focus 효과를 적용해 줘.',
+      "지정한 3개 항목 중 초기에는 가운데 항목만 bg-slate-800, 흰색 글자, ring-2 ring-amber-400, scale(1.02)로 강조하는 Spotlight Focus를 구현해 줘. 비활성 항목은 opacity 0.3과 blur(0.4px)로 낮추고 모든 변화는 0.3초로 전환해 줘. 데모와 같이 index i인 행을 클릭하면 그 행 자체가 아니라 다음 행((i + 1) % 3)을 강조하도록 순환해 줘.",
   },
   {
     id: 'before-after-slider',
@@ -470,7 +470,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Before / After Split Comparison',
     summary: '중앙 핸들을 좌우로 움직여 두 화면의 차이를 즉석 비교',
     promptSnippet:
-      '두 개의 레이어를 겹쳐 놓고 드래그/레인지 값(0~100%)에 따라 상단 레이어의 `clip-path: inset(0 ${100 - pos}% 0 0)`와 분할선 핸들 위치를 조절하는 Before/After Comparison Slider를 구현해 줘.',
+      "지정한 비교 영역에 BEFORE/AFTER 레이어를 겹치고 초기 분할 위치를 55%로 두는 Before/After Slider를 구현해 줘. 영역 전체를 덮는 투명한 range 입력의 범위는 10~90으로 제한하고, 값 pos에 따라 상단 BEFORE 레이어의 clip-path: inset(0 (100 - pos)% 0 0)와 분할선의 left: pos%를 함께 갱신해 줘. 분할선 가운데에는 양방향 이동 핸들을 표시해 줘.",
   },
   {
     id: 'drag-snap-slot',
@@ -482,7 +482,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Snap-to-Slot Token Block',
     summary: '아이템을 선택하면 빈 슬롯에 탄성 있게 착 끼워 맞춰짐',
     promptSnippet:
-      '토큰/칩을 클릭하거나 드래그했을 때 타겟 슬롯이 하이라이트되며 스프링 바운스 모션과 함께 슬롯 내부에 착 장착되는 Snap-to-Slot 인터랙션을 구현해 줘.',
+      "지정한 슬롯과 Motion/3D UI/Spring 3개 칩으로 구성한 Snap-to-Slot 시연 UI를 구현해 줘. 초기 선택은 Motion이며 칩을 클릭하면 슬롯 텍스트를 해당 칩으로 교체하고 에메랄드 테두리와 0.48초 Spring Pop(scale 0.45→1.14→0.95→1)으로 장착감을 표현해 줘. 선택된 칩도 강조해 줘. 이 데모는 클릭 선택 방식으로 실제 드래그 앤 드롭이나 물리적 흡착은 구현하지 않아.",
   },
   {
     id: 'elastic-toggle-switch',
@@ -494,7 +494,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Elastic Spring Toggle Switch',
     summary: 'ON/OFF 전환 시 노브가 가로로 살짝 늘어났다 탄성 있게 이동',
     promptSnippet:
-      '토글 스위치 클릭 시 내부 원형 노브가 `cubic-bezier(0.34, 1.56, 0.64, 1)` 탄성 곡선으로 이동하고 전환 순간 가로로 살짝 늘어나는(`scaleX(1.25)`) Elastic Toggle Switch를 구현해 줘.',
+      "지정한 토글 스위치를 초기 ON 상태로 두고 클릭할 때마다 ON/OFF를 전환해 줘. 흰색 노브를 translateX(0px)↔28px로 0.42초 cubic-bezier(0.34, 1.56, 0.64, 1) 이동시키면서, 클릭 직후 220ms 동안 scaleX(1.25)로 늘렸다가 1로 복귀시켜 줘. 트랙 색상은 ON 인디고/OFF 어두운 회색으로 0.3초 전환해 줘.",
   },
   {
     id: 'combo-gauge-pop',
@@ -506,7 +506,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Smooth Progress & Scale Pop',
     summary: '진행 바가 부드럽게 차오르며 상태 배지가 탄성 있게 튀어 오름',
     promptSnippet:
-      '수치 증가 시 프로그레스 바 너비가 그라데이션과 함께 부드럽게 차오르고, 상단 카운터 배지가 일시적으로 `scale(1.26)`으로 튀어 오르는 Smooth Gauge & Pop 연출을 적용해 줘.',
+      "지정한 게이지와 카운터 배지에 클릭으로 반복되는 Combo Gauge Pop을 구현해 줘. 초기 count는 3이고 너비는 ((count % 5) + 1) * 20%이므로 처음 80%에서 시작해 클릭마다 count를 1씩 올리고 게이지를 100%→20%→40% 순으로 순환시켜 줘. 막대 너비는 0.3초 전환하고 배지는 count 변경 시 0.34초 cubic-bezier(0.34, 1.56, 0.64, 1)로 scale(0.7) rotate(-6deg)→scale(1.26) rotate(4deg)→scale(1) rotate(0)으로 팝하게 해 줘.",
   },
   {
     id: 'gooey-menu-fab',
@@ -518,7 +518,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Spring Speed-Dial Floating Action Button',
     summary: '메인 + 버튼을 누르면 45도 회전하며 서브 액션 아이콘들이 시간차 스프링으로 튀어나옴',
     promptSnippet:
-      '메인 플로팅 액션 버튼(FAB) 클릭 시 `+` 아이콘이 `rotate(45deg)`로 회전하고, 숨겨져 있던 3개의 하위 원형 버튼들이 각각 다른 `transition-delay`(0ms, 40ms, 80ms)와 `cubic-bezier(0.34, 1.56, 0.64, 1)` 탄성 곡선으로 펼쳐지는 Speed-Dial FAB를 구현해 줘.',
+      "지정한 플로팅 액션 메뉴를 초기 열린 상태로 두고 메인 버튼 클릭 시 열기/닫기를 토글해 줘. 3개 하위 버튼의 열린 위치는 (-52px,-18px), (0,-48px), (52px,-18px)이며, 열 때만 0/45/90ms 지연과 0.3초 cubic-bezier(0.34, 1.56, 0.64, 1)로 scale(0.3)·opacity 0에서 scale(1)·opacity 1로 펼쳐 줘. 닫힐 때는 지연 없이 중앙으로 모으고 pointer-events-none으로 클릭을 막아 줘. + 아이콘은 0↔45deg 회전하고 하위 버튼 클릭은 선택한 액션명만 표시하는 시연으로 구현해 줘.",
   },
   {
     id: 'otp-pin-focus-bounce',
@@ -530,7 +530,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'OTP Pin Auto-Focus Bounce Input',
     summary: '숫자 입력 시 해당 슬롯이 탄성 있게 튀어 오르며 자동으로 다음 칸으로 포커스가 이동하고 완료 시 에메랄드 글로우 점등',
     promptSnippet:
-      '6자리 OTP 인증번호 입력 UI를 만들고, 각 칸에 숫자가 입력될 때 `scale(1.12)` 바운스 애니메이션과 함께 다음 `<input>`으로 자동 포커스 이동하며, 6자리가 모두 채워지면 전체 슬롯 테두리가 에메랄드 빛으로 점등되게 구현해 줘.',
+      "지정한 영역에 6칸 OTP 입력 모양의 시연 UI를 구현해 줘. 기본 샘플은 [4,8,2,9,빈칸,빈칸]이며 다섯 번째 칸을 강조해 줘. 칸 클릭 시 1~9 샘플 숫자로 바꾸고 다음 칸(마지막은 마지막 칸)을 강조하면서 0.2초 탄성 전환으로 scale(1.25)·translateY(-4px)를 적용한 뒤 260ms 후 복귀시켜 줘. 연속 입력 재생은 빈칸으로 초기화한 뒤 110ms 간격으로 [7,3,9,1,5,8]을 채우고, 6칸이 차면 에메랄드 테두리·광택을 켜 줘. 실제 input 자동 포커스나 서버 인증이 아닌 버튼/타이머 시연임을 구분해 줘.",
   },
   {
     id: 'hold-to-confirm-ring',
@@ -542,7 +542,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Hold-to-Confirm Progress Button',
     summary: '버튼을 길게 누르는 동안 게이지가 차오르고 중간에 떼면 취소되며 끝까지 채우면 실행 완료',
     promptSnippet:
-      '중요한 작업을 실수로 실행하지 않도록 마우스/터치를 누르고 있는 동안(`onPointerDown`) 내부 프로그레스 레이어가 0%에서 100%까지 차오르고, 도중에 손을 떼면 즉시 0%로 감기며, 100% 도달 시 완료 상태로 전환되는 Hold-to-Confirm 버튼을 구현해 줘.',
+      "지정한 버튼에서 pointerdown 동안 35ms마다 진행률을 5%씩 올리는 Hold-to-Confirm 시연을 구현해 줘. 0%부터 연속 약 700ms 누르면 100%에 도달해 완료 상태로 전환하고, 완료 버튼 클릭 시 전체를 초기화해 줘. 완료 전에 pointerup/leave가 발생하면 즉시 0으로 만들지 말고 25ms마다 10%씩 감소시켜 줘. 감소 도중 다시 누르면 남은 진행률부터 증가해 줘. 누르는 동안 scale(0.95), 진행 레이어 너비는 75ms 전환을 적용하고 실제 배포/중요 작업 실행과는 구분해 줘.",
   },
   {
     id: 'peek-password-lamp',
@@ -554,7 +554,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Flashlight Beam Password Peek',
     summary: '우측 조명 토글을 켜면 원뿔형 손전등 빛줄기가 입력창을 비추며 마스킹된 비밀번호가 선명하게 나타남',
     promptSnippet:
-      '비밀번호 입력창 우측의 눈/조명 아이콘을 토글하면 아이콘에서 입력창 왼쪽으로 원뿔형 빛줄기(`clip-path: polygon(100% 50%, 0% 0%, 0% 100%)`)가 펼쳐지며 가려진 문자(`••••`)가 실제 텍스트로 부드럽게 전환되는 Flashlight Password Peek 인터랙션을 구현해 줘.',
+      "지정한 비밀번호 표시 영역에 초기 ON인 손전등 토글을 구현해 줘. 빛줄기는 clip-path: polygon(100% 50%, 0% -18%, 0% 118%)와 origin-right를 사용해 0.3초 동안 scaleX(0)·opacity 0↔scaleX(1)·opacity 1로 전환해 줘. 샘플 문자열은 ON에서 실제 문자와 금색 광택, OFF에서 •로 표시하고 오른쪽 문자부터 18ms 간격의 지연과 0.2초 색상 전환을 줘. 이 데모는 문자열 표시 시연이며 실제 비밀번호 입력/저장/인증 처리는 포함하지 않아.",
   },
 
   /* =====================================================================
@@ -570,7 +570,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'SVG Stroke Dasharray Path Drawing',
     summary: '아이콘이나 일러스트 외곽선이 시작점부터 끝점까지 실시간으로 그려지는 기법',
     promptSnippet:
-      'SVG `<path>`에 `stroke-dasharray`와 `stroke-dashoffset`을 전체 경로 길이로 설정한 뒤, `stroke-dashoffset`을 `0`으로 애니메이션화하여 펜으로 선을 직접 그리듯 외곽선이 완성되는 SVG Path Drawing 연출을 구현해 줘.',
+      "지정한 SVG 도형의 외곽선이 그려지는 Path Drawing을 구현해 줘. 데모 별 모양 path는 stroke #818cf8, stroke-width 4, round cap/join이며 stroke-dasharray와 stroke-dashoffset을 320으로 시작해 줘. 2.4초 ease-in-out 무한 반복에서 0~65% 구간에는 내부 fill을 투명하게 유지하며 dashoffset을 320→0으로 줄여 외곽선을 그려 줘. 65~85% 구간에는 dashoffset을 0으로 유지하고 내부 fill을 투명→인디고 25%(rgba(99,102,241,0.25))로 채운 뒤, 85~100%에는 완성된 외곽선과 채움을 유지해 줘. 다른 도형에 적용할 때는 그 path 길이에 맞춰 dash 길이를 산정해 줘.",
   },
   {
     id: 'mg-liquid-blob-morph',
@@ -582,7 +582,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Organic Liquid Blob Morphing',
     summary: '딱딱한 원/사각형 대신 살아있는 액체처럼 곡률이 끊임없이 변형되는 그래픽',
     promptSnippet:
-      '8축 `border-radius`(`60% 40% 30% 70% / 60% 30% 70% 40%` ➔ `30% 60% 70% 40% / 50% 60% 30% 60%`)와 미세 회전을 연속 키프레임으로 연결해 액체 물방울처럼 유영하는 Liquid Blob Morphing 그래픽을 구현해 줘.',
+      "지정한 그라데이션 도형에 5초 ease-in-out 무한 반복 Liquid Blob Morph를 적용해 줘. border-radius는 0/100%에 60% 40% 30% 70% / 60% 30% 70% 40%, 33%에 30% 60% 70% 40% / 50% 60% 30% 60%, 66%에 70% 30% 50% 50% / 30% 40% 70% 60%로 변형해 줘. 같은 시점에 rotate/scale을 (0deg,1)→(6deg,1.05)→(-6deg,0.97)→처음 값으로 이어 줘.",
   },
   {
     id: 'mg-gooey-metaball',
@@ -594,7 +594,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'SVG Gooey Metaball Filter Fusion',
     summary: '두 도형이 만날 때 경계면이 물방울처럼 끈적하게 이어지며 합쳐졌다 분리되는 효과',
     promptSnippet:
-      '부모 컨테이너에 SVG 필터(`feGaussianBlur stdDeviation="8"` + `feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"`)를 적용해 내부 원형 요소들이 가까워질 때 액체처럼 끈적하게 융합되는 Gooey Metaball 그래픽을 구현해 줘.',
+      "지정한 두 원형 도형에 SVG Gooey 필터를 적용해 줘. feGaussianBlur stdDeviation=7, feColorMatrix의 알파 행은 0 0 0 18 -7로 두고 feBlend로 원본과 합성해 줘. 시안·인디고 원은 각각 translateX(-28px)↔18px, 28px↔-18px로 2.4초 ease-in-out 무한 반복해 가까워질 때 융합되고 멀어질 때 분리되게 해 줘. SVG 필터는 도형 그룹에만 적용하고 텍스트는 밖에 둬 줘.",
   },
   {
     id: 'mg-orbit-rotation',
@@ -606,7 +606,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Multi-Ring Planetary Orbit',
     summary: '중심 오브젝트 둘레를 여러 궤도 링과 위성 입자들이 서로 다른 속도로 공전',
     promptSnippet:
-      '중앙 코어 주변에 동심원 궤도 링들을 배치하고, 각 궤도 컨테이너를 서로 다른 주기와 방향(`animate-spin`, 역방향 회전)으로 돌게 하여 위성 아이콘들이 공전하는 Planetary Orbit 그래픽을 구현해 줘.',
+      "지정한 그래픽에 중앙의 고정된 금색 코어와 안팎 2개의 원형 궤도를 배치해 줘. 내부 점선 링은 시안 위성을 달고 0→360deg로 5초 linear 무한 공전하고, 외부 링은 분홍 위성을 달고 360→0deg로 3.5초 linear 무한 역회전하게 해 줘. 코어와 텍스트는 궤도 컨테이너의 회전에 포함하지 말아 줘.",
   },
   {
     id: 'mg-aurora-mesh',
@@ -618,7 +618,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Aurora Mesh Gradient Backdrop',
     summary: '큰 블러(Blur) 컬러 구체들이 겹쳐진 채 유영하며 몽환적인 오로라 배경 형성',
     promptSnippet:
-      '배경 레이어에 보라·청록·핑크 컬러의 대형 원형 요소들을 배치하고 `filter: blur(45px)`와 `mix-blend-mode: screen`을 적용한 뒤 서로 다른 궤적으로 천천히 유영하는 Aurora Mesh Gradient 배경을 구현해 줘.',
+      "지정한 배경을 어두운 바탕과 blur-2xl을 적용한 인디고 60%·에메랄드 50%·푸시아 50% 원형 광원 3개로 구성해 줘. 인디고는 5초 ease-in-out 동안 translate(-20%,-15%) scale(1) rotate(0)↔translate(25%,20%) scale(1.25) rotate(25deg), 에메랄드는 6초 동안 translate(20%,15%) scale(1.1) rotate(0)↔translate(-25%,-15%) scale(0.9) rotate(-25deg)로 반복해 줘. 푸시아는 (-28px,-12px)↔(28px,14px), scale(1)↔1.15를 4초 반복해 줘. 광원은 잘라내는 배경 레이어로 두고 전경 글자를 흐리지 말아 줘. 데모에는 mix-blend-mode: screen이 없어.",
   },
   {
     id: 'mg-particle-network',
@@ -630,7 +630,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Constellation Node Particle Network',
     summary: '떠다니는 노드(점)들이 일정 거리 안에 들어오면 별자리처럼 선으로 연결되는 그래픽',
     promptSnippet:
-      'SVG/Canvas 위에 여러 개의 노드(점)가 부드럽게 부유하며, 인접한 노드들 사이에 반투명 연결선(`<line>`)이 이어지고 마우스 근처 노드가 하이라이트되는 Constellation Particle Network 그래픽을 구현해 줘.',
+      "지정한 그래픽을 고정 SVG 노드 5개와 연결선 7개로 구성한 Particle Network로 구현해 줘. 좌표는 viewBox 0 0 100 100에서 (25,28),(65,22),(48,55),(82,65),(20,74), 연결은 0-1,0-2,1-2,1-3,2-3,2-4,0-4로 배치해 줘. 초기 세 번째 노드가 활성이고 노드 호버 시 해당 노드를, 영역 클릭 시 다음 노드를 순환 강조해 줘. 활성 노드 반지름은 4.5(나머지 3), 연결선 두께는 1.8(나머지 1)과 시안색으로 바꿔 줘. 데모에는 노드의 부유 이동이나 거리 기반 자동 연결은 없어.",
   },
   {
     id: 'mg-dot-matrix-grid',
@@ -642,7 +642,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Interactive Halftone Dot Matrix',
     summary: '규칙적인 도트 격자 위에서 커서 주변 점들이 커지고 밝게 빛나는 그래픽 패턴',
     promptSnippet:
-      '배경에 `radial-gradient(circle, currentColor 1.5px, transparent 1.5px)` 도트 그리드 패턴을 깔고, 마우스 커서 반경 내의 도트들이 밝은 색상과 스케일로 반응하는 Interactive Dot Matrix 배경을 구현해 줘.',
+      "지정한 그래픽을 9열×4행의 실제 원형 도트 36개로 구성해 줘. 초기 활성 열은 다섯 번째이며 커서 x 위치를 추적 영역 너비로 정규화해 0~8열로 제한해 줘. 활성 열의 도트는 시안색·scale(1.8), 양옆 열은 인디고색·scale(1.35), 나머지는 어두운 색·scale(1)로 0.15초 전환해 줘. y 좌표 반경이 아닌 열 단위 반응이고, radial-gradient 배경 패턴으로 대체하지 말아 줘.",
   },
   {
     id: 'mg-god-ray-beam',
@@ -654,7 +654,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Volumetric God Rays Light Beam',
     summary: '상단 광원에서 원뿔 모양의 빛줄기가 쏟아지며 은은하게 흔들리는 입체 조명',
     promptSnippet:
-      '상단에서 하단으로 퍼지는 원뿔형/대각선 그라데이션 레이어에 `filter: blur(20px)`와 회전 스웨이 모션을 적용해 무대 조명 빛기둥이 쏟아지는 Volumetric Spotlight Beam(God Rays) 연출을 구현해 줘.',
+      "지정한 어두운 배경의 상단에 conic-gradient(from 155deg at 50% 0%, transparent 0deg, rgba(56,189,248,0.35) 25deg, transparent 50deg) 빛기둥을 배치해 줘. blur-md와 pointer-events-none을 적용하고 4초 ease-in-out 무한 반복에서 rotate(-18deg) scaleX(1) opacity(0.55)↔rotate(-6deg) scaleX(1.25) opacity(0.85)로 흔들어 줘. 배경 밖으로 나가는 빔은 숨기고 글자는 빔보다 앞에 유지해 줘.",
   },
   {
     id: 'mg-squash-stretch',
@@ -666,7 +666,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Squash & Stretch Physics',
     summary: '충돌 순간 납작하게 눌렸다가 이동 방향으로 길쭉하게 늘어나는 탄성 원리',
     promptSnippet:
-      '오브젝트가 움직이거나 바닥에 닿을 때 부피를 유지한 채 충돌 순간에는 가로로 납작(`scaleX(1.38) scaleY(0.62)`)해지고, 도약/하강 구간에는 세로로 길쭉(`scaleX(0.85) scaleY(1.18)`)해지는 Squash & Stretch 애니메이션 원리를 적용해 줘.',
+      "지정한 원형 도형에 1.25초 무한 반복 Squash & Stretch를 적용해 줘. 0/100%는 translateY(-28px) scaleX(0.92) scaleY(1.08), 42%는 translateY(20px) scaleX(0.85) scaleY(1.18), 충돌 50%는 translateY(26px) scaleX(1.38) scaleY(0.62), 60%는 translateY(14px) scaleX(0.84) scaleY(1.18)로 연결해 줘. 하강 구간은 cubic-bezier(0.55,0.055,0.675,0.19), 충돌 뒤 도약은 cubic-bezier(0.215,0.61,0.355,1)로 표현해 줘. 실제 물리/부피 보존 계산이 아닌 키프레임 시연으로 구현해 줘.",
   },
   {
     id: 'mg-anticipation',
@@ -678,7 +678,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Anticipation Wind-up Motion',
     summary: '본 동작 직전에 반대 방향으로 살짝 움츠려 폭발적인 속도감을 만드는 연출',
     promptSnippet:
-      '요소가 오른쪽으로 빠르게 출발하기 직전에 먼저 왼쪽(`translateX(-24px)`)으로 살짝 물러나며 몸을 웅크렸다가(`scaleX(0.75) scaleY(1.2)`) 탄성 있게 발사되는 Anticipation(예비 동작) 키프레임을 적용해 줘.',
+      "지정한 도형을 처음 표시할 때와 클릭 시 1.6초 cubic-bezier(0.22,1,0.36,1) 무한 반복하는 Anticipation으로 구현해 줘. 0% x=-45px에서 시작해 25% x=-68px scale(0.75,1.22) rotate(-8deg), 35% x=-72px scale(0.72,1.25) rotate(-10deg)로 웅크린 뒤, 55% x=65px scale(1.3,0.8) rotate(6deg)로 발사해 줘. 70% x=48px scale(0.92,1.06)을 거쳐 85~100% x=52px scale(1) rotate(0)에 안착하고, 클릭하면 주기를 재시작해 줘.",
   },
   {
     id: 'mg-follow-trail',
@@ -690,7 +690,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Follow-Through & Delayed Trail',
     summary: '선두 물체가 이동한 뒤 후속 잔상/부속 요소들이 시차를 두고 따라붙어 안착',
     promptSnippet:
-      '메인 오브젝트가 목표 좌표로 이동할 때 3~4개의 서브 레이어(또는 잔상 구체)가 각각 다른 `transition-delay`(40ms, 80ms, 120ms)와 점진적 축소(`scale`, `opacity`)를 갖고 꼬리처럼 뒤따라오는 Follow-Through Trail 연출을 구현해 줘.',
+      "지정한 그래픽에 선두 1개와 잔상 3개를 두고 translateX(-62px)↔62px로 왕복하는 Follow-Through Trail을 구현해 줘. 1.4초마다 방향을 자동 반전하며 클릭해도 즉시 반전되게 해 줘. 각 도형은 0.65초 cubic-bezier(0.34,1.56,0.64,1) 전환에 0/55/110/165ms 지연을 주고, 크기는 34/28/22/16px, opacity는 1/0.78/0.56/0.34로 줄여 선두가 가장 앞에 보이게 해 줘.",
   },
   {
     id: 'mg-easing-curves',
@@ -702,7 +702,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Cubic-Bezier & Spring Easing Curves',
     summary: '같은 거리라도 속도 곡선(등속 vs 감속 vs 탄성 오버슈트)에 따라 달라지는 질감',
     promptSnippet:
-      '기계적인 `linear` 대신 자연스러운 급감속(`cubic-bezier(0.16, 1, 0.3, 1)`) 또는 목표 지점을 살짝 지나쳤다 돌아오는 탄성 곡선(`cubic-bezier(0.34, 1.56, 0.64, 1)`)으로 물리적 속도감을 부여해 줘.',
+      "지정한 영역에 Linear, Ease-Out, Spring의 속도 차이를 나란히 비교하는 3개 트랙을 구현해 줘. 각 점은 left: 8px↔calc(100% - 22px)로 0.9초 이동하며 곡선은 각각 linear, cubic-bezier(0.16,1,0.3,1), cubic-bezier(0.34,1.30,0.64,1)를 사용해 줘. 초기에는 오른쪽 상태로 두고 1.6초마다 방향을 자동 반전하며 클릭해도 토글해 줘.",
   },
   {
     id: 'mg-kinetic-wave-text',
@@ -714,7 +714,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Kinetic Sine-Wave Split Typography',
     summary: '문장을 글자 단위로 쪼개어 각 글자가 파도타기하듯 리듬감 있게 물결치는 연출',
     promptSnippet:
-      '문자열을 글자 단위(`<span>`)로 분할한 뒤 각 글자에 `index * 70ms`의 `animation-delay`를 주어 위아래 사인파 곡선으로 파도치듯 움직이는 Kinetic Wave Typography를 구현해 줘.',
+      "지정한 문자열을 글자 단위 span으로 나누고 공백은 줄지 않는 공백으로 유지하는 Kinetic Wave Text를 구현해 줘. 각 글자에 index * 75ms 지연을 주고 1.3초 ease-in-out 무한 반복에서 translateY(0) rotate(0)→translateY(-10px) rotate(-4deg)→원위치로 이어 줘. 파도 정점에서는 글자색을 #38bdf8로 바꿔 줘.",
   },
   {
     id: 'mg-3d-text-roller',
@@ -726,7 +726,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Vertical Kinetic Word Switcher',
     summary: '고정된 문장 안에서 핵심 키워드만 수직 슬라이드 롤러처럼 주기적으로 교체',
     promptSnippet:
-      '고정 높이와 `overflow: hidden`을 가진 단어 창 안에서 여러 키워드 배열이 일정 주기로 `translateY(-100% * index)`와 스프링 이징으로 굴러가며 교체되는 Vertical Kinetic Word Roller를 구현해 줘.',
+      "지정한 문장의 키워드 창을 높이 28px·overflow-hidden으로 고정하고, 같은 높이의 단어 4개(MOTION/GRAPHICS/CINEMA/INTERACTION)를 세로로 쌓아 줘. 초기 첫 단어에서 1.4초마다 다음 단어로 순환하고 클릭해도 다음 단어로 넘어가게 해 줘. 트랙은 translateY(-index * 28px)와 0.45초 cubic-bezier(0.34,1.56,0.64,1)로 이동해 줘. 전체 트랙 높이에 대한 -100%를 사용하지 말고 한 행 높이를 기준으로 이동해 줘.",
   },
   {
     id: 'mg-neon-sign-flicker',
@@ -738,7 +738,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Realistic Neon Sign Flicker',
     summary: '실제 네온관처럼 특정 글자가 불규칙하게 파르르 깜빡이다가 선명하게 켜지는 연출',
     promptSnippet:
-      '다중 `text-shadow`로 네온 광원을 만들고, 불규칙한 키프레임 구간(20%, 24%, 55%)에서 순간적으로 `opacity: 0.25`와 `text-shadow: none`이 교차되는 Neon Sign Flicker 타이포그래피를 적용해 줘.',
+      "지정한 네온 문구 중 강조할 부분에만 2.8초 무한 반복 Neon Flicker를 적용해 줘. 기본 text-shadow는 0 0 8px #f43f5e, 0 0 22px #f43f5e, 0 0 38px #e11d48이며 opacity는 1로 유지해 줘. 20%,24%,55% 지점에서만 opacity 0.25와 text-shadow: none으로 순간 꺼졌다가 인접 키프레임에서 복귀하게 해 줘. 나머지 문구와 프레임은 고정해 줘.",
   },
   {
     id: 'mg-parallax-depth',
@@ -750,7 +750,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '2.5D Multi-Layer Parallax Depth',
     summary: '먼 배경은 느리게, 가까운 전경은 빠르게 움직여 평면에 깊은 입체 공간감을 부여',
     promptSnippet:
-      '마우스나 스크롤 이동량(dx, dy)에 대해 배경 레이어는 `0.15배`, 중간 레이어는 `0.4배`, 전경 피사체는 `0.85배`의 서로 다른 이동 계수를 곱해 입체 공간감이 느껴지는 2.5D Multi-Layer Parallax 씬을 구현해 줘.',
+      "지정한 3개 레이어를 마우스 기반 2.5D Parallax로 구현해 줘. 추적 영역 중심과 커서 차이를 먼저 6으로 나눈 (x,y)에 대해 배경은 0.4배, 중경은 1.1배, 전경은 2.1배의 translate를 적용하고 75ms transform 전환으로 따라가게 해 줘. 초기 위치는 모두 0이고 마우스 이탈 시 원위치로 초기화해 줘. 데모에는 스크롤 기반 이동은 없어.",
   },
   {
     id: 'mg-rack-focus-blur',
@@ -762,7 +762,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Cinema Rack Focus Depth-of-Field',
     summary: '영화 카메라처럼 전경과 배경 중 한쪽만 선명하게 잡고 반대쪽은 블러 처리',
     promptSnippet:
-      '전경(Foreground)과 배경(Background) 레이어 사이에서 포커스가 전환될 때 비활성 레이어는 `filter: blur(5px)`와 `opacity: 0.45`, 활성 레이어는 `blur(0px)`와 `scale(1.05)`로 전환되는 Camera Rack Focus 연출을 구현해 줘.',
+      "지정한 전경/배경 피사체 사이의 초점을 클릭할 때마다 토글하는 Rack Focus를 구현해 줘. 초기에는 전경에 초점을 맞추고 활성 피사체는 blur-0·scale(1.05)·opacity 1·z-index 10과 밝은 링/그림자, 비활성 피사체는 blur-xs·scale(0.9)·opacity 0.45·z-index 0으로 0.5초 전환해 줘. 실제 카메라 초점 계산이 아닌 두 UI 레이어의 필터 전환으로 구현해 줘.",
   },
   {
     id: 'mg-ken-burns-pan',
@@ -774,7 +774,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Ken Burns Slow Camera Zoom & Pan',
     summary: '정적인 일러스트나 장면을 카메라가 천천히 확대하며 대각선으로 이동해 생동감 부여',
     promptSnippet:
-      '뷰포트 프레임(`overflow: hidden`) 안의 장면 레이어가 6~10초 동안 `scale(1) translate(0, 0)`에서 `scale(1.28) translate(-4%, -3%)`로 서서히 줌인·패닝되는 Ken Burns 카메라 워킹을 적용해 줘.',
+      "지정한 장면을 overflow-hidden 프레임 안에 넣고 6초 ease-in-out 무한 반복 Ken Burns를 적용해 줘. 0/100%는 scale(1) translate(0,0), 50%는 scale(1.28) translate(-12px,-6px)로 줌인·패닝한 뒤 다시 돌아오게 해 줘. 뷰파인더 테두리와 REC 표시는 별도 고정 레이어로 두고 장면과 함께 확대하지 말아 줘.",
   },
   {
     id: 'mg-isometric-explode',
@@ -786,7 +786,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Isometric 3D Layer Explode View',
     summary: '평면 카드가 입체 아이소메트릭 각도로 기울어지며 바닥·중간·상단 층으로 분리됨',
     promptSnippet:
-      '컨테이너에 `rotateX(55deg) rotateZ(-35deg)`와 `transform-style: preserve-3d`를 적용해 아이소메트릭 뷰를 만들고, 호버/클릭 시 겹쳐진 레이어들이 각각 `translateZ(0px, 28px, 56px)` 높이로 층층이 분리되어 떠오르게 구현해 줘.',
+      "지정한 그래픽의 3개 레이어 각각에 rotateX(55deg) rotateZ(-35deg)를 적용하고 부모에는 perspective: 1000px와 preserve-3d를 줘. 초기에는 펼친 상태이며, 마우스 진입 시 펼치기·이탈 시 접기·클릭 시 토글해 줘. 레이어 index i의 화면상 Y 간격을 펼쳤을 때 (1 - i) * 18px, 접었을 때 (1 - i) * 5px로 바꾸고 0.45초 cubic-bezier(0.34,1.56,0.64,1)로 전환해 줘. 데모는 translateY 층 분리이며 translateZ 이동은 없어.",
   },
   {
     id: 'mg-iris-circle-wipe',
@@ -798,7 +798,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Circular Iris Wipe Transition',
     summary: '원형 클립 마스크가 한 점으로 좁혀졌다가 다시 전체 화면으로 확 열리는 장면 전환',
     promptSnippet:
-      '장면 전환 시 상위 레이어에 `clip-path: circle(140% at 50% 50%)`에서 `circle(0% at 50% 50%)`로 조리개처럼 좁혀졌다가 열리는 Circular Iris Wipe 트랜지션을 구현해 줘.',
+      "지정한 두 장면을 겹치고 초기에는 상위 SCENE #1이 보이게 해 줘. 클릭할 때마다 상위 레이어의 clip-path를 circle(120% at 50% 50%)↔circle(0% at 50% 50%)로 0.65초 cubic-bezier(0.65,0,0.35,1) 전환해 아래 SCENE #2를 드러내거나 가려 줘. 자동 장면 전환이 아닌 클릭 토글로 구현해 줘.",
   },
   {
     id: 'mg-rgb-chromatic-glitch',
@@ -810,7 +810,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'RGB Split & Chromatic Aberration Glitch',
     summary: '순간적인 기울림(Skew)과 함께 Red/Cyan 컬러 채널이 좌우로 분리되는 디지털 충격 효과',
     promptSnippet:
-      '요소에 Red(`-4px 0 #ff0055`)와 Cyan(`4px 0 #00e5ff`) 이중 섀도우 분리를 적용하고 짧은 불규칙 키프레임으로 좌우 진동 및 `skewX(±8deg)` 왜곡이 발생하는 Chromatic Aberration Glitch 효과를 구현해 줘.',
+      "지정한 텍스트에 2.2초 무한 반복 RGB Glitch를 구현해 줘. 평상시에는 -2px 0 #ff0055와 2px 0 #00e5ff 이중 text-shadow를 주고, 주기의 84%까지는 위치를 유지해 줘. 86%에 translate(-4px,1px) skewX(-8deg), 89%에 translate(4px,-1px) skewX(8deg), 92%에 translate(-2px,0) skewX(0)으로 짧게 흔든 뒤 원위치로 복귀해 줘. 이 구간에서 적색·시안 그림자 오프셋도 3~5px로 변형해 줘.",
   },
   {
     id: 'mg-speed-lines-streak',
@@ -822,7 +822,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Anime Speed Lines & Motion Streaks',
     summary: '피사체 주변으로 가늘고 긴 빛줄기들이 맹렬한 속도로 스쳐 지나가며 고속 질주감 연출',
     promptSnippet:
-      '배경에 서로 다른 높이와 속도를 가진 수평 그라데이션 스트리크(`h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent`)들을 배치해 왼쪽에서 오른쪽으로 빠르게 스쳐 지나가는 Speed Lines 연출을 구현해 줘.',
+      "지정한 배경에 높이 2px의 수평 스트리크 4개를 top 20/38/58/78%, 너비 80/112/64/96px로 배치해 줘. 투명→시안→흰색 그라데이션을 사용하고 각 지연은 0/220/110/360ms로 줘. 각 선은 같은 0.75초 linear 주기로 translateX(-120%) scaleX(0.4)→translateX(240%) scaleX(1.5), opacity 0→0.9(30%)→0을 무한 반복해 줘. 영역 밖의 선은 숨기고 전경 라벨은 고정해 줘.",
   },
   {
     id: 'mg-radar-sonar-sweep',
@@ -834,7 +834,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Sonar Radar Sweep Scanner',
     summary: '360도 회전하는 원뿔형(conic-gradient) 레이더 빔이 동심원 격자 위의 타겟 블립을 점등시키는 그래픽',
     promptSnippet:
-      '원형 동심원 그리드 위에 `conic-gradient(from 0deg, transparent 70%, rgba(16, 185, 129, 0.45) 100%)` 레이어를 얹고 360도 연속 회전(`animate-spin`)시켜 스캔 빔이 지나갈 때마다 타겟 포인트(Blip)가 반짝이며 탐지되는 Sonar Radar Sweep 그래픽을 구현해 줘.',
+      "지정한 레이더에 동심원·십자선과 conic-gradient(from 0deg, transparent 70%, rgba(16,185,129,0.55) 100%) 스캔 빔을 배치해 줘. 초기 각도 0에서 40ms마다 6deg씩 회전하고 클릭하면 10deg/40ms의 빠른 모드와 기본 모드를 토글해 줘. 고정 타겟 3개의 기준 각도는 45/135/220deg이고 (현재 각도 - 타겟 각도 + 360) % 360 < 105일 때 밝은 에메랄드·scale(1.25)로, 그 외에는 옅은 색·scale(0.75)로 0.15초 전환해 줘. 실제 데이터 탐지가 아닌 고정 타겟 시연이야.",
   },
   {
     id: 'mg-morphing-grid-wave',
@@ -846,7 +846,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Staggered Grid Tile Wave',
     summary: '행+열 좌표 합(`row + col`)에 비례한 딜레이로 타일들이 대각선 물결처럼 크기와 색상이 변하는 모션',
     promptSnippet:
-      '`N x M` 그리드 타일 각각에 `(row + col) * 90ms`의 `animation-delay`를 부여해 좌상단부터 우하단으로 대각선 파도가 퍼져나가듯 `scale(0.75)` ➔ `scale(1.1)`과 밝기 변화가 물결치는 Staggered Grid Wave 그래픽을 구현해 줘.',
+      "지정한 타일 영역을 3행×6열로 만들고 row + col 대각선 값을 기준으로 움직이는 Grid Wave를 구현해 줘. tick을 초기 0에서 260ms마다 (tick + 1) % 8로 갱신하고 클릭해도 한 단계 진행해 줘. 대각선 값이 tick 또는 (tick + 1) % 8인 타일은 시안-인디고 그라데이션·scale(1.1)·translateY(-4px)·발광, 나머지는 scale(0.9)·opacity 0.6으로 0.3초 전환해 줘. 데모는 상태 기반 두 대각선 파도이며 90ms animation-delay 방식은 아니야.",
   },
   {
     id: 'mg-prism-rainbow-refraction',
@@ -858,7 +858,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Optical Prism Light Dispersion',
     summary: '좌측 백색 입사광이 중앙 유리 프리즘에 닿아 우측으로 6색 무지개 스펙트럼 빔으로 굴절·확산되는 VFX',
     promptSnippet:
-      '좌측에서 들어오는 백색 레이저 빔이 중앙의 반투명 삼각 프리즘(`backdrop-blur`)을 통과하는 순간 우측으로 Red·Amber·Emerald·Cyan·Indigo·Violet 다중 그라데이션 빔이 부채꼴 각도로 퍼져나가는 Optical Prism Dispersion 그래픽을 구현해 줘.',
+      "지정한 그래픽을 SVG viewBox 0 0 220 92의 삼각 유리 프리즘과 백색 입사선, 6색 출사선으로 구성해 줘. 프리즘은 반투명 선형 그라데이션 polygon이고 입사선은 (8,62)→(92,46), 출사선은 x=127에서 x=212로 향하며 기본 끝점 y는 18/30/42/54/66/78이야. 초기에는 넓은 분산이며 클릭하면 끝점 y를 48 + (기본 y - 48) * 0.45로 모았다가 다시 펼치도록 0.5초 전환해 줘. 각 출사선에 색상별 5px drop-shadow를 주고, 실제 광학 계산이나 backdrop blur가 아닌 고정 SVG 광선 시연으로 구현해 줘.",
   },
   {
     id: 'mg-gravity-newton-cradle',
@@ -870,7 +870,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: "Newton's Cradle Momentum Pendulum",
     summary: '중앙 구슬들은 정지한 채 좌측 끝 구슬과 우측 끝 구슬이 교대로 부딪히며 튀어 오르는 물리 진자 모션',
     promptSnippet:
-      '5개의 금속 구슬이 상단 축(`transform-origin: top center`)에 매달린 뉴턴의 요람(Newton\'s Cradle)을 구현해 줘. 중앙 3개 구슬은 고정된 상태에서 좌측 끝 구슬이 내려와 충돌하는 즉시 우측 끝 구슬이 반대편으로 스윙하는 탄성 운동량 전달 키프레임을 적용해 줘.',
+      "지정한 그래픽에 상단 지지대와 구슬 5개를 매달고 transform-origin: top center인 Newton's Cradle 시연을 구현해 줘. 초기 왼쪽 끝 구슬만 +34deg로 기울이고 320ms마다 [왼쪽 +34deg→모두 0deg→오른쪽 -34deg→모두 0deg]의 4단계를 순환해 줘. 중앙 3개는 고정하고 클릭해도 한 단계 진행해 줘. 회전은 0.3초, 바깥쪽 스윙은 cubic-bezier(0.215,0.61,0.355,1), 복귀는 cubic-bezier(0.55,0.055,0.675,0.19)를 사용해 줘. 실제 물리 시뮬레이션이 아닌 상태 기반 시연이야.",
   },
 
   /* =====================================================================
@@ -888,7 +888,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Asymmetric Bento Box Grid',
     summary: '2x2 메인 타일과 2x1, 1x1 보조 타일들이 도시락통처럼 딱 맞아떨어지는 배치',
     promptSnippet:
-      'CSS Grid(`grid-cols-4 auto-rows-[140px] gap-4`)를 사용해 핵심 기능은 `col-span-2 row-span-2`, 서브 기능은 `col-span-2 row-span-1` 및 `col-span-1`로 비대칭 조화를 이루는 Bento Grid 레이아웃으로 구성해 줘.',
+      "지정한 콘텐츠 영역을 4열×2행 CSS Grid의 Bento 구성으로 만들어 줘. 메인 타일은 col-span-2 row-span-2, 오른쪽 위 타일은 col-span-2 row-span-1, 오른쪽 아래에는 1×1 타일 2개를 배치하고 간격은 데모 기준 6px로 맞춰 줘. 초기에는 메인 타일만 강조하고 타일 클릭 시 해당 타일 하나만 색상·테두리로 활성화해 줘. 데모에 없는 auto-rows: 140px를 강제하지 말고 지정한 영역 안에서 이 비율을 유지해 줘.",
   },
   {
     id: 'ly-masonry-waterfall',
@@ -900,7 +900,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Masonry Waterfall Layout',
     summary: '세로 길이가 서로 다른 카드들이 빈 여백 없이 벽돌처럼 촘촘하게 맞물려 배치됨',
     promptSnippet:
-      '높이가 서로 다른 이미지·콘텐츠 카드들이 세로 빈틈 없이 채워지도록 CSS `columns-3 gap-4`와 `break-inside-avoid`를 활용한 Masonry Waterfall 레이아웃으로 구현해 줘.',
+      "지정한 영역을 3열 Grid로 나누고 각 열에 높이가 다른 카드 2개씩을 수직으로 쌓아 Waterfall 모양을 재현해 줘. 데모의 초기 카드 높이는 열별 [48,28], [28,48], [44,36]px이고 클릭하면 [32,48], [48,32], [40,44]px로 0.3초 전환해 줘. 열·카드 사이 간격은 6px이며, CSS columns나 자동 빈칸 채우기 알고리즘이 아닌 3개의 고정 열 시연으로 구현해 줘.",
   },
   {
     id: 'ly-editorial-asymmetric',
@@ -912,7 +912,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Editorial Asymmetric Split Layout',
     summary: '좌측 65% 거대 히어로 비주얼과 우측 35% 다단 목록이 대비를 이루는 매거진 구도',
     promptSnippet:
-      '12컬럼 그리드(`grid-cols-12`)에서 좌측 7컬럼은 대형 비주얼과 헤드라인을 배치하고, 우측 5컬럼은 얇은 구분선(`divide-y`)으로 나뉜 컴팩트 아티클 리스트를 배치하는 Editorial Asymmetric 레이아웃으로 짜 줘.',
+      "지정한 영역에 큰 그라데이션 비주얼과 그 오른쪽 아래에 겹치는 작은 편집 정보 카드를 배치하는 Editorial Overlap을 구현해 줘. 초기에는 두 레이어를 겹쳐 두고 호버 시 비주얼은 translateX(-8px) scale(1.05), 정보 카드는 translate(4px,-4px)로 0.3초 벌어지게 해 줘. 마우스 이탈 시 원위치, 클릭 시 겹침/벌림을 토글해 줘. 데모는 7:5의 12컬럼 기사 목록이 아닌 2개 레이어 겹침 시연이야.",
   },
   {
     id: 'ly-honeycomb-hex',
@@ -924,7 +924,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Honeycomb Staggered Hex Grid',
     summary: '짝수 행마다 반 칸씩 옆으로 밀어 벌집처럼 촘촘히 맞물리게 배치하는 구조',
     promptSnippet:
-      '아이콘/스킬 타일 행을 배치할 때 짝수 줄에 가로 오프셋(`translate-x-6`)과 음수 마진을 적용해 벌집처럼 지그재그로 맞물리는 Honeycomb Staggered Grid 구조를 구현해 줘.',
+      "지정한 아이콘 타일을 SVG 육각형 5개로 만들고 위 3개·아래 2개를 가운데 정렬해 벌집 형태로 맞물리게 해 줘. 데모 기준 셀은 48×56px, 셀 간격 8px, 아래 행은 margin-top: -14px이며 별도의 translateX(24px)는 사용하지 않아. 초기 세 번째 셀을 활성화하고 클릭·Enter·Space로 선택을 바꾸게 해 줘. 선택 셀은 금색·scale(1.1), 비선택 호버는 scale(1.05), 전환은 0.2초로 맞춰 줘.",
   },
 
   /* 2. 스크롤·전환구조 (scroll) */
@@ -938,7 +938,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Sticky Split Scroll-telling',
     summary: '좌측 타이틀/단계는 화면에 고정(`sticky`)된 채 우측 프리뷰 카드만 스크롤에 따라 교체',
     promptSnippet:
-      '좌측 영역은 `sticky top-24 h-fit`으로 화면에 고정해 현재 섹션 설명을 보여주고, 우측 영역은 스크롤에 따라 단계별 쇼케이스 카드가 이어지는 Sticky Split Scroll-telling 구조로 설계해 줘.',
+      "지정한 2단 쇼케이스에서 왼쪽 비주얼은 같은 위치에 두고 오른쪽 Step 01~03 목록 중 현재 단계 하나를 강조하는 Sticky Split 시연을 구현해 줘. 초기 단계는 1이고 영역 클릭마다 1→2→3→1로 순환하며, 왼쪽 비주얼의 색과 단계 텍스트 및 오른쪽 강조 항목을 함께 0.3초 전환해 줘. 데모는 클릭 기반 상태 전환이며 실제 position: sticky나 스크롤 감지 기능은 없어.",
   },
   {
     id: 'ly-fullpage-snap',
@@ -950,7 +950,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Full-Page Mandatory Scroll Snap',
     summary: '어중간한 위치에 멈추지 않고 각 섹션 정중앙에 딱 맞춰 스냅되는 뷰포트 구조',
     promptSnippet:
-      '부모 스크롤 컨테이너에 `snap-y snap-mandatory overflow-y-scroll h-screen`을 주고 각 섹션에 `snap-start h-screen`을 적용해 슬라이드처럼 한 화면씩 정확히 스냅되는 Full-Page Snap 레이아웃을 구현해 줘.',
+      "지정한 프레임 안에 같은 높이의 3개 섹션을 세로로 쌓고 첫 섹션에서 시작하는 Fullpage Snap 시연을 구현해 줘. 클릭마다 다음 섹션으로 순환하고 트랙을 translateY(-page * 섹션 높이)로 0.5초 ease-out 이동해 줘. 데모 섹션 높이는 96px이며 활성 페이지 점 표시를 함께 갱신해 줘. 실제 휠 스크롤·h-screen·CSS scroll-snap은 데모에 없으므로 클릭 슬라이드와 구분해 줘.",
   },
   {
     id: 'ly-horizontal-showcase',
@@ -962,7 +962,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Horizontal Snap Film Showcase',
     summary: '세로로 길어지는 대신 가로 트랙을 따라 카드를 스냅하며 넘겨보는 쇼케이스',
     promptSnippet:
-      '가로 스크롤 트랙(`flex overflow-x-auto snap-x snap-mandatory gap-5`) 안에 고정 폭(`shrink-0 snap-center`) 쇼케이스 카드들을 배치해 옆으로 부드럽게 넘겨보는 Horizontal Film Showcase 레이아웃을 구현해 줘.',
+      "지정한 쇼케이스 프레임 안에 카드 4개를 가로로 배치하고 첫 카드에서 시작해 클릭마다 다음 카드로 순환해 줘. 데모 기준 카드 너비 96px·간격 8px, 트랙 이동은 translateX(-index * 76px)를 0.5초 ease-out으로 적용해 줘. 활성 카드는 인디고색·scale(1.02)로 0.3초 강조하고 하단에는 활성 점과 현재 번호/4를 표시해 줘. 실제 가로 스크롤·드래그·scroll-snap 대신 클릭으로 트랙을 이동하는 시연이야.",
   },
   {
     id: 'ly-curtain-reveal',
@@ -974,7 +974,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Curtain Reveal Fixed Underlay',
     summary: '상단 메인 콘텐츠가 커튼처럼 위로 올라가면 바닥에 고정된 히어로 푸터가 노출됨',
     promptSnippet:
-      '하단 섹션을 `fixed bottom-0 z-0`으로 바닥에 깔아 두고, 그 위의 메인 본문 래퍼에 `relative z-10 mb-[300px] shadow-2xl`을 주어 스크롤 끝에서 본문이 커튼처럼 걷히며 하단이 드러나는 Curtain Reveal 구조를 적용해 줘.',
+      "지정한 프레임 아래층에는 푸터 내용을 고정하고 위층의 본문 커튼을 absolute inset-0로 덮어 줘. 초기에는 닫힌 상태이며 클릭할 때마다 커튼을 translateY(0)↔-48px로 0.5초 이동시켜 아래 푸터를 드러내는 Curtain Reveal 시연을 구현해 줘. 프레임 밖은 숨기고 푸터 자체는 이동하지 않게 해 줘. 데모에는 브라우저 fixed 푸터, 스크롤 끝 감지나 300px 본문 여백은 없어.",
   },
 
   /* 3. 네비게이션·메뉴 (nav) */
@@ -988,7 +988,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'MacOS Dock Magnification Bar',
     summary: '호버한 아이콘은 크게(1.5x), 양옆 인접 아이콘은 중간(1.2x) 크기로 부드럽게 확대',
     promptSnippet:
-      '화면 하단 중앙에 플로팅 Dock 바를 만들고, 마우스가 올라간 아이콘 인덱스와 각 아이콘의 거리(`Math.abs(hoverIdx - i)`)에 반비례하여 `scale(1.45)`, `scale(1.2)`, `scale(1)`로 연속 확대되는 MacOS Dock 네비게이션을 구현해 줘.',
+      "지정한 Dock 바에 아이콘 5개를 배치하고 초기에는 가운데 세 번째 아이콘을 강조해 줘. 아이콘 호버/클릭 시 거리 |활성 index - i|가 0이면 scale(1.45) translateY(-4px), 1이면 scale(1.18), 그 외에는 scale(1)로 0.15초 전환하고 origin-bottom으로 확대해 줘. 추적 영역에서 마우스가 나가면 가운데 아이콘 강조로 복귀해 줘. 아이콘 클릭은 선택 시연이며 실제 페이지 이동은 없어.",
   },
   {
     id: 'ly-command-palette',
@@ -1000,7 +1000,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Command Palette Quick Launcher',
     summary: '상단 검색창과 단축키 배지가 달린 액션 리스트로 어디든 즉시 이동하는 모달 구조',
     promptSnippet:
-      '`Cmd+K` / `Ctrl+K` 단축키로 열리는 중앙 오버레이 Command Palette를 구현해 줘. 상단에는 즉시 포커스되는 검색 인풋을 두고, 하단에는 그룹별 액션 목록과 우측 키보드 단축키 배지(`<kbd>`)가 표시되게 해 줘.',
+      "지정한 영역에 검색창처럼 보이는 상단 라벨과 ⌘K 배지, 액션 목록 3개를 가진 Command Palette 모양 패널을 구현해 줘. 패널은 처음부터 표시하며 초기 첫 행을 선택하고, 행 클릭 시 해당 행만 인디고색으로 강조하고 ↵ 표시를 붙여 줘. 데모에는 실제 검색 input·자동 포커스·Cmd/Ctrl+K 키 핸들러·모달 열기/닫기·명령 실행이 없으므로 시각적 선택 패널과 구분해 줘.",
   },
   {
     id: 'ly-dynamic-island-nav',
@@ -1012,7 +1012,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Dynamic Island Expanding Pill Nav',
     summary: '평소엔 작은 알약 형태였다가 클릭/호버 시 너비와 높이가 커지며 상세 위젯 노출',
     promptSnippet:
-      '화면 상단 중앙에 둥근 검은색 캡슐(`rounded-full`) 형태의 Dynamic Island 헤더를 배치하고, 클릭 시 스프링 트랜지션으로 너비와 높이가 확장되며 상세 컨트롤과 상태 정보가 나타나는 구조를 구현해 줘.',
+      "지정한 캡슐형 상태 바를 초기 접힌 상태에서 클릭으로 확장/축소하는 Dynamic Island 시연으로 구현해 줘. 데모 기준 접힘은 128×36px·rounded-full, 확장은 224×80px·rounded-3xl이고 크기·모서리는 0.3초 전환해 줘. 접힘에는 Island 라벨과 점멸 상태 점을, 확장에는 Now Playing 라벨과 트랙명/LIVE 정보를 추가해 줘. 라이트 모드의 흰 배경과 다크 모드의 검은 배경을 구분하고 실제 음악 재생이나 화면 상단 고정 동작은 추가하지 말아 줘.",
   },
   {
     id: 'ly-radial-pie-menu',
@@ -1024,7 +1024,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Radial Wheel / Pie Context Menu',
     summary: '트리거 버튼 중심에서 반원/원형 각도(`cos, sin`)로 하위 액션 버튼들이 촤르륵 펼쳐짐',
     promptSnippet:
-      '중앙 트리거 버튼 클릭 시 주변 원형 궤도 각도(`angle * Math.PI / 180`) 좌표를 따라 하위 아이콘 버튼들이 `translate(x, y) scale(1)`로 방사형으로 펼쳐지는 Radial Pie Menu를 구현해 줘.',
+      "지정한 파이 메뉴를 초기 열린 상태로 두고 중앙 버튼 또는 하위 버튼 클릭 시 열기/닫기를 토글해 줘. 하위 버튼 4개의 열린 좌표는 (-38,-28),(38,-28),(38,28),(-38,28)px, 닫힘은 translate(0,0) scale(0.2)·opacity 0으로 설정해 줘. 열 때 0/35/70/105ms 지연과 0.3초 cubic-bezier(0.34,1.56,0.64,1)를 적용하고 닫을 때는 지연을 없애 줘. 중앙 +는 45deg 회전해 ×가 되게 하고 하위 버튼은 별도 명령 실행이 없는 토글 시연으로 구현해 줘.",
   },
 
   /* 4. 패널·보드·데이터뷰 (panel) */
@@ -1038,7 +1038,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Draggable Snap Bottom Sheet',
     summary: '상단 손잡이 바(Handle)를 눌러 축소·중간·전체 높이로 전환하는 하단 슬라이드 시트',
     promptSnippet:
-      '화면 하단에서 올라오는 둥근 모서리(`rounded-t-2xl`) Bottom Sheet 패널을 만들고, 상단 중앙에 회색 드래그 핸들 바(`w-10 h-1.5 rounded-full`)를 두어 단계별 높이(Peek / Half / Full)로 스냅 전환되게 구현해 줘.',
+      "지정한 프레임 하단에 둥근 상단 모서리의 Bottom Sheet를 배치해 줘. 초기 HALF 높이 56px에서 영역 클릭마다 FULL 96px와 번갈아 0.3초 전환하고, FULL일 때만 상세 문구를 추가해 줘. 상단 중앙 핸들은 데모 기준 32×4px로 표시해 줘. 이 데모는 클릭 기반 2단계 시연이며 실제 드래그 제스처·Peek 단계·브라우저 하단 fixed 동작은 없어.",
   },
   {
     id: 'ly-master-detail-split',
@@ -1050,7 +1050,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Master-Detail Two-Pane Split View',
     summary: '좌측 아이템 리스트와 우측 프리뷰 패널이 한 화면에 나란히 결합된 생산성 구조',
     promptSnippet:
-      '좌측 35% 영역에는 스크롤 가능한 아이템 목록(Master)을 두고, 우측 65% 영역에는 선택된 아이템의 상세 내용(Detail)이 페이지 새로고침 없이 즉시 렌더링되는 Master-Detail Split View 레이아웃을 구현해 줘.',
+      "지정한 Master-Detail 영역을 5열 Grid의 좌측 2열(40%)·우측 3열(60%)로 구성해 줘. 좌측에는 항목 3개, 우측에는 선택된 항목의 제목과 설명을 표시하고 초기 첫 항목에서 시작해 줘. 좌측 버튼 클릭 시 해당 행을 강조하고 우측 내용을 새로고침 없이 교체해 줘. 데모에는 목록 스크롤이나 원격 데이터 요청은 없어.",
   },
   {
     id: 'ly-kanban-board',
@@ -1062,7 +1062,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Multi-Column Kanban Task Board',
     summary: '상태별 세로 컬럼(To Do / Doing / Done) 간에 태스크 카드를 즉시 이동시키는 구조',
     promptSnippet:
-      '상태별 컬럼(`To Do`, `In Progress`, `Done`)을 가로로 나란히 배치하고, 각 컬럼 헤더에 카드 개수 배지를 표시하며 카드를 클릭하거나 드래그해 다음 단계 컬럼으로 즉시 이동시키는 Kanban Board 레이아웃을 구현해 줘.',
+      "지정한 칸반 시연을 TODO/DOING/DONE의 동일 너비 3개 컬럼과 태스크 카드 1개로 구성해 줘. 초기 카드는 DOING에 두고 영역 클릭마다 DONE→TODO→DOING으로 순환 이동시켜 줘. 카드가 없는 컬럼은 점선 자리표시자로 표시하고 새 컬럼의 카드는 0.48초 Spring Pop으로 나타나게 해 줘. 실제 드래그 앤 드롭·카드 개수 배지·서버 상태 저장은 데모에 없어.",
   },
   {
     id: 'ly-heatmap-grid',
@@ -1074,7 +1074,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Contribution Activity Heatmap Grid',
     summary: '요일·주 단위 작은 정사각형 타일들의 색상 채도 단계(0~4단계)로 밀도를 시각화',
     promptSnippet:
-      '작은 정사각형 셀(`w-3.5 h-3.5 rounded-sm`)들을 7행 그리드로 촘촘히 배치하고, 각 셀의 데이터 값(0~4단계)에 따라 어두운 회색부터 밝은 에메랄드색까지 농도가 달라지는 GitHub 스타일 Contribution Heatmap을 구현해 줘.',
+      "지정한 Contribution Heatmap을 10열×4행, 12px 정사각형 셀 40개와 간격 4px로 구성해 줘. 셀 모서리는 3px이고 값은 (index * 7 + seed * 3) % 5로 계산해 회색→짙은 에메랄드→밝은 에메랄드의 5단계 농도로 표현해 줘. 초기 seed는 1이며 영역 클릭마다 1씩 늘려 패턴을 바꿔 줘. 실제 기여도 데이터나 7행 달력 구조가 아닌 패턴 시연이야.",
   },
   {
     id: 'ly-floating-toc-spy',
@@ -1086,7 +1086,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Scrollspy Floating Table of Contents',
     summary: '본문 스크롤 위치(IntersectionObserver)에 연동해 우측 목차 트랙의 활성 마커가 이동하고 클릭 시 해당 섹션으로 점프',
     promptSnippet:
-      '문서 본문 우측에 `sticky` 플로팅 목차(Table of Contents)를 배치하고, `IntersectionObserver`로 현재 화면에 보이는 `<h2>/<h3>` 섹션을 감지해 목차 좌측의 수직 액센트 인디케이터 바가 부드럽게(`translateY`) 이동하는 Scrollspy TOC 레이아웃을 구현해 줘.',
+      "지정한 문서 프레임 왼쪽에는 3개 섹션, 오른쪽에는 행 높이 22px의 목차를 배치해 줘. 초기 첫 섹션에서 1.8초마다 다음 섹션으로 순환하고 목차 버튼 클릭 시 해당 섹션으로 바꿔 줘. 본문 트랙은 translateY(-activeSection * 100%)를 0.5초 ease-out으로, 목차 인디케이터는 translateY(activeSection * 22px)를 0.3초로 이동해 줘. 데모는 자동/클릭 상태 시연이며 sticky 위치 고정·실제 스크롤·IntersectionObserver 감지는 없어.",
   },
   {
     id: 'ly-collapsible-rail-sidebar',
@@ -1098,7 +1098,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Collapsible Icon-Rail Sidebar',
     summary: '아이콘만 보이는 56px 슬림 레일 모드와 메뉴명이 함께 보이는 220px 확장 모드를 즉시 전환하는 대시보드 네비게이션',
     promptSnippet:
-      '좌측 대시보드 사이드바가 축소 상태(`w-14`, 아이콘만 중앙 정렬 + 호버 툴팁)와 확장 상태(`w-56`, 아이콘 + 텍스트 라벨 + 배지 노출) 사이를 부드러운 폭 트랜지션(`transition-[width] duration-300`)으로 오가는 Collapsible Rail Sidebar 레이아웃을 구현해 줘.',
+      "지정한 사이드바와 본문 영역을 Flex로 구성하고 초기 확장·첫 메뉴 선택 상태로 시작해 줘. 하단 축소 버튼 클릭 시 사이드바 실제 너비를 112px(w-28)↔36px(w-9)로 0.3초 전환하고, 축소 시 텍스트 라벨만 숨기고 아이콘은 유지해 줘. 메뉴 3개 중 하나를 클릭하면 선택 강조와 본문 제목을 함께 바꿔 줘. 데모의 220px/56px 배지는 실제 CSS 너비와 다른 표시값이며, 호버 툴팁이나 실제 라우팅은 구현돼 있지 않아.",
   },
   {
     id: 'ly-breadcrumb-folder-drill',
@@ -1110,7 +1110,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Drill-Down Breadcrumb Explorer',
     summary: '하위 폴더로 들어갈 때마다 상단 경로 체인(`Root / src / ui`)이 쌓이고 중간 경로를 클릭하면 즉시 해당 계층으로 복귀',
     promptSnippet:
-      '상단에 현재 탐색 경로를 보여주는 인터랙티브 Breadcrumb 바(`Workspace > src > components`)를 고정하고, 하단 그리드에서 폴더를 클릭하면 하위 계층으로 드릴다운되며 상단 경로 세그먼트를 클릭하면 해당 상위 계층으로 즉시 되돌아가는 Drill-Down Explorer 구조를 구현해 줘.',
+      "지정한 파일 탐색 시연을 경로 바와 3열 항목 그리드로 구성해 줘. 초기 경로는 root/src/ui, 선택 파일은 Button.tsx로 두고 정해진 샘플 폴더 맵을 사용해 줘. 폴더 클릭 시 경로 끝에 폴더명을 추가하고, 경로 세그먼트 클릭 시 그 지점까지 잘라 상위 폴더로 복귀하며, 파일 클릭 시 선택 이름/강조만 갱신해 줘. 폴더 이동 후에도 선택 파일명은 유지하고 실제 파일 열기·파일시스템 접근은 없는 로컬 상태 시연으로 구현해 줘.",
   },
   {
     id: 'ly-resizable-split-pane',
@@ -1122,7 +1122,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Resizable Dual Split Pane',
     summary: '좌우 두 패널 사이의 중앙 가터(Gutter) 핸들을 드래그하거나 프리셋으로 너비 비율(25:75 ~ 75:25)을 즉시 조절',
     promptSnippet:
-      '좌측 패널과 우측 패널 사이에 드래그 가능한 리사이즈 핸들 바(`w-1.5 cursor-col-resize hover:bg-indigo-500`)를 배치하고, 포인터 이동이나 비율 프리셋에 따라 좌측 패널의 `width: ${ratio}%`가 실시간 조절되는 Resizable Split Pane 레이아웃을 구현해 줘.',
+      "지정한 좌우 패널 사이에 너비 8px의 리사이즈 핸들을 배치하고 초기 좌측 비율을 45%로 설정해 줘. 핸들의 pointerdown 이후 프레임 내부 pointermove에서 (clientX - rect.left) / rect.width * 100을 반올림한 뒤 25~75%로 제한해 좌측 width를 갱신하고 우측은 남은 공간을 채우게 해 줘. pointerup/leave 시 드래그를 종료해 줘. 핸들 클릭은 현재 45이면 65, 65이면 30, 그 외에는 45%로 바꾸는 프리셋으로 구현해 줘.",
   },
 
   /* =====================================================================
@@ -1140,7 +1140,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Neo-Brutalist Pop UI Style',
     summary: '블러 없는 솔리드 오프셋 그림자(`4px 4px 0 #000`)와 굵은 검은 테두리, 고채도 원색 조합',
     promptSnippet:
-      '전체 UI를 Neo-Brutalism 화풍으로 디자인해 줘. 모든 카드와 버튼에 굵은 검은색 실선 테두리(`border-2 border-black`), 블러가 전혀 없는 솔리드 하드 그림자(`shadow-[4px_4px_0px_#000]`), 고채도 노랑/민트/핑크 배경을 적용하고 클릭 시 그림자만큼 위치가 눌리게(`translate-x-[2px] translate-y-[2px]`) 해 줘.',
+      "지정한 버튼에 황금색 바탕·분홍색 표면·3px 검은 테두리의 Neo-Brutalism 스타일을 적용해 줘. 기본 그림자는 5px 5px 0 #000이며 클릭으로 눌림을 토글하면 translate(4px,4px)와 1px 1px 0 #000 그림자로 0.1초 전환해 줘. 재클릭 시 원래 위치/그림자로 복귀하고, 다른 화면의 모든 카드까지 자동으로 변경하지 말아 줘.",
   },
   {
     id: 'st-liquid-acrylic',
@@ -1152,7 +1152,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Specular Liquid Acrylic Glass',
     summary: '단순 블러를 넘어 상단·좌측 림 라이트(Rim Light)와 내부 광택으로 두께감을 준 유리 질감',
     promptSnippet:
-      'UI 표면에 Apple 스타일 Liquid Glass(아크릴 유리) 질감을 적용해 줘. `backdrop-blur-xl bg-white/10` 위에 상단과 좌측 모서리만 밝게 빛나는 내부 하이라이트(`shadow-[inset_0_1px_1px_rgba(255,255,255,0.45)]`)와 반투명 그라데이션 보더를 결합해 두꺼운 크리스탈 유리 느낌을 내 줘.',
+      "지정한 카드에 위쪽 흰색 20%→아래쪽 흰색 5%의 그라데이션, backdrop-blur-xl, 흰색 30% 테두리와 깊은 그림자를 조합하는 Liquid Acrylic 스타일을 적용해 줘. 뒤의 푸시아·시안 원형 광원은 각각 70% 불투명도·blur-xl로 흐리게 하고 5초/6초의 서로 다른 오로라 궤적으로 움직여 줘. 카드 글자는 선명하게 유지해 줘. 데모는 반투명 레이어/blur 표현이며 별도 inset 하이라이트나 실제 광학 굴절 계산은 없어.",
   },
   {
     id: 'st-linear-dark-minimal',
@@ -1164,7 +1164,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Linear-Style Dark Hairline Minimal',
     summary: '거의 검은 슬레이트 배경(`#0B0F17`)에 상단 1px 그라데이션 헤어라인과 미세 라디얼 광원 결합',
     promptSnippet:
-      'Linear/Vercel 스타일의 하이엔드 다크 미니멀 화풍을 적용해 줘. 배경은 초저채도 다크(`#090D16`), 카드는 `bg-white/[0.03]`, 테두리는 상단 중앙만 은은하게 빛나는 1px 그라데이션 헤어라인(`via-white/25`)을 사용해 정교하고 차가운 금속성 다크 UI를 만들어 줘.',
+      "지정한 카드와 그 배경에 Linear Dark Minimal을 적용해 줘. 배경은 #090A0F, 카드 표면은 #12131A와 흰색 10% 테두리로 두고, 상단 중앙에 좌우가 투명·중앙은 인디고 80%인 1px 가로 헤어라인을 배치해 줘. 헤드라인은 흰색→slate-400 그라데이션 텍스트로 표현해 줘. 움직임 없이 절제된 정적 카드이며 입력한 적용 대상 밖의 테마는 바꾸지 말아 줘.",
   },
   {
     id: 'st-matte-film-grain',
@@ -1176,7 +1176,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Matte Film Grain & Noise Texture',
     summary: 'SVG 프랙탈 노이즈 오버레이를 얹어 차가운 화면에 따뜻한 인쇄물·필름 질감을 부여',
     promptSnippet:
-      '배경과 카드 표면에 SVG `<feTurbulence type="fractalNoise" baseFrequency="0.8">` 노이즈 패턴을 낮은 투명도(`opacity: 0.12`)로 오버레이하여 매끈한 디지털 색감 대신 매트하고 감성적인 Film Grain 질감이 느껴지게 해 줘.',
+      "지정한 어두운 stone 톤 배경에 radial-gradient(rgba(255,255,255,0.14) 1px, transparent 0), background-size: 6px 6px의 점 패턴을 opacity 0.6으로 덮는 Matte Film Grain 느낌을 구현해 줘. 패턴은 pointer-events-none으로 입력을 가로막지 않게 하고 전경 카드/글자는 별도 레이어로 선명하게 유지해 줘. 데모는 고정된 반복 도트이며 SVG feTurbulence나 움직이는 랜덤 노이즈는 사용하지 않아.",
   },
 
   /* 2. 입체·촉각질감 (tactile) */
@@ -1190,7 +1190,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Neumorphic Extruded Soft UI',
     summary: '배경색과 동일한 표면에서 좌상단 밝은 빛과 우하단 어두운 그림자로 양각·음각을 표현',
     promptSnippet:
-      '배경과 요소에 동일한 톤의 색상(`#1e293b`)을 사용하고, 좌상단 하이라이트와 우하단 그림자를 동시에 주는 이중 박스 섀도우(`shadow-[6px_6px_12px_#0f172a,-6px_-6px_12px_#2d3b55]`)로 볼록 튀어나온 양각과 클릭 시 오목하게 들어가는(`inset`) Neumorphism 스타일을 구현해 줘.',
+      "지정한 버튼과 배경을 같은 slate-800 톤으로 맞추고 Neumorphism 양각/음각을 클릭으로 토글해 줘. 초기 양각은 box-shadow: 6px 6px 12px #0f172a, -6px -6px 12px #334155, 음각은 inset 5px 5px 10px #0f172a, inset -5px -5px 10px #334155를 적용해 줘. 둥근 모서리와 밝은 글자를 유지하고 누르는 동안만이 아니라 클릭 상태로 유지되게 해 줘.",
   },
   {
     id: 'st-claymorphism-3d',
@@ -1202,7 +1202,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '3D Fluffy Claymorphism Style',
     summary: '큰 둥근 모서리(`rounded-3xl`)와 밝은 상단 내부 그림자 + 진한 하단 내부 그림자로 통통한 볼륨감 형성',
     promptSnippet:
-      '요소들이 3D 점토나 풍선처럼 통통하게 부풀어 보이도록 Claymorphism 스타일을 적용해 줘. 아주 둥근 모서리(`rounded-3xl`)와 파스텔/비비드 배경색 위에 이중 내부 그림자(`inset -6px -6px 14px rgba(0,0,0,0.35), inset 6px 6px 14px rgba(255,255,255,0.45)`)와 부드러운 외부 드롭 섀도우를 결합해 줘.',
+      "지정한 카드에 인디고색 표면과 24px 둥근 모서리의 Claymorphism 스타일을 적용해 줘. 그림자는 0 12px 20px rgba(0,0,0,0.45), inset -6px -6px 12px rgba(79,70,229,0.7), inset 6px 6px 12px rgba(255,255,255,0.45)를 결합해 줘. 기본 호버에서는 scale(1.05), 클릭으로 눌림 상태를 토글하면 scale(0.95), 재클릭하면 기본 상태로 복귀해 줘.",
   },
   {
     id: 'st-skeuomorphism-tactile',
@@ -1214,7 +1214,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Tactile Hardware Keycap Skeuomorphism',
     summary: '두꺼운 하단 베벨 두께(`border-b-4`)가 클릭 순간 물리적으로 내려앉는 실제 하드웨어 버튼 감각',
     promptSnippet:
-      '실제 하드웨어 스위치나 기계식 키캡을 누르는 듯한 Tactile Skeuomorphism 스타일을 적용해 줘. 상단 표면 그라데이션과 두꺼운 하단 입체 턱(`border-b-[5px] border-slate-950`)을 만들고, `:active` 클릭 시 하단 두께가 줄어들며 버튼이 아래로 3px 푹 들어가는 물리적 손맛을 구현해 줘.',
+      "지정한 하드웨어형 버튼에 slate-700→slate-900의 세로 그라데이션과 얇은 테두리를 적용해 줘. 초기 ON은 translateY(2px), inset 0 2px 5px rgba(0,0,0,0.8)와 0 1px 0 rgba(255,255,255,0.15) 그림자, 녹색 LED를 표시해 줘. 클릭해 OFF가 되면 원위치, 0 6px 10px rgba(0,0,0,0.7)와 inset 0 1px 1px rgba(255,255,255,0.35) 그림자, 회색 LED로 전환해 줘. 5px 하단 턱이나 :active 순간 눌림이 아닌 클릭 ON/OFF 시연이야.",
   },
   {
     id: 'st-paper-cutout-layer',
@@ -1226,7 +1226,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Layered Paper Cutout Craft Style',
     summary: '따뜻한 색종이 톤 레이어들이 겹겹이 쌓여 계단식 깊이 그림자를 만드는 크래프트 화풍',
     promptSnippet:
-      '도톰한 색종이를 여러 겹 오려 붙인 듯한 Paper Cutout 스타일로 구성해 줘. 파스텔/웜톤 카드들을 살짝씩 회전(`rotate-1`, `-rotate-2`)시켜 포개어 배치하고, 각 층 사이에 짧고 선명한 단차 그림자(`0 4px 6px rgba(0,0,0,0.25)`)를 넣어 종이 공예 같은 입체감을 표현해 줘.',
+      "지정한 카드에 3겹의 Paper Cutout 레이어를 적용해 줘. 뒤의 금색 종이는 -4deg, 중간의 장미색 종이는 3deg 회전하고 각각 shadow-md를 줘. 앞의 어두운 카드는 회전 없이 정면에 유지하고 2px 흰색 80% 테두리·shadow-lg를 적용해 줘. 각 레이어의 크기는 동일하게 겹치고, 데모처럼 별도 애니메이션이나 클릭 동작 없이 정적으로 표현해 줘.",
   },
 
   /* 3. 레트로·픽셀·CRT (retro) */
@@ -1240,7 +1240,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '8-Bit Retro Pixel Arcade UI',
     summary: '곡선(`border-radius: 0`)을 배제하고 계단식 픽셀 외곽선과 도트 폰트 감성을 살린 게임풍',
     promptSnippet:
-      '고전 8비트 오락실 게임 같은 Pixel Art UI 스타일을 적용해 줘. 모든 `border-radius`를 `0`으로 제거하고, 다중 `box-shadow`로 계단식 픽셀 테두리(`0 -4px, 0 4px, -4px 0, 4px 0`)를 그리며 고정폭 도트 타이포그래피와 원색 팔레트를 사용해 줘.',
+      "지정한 버튼에 둥근 모서리 없는 8비트 픽셀 느낌을 적용해 줘. 어두운 바탕 위 에메랄드 버튼, 2px 흰 테두리, 4px 4px 0 #1e1b4b의 단일 하드 그림자와 고정폭 굵은 글자를 사용해 줘. 코인 숫자는 99로 시작해 클릭마다 1 증가하고, 누르는 동안만 translateY(2px)로 내려가게 해 줘. 데모에는 4방향 계단식 다중 테두리나 실제 결제 기능은 없어.",
   },
   {
     id: 'st-win95-retro-os',
@@ -1252,7 +1252,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '90s Retro Desktop OS Window',
     summary: '실버 그레이(`#c0c0c0`) 배경에 흰색·검은색 2px 입체 베벨 테두리와 네이비 타이틀 바 조합',
     promptSnippet:
-      '90년대 Windows 95 / Classic OS 데스크톱 창 스타일로 디자인해 줘. 배경은 `#c0c0c0` 실버 그레이, 테두리는 좌상단 흰색(`#fff`)·우하단 진회색(`#000`)의 2px 3D Bevel 보더를 적용하고 상단에는 네이비색(`#000080`) 타이틀 바와 `[ _ ][ □ ][ X ]` 픽셀 버튼을 배치해 줘.',
+      "지정한 창 UI를 #008080 배경 위 #c0c0c0 실버 패널로 구성하고, 위·왼쪽은 2px 흰색/오른쪽·아래는 2px 검은색 Bevel 테두리를 적용해 줘. 상단 타이틀 바는 #000080과 흰 글자, 우측에는 회색 × 표시 하나를 배치해 줘. 데모는 정적인 Win95 창 외형이며 최소화/최대화 버튼이나 실제 닫기 동작은 없어.",
   },
   {
     id: 'st-crt-scanline-terminal',
@@ -1264,7 +1264,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'CRT Phosphor Green & Scanlines',
     summary: '수평 스캔라인 줄무늬 오버레이와 네온 그린(`#4ade80`) 잔광이 흐르는 레트로 모니터 화풍',
     promptSnippet:
-      '구형 브라운관 해커 모니터 같은 CRT Scanline Terminal 화풍을 적용해 줘. 어두운 녹색 배경 위에 `repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 3px)` 주사선 오버레이를 깔고, 모든 텍스트와 선에 초록색 형광 글로우(`text-shadow: 0 0 8px #22c55e`)를 적용해 줘.',
+      "지정한 터미널 그래픽의 배경을 #041208로 두고 repeating-linear-gradient(0deg, rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px, transparent 1px, transparent 3px) 스캔라인을 입력을 가로막지 않는 오버레이로 덮어 줘. 주요 고정폭 문구에는 에메랄드색과 drop-shadow(0 0 8px rgba(52,211,153,0.8))를 적용하고 보조 라벨은 더 어둡게 해 줘. 데모는 정적 CRT 표현이며 실제 터미널 입력이나 점멸 애니메이션은 없어.",
   },
   {
     id: 'st-synthwave-sunset-grid',
@@ -1276,7 +1276,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '80s Synthwave Perspective Grid',
     summary: '마젠타·바이올렛 황혼 그라데이션과 원근법으로 누운 네온 그리드 바닥이 결합된 스타일',
     promptSnippet:
-      '80년대 레트로 퓨처리즘 Synthwave 화풍을 적용해 줘. 상단은 보라·핑크·오렌지 황혼 그라데이션과 줄무늬 태양을 배치하고, 하단 바닥에는 `perspective(200px) rotateX(60deg)`로 기울어진 네온 마젠타 격자(`linear-gradient` 그리드)를 깔아 줘.',
+      "지정한 그래픽에 #1a052e→#3b0764→#be185d의 세로 황혼 배경과 금색→장미색 원형 태양을 배치해 줘. 하단 격자는 분홍색 40%의 가로/세로 1px 선, background-size: 16px 10px와 perspective(120px) rotateX(55deg)로 표현해 줘. 태양에는 20px 장미색 발광을 주되 줄무늬나 이동은 추가하지 말고 정적 Synthwave 씬으로 구현해 줘.",
   },
 
   /* 4. SF·도면·팝아트 (scifi) */
@@ -1290,7 +1290,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Sci-Fi Mecha HUD Chamfered UI',
     summary: '`clip-path: polygon()`으로 모서리를 45도 깎아내고 시안색 눈금·코너 브래킷을 더한 SF 화풍',
     promptSnippet:
-      'SF 게임/메카닉 조종석 같은 Sci-Fi HUD 스타일을 적용해 줘. 카드 모서리를 `clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px))`로 45도 깎아내고, 네 귀퉁이에 밝은 시안(`#06b6d4`) 코너 브래킷(`┌ ┐ └ ┘`)과 상태 코드 텍스트를 장식해 줘.',
+      "지정한 HUD 프레임의 clip-path를 polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)로 주어 좌상단·우하단을 12px 잘라 줘. 같은 모양의 외곽 시안색 레이어에 1.5px 패딩을 두고 내부를 어두운 반투명 표면으로 채워 얇은 윤곽선을 만들어 줘. 고정폭 상태 코드와 펄스 ONLINE 점을 배치하되 데모에 없는 4개 코너 브래킷은 추가하지 말아 줘.",
   },
   {
     id: 'st-architect-blueprint',
@@ -1302,7 +1302,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Architectural CAD Blueprint Style',
     summary: '코발트블루 모눈종이 배경 위에 흰색 점선/실선 테두리와 치수 표기(`120px`)를 노출하는 도면 화풍',
     promptSnippet:
-      '엔지니어링 설계도면 같은 Architectural Blueprint 화풍을 적용해 줘. 진한 블루(`#1e3a8a`) 배경 위에 20px 간격의 얇은 격자 모눈(`linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)`)을 깔고, 모든 컴포넌트를 흰색 실선·점선 보더와 모서리 십자선(`+`), 치수 라벨로 표현해 줘.',
+      "지정한 도면 그래픽에 #0a2540 배경과 rgba(56,189,248,0.18)의 1px 가로·세로 모눈을 background-size: 14px 14px로 적용해 줘. 중앙에는 옅은 하늘색 점선 테두리와 고정폭 흰색 문구를 배치하고, 상단 테두리에 배경색을 깐 치수 라벨을 걸쳐 표시해 줘. 데모의 240px × 96px 문구는 장식 라벨이며 실제 크기 측정값은 아니고, 코너 십자선/실제 CAD 기능은 없어.",
   },
   {
     id: 'st-swiss-editorial-grid',
@@ -1314,7 +1314,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Swiss International Exposed Grid',
     summary: '여백 대신 1px 실선(`border-collapse`)으로 모든 셀 구획을 드러내고 거대한 숫자와 산세리프를 배치',
     promptSnippet:
-      '현대 미술관 포스터 같은 Swiss International Typographic 스타일을 적용해 줘. 카드의 둥근 모서리를 없애고 노출된 1px 실선 격자(`divide-x divide-y border`)로 모든 영역을 엄격하게 분할하며, 강렬한 오렌지/화이트/블랙 대비와 굵은 번호 타이포그래피(`01`, `02`)를 전면에 배치해 줘.',
+      "지정한 편집 카드에 둥근 모서리 없는 Swiss Grid 스타일을 적용해 줘. 밝은 stone 배경 위 3열 Grid에서 왼쪽 1열은 빨간색과 흰 글자·굵은 01 번호, 오른쪽 2열은 검은 고정폭 보조 라벨과 굵은 헤드라인을 배치해 줘. 외곽과 세로 구분선은 2px 검은색으로 노출하고, 데모처럼 별도 동작 없는 정적 1:2 레이아웃으로 구현해 줘.",
   },
   {
     id: 'st-comic-halftone-pop',
@@ -1326,7 +1326,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Comic Book Halftone Pop-Art',
     summary: '도트 망점 배경 위에 살짝 기울어진(`skew-x`) 원색 패널과 만화 효과음 배지를 결합한 스타일',
     promptSnippet:
-      '미국 코믹북/만화책 같은 Comic Halftone Pop-Art 스타일을 적용해 줘. 배경에 대각선 도트 망점(`radial-gradient(#000 1.5px, transparent 1.5px)`) 패턴을 깔고, 패널에 `skewX(-4deg)` 기울기와 3px 검은 외곽선, 강렬한 노랑·빨강 액션 배지를 결합해 줘.',
+      "지정한 그래픽의 금색 배경에 radial-gradient(#f43f5e 1.5px, transparent 1.5px), background-size: 8px 8px의 장미색 도트를 깔아 줘. 전경의 흰 말풍선 카드에는 3px 검은 테두리와 5px 5px 0 #000 그림자를 주고, 초기 rotate(-3deg)에서 클릭하면 rotate(3deg) scale(1.1)로 토글하며 BAM→POW 문구를 바꿔 줘. skewX 왜곡이나 검은 망점 대신 데모의 회전·유색 도트를 사용해 줘.",
   },
   {
     id: 'st-holographic-foil-card',
@@ -1338,7 +1338,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Holographic Foil Iridescent Style',
     summary: '다중 각도 무지개 그라데이션(`linear-gradient(125deg, #ff0080, #7928ca, #00e5ff, #00ff88)`)과 대각선 쉬머가 결합된 광택 화풍',
     promptSnippet:
-      '트레이딩 포토카드나 Apple Pay 카드처럼 각도에 따라 무지개빛이 흐르는 Holographic Foil 스타일을 적용해 줘. 표면 위에 다중 스펙트럼 그라데이션(`background-size: 250% 250%`)과 `mix-blend-mode: color-dodge` 광택 레이어를 겹쳐 호버/이동 시 이리데슨트 프리즘 빛깔이 움직이게 해 줘.',
+      "지정한 카드에 #ff0080→#7928ca→#00e5ff→#00ff88→#fde047의 다중 스펙트럼 외곽 그라데이션과 같은 각도의 반투명 내부 그라데이션을 겹쳐 줘. 초기 각도는 125deg이고 마우스 x 위치 비율 pct에 따라 round(90 + pct * 140)deg로 갱신하며, 클릭하면 (현재 각도 + 45) % 360으로 바꿔 줘. 얇은 그라데이션 테두리·backdrop-blur-md·시안 그림자를 유지하고 이탈 시 각도를 초기화하지 말아 줘. 데모에는 color-dodge나 250% 배경 확대는 없어.",
   },
   {
     id: 'st-receipt-thermal-mono',
@@ -1350,7 +1350,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Thermal Receipt & Barcode Ticket',
     summary: '크림 화이트 지류 배경, 상하단 톱니 절취선, 고정폭(`monospace`) 영수증 내역과 하단 바코드를 결합한 편집 화풍',
     promptSnippet:
-      '실제 매장 감열지 영수증 같은 Thermal Paper Receipt 스타일로 카드를 디자인해 줘. 오프화이트(`#faf8f5`) 배경에 검은색 고정폭(`font-mono`) 텍스트를 쓰고, 항목 사이는 점선(`border-dashed border-zinc-400`)으로 구분하며, 상하단 지그재그 절취선과 하단 수직 바코드 그래픽을 배치해 줘.',
+      "지정한 영수증 카드에 #faf8f5 감열지 배경, 어두운 고정폭 글자, 상하단 2px 점선과 항목별 점선 구분을 적용해 줘. 바코드는 높이 14px의 막대 18개를 1.5px 간격으로 배치하고 각 너비를 데모 배열 [2,1,3,1,2,1,4,1,2,2,1,3,1,2,1,3,2,1] * 1.5px로 표현해 줘. 초기 빨간 PAID ✓ 도장은 -6deg이며 클릭하면 회색 RECEIPT/원각도로 토글해 줘. 지그재그 절취선이나 실제 결제 상태를 의미하지 않는 시연이야.",
   },
   {
     id: 'st-vaporwave-y2k-chrome',
@@ -1362,7 +1362,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Y2K Metallic Chrome & Pastel UI',
     summary: '광택 나는 리퀴드 실버 크롬 그라데이션과 핫핑크·베이비블루 그라데이션 창, 반짝이 별(✦) 장식이 어우러진 2000년대 화풍',
     promptSnippet:
-      '2000년대 초반 Y2K Chrome & Pastel 스타일을 적용해 줘. 캔디 핑크·아쿠아 블루 파스텔 그라데이션 윈도우에 은빛 금속 광택이 나는 크롬 보더/배지(`linear-gradient(180deg, #ffffff 0%, #94a3b8 48%, #334155 52%, #e2e8f0 100%)`)와 반짝이 스타(`✦`) 아이콘을 조합해 줘.',
+      "지정한 윈도우 카드에 분홍→푸시아→하늘색 파스텔 배경과 흰 테두리를 적용해 줘. 상단 크롬 바는 linear-gradient(180deg,#ffffff 0%,#cbd5e1 48%,#64748b 52%,#f1f5f9 100%), 작은 크롬 배지는 #f8fafc→#94a3b8(50%)→#e2e8f0로 표현해 줘. 별/하트 장식을 넣고 초기 ★ PLAY 배지를 클릭 시 ☆ CUE와 토글해 줘. 실제 오디오 재생이나 OS 창 실행은 없는 외형 시연이야.",
   },
   {
     id: 'st-cyberpunk-neon-glitch',
@@ -1374,7 +1374,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Cyberpunk High-Voltage Neon UI',
     summary: '고채도 사이버 옐로우(`#facc15`)와 딥 블랙 대비, 대각선 해저드 스트라이프, 일렉트릭 시안(`#00f0ff`) 액센트를 결합한 화풍',
     promptSnippet:
-      '사이버펑크 2077 스타일의 High-Voltage Cyberpunk UI 화풍을 적용해 줘. 강렬한 애시드 옐로우(`#facc15`)와 블랙(`#09090b`)의 고대비 컬러 블록에 모서리 컷아웃(`clip-path`), 대각선 경고 줄무늬(`repeating-linear-gradient(-45deg)`), 일렉트릭 시안(`#00f0ff`) 네온 태그를 결합해 줘.',
+      "지정한 카드에 #facc15 애시드 옐로우 표면·어두운 글자와 왼쪽 4px 시안 테두리, 우상단·좌하단 12px 컷아웃을 적용해 줘. 위에는 검은 표면의 #00f0ff 상태 태그를 두고 하단에는 repeating-linear-gradient(-45deg,#09090b 0px,#09090b 5px,#facc15 5px,#facc15 10px) 경고 띠를 넣어 줘. 초기 NEON OVERDRIVE 문구에서 클릭마다 BREACH PROTOCOL과 토글해 줘. 데모에 별도 글리치 애니메이션이나 실제 시스템 경고 동작은 없어.",
   },
 
   /* =====================================================================
@@ -1391,7 +1391,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'SaaS Product Launch Showreel',
     summary: 'Scene 1(슬로건 줌인) ➔ Scene 2(대시보드 등장) ➔ Scene 3(CTA 피날레)로 이어지는 3단계 프로모션 시퀀스',
     promptSnippet:
-      'Remotion/모션 그래픽 스타일의 3단계 SaaS 프로덕트 런칭 쇼릴 시퀀스를 구현해 줘. Scene 1(0~1.5s)에서 슬로건이 spring 스케일업으로 등장하고, Scene 2(1.5~3.5s)에서 대시보드 목업이 3D 원근 각도에서 정면으로 펴지며 핵심 위젯이 하이라이트되고, Scene 3(3.5~5s)에서 브랜드 로고와 CTA 배지로 스냅 전환되게 해 줘.',
+      "SaaS 런칭 소개용 3장면 루프를 만들어 줘. 슬로건 → 단순 대시보드와 +142% 위젯 → CTA 순서로 각 장면을 1.6초씩 보여주고, 클릭하면 다음 장면으로 이동하며 자동 전환 대기를 다시 시작해 줘. 장면마다 0.48초 spring-pop으로 scale(0.45) → 1.14 → 0.95 → 1 팝업을 재생하고 하단 3개 진행 표시를 300ms로 전환해 줘. 데모처럼 평면 UI 장면으로 구성해 줘.",
   },
   {
     id: 'vd-device-3d-spin',
@@ -1403,7 +1403,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: '3D Device Mockup Showcase',
     summary: '기울어진 모바일/데스크탑 프레임이 부드럽게 회전하며 내부 UI 위젯이 레이어별로 떠오르는 홍보 연출',
     promptSnippet:
-      '앱 홍보 영상처럼 3D 디바이스 목업 투어 모션을 만들어 줘. `perspective: 900px` 공간에서 디바이스 프레임이 `rotateY(-28deg) rotateX(12deg)`에서 정면(`0deg`)으로 회전하며 등장하고, 회전이 멈추는 타이밍에 화면 안의 핵심 알림 카드가 `translateZ(30px)`로 팝아웃되며 강조되게 해 줘.',
+      "제품 소개용 CSS 3D 디바이스 씬을 만들어 줘. perspective 1000px 안에서 초기 rotateY(-28deg) rotateX(14deg) scale(0.94) 상태와 정면 rotateY(0) rotateX(0) scale(1.04) 상태를 1.8초마다 또는 클릭으로 교대해 줘. preserve-3d와 700ms transform 전환을 사용하고, 정면 전환과 동시에 내부 알림 카드를 translateZ(26px) scale(1.06)으로 띄웠다가 복귀 시 Z=0으로 되돌려 줘. 결제 승인 문구는 연출용 예시야.",
   },
   {
     id: 'vd-app-walkthrough-zoom',
@@ -1415,7 +1415,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Cursor Follow Zoom Walkthrough',
     summary: '가상 포인터가 타겟 버튼으로 이동해 클릭 리플을 일으키면 카메라가 해당 영역을 클로즈업하는 데모 연출',
     promptSnippet:
-      '제품 사용법 영상처럼 Cursor Follow Zoom 워크스루 시퀀스를 구현해 줘. 가상 커서가 베지어 곡선을 그리며 타겟 버튼으로 이동할 때 전체 캔버스가 해당 좌표(`transform-origin`)를 기준으로 `scale(1.65)` 줌인되고, 클릭 파동 후 완료 배지가 뜨면서 다시 `scale(1)` 전체 뷰로 복귀하게 해 줘.',
+      "앱 사용법을 보여주는 3단계 줌 데모를 구현해 줘. 초기 전체 화면 → 버튼 강조 → 완료 순으로 1.4초마다 또는 클릭으로 이동해 줘. 2단계에서 화면을 scale(1.48) translate(-16px,4px)로 500ms 확대하고 마지막에는 원래 배율로 복귀해 줘. 커서는 각 단계에서 translate(24px,54px) → translate(136px,42px) scale(0.85) → translate(148px,52px)로 500ms 이동해 줘. 2단계에 핑 링을 보여주고 2·3단계에서는 버튼을 완료 색상과 scale(1.05)로 유지해 줘. 실제 배포 요청 없이 상태 전환만 시연해 줘.",
   },
   {
     id: 'vd-split-promo-reel',
@@ -1427,7 +1427,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Multi-Screen Split Promo Reel',
     summary: '3개의 분할 컬럼이 상하 교차 슬라이드로 맞물려 들어온 뒤 전체 화면 타이틀로 합쳐지는 역동적인 구성',
     promptSnippet:
-      '광고 쇼릴에 쓰이는 Multi-Screen Split 시퀀스를 구현해 줘. 화면을 3등분한 패널이 각각 위·아래·위 반대 방향(`translateY(-100%)`, `translateY(100%)`)에서 `cubic-bezier(0.22, 1, 0.36, 1)`로 동시에 맞물려 들어와 정지하고, 이어서 중앙 와이프와 함께 메인 카피가 오버레이되게 해 줘.',
+      "세로 3분할 프로모션 씬을 만들어 줘. 초기에는 세 패널이 정렬된 장면을 보여주고 1.3초마다 또는 클릭으로 다음 단계로 이동해 줘. 진입 단계에서는 패널을 위/아래/위로 각각 100% 이동한 위치에 두고, 다음 단계에서 정렬한 뒤 마지막 단계에서 패널 opacity를 0으로 전환하고 중앙 타이틀을 spring-pop으로 보여줘. 패널 이동과 투명도는 300ms로 전환하고 3단계를 반복해 줘.",
   },
   {
     id: 'vd-glitch-cut-reel',
@@ -1439,7 +1439,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Glitch Cut Spec Teaser Reel',
     summary: '장면이 바뀔 때마다 순간적인 RGB 색수차 플래시와 수평 슬라이스가 터지며 핵심 스펙이 연속 전환되는 티저',
     promptSnippet:
-      '게이밍·테크 하드웨어 티저 영상처럼 Glitch Cut Teaser 시퀀스를 구현해 줘. 1.4초 간격으로 핵심 스펙 씬(`240Hz OLED` ➔ `0.03ms RESPONSE` ➔ `AI ENGINE`)이 전환될 때 180ms 동안 Red/Cyan 색수차 오프셋과 수평 노이즈 슬라이스 바가 번쩍이며 타격감 있게 컷이 바뀌게 해 줘.',
+      "240Hz OLED / 0.03ms GTG / NEURAL AI+ 스펙을 교체하는 글리치 컷 데모를 만들어 줘. 1.5초마다 글리치를 켜고 90ms 뒤 스펙을 다음 것으로 바꾸며 시작 후 220ms에 글리치를 꺼 줘. 클릭 시에는 스펙을 즉시 바꾸고 200ms 동안 글리치를 보여줘. 글리치 중 translateX(4px) skewX(-6deg), 좌우 4px 빨강·시안 그림자, 중앙 12px 높이 시안 반투명 띠의 mix-blend-screen을 적용하고 전환은 75ms로 설정해 줘.",
   },
 
   /* 2. 타이포·리듬 광고 (kinetic_ad) */
@@ -1453,7 +1453,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Stomp Beat Rhythm Typography',
     summary: '비트마다 단어가 거대한 스케일에서 쾅 찍히듯 수축하고 배경과 글자 색상이 흑백/원색으로 강렬하게 반전되는 연출',
     promptSnippet:
-      '애플 "Don\'t Blink" 광고처럼 Stomp Beat Typography 시퀀스를 구현해 줘. 0.55초 비트 간격마다 키워드("THINK", "BUILD", "SHIP", "FAST.")가 `scale(2.2)`에서 `scale(1)`로 강하게 찍히듯 등장하고, 매 비트마다 컨테이너 배경색과 텍스트 색상이 반전(다크 ➔ 인디고 ➔ 앰버 ➔ 화이트)되게 해 줘.',
+      "THINK. → BUILD. → SHIP. → FAST ⚡ 타이포그래피를 750ms마다 또는 클릭으로 교체하는 스톰프 비트 씬을 만들어 줘. 배경을 어두운색 → 인디고 → 앰버 → 흰색으로 100ms 전환하고 뒤 두 장면은 어두운 글자를 사용해 줘. 각 단어는 0.36초 cubic-bezier(0.22,1,0.36,1)로 scale(2.15), opacity 0에서 시작해 45% 지점 0.94, 70% 지점 1.03, 마지막 1로 착지하도록 키프레임을 재시작해 줘.",
   },
   {
     id: 'vd-highlight-swipe-reveal',
@@ -1465,7 +1465,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Marker Swipe Headline Reveal',
     summary: '컬러 블록 바가 좌에서 우로 빠르게 스와이프하며 헤드라인을 드러내고 하단 요약 태그가 순차 팝업되는 구성',
     promptSnippet:
-      '모션 광고의 Marker Swipe Reveal 타이틀 씬을 구현해 줘. 먼저 컬러 마커 블록이 `scaleX(0)`에서 `scaleX(1)`(`transform-origin: left`)로 뻗어나간 뒤 `transform-origin: right`로 수축하면서 그 아래 숨겨져 있던 굵은 헤드라인 텍스트를 드러내고, 직후에 서브 태그 칩들이 0.1초 간격으로 올라오게 해 줘.',
+      "타이틀 위 하이라이트 띠가 가로질러 지나가며 글자를 드러내는 3단계 씬을 만들어 줘. 초기에는 완료된 타이틀을 보여줘. 재생은 띠 translateX(-102%)·글자 opacity 0 상태로 120ms 대기 → 띠 translateX(0)를 300ms ease-out으로 이동하며 420ms 유지 → 띠 translateX(102%)와 글자 opacity 1을 각각 300ms·150ms로 전환하고 1.6초 유지하는 루프야. 완료 단계에서 태그 3개를 90ms 간격으로 opacity 0→1, translateY(6px)→0의 300ms 전환으로 보여주고 클릭 시 첫 단계로 돌아가 줘.",
   },
   {
     id: 'vd-countdown-energetic-intro',
@@ -1477,7 +1477,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Energetic Countdown Opener',
     summary: '회전하는 레이더 서클 안에서 3·2·1 숫자가 타격감 있게 바뀐 뒤 "LIVE NOW" 메인 배너로 전환되는 인트로',
     promptSnippet:
-      '쇼릴/이벤트 오프닝용 Countdown Opener 시퀀스를 만들어 줘. 대시 원형 링이 회전하는 가운데 숫자 `3` ➔ `2` ➔ `1`이 매초 `scale(1.6)` 탄성 애니메이션과 파동 링을 동반하며 전환되고, `0`이 되는 순간 화면 전체가 밝게 플래시된 뒤 메인 런칭 타이틀이 펼쳐지게 해 줘.',
+      "3 → 2 → 1 → LIVE! 순서의 반복 카운트다운 인트로를 만들어 줘. 숫자는 각 800ms, LIVE!는 1.3초 유지하고 클릭으로 다음 단계로 이동해 줘. 각 단계의 글자는 spring-pop(0.48초)으로 등장시키며 숫자는 scale(1.14)로 강조해 줘. 배경 점선 링은 5초 주기로 회전하고 단계마다 0.5초 heart-ring 충격파를 새로 재생해 줘. 0이나 후속 메인 장면 없이 LIVE! 다음에 3으로 반복해 줘. spring-pop은 scale 0.45→1.14→0.95→1과 opacity 0→1, 충격파는 scale 0.5→1.85와 opacity 0.9→0으로 만들어 줘.",
   },
   {
     id: 'vd-chat-story-sequence',
@@ -1489,7 +1489,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Chat Bubble Storyboard Sequence',
     summary: '사용자 질문 말풍선 ➔ 타이핑 점(`...`) ➔ 완성된 UI 결과 카드가 시나리오 순서대로 탄성 있게 쌓이는 연출',
     promptSnippet:
-      'AI 서비스 홍보 영상에 쓰이는 Chat Storyboard Sequence를 구현해 줘. Step 1에서 우측 사용자 질문 말풍선이 아래에서 튀어 오르고, Step 2에서 좌측 타이핑 인디케이터(`...`)가 0.8초간 바운스한 뒤, Step 3에서 완성된 프리뷰 카드가 스프링 애니메이션으로 펼쳐지는 시퀀스를 자동 재생해 줘.',
+      "AI 채팅 과정을 연출하는 3단계 스토리 씬을 만들어 줘. 초기에는 완료 상태를 보여주고 각 단계는 1.3초마다 또는 클릭으로 순환해 줘. 오른쪽 질문 말풍선은 모든 단계에 유지하고, 첫 단계는 질문만, 두 번째는 왼쪽 답변 말풍선과 0/120/240ms 지연으로 튀는 점 3개, 마지막은 왼쪽 결과 미리보기를 보여줘. 질문·답변·결과가 새로 나타날 때 spring-pop을 적용하고 실제 AI 요청이나 영상 생성 없이 시연 상태로 구성해 줘. 말풍선 Spring Pop은 0.48초 cubic-bezier(0.34,1.56,0.64,1)로 0% scale(0.45)·opacity 0 → 60% scale(1.14)·opacity 1 → 80% scale(0.95) → 100% scale(1)이야.",
   },
   {
     id: 'vd-slot-jackpot-headline',
@@ -1501,7 +1501,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Slot Reel Jackpot Headline Scene',
     summary: '3개의 단어 슬롯 윈도우가 빠르게 수직 회전한 뒤 좌측부터 순서대로 멈추며 슬로건 한 줄을 완성하는 연출',
     promptSnippet:
-      '광고 영상용 Slot Reel Jackpot 헤드라인 시퀀스를 구현해 줘. 3개의 단어 창(`[CREATE]`, `[10X]`, `[FASTER]`)이 각각 수직으로 빠르게 롤링되다가 0.25초 시차로 왼쪽부터 차례대로 탄성 있게 철컥 멈추고, 3개가 모두 정렬되면 골드/에메랄드 테두리 하이라이트가 켜지게 해 줘.',
+      "3열 슬롯 헤드라인을 만들어 줘. 열별 단어는 SHIP/BUILD/CREATE, 2X/5X/10X, BETTER/SMARTER/FASTER로 구성하고 행 높이를 36px로 맞춰 줘. step은 초기 3이며 680ms마다 0→1→2→3→4→0으로 순환하고, 각 열 인덱스 r에서 step>r이면 마지막 단어에 고정하고 아니면 (step+r)%3 행으로 이동해 줘. translateY(-행번호×36px)를 300ms cubic-bezier(0.34,1.56,0.64,1)로 전환하고 step>=3이면 에메랄드 프레임을 켜 줘. 클릭 시 step=0으로 재시작하되 기존 인터벌은 유지해 줘.",
   },
 
   /* 3. 데이터·차트 모션 (infographic) */
@@ -1515,7 +1515,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Animated Growth Chart Scene',
     summary: '분기별 막대 차트가 시간차로 솟아오른 뒤 최고점 막대 위에 상승률(`+340%`) 콜아웃 배지가 팝업되는 씬',
     promptSnippet:
-      'IR/피치덱 모션 그래픽처럼 Animated Growth Chart 시퀀스를 구현해 줘. 5개의 분기별 바가 0.1초 간격(stagger)으로 바닥(`height: 0%`)에서 목표 높이까지 `cubic-bezier(0.34, 1.56, 0.64, 1)`로 솟아오르고, 마지막 바가 완료되면 상단에 `+340% 성장` 하이라이트 배지가 팝업되게 해 줘.',
+      "5개 막대의 성장 차트 씬을 만들어 줘. 활성 상태의 높이는 28/42/58/76/100%, 비활성은 모두 12%로 두고 높이를 500ms로 전환해 줘. 활성화 시 막대별 0/75/150/225/300ms 지연을 주고 마지막 막대 위에 +340% 배지를 spring-pop으로 즉시 표시해 줘. 초기 활성 상태에서 2초 유지 후 비활성 700ms를 반복하고 클릭으로 상태를 바꿔 줘. 비활성으로 복귀할 때는 지연을 없애 줘. 배지 팝업은 0.48초 cubic-bezier(0.34,1.56,0.64,1)로 scale 0.45→1.14→0.95→1과 opacity 0→1을 사용해 줘.",
   },
   {
     id: 'vd-kpi-counter-explosion',
@@ -1527,7 +1527,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'KPI Metric Reveal Sequence',
     summary: '3개의 핵심 지표 카드가 시간차로 등장하며 게이지 바와 핵심 수치(`99.9%`, `12x`, `0.2s`)가 동시에 채워지는 연출',
     promptSnippet:
-      '실적 발표 영상용 KPI Metric Reveal 시퀀스를 만들어 줘. 3개의 지표 카드가 순차적으로 슬라이드 업 + 페이드인되면서 각 카드의 숫자가 0부터 목표값까지 카운트업되고, 하단 미니 프로그레스 바가 목표 비율까지 스르륵 채워지는 타임라인 애니메이션을 적용해 줘.',
+      "Uptime 99.9%, Speed 12.4x, Latency 0.18s의 KPI 카드 3개를 나란히 배치해 줘. requestAnimationFrame 기반 900ms 카운트업을 0부터 시작하고 easeOutCubic=1-(1-p)^3을 공통 진행률로 사용해 숫자와 바를 동시에 올려 줘. 각 바의 최종 너비는 92/82/74%이며 숫자의 소수 자릿수는 각각1/1/2자리야. 2.8초마다 또는 클릭 시 0부터 재시작하고, 카드 자체는 고정 배치로 유지해 줘.",
   },
   {
     id: 'vd-node-flow-pipeline',
@@ -1539,7 +1539,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Data Pipeline Node Flow Scene',
     summary: 'Input ➔ AI Core ➔ Output 3단계 노드를 따라 광선 패킷이 이동하며 도착한 노드가 네온 빛으로 점등되는 연출',
     promptSnippet:
-      '기술 소개 영상에 쓰이는 Data Pipeline Node Flow 모션을 구현해 줘. 좌측 입력 노드에서 중앙 코어, 우측 결과 노드로 이어진 연결선을 따라 발광 패킷이 이동하고, 패킷이 도달하는 순서대로 각 노드의 테두리와 상태 배지가 활성화(`Active`)되는 단계별 타임라인을 보여줘.',
+      "Input → AI Core → Render의 3노드 파이프라인 모션을 만들어 줘. 0/1/2단계를 각각 950ms 유지한 뒤 리셋 단계를 80ms 두고 반복해 줘. 현재 노드 하나만 시안 테두리·인디고 배경·scale(1.1)로 300ms 강조하고, 발광 패킷을 left 12%→48%→82%로 500ms 이동해 줘. 첫 단계와 리셋 단계에서는 패킷을 opacity 0·transition 없음으로 좌측에 복귀시켜 줘. 클릭 시에는 다음 노드로 순환하며 Active 배지나 실제 데이터 전송 없이 시연해 줘.",
   },
   {
     id: 'vd-circular-ring-dashboard',
@@ -1551,7 +1551,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Multi-Ring Progress Infographic',
     summary: '외곽·중간·내부 3개의 SVG 원형 링이 서로 다른 속도와 색상으로 회전하며 채워지는 데이터 비주얼라이제이션',
     promptSnippet:
-      '애플 워치 액티비티 링 스타일의 Multi-Ring Progress 인포그래픽 씬을 구현해 줘. 반지름이 다른 3개의 동심원 SVG `<circle>`(`stroke-linecap="round"`)이 `stroke-dashoffset` 애니메이션으로 각각 92%, 78%, 64%까지 부드럽게 채워지고, 우측 범례 수치가 순차 점등되게 해 줘.',
+      "3개의 동심원 SVG 링 게이지를 구현해 줘. viewBox 0 0 80 80, 중심(40,40), 반지름32/23/14, stroke-width 6, round linecap을 사용하고 SVG를 -90deg 회전해 줘. dasharray는201/145/88, 빈 상태 dashoffset도201/145/88, 채운 상태는24/32/28로 설정해 줘. 전환은700ms, 지연은0/75/150ms이며 범례는 채움 상태에서88/78/68%, 빈 상태에서0%로 즉시 바꿔 줘. 초기 채움 상태를2.2초, 빈 상태를750ms 유지하며 반복하고 클릭으로도 교대해 줘.",
   },
   {
     id: 'vd-funnel-conversion-drop',
@@ -1563,7 +1563,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Conversion Funnel Stage Reveal',
     summary: 'Visit(100%) ➔ Sign Up(58%) ➔ Pro(28%) 3단계 퍼널 바가 위에서 아래로 순차 확장되며 최종 전환율 배지가 팝업되는 씬',
     promptSnippet:
-      '마케팅·그로스 리포트 영상용 Conversion Funnel Reveal 시퀀스를 구현해 줘. 위에서 아래로 폭이 좁아지는 3단계 깔때기(Funnel) 바가 0.25초 간격으로 펼쳐지며 각 단계의 유저 수와 비율이 표시되고, 마지막 단계 완료 시 우측에 `CVR +28.4%` 하이라이트 배지가 탄성 있게 등장하게 해 줘.',
+      "컨버전 퍼널의3개 가로 바를 중앙 정렬로 쌓아 줘. VISITORS 100%는176px, SIGN UPS 58%는128px, PRO PAID 28.4%는96px 너비, 각 높이20px로 설정해 줘. stage는 초기3이며900ms마다1→2→3→4→1로 순환하고 stage>행 인덱스일 때 해당 행을 opacity 1·scale(1)·translateY(0), 아니면 opacity 0.15·scale(0.9)·translateY(-4px)로300ms 전환해 줘. stage>=3이면 하단 FINAL CVR +28.4% 배지를 opacity 0→1·scale(0.75)→1로300ms 표시하고 클릭 시stage=1로 돌아가 줘.",
   },
 
   /* 4. 방송·트랜지션·자막 (broadcast) */
@@ -1577,7 +1577,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Broadcast Lower Third Title',
     summary: '수직 액센트 바가 뻗은 뒤 마스크 안쪽에서 발표자 이름·소속 배너가 시간차로 슬라이드 인/아웃되는 방송 자막',
     promptSnippet:
-      '유튜브·방송 인터뷰용 Lower Third 자막 애니메이션을 구현해 줘. 1단계로 좌측 수직 인디고 액센트 바가 위아래로 펼쳐지고(`scaleY(1)`), 2단계로 `overflow-hidden` 마스크 안에서 메인 이름 바가 좌측(`translateX(-100%)`)에서 슬라이드 인, 3단계로 0.15초 뒤 서브 직함 태그가 따라 나오는 시퀀스로 구성해 줘.',
+      "방송용 로어써드를 왼쪽 아래에 배치해 줘. 왼쪽6px 인디고 바는 origin-bottom 기준 scaleY(0)↔1을300ms 전환하고, overflow-hidden 오른쪽 영역에서 메인 이름 바를 translateX(-100%)↔0으로500ms 슬라이드해 줘. 서브 직함 바는 같은500ms에100ms 지연을 적용해 줘. 초기 표시 상태를2.2초 유지하고 숨김 상태850ms를 반복하며 클릭으로도 교대해 줘. 세 요소는 같은 상태 전환에서 시작하되 서브 바에만 지연을 줘.",
   },
   {
     id: 'vd-diagonal-shutter-wipe',
@@ -1589,7 +1589,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Diagonal Multi-Layer Stinger Wipe',
     summary: '인디고·바이올렛·시안 3겹의 대각선 레이어가 짧은 시간차로 화면을 덮고 지나가며 Scene A를 Scene B로 전환',
     promptSnippet:
-      '방송 스팅어(Stinger) 같은 Diagonal Multi-Layer Wipe 화면 전환을 구현해 줘. `skewX(-18deg)`로 기울어진 3개의 컬러 레이어가 0.08초 간격으로 화면 왼쪽 밖에서 오른쪽 밖으로 빠르게 가로질러 지나가고, 중앙을 덮는 순간 배경 씬(Scene A ➔ Scene B)이 매끄럽게 교체되게 해 줘.',
+      "인디고·푸크시아·시안의3겹 대각선 스팅어 와이프를 만들어 줘. 각 레이어는 skewX(-18deg) 상태에서 translateX(-150%)→150%를500ms ease-in-out으로 이동하고 시작 지연은0/70/140ms로 해 줘. 트리거280ms 뒤 배경 씬을 교체하고720ms 뒤에는 transition을 제거한 채 좌측 대기 위치로 즉시 복귀시켜 줘. 2.6초마다 자동 재생하고 클릭 시 기존 교체·복귀 타이머를 취소한 뒤 새로 시작해 줘.",
   },
   {
     id: 'vd-logo-stinger-outro',
@@ -1601,7 +1601,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Logo Reveal Stinger Outro',
     summary: '좌우 빛 에너지가 중앙 코어에서 충돌해 충격파 링을 퍼뜨린 뒤 브랜드 심볼과 구독·CTA 버튼이 등장하는 엔딩 씬',
     promptSnippet:
-      '유튜브·브랜드 필름 엔딩용 Logo Stinger Outro 시퀀스를 구현해 줘. 좌우에서 날아온 두 개의 네온 광선이 중앙에서 충돌하는 순간 원형 충격파(`scale(0)` ➔ `scale(2.5)`)가 퍼지고, 동시에 브랜드 로고 심볼이 탄성 있게 팝업된 뒤 하단 슬로건이 레터링 간격(`letter-spacing`)을 좁히며 자리 잡게 해 줘.',
+      "네온 로고 아웃트로3단계 루프를 만들어 줘. 초기 완성 상태에서 시작하고 광선 단계450ms → 링·로고 등장 단계500ms → 완성 단계1.8초를 반복하며 클릭 시 광선 단계로 돌아가 줘. 좌우80px 광선은 광선 단계의 translateX(±42px) scaleX(1)·opacity 1에서 다음 단계의 translateX(0) scaleX(0.2)·opacity 0으로300ms 전환해 줘. 링은 등장·완성 각 단계 진입에0.5초 heart-ring으로 재생하고 로고는 scale(0.5)·opacity 0→scale(1)·opacity 1을500ms 전환해 줘. VIBE STUDIO 자간은 완성 단계에서 tracking-tight에서0.26em으로 넓혀 줘. 링은 scale(0.5)·opacity 0.9에서 scale(1.85)·opacity 0으로 ease-out 확산해 줘.",
   },
   {
     id: 'vd-audio-spectrum-visualizer',
@@ -1613,7 +1613,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Audio Spectrum Waveform Scene',
     summary: '트랙 재생 타임라인과 함께 16채널 주파수 스펙트럼 바가 리듬감 있게 물결치며 움직이는 미디어 씬',
     promptSnippet:
-      '뮤직비디오·팟캐스트 영상용 Audio Spectrum Visualizer 씬을 구현해 줘. 중앙에 그라데이션 수직 바 16개를 배치해 각기 다른 주기와 위상차(`animation-delay`)로 높이가 역동적으로 요동치게 하고, 상단 LIVE 배지와 하단 재생 타임코드(`01:24 / 03:45`) 프로그레스 바가 함께 흐르도록 구성해 줘.',
+      "오디오 스펙트럼을 흉내 내는16개 세로 바를 만들어 줘. 기본 높이는45/75/95/60/85/100/70/50/90/100/65/80/55/78/60/42%이며 아래쪽 기준 scaleY 애니메이션을 사용해 줘. 바 i의 지연은(i%5)×130ms, 주기는650+(i%4)×140ms로 설정해 줘. 초기 재생 상태·84초(01:24)에서1초마다 타임코드를 증가시키고225초(03:45) 다음에는0초로 돌아가 줘. 클릭 시 animation-play-state와 타이머를 함께 일시정지·재개하고 배지는 AUDIO ON/PAUSED, 바 opacity는1/0.7로200ms 전환해 줘. 실제 음원 분석·재생이나 진행 바 없이 시각 데모로 구성해 줘. 바의 scaleY 키프레임은 0/100% 지점0.22, 35% 지점1, 65% 지점0.48, 85% 지점0.85의 ease-in-out 무한 반복으로 설정해 줘.",
   },
   {
     id: 'vd-breaking-news-ticker',
@@ -1625,6 +1625,6 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Breaking News Broadcast Overlay',
     summary: '붉은 BREAKING 라이브 배지, 슬라이드 교체되는 메인 속보 헤드라인, 하단 연속 스크롤 뉴스띠를 결합한 방송 씬',
     promptSnippet:
-      '뉴스 보도국 생방송 스타일의 Breaking News Broadcast 씬을 구현해 줘. 좌측에 붉은 `BREAKING LIVE` 펄스 배지를 고정하고, 중앙 메인 헤드라인은 2초 간격으로 수직 슬라이드 교체되며, 최하단 티커 바에는 실시간 속보 문구가 끊김 없이 좌측으로 흐르게 해 줘.',
+      "속보 방송 스타일의 뉴스 패널을 만들어 줘. 상단 붉은 헤더에 핑 애니메이션의 흰 점과 BREAKING NEWS / LIVE 24H를 배치하고, 중앙 헤드라인3개를2초마다 또는 클릭으로 교체하며 새 문구마다0.38초 toast-slide-up을 재시작해 줘. 하단 앰버 티커는 같은 문구를2개 이어 붙인 w-max 트랙을 translateX(0)→-50%로9초 linear 무한 반복시켜 끊김 없이 왼쪽으로 흘려 줘. 헤드라인·티커는 고정 예시 텍스트로 구성해 줘. 헤드라인은 cubic-bezier(0.34,1.56,0.64,1)로 translateY(24px)·scale(0.92)·opacity 0에서 65% 지점 translateY(-3px)·scale(1.02)·opacity 1을 거쳐 원위치·scale(1)로 안착하게 해 줘.",
   },
 ];

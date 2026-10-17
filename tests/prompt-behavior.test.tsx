@@ -203,7 +203,7 @@ test('an empty composer disables copying and does not touch the clipboard', (t) 
   replaceGlobal(t, 'navigator', { clipboard: { writeText: async () => { copies += 1; } } });
   let tree!: ReturnType<typeof create>;
   act(() => {
-    tree = create(<PromptCartDrawer cart={[]} contextNote="" onContextNoteChange={() => {}}
+    tree = create(<PromptCartDrawer cart={[]} contextNote="랜딩페이지" onContextNoteChange={() => {}}
       storageError={null} isOpen onOpenChange={() => {}} onRemoveItem={() => {}} onClearCart={() => {}} />);
   });
   const button = tree.root.findAllByType('button').find((node) => /프롬프트 전체 복사/.test(renderedText(node)))!;
@@ -211,4 +211,55 @@ test('an empty composer disables copying and does not touch the clipboard', (t) 
   act(() => button.props.onClick());
   assert.equal(copies, 0);
   act(() => tree.unmount());
+});
+
+test('an absent or whitespace-only common target blocks copying at the button and handler', (t) => {
+  let copies = 0;
+  replaceGlobal(t, 'navigator', { clipboard: { writeText: async () => { copies += 1; } } });
+  for (const contextNote of ['', '   ', '\t\n', '\u3000']) {
+    let tree!: ReturnType<typeof create>;
+    act(() => {
+      tree = create(<PromptCartDrawer cart={[TECHNIQUES[0]]} contextNote={contextNote} onContextNoteChange={() => {}}
+        storageError={null} isOpen onOpenChange={() => {}} onRemoveItem={() => {}} onClearCart={() => {}} />);
+    });
+    const button = tree.root.findAllByType('button').find((node) => /프롬프트 전체 복사/.test(renderedText(node)))!;
+    assert.equal(button.props.disabled, true);
+    assert.equal(tree.root.findByType('input').props['aria-invalid'], true);
+    assert.match(renderedText(tree.root.findByProps({ id: 'prompt-target-help' })), /입력해야 복사/);
+    assert.doesNotMatch(renderedText(tree.root.findByType('pre')), /공통 적용 대상:/);
+    act(() => button.props.onClick());
+    assert.equal(copies, 0);
+    act(() => tree.unmount());
+  }
+});
+
+test('entering a common target allows all selected styles and copies their scoped prompt in order', async (t) => {
+  const copied: string[] = [];
+  replaceGlobal(t, 'navigator', { clipboard: { writeText: async (text: string) => { copied.push(text); } } });
+  const selected = ['st-neo-brutalism', 'st-linear-dark-minimal'].map((id) => TECHNIQUES.find((item) => item.id === id)!);
+  function Composer() {
+    const [contextNote, setContextNote] = React.useState('');
+    return <PromptCartDrawer cart={selected} contextNote={contextNote} onContextNoteChange={setContextNote}
+      storageError={null} isOpen onOpenChange={() => {}} onRemoveItem={() => {}} onClearCart={() => {}} />;
+  }
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<Composer />); });
+  t.after(() => { act(() => tree.unmount()); });
+  const copyButton = () => tree.root.findAllByType('button').find((node) => /프롬프트 전체 복사|복사 완료/.test(renderedText(node)))!;
+  act(() => tree.root.findByType('input').props.onChange({ target: { value: '  랜딩페이지 가격 카드  ' } }));
+  assert.equal(copyButton().props.disabled, false);
+  assert.equal(tree.root.findByType('input').props['aria-invalid'], false);
+  const preview = renderedText(tree.root.findByType('pre'));
+  assert.match(preview, /공통 적용 대상: 랜딩페이지 가격 카드\n/);
+  assert.match(preview, /선택한 모든 기법은 위 대상 안에서만/);
+  assert.match(preview, /대상 밖의 화면이나 컴포넌트는 변경하지/);
+  assert.ok(preview.indexOf(selected[0].promptSnippet) < preview.indexOf(selected[1].promptSnippet));
+  await act(async () => { copyButton().props.onClick(); });
+  assert.deepEqual(copied, [preview]);
+  assert.match(renderedText(copyButton()), /복사 완료/);
+  act(() => tree.root.findByType('input').props.onChange({ target: { value: ' ' } }));
+  assert.equal(copyButton().props.disabled, true);
+  assert.doesNotMatch(renderedText(copyButton()), /복사 완료/);
+  act(() => copyButton().props.onClick());
+  assert.equal(copied.length, 1);
 });
