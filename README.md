@@ -4,6 +4,8 @@ UI·그래픽·레이아웃·스타일·모션 영상 기법의 데모를 보고
 
 현재 소스의 웹은 상단에서 한국어/English를 전환하며, MCP는 `locale: "ko" | "en"`으로 요약과 프롬프트 언어를 선택한다. 검색은 한영 동의어·사용 상황을 함께 확인해 관련도순으로 후보를 반환한다. 기존에 설치한 npm 고정 버전에는 소스 변경이 자동 반영되지 않는다.
 
+개발 시 웹·데모 문구는 고정 키의 한영 사전으로 관리하며, 번역 누락 검사는 테스트와 빌드에서 자동 실행된다. 수정 방법은 [언어·검색 관리 안내](docs/catalog-language-search.md)를 참고한다.
+
 ## npm MCP를 Codex에 연결하기
 
 저장소를 복제하거나 웹 서버를 실행할 필요 없이 [npm 패키지](https://www.npmjs.com/package/@keke1933/vibe-dictionary-mcp)를 사용할 수 있다. Node.js 22.12 이상과 npm, `codex` CLI가 필요하다. 검증 환경은 Node.js 24다.

@@ -3,7 +3,8 @@ import test, { type TestContext } from 'node:test';
 import React from 'react';
 import { act, create, type ReactTestInstance } from 'react-test-renderer';
 import { TECHNIQUES, getTechniqueText } from '@vibe-dictionary/catalog';
-import { LocaleProvider, useLocale, LOCALE_STORAGE_KEY, translateValue } from '../src/i18n/LocaleContext';
+import { LocaleProvider, useLocale, LOCALE_STORAGE_KEY } from '../src/i18n/LocaleContext';
+import { translateMessage } from '../src/i18n/messages';
 import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
 import { TechniqueCard } from '../src/components/TechniqueCard';
 import { PromptCartDrawer } from '../src/components/PromptCartDrawer';
@@ -129,9 +130,9 @@ test('every demo renders in English through initial, click and timer states', t 
 });
 
 test('dynamic demo messages translate placeholders without changing arbitrary user text', () => {
-  assert.equal(translateValue('새 알림 도착 #42', 'en'), 'New notification #42');
-  assert.equal(translateValue('길게 누르는 중... 55%', 'en'), 'Holding... 55%');
-  assert.equal(translateValue('랜딩페이지 CTA', 'en'), '랜딩페이지 CTA');
+  assert.equal(translateMessage('en', 'demo.toast.newNotification', { number: 42 }), 'New notification #42');
+  assert.equal(translateMessage('en', 'demo.hold.progress', { percent: 55 }), 'Holding... 55%');
+  assert.equal(translateMessage('en', 'search.noResults', { query: '랜딩페이지 CTA' }), 'No results for "랜딩페이지 CTA" in this section.');
 });
 
 
@@ -200,4 +201,28 @@ test('language menu supports arrow navigation, Escape, Tab, outside clicks and f
   const root = tree.root.findAllByType('div').find(node => node.props.onBlur)!;
   act(() => root.props.onBlur({ currentTarget: { contains: () => false }, relatedTarget: {} }));
   assert.equal(trigger().props['aria-expanded'], false);
+});
+
+test('stateful demo copy changes language without resetting card order, notifications or selection', t => {
+  replace(t, 'localStorage', storage());
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<LocaleProvider><LanguageControl /><InteractiveDemo techniqueId="stacked-card-cycle" /><InteractiveDemo techniqueId="toast-slide-stack" /><InteractiveDemo techniqueId="gooey-menu-fab" /></LocaleProvider>); });
+  t.after(() => act(() => tree.unmount()));
+  const deck = tree.root.findAll(node => node.props.className === 'relative w-full h-40 flex items-center justify-center pt-3 cursor-pointer select-none')[0];
+  act(() => deck.props.onClick());
+  const toast = tree.root.findAll(node => typeof node.type === 'string' && node.props.className === 'w-full h-40 flex flex-col justify-between pt-9 pb-3 px-4 cursor-pointer select-none')[0];
+  act(() => toast.props.onClick());
+  const action = tree.root.findAllByType('button').find(node => node.props.title === '런칭')!;
+  act(() => action.props.onClick());
+  assert.match(text(tree.root), /런칭 액션 선택됨/);
+  act(() => tree.root.findByType('select').props.onChange({ target: { value: 'en' } }));
+  const english = text(tree.root);
+  assert.doesNotMatch(english, /[가-힣]/);
+  assert.match(english, /New notification #\d+/);
+  assert.match(english, /Launch action selected/);
+  assert.ok(english.indexOf('Card 2 (click to cycle)') < english.indexOf('Card 3 (click to cycle)'));
+  assert.ok(english.indexOf('Card 3 (click to cycle)') < english.indexOf('Card 1 (click to cycle)'));
+  act(() => tree.root.findByType('select').props.onChange({ target: { value: 'ko' } }));
+  assert.match(text(tree.root), /런칭 액션 선택됨/);
+  assert.match(text(tree.root), /새 알림 도착 #\d+/);
 });

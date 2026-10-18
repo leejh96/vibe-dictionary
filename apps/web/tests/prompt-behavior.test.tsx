@@ -155,7 +155,7 @@ test('blocked storage keeps the composer usable and warns that persistence faile
   });
   assert.deepEqual(hook.current.cart, [TECHNIQUES[0]]);
   assert.equal(hook.current.contextNote, '입력 유지');
-  assert.match(hook.current.storageError!, /저장할 수 없습니다/);
+  assert.equal(hook.current.storageError, 'composer.storageError');
 });
 
 test('quota failure leaves prior saved state intact and the next successful edit clears the warning', (t) => {

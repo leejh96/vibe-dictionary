@@ -19,7 +19,8 @@
     "build": "npm run build:web && npm run build:mcp",
     "build:web": "npm run build --workspace vibe-dictionary-web",
     "preview": "npm run preview --workspace vibe-dictionary-web --",
-    "test:catalog": "npm test --workspace @vibe-dictionary/catalog"
+    "test:catalog": "npm test --workspace @vibe-dictionary/catalog",
+    "check:i18n": "npm run check:i18n --workspace vibe-dictionary-web"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

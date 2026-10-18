@@ -3,19 +3,19 @@ import { Check, ChevronDown, Globe2 } from 'lucide-react';
 import { useLocale } from '../i18n/LocaleContext';
 
 const languages = [
-  { id: 'ko', name: '한국어', caption: 'Korean' },
-  { id: 'en', name: 'English', caption: '영어' },
+  { id: 'ko', name: 'language.koreanName', caption: 'language.koreanCaption' },
+  { id: 'en', name: 'language.englishName', caption: 'language.englishCaption' },
 ] as const;
 
 export function LanguageSwitcher() {
-  const { locale, setLocale } = useLocale();
+  const { locale, setLocale, t } = useLocale();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const initialFocus = useRef(0);
   const menuId = useId();
-  const label = locale === 'en' ? 'Language' : '언어 선택';
+  const label = t('language.label');
 
   useEffect(() => {
     if (!open) return;
@@ -58,7 +58,7 @@ export function LanguageSwitcher() {
       <button
         ref={triggerRef}
         type="button"
-        aria-label={`${label}: ${locale === 'en' ? 'English' : '한국어'}`}
+        aria-label={t('language.current', { name: t(locale === 'en' ? 'language.englishName' : 'language.koreanName') })}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
@@ -73,7 +73,7 @@ export function LanguageSwitcher() {
         className={`flex h-9 items-center gap-1.5 rounded-lg px-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${open ? 'bg-slate-100 text-slate-900 dark:bg-slate-800/70 dark:text-white' : ''}`}
       >
         <Globe2 className="h-4 w-4" aria-hidden="true" />
-        <span className="text-[11px] font-semibold tracking-wide">{locale === 'ko' ? 'KR' : 'EN'}</span>
+        <span className="text-[11px] font-semibold tracking-wide">{t(locale === 'ko' ? 'language.koreanCode' : 'language.englishCode')}</span>
         <ChevronDown aria-hidden="true" className={`h-3 w-3 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
@@ -82,14 +82,14 @@ export function LanguageSwitcher() {
           <p className="px-3 pb-2 pt-1.5 text-[10px] font-semibold tracking-wide text-slate-400 dark:text-slate-500" role="presentation">{label}</p>
           {languages.map(({ id, name, caption }, index) => (
             <button key={id} ref={element => { optionRefs.current[index] = element; }}
-              type="button" role="menuitemradio" tabIndex={-1} aria-label={name} aria-checked={locale === id}
+              type="button" role="menuitemradio" tabIndex={-1} aria-label={t(name)} aria-checked={locale === id}
               onClick={() => { setLocale(id); closeAndFocus(); }}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 ${locale === id
                 ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300'
                 : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'}`}>
               <span className="flex flex-1 flex-col gap-0.5">
-                <span className="text-xs font-semibold">{name}</span>
-                <span className="text-[10px] text-slate-400 dark:text-slate-500">{caption}</span>
+                <span className="text-xs font-semibold">{t(name)}</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">{t(caption)}</span>
               </span>
               {locale === id && <Check aria-hidden="true" className="h-3.5 w-3.5" />}
             </button>

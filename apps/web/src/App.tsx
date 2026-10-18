@@ -19,7 +19,7 @@ import {
   TechniqueItem,
   CategoryType,
   DomainType,
-  DOMAIN_LABELS,
+  DOMAIN_NAMES,
   searchTechniques,
   getTechniqueText,
 } from '@vibe-dictionary/catalog';
@@ -83,7 +83,7 @@ const DictionaryLogo: React.FC = () => (
 );
 
 export default function App() {
-  const { tr, locale } = useLocale();
+  const { t, locale } = useLocale();
   const [theme, setTheme] = useState<ThemeMode>(() => {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY);
@@ -344,11 +344,11 @@ export default function App() {
       .filter((id) => id !== activeDomain)
       .map((id) => ({
         id,
-        label: DOMAIN_LABELS[id],
+        label: DOMAIN_NAMES[locale][id],
         count: searchTechniques({ query: searchQuery, domain: id }).length,
       }))
       .filter((d) => d.count > 0);
-  }, [activeDomain, searchQuery]);
+  }, [activeDomain, searchQuery, locale]);
 
   const handleToggleCart = (item: TechniqueItem) => {
     setCart((prev) =>
@@ -359,11 +359,11 @@ export default function App() {
   };
 
   const domainTabs: { id: DomainType; label: string; count: number; icon: React.ReactNode }[] = [
-    { id: 'ui', label: DOMAIN_LABELS.ui, count: counts.ui, icon: <Layers className="w-3.5 h-3.5" /> },
-    { id: 'motion', label: DOMAIN_LABELS.motion, count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
-    { id: 'layout', label: DOMAIN_LABELS.layout, count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-    { id: 'style', label: DOMAIN_LABELS.style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
-    { id: 'video', label: DOMAIN_LABELS.video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
+    { id: 'ui', label: DOMAIN_NAMES[locale].ui, count: counts.ui, icon: <Layers className="w-3.5 h-3.5" /> },
+    { id: 'motion', label: DOMAIN_NAMES[locale].motion, count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
+    { id: 'layout', label: DOMAIN_NAMES[locale].layout, count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+    { id: 'style', label: DOMAIN_NAMES[locale].style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
+    { id: 'video', label: DOMAIN_NAMES[locale].video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
   ];
 
   /* 5대 대분류 도메인 탭 렌더러 (데스크탑 및 모바일/태블릿 반응형 공유) */
@@ -385,7 +385,7 @@ export default function App() {
             }`}
           >
             {tab.icon}
-            <span>{tr(tab.label)}</span>
+            <span>{tab.label}</span>
             <span
               className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                 isActive
@@ -422,12 +422,12 @@ export default function App() {
             <button
               type="button"
               onClick={handleGoHome}
-              title={tr("홈으로 이동 (필터 초기화 및 맨 위로)")}
-              aria-label={tr("바이브 코딩 사전")}
+              title={t("app.goHome")}
+              aria-label={t("app.name")}
               className="group flex items-center gap-2 sm:gap-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl sm:pr-2 py-0.5 transition-opacity hover:opacity-95 shrink-0 cursor-pointer"
             >
               <DictionaryLogo />
-              <span className="text-[12px] min-[360px]:text-sm sm:text-base font-black tracking-tight whitespace-nowrap text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{tr("바이브 코딩 사전")}</span>
+              <span className="text-[12px] min-[360px]:text-sm sm:text-base font-black tracking-tight whitespace-nowrap text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{t("app.name")}</span>
             </button>
 
             {/* [데스크탑 전용 (xl 이상)]: 5대 대분류 탭 (단일 행 중앙/우측 배치) */}
@@ -440,12 +440,12 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
-                aria-label={`${tr("조합기")} (${cart.length})`}
-                title={tr("프롬프트 조합기")}
+                aria-label={t("composer.triggerLabel", { count: cart.length })}
+                title={t("composer.name")}
                 className="h-9 px-2.5 sm:px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 border border-indigo-600 text-xs font-bold text-white flex items-center gap-1.5 transition-colors shadow-sm shadow-indigo-600/15 shrink-0 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
               >
                 <Wand2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{tr("조합기")}</span>
+                <span className="hidden sm:inline">{t("composer.shortName")}</span>
                 <span className="min-w-4 px-1 py-0.5 rounded-md bg-white/20 text-center text-white text-[10px] font-mono font-extrabold">
                   {cart.length}
                 </span>
@@ -474,11 +474,11 @@ export default function App() {
 
         {filteredTechniques.length === 0 ? (
           <div className="py-16 text-center space-y-3 bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 rounded-2xl shadow-xs dark:shadow-none">
-            <p className="text-sm font-bold text-slate-700 dark:text-slate-300">{tr("현재 영역에 \"")}{searchQuery}{tr("\" 검색 결과가 없습니다.")}</p>
+            <p className="text-sm font-bold text-slate-700 dark:text-slate-300">{t("search.noResults", { query: searchQuery })}</p>
 
             {otherDomainMatches.length > 0 && (
               <div className="flex items-center justify-center gap-2 flex-wrap pt-1">
-                <span className="text-xs text-slate-500 dark:text-slate-400">{tr("다른 영역에서 찾은 결과:")}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">{t("search.otherSections")}</span>
                 {otherDomainMatches.map((d) => (
                   <button
                     key={d.id}
@@ -488,7 +488,7 @@ export default function App() {
                     }}
                     className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors"
                   >
-                    {tr(d.label)}{locale === 'en' ? ' (' : ' 탭에서 보기 ('}{d.count}{locale === 'en' ? ')' : '개)'}</button>
+                    {t("search.viewSection", { section: d.label, count: d.count })}</button>
                 ))}
               </div>
             )}
@@ -500,7 +500,7 @@ export default function App() {
                   setSelectedCategory('all');
                 }}
                 className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 underline font-semibold"
-              >{tr("필터 및 검색어 초기화")}</button>
+              >{t("search.resetAll")}</button>
             </div>
           </div>
         ) : (
@@ -530,23 +530,19 @@ export default function App() {
         <button
           type="button"
           onClick={handleToggleTheme}
-          title={tr(theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환')}
-          aria-label={tr(theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환')}
+          title={theme === 'dark' ? t("theme.switchToLight") : t("theme.switchToDark")}
+          aria-label={theme === 'dark' ? t("theme.switchToLight") : t("theme.switchToDark")}
           className="w-12 h-12 rounded-2xl flex flex-col items-center justify-center gap-0.5 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-950/10 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-indigo-500/10 cursor-pointer active:scale-95 transition-all"
         >
           {theme === 'dark' ? (
             <>
               <Sun className="w-4 h-4 text-amber-400" />
-              <span className="text-[8px] font-extrabold leading-none text-amber-400">
-                LIGHT
-              </span>
+              <span className="text-[8px] font-extrabold leading-none text-amber-400">{t("sample.app.light")}</span>
             </>
           ) : (
             <>
               <Moon className="w-4 h-4 text-indigo-600" />
-              <span className="text-[8px] font-extrabold leading-none text-indigo-600">
-                DARK
-              </span>
+              <span className="text-[8px] font-extrabold leading-none text-indigo-600">{t("sample.app.dark")}</span>
             </>
           )}
         </button>
@@ -558,8 +554,8 @@ export default function App() {
             type="button"
             onClick={handleScrollToTop}
             disabled={!canScrollUp}
-            title={tr("한번에 맨 위로 이동 (TOP)")}
-            aria-label={tr("한번에 맨 위로 이동")}
+            title={t("demo.goToTopTop")}
+            aria-label={t("demo.goToTop")}
             className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollUp
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
@@ -567,7 +563,7 @@ export default function App() {
             }`}
           >
             <ArrowUpToLine className="w-3.5 h-3.5" />
-            <span className="text-[9px] font-extrabold leading-none">TOP</span>
+            <span className="text-[9px] font-extrabold leading-none">{t("sample.app.top")}</span>
           </button>
 
           <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
@@ -577,8 +573,8 @@ export default function App() {
             type="button"
             onClick={handleScrollUpStep}
             disabled={!canScrollUp}
-            title={tr("한 줄(한 뎁스) 위로 스크롤 (UP)")}
-            aria-label={tr("한 줄 위로 스크롤")}
+            title={t("demo.scrollOneRowUpUp")}
+            aria-label={t("demo.scrollOneRowUp")}
             className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollUp
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
@@ -586,7 +582,7 @@ export default function App() {
             }`}
           >
             <ChevronUp className="w-3.5 h-3.5" />
-            <span className="text-[9px] font-extrabold leading-none">UP</span>
+            <span className="text-[9px] font-extrabold leading-none">{t("sample.app.up")}</span>
           </button>
 
           <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
@@ -596,8 +592,8 @@ export default function App() {
             type="button"
             onClick={handleScrollDownStep}
             disabled={!canScrollDown}
-            title={tr("한 줄(한 뎁스) 아래로 스크롤 (DOWN)")}
-            aria-label={tr("한 줄 아래로 스크롤")}
+            title={t("demo.scrollOneRowDownDown")}
+            aria-label={t("demo.scrollOneRowDown")}
             className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollDown
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
@@ -605,7 +601,7 @@ export default function App() {
             }`}
           >
             <ChevronDown className="w-3.5 h-3.5" />
-            <span className="text-[9px] font-extrabold leading-none">DOWN</span>
+            <span className="text-[9px] font-extrabold leading-none">{t("sample.app.down")}</span>
           </button>
 
           <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
@@ -615,8 +611,8 @@ export default function App() {
             type="button"
             onClick={handleScrollToBottom}
             disabled={!canScrollDown}
-            title={tr("한번에 맨 아래로 이동 (BOTTOM)")}
-            aria-label={tr("한번에 맨 아래로 이동")}
+            title={t("demo.goToBottomBottom")}
+            aria-label={t("demo.goToBottom")}
             className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollDown
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
@@ -624,9 +620,7 @@ export default function App() {
             }`}
           >
             <ArrowDownToLine className="w-3.5 h-3.5" />
-            <span className="text-[7.5px] font-extrabold leading-none tracking-normal whitespace-nowrap">
-              BOTTOM
-            </span>
+            <span className="text-[7.5px] font-extrabold leading-none tracking-normal whitespace-nowrap">{t("sample.app.bottom")}</span>
           </button>
         </div>
       </div>

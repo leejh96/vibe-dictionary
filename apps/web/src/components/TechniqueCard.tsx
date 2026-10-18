@@ -1,7 +1,7 @@
 import { useLocale } from '../i18n/LocaleContext';
 import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
-import { TechniqueItem, CATEGORY_LABEL_MAP, getTechniqueText } from '@vibe-dictionary/catalog';
+import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from './demos/InteractiveDemos';
 import { useClipboard } from '../hooks/useClipboard';
 
@@ -58,7 +58,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   isSelected,
   onToggleCart,
 }) => {
-  const { tr, locale } = useLocale();
+  const { t, locale } = useLocale();
   const text = getTechniqueText(item, locale);
   const { status: copyStatus, copy } = useClipboard(
     locale === 'ko' ? `[${item.titleKo} / ${item.titleEn}]\n${text.promptSnippet}` : `[${text.title}]\n${text.promptSnippet}`
@@ -91,7 +91,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  const categoryLabel = CATEGORY_LABEL_MAP[item.category] ?? item.category;
+  const categoryLabel = locale === 'en' ? CATEGORY_NAMES_EN[item.category] : CATEGORY_LABEL_MAP[item.category];
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
 
   return (
@@ -118,12 +118,12 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
               : 'text-indigo-700 dark:text-slate-300 bg-white/90 dark:bg-slate-900/90 border-indigo-200/80 dark:border-slate-800 shadow-xs dark:shadow-none'
           }`}
         >
-          {tr(categoryLabel)}
+          {categoryLabel}
         </span>
 
         <button
           onClick={() => setShowPrompt(!showPrompt)}
-          title={tr("프롬프트 문구 보기")}
+          title={t("card.showPrompt")}
           className={`absolute top-2.5 right-3 z-20 px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 transition-colors backdrop-blur-xs ${
             showPrompt
               ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs'
@@ -133,7 +133,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
           }`}
         >
           <Code2 className="w-3 h-3" />
-          <span>{tr(showPrompt ? '데모 보기' : '프롬프트')}</span>
+          <span>{showPrompt ? t("card.showDemo") : t("card.prompt")}</span>
         </button>
 
         {showPrompt ? (
@@ -183,7 +183,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
-            <span>{tr(copied ? '복사됨!' : copyStatus === 'copying' ? '복사 중…' : '프롬프트 복사')}</span>
+            <span>{copied ? t("actions.copied") : copyStatus === 'copying' ? t("actions.copying") : t("actions.copyPrompt")}</span>
           </button>
 
           <button
@@ -197,18 +197,18 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             {isSelected ? (
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-white dark:text-indigo-400" />
-                <span>{tr("담김 (빼기)")}</span>
+                <span>{t("card.removeFromComposer")}</span>
               </>
             ) : (
               <>
                 <Plus className="w-3.5 h-3.5 text-indigo-500 dark:text-slate-400" />
-                <span>{tr("조합기에 담기")}</span>
+                <span>{t("card.addToComposer")}</span>
               </>
             )}
           </button>
         </div>
         {copyStatus === 'error' && (
-          <p role="alert" className="mt-2 text-xs text-rose-600 dark:text-rose-400">{tr("복사하지 못했습니다. 다시 시도하거나 프롬프트를 열어 직접 복사해 주세요.")}</p>
+          <p role="alert" className="mt-2 text-xs text-rose-600 dark:text-rose-400">{t("card.copyError")}</p>
         )}
       </div>
     </article>

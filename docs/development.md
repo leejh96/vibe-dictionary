@@ -47,7 +47,8 @@ Node.js 24와 npm을 기준으로 개발한다. 모든 명령은 저장소 루�
 | `npm run dev` | 웹 개발 서버 |
 | `npm test` | 카탈로그·웹·MCP 회귀 테스트 |
 | `npm run test:catalog` | 한영 번역·검색 메타데이터·관련도 회귀 테스트 |
-| `npm run test:web` | 웹 테스트만 실행 |
+| `npm run check:i18n` | 웹·데모의 번역 키·문구·자리표시자 검사 |
+| `npm run test:web` | 언어 검사 후 웹 테스트 실행 |
 | `npm run test:mcp` | MCP 빌드 후 stdio 연결 테스트 |
 | `npm run build` | 웹과 MCP 전체 빌드 |
 | `npm run build:web` | 웹 타입 검사·빌드 → `apps/web/dist/` |
@@ -70,6 +71,8 @@ npm install <package> --workspace @keke1933/vibe-dictionary-mcp
 MCP의 npm 이름은 `@keke1933/vibe-dictionary-mcp`다. 패키지 검증과 공개 게시 절차는 [npm 게시 안내](npm-publishing.md)를 따른다.
 
 `publish-npm.yml`은 `master`에서 수동 실행하며 입력 버전 확인, 전체 테스트·빌드, 취약점 검사와 독립 설치 검증 후 검증한 tarball만 OIDC로 게시한다. 루트·웹·내부 카탈로그는 `private: true`를 유지한다. 워크플로 추가나 `master` push만으로 npm에 게시하지 않는다.
+
+웹 테스트와 웹 빌드는 번역 사전·소스 검사를 먼저 실행하며, 번역 키 누락·빈 값·자리표시자 불일치·직접 작성한 UI 문구가 있으면 실패한다. 테스트는 번역 API의 타입 계약도 검사한다.
 
 언어·검색 데이터 구조와 추가 절차는 [카탈로그 언어와 검색](catalog-language-search.md)을 따른다.
 

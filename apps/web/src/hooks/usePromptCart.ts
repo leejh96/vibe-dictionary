@@ -1,8 +1,9 @@
+import type { MessageKey } from '../i18n/messages';
 import { useCallback, useEffect, useState, type SetStateAction } from 'react';
 import { TECHNIQUES, type TechniqueItem } from '@vibe-dictionary/catalog';
 
 export const PROMPT_CART_STORAGE_KEY = 'vibe-dictionary-prompt-cart';
-const STORAGE_ERROR = '조합기를 브라우저에 저장할 수 없습니다. 새로고침하면 내용이 사라질 수 있습니다.';
+const STORAGE_ERROR = 'composer.storageError' satisfies MessageKey;
 
 interface PromptCartState {
   cart: TechniqueItem[];
@@ -35,7 +36,7 @@ function loadPromptCart(): PromptCartState {
 
 export function usePromptCart() {
   const [state, setState] = useState(loadPromptCart);
-  const [storageError, setStorageError] = useState<string | null>(null);
+  const [storageError, setStorageError] = useState<typeof STORAGE_ERROR | null>(null);
   const { cart, contextNote } = state;
 
   useEffect(() => {
