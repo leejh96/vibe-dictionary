@@ -1,5 +1,55 @@
+import { BROADCAST_KO_MESSAGES } from './demos/broadcast.messages';
+import { CAMERA_KO_MESSAGES } from './demos/camera.messages';
+import { CARD_KO_MESSAGES } from './demos/card.messages';
+import { CONTROL_KO_MESSAGES } from './demos/control.messages';
+import { FEEDBACK_KO_MESSAGES } from './demos/feedback.messages';
+import { GRAPHIC_KO_MESSAGES } from './demos/graphic.messages';
+import { GRID_KO_MESSAGES } from './demos/grid.messages';
+import { HOVER_KO_MESSAGES } from './demos/hover.messages';
+import { INFOGRAPHIC_KO_MESSAGES } from './demos/infographic.messages';
+import { KINETIC_KO_MESSAGES } from './demos/kinetic.messages';
+import { KINETIC_AD_KO_MESSAGES } from './demos/kinetic_ad.messages';
+import { LAYOUT_KO_MESSAGES } from './demos/layout.messages';
+import { MODERN_KO_MESSAGES } from './demos/modern.messages';
+import { MOTION_KO_MESSAGES } from './demos/motion.messages';
+import { NAV_KO_MESSAGES } from './demos/nav.messages';
+import { PANEL_KO_MESSAGES } from './demos/panel.messages';
+import { PHYSICS_KO_MESSAGES } from './demos/physics.messages';
+import { PROMO_KO_MESSAGES } from './demos/promo.messages';
+import { RETRO_KO_MESSAGES } from './demos/retro.messages';
+import { SCIFI_KO_MESSAGES } from './demos/scifi.messages';
+import { SCROLL_KO_MESSAGES } from './demos/scroll.messages';
+import { SHADER_KO_MESSAGES } from './demos/shader.messages';
+import { TACTILE_KO_MESSAGES } from './demos/tactile.messages';
+import { TEXT_KO_MESSAGES } from './demos/text.messages';
+import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
+  ...BROADCAST_KO_MESSAGES,
+  ...CAMERA_KO_MESSAGES,
+  ...CARD_KO_MESSAGES,
+  ...CONTROL_KO_MESSAGES,
+  ...FEEDBACK_KO_MESSAGES,
+  ...GRAPHIC_KO_MESSAGES,
+  ...GRID_KO_MESSAGES,
+  ...HOVER_KO_MESSAGES,
+  ...INFOGRAPHIC_KO_MESSAGES,
+  ...KINETIC_KO_MESSAGES,
+  ...KINETIC_AD_KO_MESSAGES,
+  ...LAYOUT_KO_MESSAGES,
+  ...MODERN_KO_MESSAGES,
+  ...MOTION_KO_MESSAGES,
+  ...NAV_KO_MESSAGES,
+  ...PANEL_KO_MESSAGES,
+  ...PHYSICS_KO_MESSAGES,
+  ...PROMO_KO_MESSAGES,
+  ...RETRO_KO_MESSAGES,
+  ...SCIFI_KO_MESSAGES,
+  ...SCROLL_KO_MESSAGES,
+  ...SHADER_KO_MESSAGES,
+  ...TACTILE_KO_MESSAGES,
+  ...TEXT_KO_MESSAGES,
+  ...VFX_KO_MESSAGES,
   "app.goHome": "홈으로 이동 (필터 초기화 및 맨 위로)",
   "app.name": "바이브 코딩 사전",
   "composer.shortName": "조합기",
@@ -178,6 +228,8 @@ export const KO_MESSAGES = {
   "actions.copyPrompt": "프롬프트 복사",
   "card.removeFromComposer": "담김 (빼기)",
   "card.addToComposer": "조합기에 담기",
+  "card.addToComposerCompact": "조합기에 담기",
+  "card.removeFromComposerCompact": "담김 (빼기)",
   "card.copyError": "복사하지 못했습니다. 다시 시도하거나 프롬프트를 열어 직접 복사해 주세요.",
   "composer.storageError": "조합기를 브라우저에 저장할 수 없습니다. 새로고침하면 내용이 사라질 수 있습니다.",
   "search.noResults": "현재 영역에 \"{query}\" 검색 결과가 없습니다.",

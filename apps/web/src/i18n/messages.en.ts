@@ -1,6 +1,56 @@
+import { BROADCAST_EN_MESSAGES } from './demos/broadcast.messages';
+import { CAMERA_EN_MESSAGES } from './demos/camera.messages';
+import { CARD_EN_MESSAGES } from './demos/card.messages';
+import { CONTROL_EN_MESSAGES } from './demos/control.messages';
+import { FEEDBACK_EN_MESSAGES } from './demos/feedback.messages';
+import { GRAPHIC_EN_MESSAGES } from './demos/graphic.messages';
+import { GRID_EN_MESSAGES } from './demos/grid.messages';
+import { HOVER_EN_MESSAGES } from './demos/hover.messages';
+import { INFOGRAPHIC_EN_MESSAGES } from './demos/infographic.messages';
+import { KINETIC_EN_MESSAGES } from './demos/kinetic.messages';
+import { KINETIC_AD_EN_MESSAGES } from './demos/kinetic_ad.messages';
+import { LAYOUT_EN_MESSAGES } from './demos/layout.messages';
+import { MODERN_EN_MESSAGES } from './demos/modern.messages';
+import { MOTION_EN_MESSAGES } from './demos/motion.messages';
+import { NAV_EN_MESSAGES } from './demos/nav.messages';
+import { PANEL_EN_MESSAGES } from './demos/panel.messages';
+import { PHYSICS_EN_MESSAGES } from './demos/physics.messages';
+import { PROMO_EN_MESSAGES } from './demos/promo.messages';
+import { RETRO_EN_MESSAGES } from './demos/retro.messages';
+import { SCIFI_EN_MESSAGES } from './demos/scifi.messages';
+import { SCROLL_EN_MESSAGES } from './demos/scroll.messages';
+import { SHADER_EN_MESSAGES } from './demos/shader.messages';
+import { TACTILE_EN_MESSAGES } from './demos/tactile.messages';
+import { TEXT_EN_MESSAGES } from './demos/text.messages';
+import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  ...BROADCAST_EN_MESSAGES,
+  ...CAMERA_EN_MESSAGES,
+  ...CARD_EN_MESSAGES,
+  ...CONTROL_EN_MESSAGES,
+  ...FEEDBACK_EN_MESSAGES,
+  ...GRAPHIC_EN_MESSAGES,
+  ...GRID_EN_MESSAGES,
+  ...HOVER_EN_MESSAGES,
+  ...INFOGRAPHIC_EN_MESSAGES,
+  ...KINETIC_EN_MESSAGES,
+  ...KINETIC_AD_EN_MESSAGES,
+  ...LAYOUT_EN_MESSAGES,
+  ...MODERN_EN_MESSAGES,
+  ...MOTION_EN_MESSAGES,
+  ...NAV_EN_MESSAGES,
+  ...PANEL_EN_MESSAGES,
+  ...PHYSICS_EN_MESSAGES,
+  ...PROMO_EN_MESSAGES,
+  ...RETRO_EN_MESSAGES,
+  ...SCIFI_EN_MESSAGES,
+  ...SCROLL_EN_MESSAGES,
+  ...SHADER_EN_MESSAGES,
+  ...TACTILE_EN_MESSAGES,
+  ...TEXT_EN_MESSAGES,
+  ...VFX_EN_MESSAGES,
   "app.goHome": "Go home (reset filters and scroll to top)",
   "app.name": "Vibe Dictionary",
   "composer.shortName": "Composer",
@@ -179,6 +229,8 @@ export const EN_MESSAGES = {
   "actions.copyPrompt": "Copy prompt",
   "card.removeFromComposer": "Added (remove)",
   "card.addToComposer": "Add to composer",
+  "card.addToComposerCompact": "Add",
+  "card.removeFromComposerCompact": "Remove",
   "card.copyError": "Copy failed. Try again or open the prompt and copy it manually.",
   "composer.storageError": "Cannot save the composer in this browser. Its contents may be lost after a refresh.",
   "search.noResults": "No results for \"{query}\" in this section.",

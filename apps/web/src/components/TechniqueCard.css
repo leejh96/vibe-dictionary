@@ -1,0 +1,9 @@
+.technique-card, .technique-card-info, .technique-card-copy, .technique-card-title { min-width: 0; }
+.technique-card-copy { overflow-wrap: anywhere; }
+
+@supports (grid-template-rows: subgrid) {
+  .technique-card { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-row: span 5; row-gap: 0; }
+  .technique-card-info { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-row: span 4; row-gap: 0; }
+  .technique-card-copy { grid-template-rows: subgrid; grid-row: span 3; row-gap: .25rem; }
+  .technique-card-footer { margin-top: .75rem; }
+}

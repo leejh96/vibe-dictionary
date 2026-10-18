@@ -1,9 +1,59 @@
+import { EN_BROADCAST_TECHNIQUES } from './additions/broadcast';
+import { EN_CAMERA_TECHNIQUES } from './additions/camera';
+import { EN_CARD_TECHNIQUES } from './additions/card';
+import { EN_CONTROL_TECHNIQUES } from './additions/control';
+import { EN_FEEDBACK_TECHNIQUES } from './additions/feedback';
+import { EN_GRAPHIC_TECHNIQUES } from './additions/graphic';
+import { EN_GRID_TECHNIQUES } from './additions/grid';
+import { EN_HOVER_TECHNIQUES } from './additions/hover';
+import { EN_INFOGRAPHIC_TECHNIQUES } from './additions/infographic';
+import { EN_KINETIC_TECHNIQUES } from './additions/kinetic';
+import { EN_KINETIC_AD_TECHNIQUES } from './additions/kinetic_ad';
+import { EN_LAYOUT_TECHNIQUES } from './additions/layout';
+import { EN_MODERN_TECHNIQUES } from './additions/modern';
+import { EN_MOTION_TECHNIQUES } from './additions/motion';
+import { EN_NAV_TECHNIQUES } from './additions/nav';
+import { EN_PANEL_TECHNIQUES } from './additions/panel';
+import { EN_PHYSICS_TECHNIQUES } from './additions/physics';
+import { EN_PROMO_TECHNIQUES } from './additions/promo';
+import { EN_RETRO_TECHNIQUES } from './additions/retro';
+import { EN_SCIFI_TECHNIQUES } from './additions/scifi';
+import { EN_SCROLL_TECHNIQUES } from './additions/scroll';
+import { EN_SHADER_TECHNIQUES } from './additions/shader';
+import { EN_TACTILE_TECHNIQUES } from './additions/tactile';
+import { EN_TEXT_TECHNIQUES } from './additions/text';
+import { EN_VFX_TECHNIQUES } from './additions/vfx';
 import type { TechniqueTranslation } from '../localization';
 const text = (summary: string, vibeTag: string, keywords: string, promptSnippet: string): TechniqueTranslation =>
   ({ summary, vibeTag, vibeKeywords: keywords.split('|'), promptSnippet });
 
 // English reference prompts preserve the Korean originals' inputs, timings and demo limitations.
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
+  ...EN_BROADCAST_TECHNIQUES,
+  ...EN_CAMERA_TECHNIQUES,
+  ...EN_CARD_TECHNIQUES,
+  ...EN_CONTROL_TECHNIQUES,
+  ...EN_FEEDBACK_TECHNIQUES,
+  ...EN_GRAPHIC_TECHNIQUES,
+  ...EN_GRID_TECHNIQUES,
+  ...EN_HOVER_TECHNIQUES,
+  ...EN_INFOGRAPHIC_TECHNIQUES,
+  ...EN_KINETIC_TECHNIQUES,
+  ...EN_KINETIC_AD_TECHNIQUES,
+  ...EN_LAYOUT_TECHNIQUES,
+  ...EN_MODERN_TECHNIQUES,
+  ...EN_MOTION_TECHNIQUES,
+  ...EN_NAV_TECHNIQUES,
+  ...EN_PANEL_TECHNIQUES,
+  ...EN_PHYSICS_TECHNIQUES,
+  ...EN_PROMO_TECHNIQUES,
+  ...EN_RETRO_TECHNIQUES,
+  ...EN_SCIFI_TECHNIQUES,
+  ...EN_SCROLL_TECHNIQUES,
+  ...EN_SHADER_TECHNIQUES,
+  ...EN_TACTILE_TECHNIQUES,
+  ...EN_TEXT_TECHNIQUES,
+  ...EN_VFX_TECHNIQUES,
   'magnetic-hover': text('A button is pulled toward the cursor like a magnet.', 'Magnetically drawn to your cursor', 'magnetic|magnet|cursor following|mouse follow|button hover',
     'Implement Magnetic Cursor Hover on the specified button. Track the mouse inside its surrounding area. Translate the button by 42% of the difference (dx, dy) between the area center and cursor, using a 0.05s ease-out transition while tracking. On leaving the area, reset the offset to (0, 0) and return over 0.45s with cubic-bezier(0.34, 1.56, 0.64, 1).'),
   'shimmer-sweep': text('A diagonal highlight repeatedly sweeps across a surface.', 'A sweep of glossy light', 'shimmer|shine|gloss|light sweep|highlight button',
@@ -69,7 +119,7 @@ export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
   'combo-gauge-pop': text('A progress bar advances cyclically while a counter badge pops.', 'A gauge fills with a popping badge', 'gauge|progress|counter badge|combo pop',
     'Implement click-driven Combo Gauge Pop on the specified gauge and counter badge. Initial count is 3; width is ((count % 5) + 1) * 20%, so it starts at 80%. Increment count on click, cycling the gauge through 100%, 20%, 40% and onward. Transition width over 0.3s. On count change, animate the badge over 0.34s cubic-bezier(0.34, 1.56, 0.64, 1), from scale(0.7) rotate(-6deg) through scale(1.26) rotate(4deg) to scale(1) rotate(0).'),
   'gooey-menu-fab': text('A floating action button reveals three staggered spring actions.', 'Actions spring out from a plus button', 'fab|speed dial|floating action menu|spring menu',
-    'Make the specified floating action menu initially open and toggle it with the main button. Open positions for three child buttons are (-52px,-18px), (0,-48px), (52px,-18px). Only when opening, use delays of 0, 45 and 90ms, transitioning from scale(0.3), opacity 0 to scale(1), opacity 1 over 0.3s cubic-bezier(0.34, 1.56, 0.64, 1). Close toward the center without delay and block clicks with pointer-events-none. Rotate the plus icon between 0 and 45deg. Child clicks only display the selected action name as a demonstration.'),
+    'Make the specified floating action menu initially open and toggle it with the main button. Open positions for three child buttons are (-52px,-18px), (0,-48px), (52px,-18px). Only when opening, use delays of 0, 45 and 90ms, transitioning from scale(0.3), opacity 0 to scale(1), opacity 1 over 0.3s cubic-bezier(0.34, 1.56, 0.64, 1). Close toward the center without delay and block clicks with pointer-events-none. Rotate the plus icon between 0 and 45deg. The child buttons only demonstrate placement and entry effects; do not add actions or selected-action result text.'),
   'otp-pin-focus-bounce': text('Sample OTP slots bounce as a timer fills them and advances the highlight.', 'PIN slots bounce as digits appear', 'otp|pin|digit slots|bounce input',
     'Build a six-slot OTP-shaped demo in the specified area. Start with [4,8,2,9,empty,empty] and highlight the fifth slot. Clicking a slot changes it to a sample digit 1 to 9 and highlights the next slot, staying on the last when at the end. Apply scale(1.25), translateY(-4px) with a 0.2s spring transition, returning after 260ms. Sequential replay clears all slots and fills [7,3,9,1,5,8] at 110ms intervals. Turn on an emerald border and glow once all six are filled. This uses buttons and timers, not real input autofocus or server authentication.'),
   'hold-to-confirm-ring': text('Holding fills a confirmation gauge; releasing early gradually drains it.', 'Hold to fill and confirm', 'hold to confirm|long press|progress button|confirmation',
@@ -91,7 +141,7 @@ export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
   'mg-dot-matrix-grid': text('Columns of a dot grid enlarge and brighten near the cursor.', 'Dots react to your cursor', 'dot matrix|halftone|cursor grid|interactive dots',
     'Build the specified graphic from 36 actual circular dots in nine columns and four rows. Initially activate the fifth column. Normalize cursor x by the tracking area width, clamping to columns 0 through 8. Over 0.15s, make active-column dots cyan with scale(1.8), adjacent columns indigo with scale(1.35), and the rest dark with scale(1). This responds by column, not by a radius using y coordinates. Do not substitute a radial-gradient background pattern.'),
   'mg-god-ray-beam': text('A soft cone of light sways from the top of a dark scene.', 'A gently swaying beam of light', 'god rays|volumetric light|light beam|spotlight',
-    'At the top of the specified dark background, place conic-gradient(from 155deg at 50% 0%, transparent 0deg, rgba(56,189,248,0.35) 25deg, transparent 50deg). Apply blur-md and pointer-events-none. In an infinite 4s ease-in-out loop, sway between rotate(-18deg) scaleX(1) opacity(0.55) and rotate(-6deg) scaleX(1.25) opacity(0.85). Hide any beam outside the background and keep text in front.'),
+    'At the top of the specified dark background, place conic-gradient(from 155deg at 50% 0%, transparent 0deg, rgba(56,189,248,0.35) 25deg, transparent 50deg). Apply blur-md and pointer-events-none. In an infinite 4s ease-in-out loop, sway between rotate(-18deg) scaleX(1) opacity(0.55) and rotate(-6deg) scaleX(1.25) opacity(0.85). Clip the beam to the background; do not add a foreground title or helper caption.'),
   'mg-squash-stretch': text('A ball stretches in motion and squashes on impact.', 'A squashy elastic bounce', 'squash stretch|bounce ball|elastic motion|impact',
     'Apply an infinite 1.25s Squash & Stretch loop to the specified circle. At 0/100%, use translateY(-28px) scaleX(0.92) scaleY(1.08); at 42%, translateY(20px) scaleX(0.85) scaleY(1.18); at impact at 50%, translateY(26px) scaleX(1.38) scaleY(0.62); at 60%, translateY(14px) scaleX(0.84) scaleY(1.18). Use cubic-bezier(0.55,0.055,0.675,0.19) for descent and cubic-bezier(0.215,0.61,0.355,1) for the rebound. This is a keyframe demonstration, not actual physics or volume conservation calculations.'),
   'mg-anticipation': text('A shape winds up backward before launching forward.', 'Pull back before launching', 'anticipation|wind up|launch|motion preparation',
@@ -189,7 +239,7 @@ export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
   'st-win95-retro-os': text('A silver beveled window recreates a static Windows 95 appearance.', 'A classic desktop window', 'windows 95|win95|retro os|bevel window',
     'Build the specified window from a #c0c0c0 silver panel on #008080. Use a 2px bevel border: white on top/left and black on right/bottom. The title bar is #000080 with white text and one gray cross at the right. This is a static Win95 window appearance, with no minimize/maximize buttons or actual close action.'),
   'st-crt-scanline-terminal': text('Green glowing monospace text sits behind static CRT scanlines.', 'An old green-phosphor terminal', 'crt|scanline|terminal|phosphor green',
-    'Set the specified terminal graphic background to #041208. Overlay repeating-linear-gradient(0deg, rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px, transparent 1px, transparent 3px) scanlines without intercepting input. Give primary monospace text emerald color and drop-shadow(0 0 8px rgba(52,211,153,0.8)); darken secondary labels. This is a static CRT graphic with no real terminal input or flickering animation.'),
+    'Set the specified terminal graphic background to #041208. Overlay repeating-linear-gradient(0deg, rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px, transparent 1px, transparent 3px) scanlines without intercepting input. Give primary monospace text emerald color and drop-shadow(0 0 8px rgba(52,211,153,0.8)); do not add auxiliary captions or secondary labels. This is a static CRT graphic with no real terminal input or flickering animation.'),
   'st-synthwave-sunset-grid': text('A glowing sun and perspective neon grid form a static synthwave scene.', 'A neon grid beneath a retro sunset', 'synthwave|sunset|neon grid|80s',
     'Build the specified graphic with a vertical dusk background #1a052e to #3b0764 to #be185d and a gold-to-rose circular sun. Render the lower grid using 1px horizontal/vertical 40% pink lines, background-size: 16px 10px, perspective(120px) rotateX(55deg). Give the sun a 20px rose glow. Do not add stripes or motion; keep the Synthwave scene static.'),
   'st-scifi-hud-chamfer': text('A cyan outlined HUD frame uses chamfered corners and a pulsing status dot.', 'A chamfered sci-fi interface', 'sci fi|hud|chamfer|futuristic panel',

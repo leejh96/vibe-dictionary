@@ -99,7 +99,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
             </div>
 
             {/* 본문 */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div className="prompt-scroll flex-1 overflow-y-auto p-5 space-y-4">
               {storageError && (
                 <p role="status" className="text-xs text-amber-700 dark:text-amber-300">
                   {t(storageError)}
@@ -165,7 +165,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
               {/* 생성된 프롬프트 */}
               <div>
                 <span className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">{t("composer.previewLabel")}</span>
-                <pre className="w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
+                <pre className="prompt-scroll w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
                   {combinedPrompt}
                 </pre>
               </div>

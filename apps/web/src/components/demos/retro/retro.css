@@ -1,0 +1,37 @@
+.retro-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 188px; padding: 44px 16px 20px; }
+.rt-memphis-art, .rt-art-deco-frame, .rt-riso-art, .rt-led-art, .rt-linocut-art, .rt-nouveau-art, .rt-constructivist-art, .rt-stencil-art, .rt-psychedelic-art, .rt-cyanotype-art { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 11 / 6; overflow: hidden; border: 1px solid; border-radius: 12px; }
+.rt-memphis-art { border-color: #d4bfc7; background: #fff4e6; }
+.dark .rt-memphis-art { border-color: #695266; }
+.rt-art-deco-frame { border-color: #927546; background: #15232e; }
+.dark .rt-art-deco-frame { border-color: #bb9454; }
+.rt-riso-demo, .rt-led-demo { flex-direction: column; gap: 10px; }
+.rt-riso-art { isolation: isolate; border-color: #d9c6a3; background: #fff5df; }
+.rt-riso-blue-plate { mix-blend-mode: multiply; }
+.rt-riso-control, .rt-led-control { display: flex; align-items: center; gap: 10px; width: 264px; max-width: 100%; color: #374151; font-size: 12px; white-space: nowrap; }
+.rt-riso-control input, .rt-led-control input { flex: 1; min-width: 0; min-height: 44px; }
+.rt-riso-control input { accent-color: #256b87; }
+.rt-riso-control input:focus-visible, .rt-led-control input:focus-visible { outline: 2px solid #256b87; outline-offset: 2px; border-radius: 4px; }
+.dark .rt-riso-art { border-color: #76684d; }
+.dark .rt-riso-control, .dark .rt-led-control { color: #e5e7eb; }
+.dark .rt-riso-control input { accent-color: #72c5df; }
+.dark .rt-riso-control input:focus-visible { outline-color: #72c5df; }
+.rt-led-art { border-color: #9a694a; background: #201511; }
+.rt-led-segment { fill: #4f2c1d; }
+.rt-led-segment[data-lit="true"] { fill: #ffb454; filter: drop-shadow(0 0 3px #fb923c); }
+.rt-led-control input { accent-color: #b45309; }
+.rt-led-control input:focus-visible { outline-color: #b45309; }
+.dark .rt-led-art { border-color: #bd8c6d; }
+.dark .rt-led-control input { accent-color: #fdba74; }
+.dark .rt-led-control input:focus-visible { outline-color: #fdba74; }
+.rt-linocut-art { border-color: #c9bd9f; background: #f9f0de; }
+.dark .rt-linocut-art { border-color: #6b695b; }
+.rt-nouveau-art { border-color: #c8b99b; background: #f5ecd9; }
+.dark .rt-nouveau-art { border-color: #776e59; }
+.rt-constructivist-art { border-color: #c8b99b; background: #f4e8cf; }
+.dark .rt-constructivist-art { border-color: #776e59; }
+.rt-stencil-art { border-color: #b9b39d; background: #eee4c9; }
+.dark .rt-stencil-art { border-color: #716e5c; }
+.rt-psychedelic-art { border-color: #785196; background: #502476; }
+.dark .rt-psychedelic-art { border-color: #a279c0; }
+.rt-cyanotype-art { border-color: #c8c4b1; background: #f4f0df; }
+.dark .rt-cyanotype-art { border-color: #7b7a69; }

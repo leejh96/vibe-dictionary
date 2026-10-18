@@ -1,4 +1,31 @@
 @import 'tailwindcss';
+@import './components/TechniqueCard.css';
+@import './components/demos/hover/hover.css';
+@import './components/demos/card/card.css';
+@import './components/demos/motion/motion.css';
+@import './components/demos/text/text.css';
+@import './components/demos/feedback/feedback.css';
+@import './components/demos/layout/layout.css';
+@import './components/demos/control/control.css';
+@import './components/demos/graphic/graphic.css';
+@import './components/demos/shader/shader.css';
+@import './components/demos/physics/physics.css';
+@import './components/demos/kinetic/kinetic.css';
+@import './components/demos/grid/grid.css';
+@import './components/demos/nav/nav.css';
+@import './components/demos/panel/panel.css';
+@import './components/demos/modern/modern.css';
+@import './components/demos/camera/camera.css';
+@import './components/demos/vfx/vfx.css';
+@import './components/demos/scroll/scroll.css';
+@import './components/demos/tactile/tactile.css';
+@import './components/demos/retro/retro.css';
+@import './components/demos/scifi/scifi.css';
+@import './components/demos/promo/promo.css';
+@import './components/demos/kinetic_ad/kinetic-ad.css';
+@import './components/demos/infographic/infographic.css';
+@import './components/demos/broadcast/broadcast.css';
+@import './scrollbars.css';
 
 @custom-variant dark (&:is(.dark *));
 

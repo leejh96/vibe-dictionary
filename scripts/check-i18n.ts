@@ -70,7 +70,11 @@ export function checkI18n(root: string): string[] {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       const path = join(directory, entry.name);
       if (entry.isDirectory()) walk(path);
-      else if (/\.tsx?$/.test(entry.name) && ![join(root, 'apps/web/src/i18n/messages.ko.ts'), join(root, 'apps/web/src/i18n/messages.en.ts')].includes(path)) errors.push(...inspectSource(readFileSync(path, 'utf8'), relative(root, path)));
+      else if (/\.tsx?$/.test(entry.name)) {
+        const dictionary = [join(root, 'apps/web/src/i18n/messages.ko.ts'), join(root, 'apps/web/src/i18n/messages.en.ts')].includes(path)
+          || (dirname(path) === join(root, 'apps/web/src/i18n/demos') && entry.name.endsWith('.messages.ts'));
+        if (!dictionary) errors.push(...inspectSource(readFileSync(path, 'utf8'), relative(root, path)));
+      }
     }
   }
   walk(join(root, 'apps/web/src'));

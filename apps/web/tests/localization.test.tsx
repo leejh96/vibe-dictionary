@@ -203,26 +203,50 @@ test('language menu supports arrow navigation, Escape, Tab, outside clicks and f
   assert.equal(trigger().props['aria-expanded'], false);
 });
 
-test('stateful demo copy changes language without resetting card order, notifications or selection', t => {
+test('stateful demo copy changes language without resetting card order, notifications or menu state', t => {
   replace(t, 'localStorage', storage());
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<LocaleProvider><LanguageControl /><InteractiveDemo techniqueId="stacked-card-cycle" /><InteractiveDemo techniqueId="toast-slide-stack" /><InteractiveDemo techniqueId="gooey-menu-fab" /></LocaleProvider>); });
   t.after(() => act(() => tree.unmount()));
-  const deck = tree.root.findAll(node => node.props.className === 'relative w-full h-40 flex items-center justify-center pt-3 cursor-pointer select-none')[0];
-  act(() => deck.props.onClick());
-  const toast = tree.root.findAll(node => typeof node.type === 'string' && node.props.className === 'w-full h-40 flex flex-col justify-between pt-9 pb-3 px-4 cursor-pointer select-none')[0];
-  act(() => toast.props.onClick());
-  const action = tree.root.findAllByType('button').find(node => node.props.title === '런칭')!;
-  act(() => action.props.onClick());
-  assert.match(text(tree.root), /런칭 액션 선택됨/);
+  const demo = (id: string) => tree.root.findAllByType(InteractiveDemo).find(node => node.props.techniqueId === id)!;
+  const stage = (id: string) => demo(id).find(node => typeof node.type === 'string' && typeof node.props.onClick === 'function');
+  const cardLabels = () => demo('stacked-card-cycle').findAllByType('span').map(text).filter(label => /^(?:[123]번 카드|Card [123])/.test(label));
+  const notifications = () => demo('toast-slide-stack').findAllByType('span').map(text);
+  const menuActions = () => demo('gooey-menu-fab').findAllByType('button').filter(node => node.props.title);
+  const assertMenuClosed = () => {
+    assert.equal(menuActions().length, 3);
+    for (const action of menuActions()) {
+      assert.equal(action.props.style.transform, 'translate(0px, 0px) scale(0.3)');
+      assert.match(action.props.className, /pointer-events-none/);
+    }
+  };
+
+  act(() => stage('stacked-card-cycle').props.onClick());
+  act(() => stage('toast-slide-stack').props.onClick());
+  assert.equal(notifications().length, 2);
+  const notificationNumber = notifications().find(label => /^새 알림 도착 #/.test(label))!.match(/#(\d+)$/)![1];
+  act(() => demo('gooey-menu-fab').findByProps({ 'aria-label': '플로팅 메뉴 열기/닫기' }).props.onClick());
+  assertMenuClosed();
+  assert.deepEqual(cardLabels(), ['2번 카드 (클릭해 넘기기)', '3번 카드 (클릭해 넘기기)', '1번 카드 (클릭해 넘기기)']);
+
   act(() => tree.root.findByType('select').props.onChange({ target: { value: 'en' } }));
-  const english = text(tree.root);
-  assert.doesNotMatch(english, /[가-힣]/);
-  assert.match(english, /New notification #\d+/);
-  assert.match(english, /Launch action selected/);
-  assert.ok(english.indexOf('Card 2 (click to cycle)') < english.indexOf('Card 3 (click to cycle)'));
-  assert.ok(english.indexOf('Card 3 (click to cycle)') < english.indexOf('Card 1 (click to cycle)'));
+  assert.doesNotMatch(text(tree.root), /[가-힣]/);
+  assert.equal(notifications().length, 2);
+  assert.ok(notifications().includes('New notification #' + notificationNumber));
+  assert.deepEqual(cardLabels(), ['Card 2 (click to cycle)', 'Card 3 (click to cycle)', 'Card 1 (click to cycle)']);
+  assert.deepEqual(menuActions().map(node => node.props.title), ['Launch', 'AI generation', 'Boost']);
+  demo('gooey-menu-fab').findByProps({ 'aria-label': 'Open/close floating menu' });
+  assertMenuClosed();
+
   act(() => tree.root.findByType('select').props.onChange({ target: { value: 'ko' } }));
-  assert.match(text(tree.root), /런칭 액션 선택됨/);
-  assert.match(text(tree.root), /새 알림 도착 #\d+/);
+  assert.equal(notifications().length, 2);
+  assert.ok(notifications().includes('새 알림 도착 #' + notificationNumber));
+  assert.deepEqual(cardLabels(), ['2번 카드 (클릭해 넘기기)', '3번 카드 (클릭해 넘기기)', '1번 카드 (클릭해 넘기기)']);
+  assert.deepEqual(menuActions().map(node => node.props.title), ['런칭', 'AI 생성', '부스트']);
+  assertMenuClosed();
+  act(() => demo('gooey-menu-fab').findByProps({ 'aria-label': '플로팅 메뉴 열기/닫기' }).props.onClick());
+  for (const action of menuActions()) {
+    assert.notEqual(action.props.style.transform, 'translate(0px, 0px) scale(0.3)');
+    assert.match(action.props.className, /pointer-events-auto/);
+  }
 });

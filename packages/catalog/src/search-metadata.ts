@@ -1,3 +1,28 @@
+import { BROADCAST_SEARCH_METADATA } from './search-metadata/additions/broadcast';
+import { CAMERA_SEARCH_METADATA } from './search-metadata/additions/camera';
+import { CARD_SEARCH_METADATA } from './search-metadata/additions/card';
+import { CONTROL_SEARCH_METADATA } from './search-metadata/additions/control';
+import { FEEDBACK_SEARCH_METADATA } from './search-metadata/additions/feedback';
+import { GRAPHIC_SEARCH_METADATA } from './search-metadata/additions/graphic';
+import { GRID_SEARCH_METADATA } from './search-metadata/additions/grid';
+import { HOVER_SEARCH_METADATA } from './search-metadata/additions/hover';
+import { INFOGRAPHIC_SEARCH_METADATA } from './search-metadata/additions/infographic';
+import { KINETIC_SEARCH_METADATA } from './search-metadata/additions/kinetic';
+import { KINETIC_AD_SEARCH_METADATA } from './search-metadata/additions/kinetic_ad';
+import { LAYOUT_SEARCH_METADATA } from './search-metadata/additions/layout';
+import { MODERN_SEARCH_METADATA } from './search-metadata/additions/modern';
+import { MOTION_SEARCH_METADATA } from './search-metadata/additions/motion';
+import { NAV_SEARCH_METADATA } from './search-metadata/additions/nav';
+import { PANEL_SEARCH_METADATA } from './search-metadata/additions/panel';
+import { PHYSICS_SEARCH_METADATA } from './search-metadata/additions/physics';
+import { PROMO_SEARCH_METADATA } from './search-metadata/additions/promo';
+import { RETRO_SEARCH_METADATA } from './search-metadata/additions/retro';
+import { SCIFI_SEARCH_METADATA } from './search-metadata/additions/scifi';
+import { SCROLL_SEARCH_METADATA } from './search-metadata/additions/scroll';
+import { SHADER_SEARCH_METADATA } from './search-metadata/additions/shader';
+import { TACTILE_SEARCH_METADATA } from './search-metadata/additions/tactile';
+import { TEXT_SEARCH_METADATA } from './search-metadata/additions/text';
+import { VFX_SEARCH_METADATA } from './search-metadata/additions/vfx';
 import type { TechniqueItem } from './techniques';
 import type { Locale } from './localization';
 
@@ -17,6 +42,31 @@ const m = (targets: SearchTarget[], triggers: SearchTrigger[], ko: string, en: s
 });
 // Describe the implemented demo, including its actual input, rather than features suggested by a title.
 export const SEARCH_METADATA: Record<string, SearchMetadata> = {
+  ...BROADCAST_SEARCH_METADATA,
+  ...CAMERA_SEARCH_METADATA,
+  ...CARD_SEARCH_METADATA,
+  ...CONTROL_SEARCH_METADATA,
+  ...FEEDBACK_SEARCH_METADATA,
+  ...GRAPHIC_SEARCH_METADATA,
+  ...GRID_SEARCH_METADATA,
+  ...HOVER_SEARCH_METADATA,
+  ...INFOGRAPHIC_SEARCH_METADATA,
+  ...KINETIC_SEARCH_METADATA,
+  ...KINETIC_AD_SEARCH_METADATA,
+  ...LAYOUT_SEARCH_METADATA,
+  ...MODERN_SEARCH_METADATA,
+  ...MOTION_SEARCH_METADATA,
+  ...NAV_SEARCH_METADATA,
+  ...PANEL_SEARCH_METADATA,
+  ...PHYSICS_SEARCH_METADATA,
+  ...PROMO_SEARCH_METADATA,
+  ...RETRO_SEARCH_METADATA,
+  ...SCIFI_SEARCH_METADATA,
+  ...SCROLL_SEARCH_METADATA,
+  ...SHADER_SEARCH_METADATA,
+  ...TACTILE_SEARCH_METADATA,
+  ...TEXT_SEARCH_METADATA,
+  ...VFX_SEARCH_METADATA,
   'magnetic-hover': m(['button'], ['pointer-move'], '버튼이 커서 방향으로 끌려오게 만들기', 'Make a button follow the mouse cursor', '자석 버튼|마우스 따라오는 버튼', 'magnetic button|cursor attraction'),
   'shimmer-sweep': m(['button'], ['auto', 'click'], '버튼이나 배지에 반복 광택 강조', 'Add a repeating glossy sweep to a button or badge'),
   'ripple-click': m(['button'], ['click'], '클릭한 지점에 물결 피드백 표시', 'Show ripple feedback at the clicked point', '물결 버튼|클릭 파동', 'click ripple|ripple button'),

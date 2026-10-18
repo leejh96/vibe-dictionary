@@ -205,7 +205,7 @@ export default function App() {
       window.removeEventListener('scroll', updateScrollState);
       window.removeEventListener('resize', updateScrollState);
     };
-  }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory]);
+  }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory, cart.length]);
 
   const lastTargetYRef = useRef(0);
   const lastStepTimeRef = useRef(0);
@@ -402,7 +402,7 @@ export default function App() {
   );
 
   return (
-    <div className="relative min-h-screen bg-linear-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-200 overflow-x-hidden">
+    <div className={`relative min-h-screen bg-linear-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ${cart.length > 0 ? 'pb-36 sm:pb-20' : 'pb-20'} transition-colors duration-200 overflow-x-hidden`}>
       {/* 라이트 모드 전용 상단 파스텔 오로라 앰비언트 조명 */}
       <div
         className="pointer-events-none fixed inset-x-0 top-0 h-80 overflow-hidden z-0 dark:hidden"
@@ -520,9 +520,9 @@ export default function App() {
         )}
       </main>
 
-      {/* 우측 하단 플로팅 그룹: [테마 전환 알약] + [4단 스크롤 캡슐] (너비 w-12(48px) 완벽 통일) */}
+      {/* 좁은 화면에서는 카드 조작을 가리지 않도록 낮은 가로형 도구 모음 사용 */}
       <div
-        className={`fixed right-5 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 w-12 ${
+        className={`fixed right-5 max-[300px]:right-1 z-40 flex flex-row sm:flex-col items-center gap-2.5 transition-all duration-300 w-auto sm:w-12 ${
           cart.length > 0 ? 'bottom-20' : 'bottom-5'
         }`}
       >
@@ -548,7 +548,7 @@ export default function App() {
         </button>
 
         {/* 2. 순수 스크롤 내비게이션 전용 4단 일체형 캡슐 */}
-        <div className="w-12 flex flex-col items-center bg-white/95 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-950/10 p-1">
+        <div className="w-auto sm:w-12 flex flex-row sm:flex-col items-center bg-white/95 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-950/10 p-1">
           {/* 1. 맨 위로 스크롤 (TOP) */}
           <button
             type="button"
@@ -556,7 +556,7 @@ export default function App() {
             disabled={!canScrollUp}
             title={t("demo.goToTopTop")}
             aria-label={t("demo.goToTop")}
-            className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
+            className={`w-11 h-11 sm:w-full sm:h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollUp
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
                 : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-40'
@@ -566,7 +566,7 @@ export default function App() {
             <span className="text-[9px] font-extrabold leading-none">{t("sample.app.top")}</span>
           </button>
 
-          <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
+          <div className="w-px h-6 sm:w-6 sm:h-px bg-slate-200/80 dark:bg-slate-800/80 mx-0.5 sm:mx-0 sm:my-0.5" />
 
           {/* 2. 한 줄 위로 스크롤 (UP) */}
           <button
@@ -575,7 +575,7 @@ export default function App() {
             disabled={!canScrollUp}
             title={t("demo.scrollOneRowUpUp")}
             aria-label={t("demo.scrollOneRowUp")}
-            className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
+            className={`w-11 h-11 sm:w-full sm:h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollUp
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
                 : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-40'
@@ -585,7 +585,7 @@ export default function App() {
             <span className="text-[9px] font-extrabold leading-none">{t("sample.app.up")}</span>
           </button>
 
-          <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
+          <div className="w-px h-6 sm:w-6 sm:h-px bg-slate-200/80 dark:bg-slate-800/80 mx-0.5 sm:mx-0 sm:my-0.5" />
 
           {/* 3. 한 줄 아래로 스크롤 (DOWN) */}
           <button
@@ -594,7 +594,7 @@ export default function App() {
             disabled={!canScrollDown}
             title={t("demo.scrollOneRowDownDown")}
             aria-label={t("demo.scrollOneRowDown")}
-            className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
+            className={`w-11 h-11 sm:w-full sm:h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollDown
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
                 : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-40'
@@ -604,7 +604,7 @@ export default function App() {
             <span className="text-[9px] font-extrabold leading-none">{t("sample.app.down")}</span>
           </button>
 
-          <div className="w-6 h-px bg-slate-200/80 dark:bg-slate-800/80 my-0.5" />
+          <div className="w-px h-6 sm:w-6 sm:h-px bg-slate-200/80 dark:bg-slate-800/80 mx-0.5 sm:mx-0 sm:my-0.5" />
 
           {/* 4. 맨 끝(최하단)으로 스크롤 (BOTTOM) */}
           <button
@@ -613,7 +613,7 @@ export default function App() {
             disabled={!canScrollDown}
             title={t("demo.goToBottomBottom")}
             aria-label={t("demo.goToBottom")}
-            className={`w-full h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
+            className={`w-11 h-11 sm:w-full sm:h-10 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
               canScrollDown
                 ? 'hover:bg-indigo-600 text-slate-700 dark:text-slate-200 hover:text-white cursor-pointer active:scale-95'
                 : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-40'

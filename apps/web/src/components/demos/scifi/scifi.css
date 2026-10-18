@@ -1,0 +1,88 @@
+.scifi-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 188px; padding: 44px 16px 20px; }
+.sf-contour-terrain, .sf-xray-device, .sf-opart-checker, .sf-copper-board, .sf-hidden-line, .sf-impossible-tribar, .sf-orthographic-views, .sf-ball-stick, .sf-koch-snowflake, .sf-mobius-ribbon { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 11 / 6; overflow: hidden; border: 1px solid; border-radius: 12px; }
+.sf-contour-terrain { border-color: #d8c5a4; background: #fffaf0; color: #8a4b08; }
+.sf-terrain-platform { fill: currentColor; fill-opacity: .06; stroke: #b88542; stroke-width: 1; }
+.sf-terrain-base { stroke: #b88542; stroke-width: 1; }
+.sf-terrain-guides { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 2 4; opacity: .35; }
+.sf-terrain-levels { stroke: currentColor; stroke-width: 1.1; }
+.dark .sf-contour-terrain { border-color: #655033; background: #17130d; color: #f8c879; }
+.dark .sf-terrain-platform, .dark .sf-terrain-base { stroke: #ad8046; }
+.sf-xray-device { border-color: #a7c9dc; background: #f0f9ff; color: #075985; }
+.sf-xray-structure { fill: currentColor; stroke: currentColor; stroke-width: 1.2; }
+.sf-xray-coils { opacity: .9; }
+.sf-xray-shell { fill: none; stroke: currentColor; stroke-width: 1.1; opacity: .55; }
+.sf-xray-seams { fill: none; stroke: currentColor; stroke-width: 1; opacity: .35; }
+.dark .sf-xray-device { border-color: #355c71; background: #091923; color: #7dd3fc; }
+.sf-opart-checker { border-color: #c8c0b5; background: #f5f1e8; }
+.sf-checker-paper { fill: #f5f1e8; }
+.sf-checker-ink { fill: #29272c; }
+.dark .sf-opart-checker { border-color: #555b6c; background: #141721; }
+.dark .sf-checker-paper { fill: #222632; }
+.dark .sf-checker-ink { fill: #ece7dc; }
+.sf-copper-board { --sf-pcb-stage: #f0f5ed; --sf-pcb-border: #9caf9b; --sf-pcb-face: #e1eadc; --sf-pcb-copper: #806126; border-color: #b6c7b5; background: var(--sf-pcb-stage); }
+.sf-pcb-surface { fill: var(--sf-pcb-face); stroke: var(--sf-pcb-border); stroke-width: 1; }
+.sf-pcb-tracks { fill: none; stroke: var(--sf-pcb-copper); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sf-pcb-pins { fill: var(--sf-pcb-copper); }
+.sf-pcb-chip { fill: #244d3b; }
+.sf-pcb-chip-inset { fill: none; stroke: #91ad96; stroke-width: 1; }
+.sf-pcb-orientation { fill: #d4e8d5; }
+.sf-pcb-vias { fill: var(--sf-pcb-face); stroke: var(--sf-pcb-copper); stroke-width: 1.5; }
+.sf-pcb-holes { fill: var(--sf-pcb-stage); stroke: var(--sf-pcb-border); stroke-width: 1; }
+.dark .sf-copper-board { --sf-pcb-stage: #101b17; --sf-pcb-border: #41624a; --sf-pcb-face: #172e23; --sf-pcb-copper: #d6b877; border-color: #3d5c4b; }
+.dark .sf-pcb-chip { fill: #0b1a14; }
+.dark .sf-pcb-chip-inset { stroke: #5d8d6c; }
+.dark .sf-pcb-orientation { fill: #b6ddba; }
+.sf-hidden-line { --sf-drawing-stage: #f5f6f8; border-color: #c4c9d2; background: var(--sf-drawing-stage); }
+.sf-drawing-visible { stroke: #334155; stroke-width: 1.5; stroke-linejoin: round; }
+.sf-drawing-left { fill: #e9edf2; }
+.sf-drawing-right { fill: #d4dbe4; }
+.sf-drawing-top { fill: #fff; }
+.sf-drawing-aperture { fill: var(--sf-drawing-stage); }
+.sf-drawing-hidden { fill: none; stroke: #64748b; stroke-width: 1.2; stroke-dasharray: 4 3; stroke-linecap: butt; }
+.dark .sf-hidden-line { --sf-drawing-stage: #151b26; border-color: #4f5d73; }
+.dark .sf-drawing-visible { stroke: #d9e2f2; }
+.dark .sf-drawing-left { fill: #232d3f; }
+.dark .sf-drawing-right { fill: #1d2636; }
+.dark .sf-drawing-top { fill: #293448; }
+.dark .sf-drawing-hidden { stroke: #96a9c3; }
+.sf-impossible-tribar { border-color: #c8c6d3; background: #f6f4fa; }
+.sf-tribar-faces { stroke: #3c3554; stroke-width: 1.2; stroke-linejoin: round; }
+.sf-tribar-light { fill: #e1dcef; }
+.sf-tribar-mid { fill: #a89cc9; }
+.sf-tribar-dark { fill: #6e6092; }
+.dark .sf-impossible-tribar { border-color: #59506e; background: #16131e; }
+.dark .sf-tribar-faces { stroke: #e3ddf4; }
+.dark .sf-tribar-light { fill: #c8bce5; }
+.dark .sf-tribar-mid { fill: #8877b0; }
+.dark .sf-tribar-dark { fill: #4e3d70; }
+.sf-orthographic-views { --sf-ortho-paper: #f8f7f2; --sf-ortho-ink: #344348; --sf-ortho-guide: #497c82; border-color: #c6cdc8; background: var(--sf-ortho-paper); }
+.sf-ortho-projectors { fill: none; stroke: var(--sf-ortho-guide); stroke-width: .8; stroke-dasharray: 2 3; }
+.sf-ortho-miter { stroke-dasharray: none; }
+.sf-ortho-outlines { fill: #fff; stroke: var(--sf-ortho-ink); stroke-width: 1.5; stroke-linejoin: round; }
+.sf-ortho-outlines path { fill: none; }
+.sf-ortho-aperture { fill: var(--sf-ortho-paper); }
+.sf-ortho-hidden { stroke-width: 1; stroke-dasharray: 3 2; }
+.sf-ortho-centers { fill: none; stroke: var(--sf-ortho-guide); stroke-width: .8; stroke-dasharray: 6 2 1 2; }
+.dark .sf-orthographic-views { --sf-ortho-paper: #131b1d; --sf-ortho-ink: #d4e5e1; --sf-ortho-guide: #7aa6ac; border-color: #49615e; }
+.dark .sf-ortho-outlines { fill: #202d2f; }
+.sf-ball-stick { border-color: #b8cbd5; background: #edf4f7; }
+.sf-molecule-bond { stroke: #8099a9; stroke-width: 8; stroke-linecap: round; }
+.sf-molecule-bond-light { stroke: #d2e0e8; stroke-width: 3; }
+.sf-molecule-atom { stroke-width: 1.2; }
+.sf-molecule-carbon { stroke: #304d60; }
+.sf-molecule-hydrogen { stroke: #91a8b6; }
+.dark .sf-ball-stick { border-color: #425f73; background: #101e2a; }
+.dark .sf-molecule-bond { stroke: #7d9aac; }
+.dark .sf-molecule-bond-light { stroke: #cfdee7; }
+.dark .sf-molecule-carbon { stroke: #95aebe; }
+.dark .sf-molecule-hydrogen { stroke: #b5c7d3; }
+.sf-koch-snowflake { border-color: #d4bfd2; background: #fcf5fb; }
+.sf-koch-outline { fill: #f2d9ec; stroke: #943f7f; stroke-width: 1.5; stroke-linejoin: round; }
+.dark .sf-koch-snowflake { border-color: #72536e; background: #211622; }
+.dark .sf-koch-outline { fill: #492b46; stroke: #efb1dc; }
+.sf-mobius-ribbon { border-color: #b4cccb; background: #f0f8f7; }
+.sf-mobius-face { --sf-mobius-fill: hsl(186 48% var(--sf-mobius-light)); fill: var(--sf-mobius-fill); stroke: var(--sf-mobius-fill); stroke-width: .5; stroke-linejoin: round; }
+.sf-mobius-edge { fill: none; stroke: #24585f; stroke-width: 1.1; stroke-linecap: round; }
+.dark .sf-mobius-ribbon { border-color: #426a70; background: #102126; }
+.dark .sf-mobius-face { --sf-mobius-fill: hsl(186 43% var(--sf-mobius-dark)); }
+.dark .sf-mobius-edge { stroke: #9fdee0; }

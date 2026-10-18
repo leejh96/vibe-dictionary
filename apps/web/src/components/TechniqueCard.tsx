@@ -4,6 +4,7 @@ import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from './demos/InteractiveDemos';
 import { useClipboard } from '../hooks/useClipboard';
+import { useDemoReplay } from '../hooks/useDemoReplay';
 
 /* 암실·야간 광원·네온·CRT·영상 쇼릴 등 어두운 배경이 기법의 핵심인 데모 ID 목록 */
 const DARK_STAGE_IDS = new Set<string>([
@@ -67,6 +68,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const demoContainerRef = useRef<HTMLDivElement | null>(null);
+  const replayHandlers = useDemoReplay(demoContainerRef, isInView && !showPrompt, item.id);
 
   useEffect(() => {
     const el = demoContainerRef.current;
@@ -96,7 +98,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
 
   return (
     <article
-      className={`group rounded-2xl border transition-all duration-200 flex flex-col overflow-hidden ${
+      className={`technique-card group rounded-2xl border transition-all duration-200 flex flex-col overflow-hidden ${
         isSelected
           ? 'bg-indigo-50/70 dark:bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/30 shadow-lg shadow-indigo-500/10'
           : 'bg-white dark:bg-slate-900/50 border-slate-200/90 dark:border-slate-800/90 hover:border-indigo-300 dark:hover:border-slate-700 shadow-[0_6px_24px_-6px_rgba(79,70,229,0.09)] hover:shadow-[0_12px_30px_-6px_rgba(79,70,229,0.16)] dark:shadow-none'
@@ -105,6 +107,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
       {/* 1. 상단 인터랙티브 데모 캔버스 */}
       <div
         ref={demoContainerRef}
+        {...replayHandlers}
         className={`demo-stage relative border-b border-slate-200/80 dark:border-slate-800/70 ${
           keepDarkStage
             ? 'demo-keep-dark bg-slate-950 text-slate-100'
@@ -137,7 +140,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         </button>
 
         {showPrompt ? (
-          <div className="h-40 p-4 pt-10 bg-indigo-50/90 dark:bg-slate-950 text-xs font-mono text-indigo-950 dark:text-indigo-200 leading-relaxed overflow-y-auto break-keep">
+          <div className="prompt-scroll h-40 p-4 pt-10 bg-indigo-50/90 dark:bg-slate-950 text-xs font-mono text-indigo-950 dark:text-indigo-200 leading-relaxed overflow-y-auto break-keep">
             {text.promptSnippet}
           </div>
         ) : isInView ? (
@@ -153,12 +156,12 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
       </div>
 
       {/* 2. 하단 정보 영역 (말줄임표 없이 전체 텍스트 노출) */}
-      <div className="p-4 flex-1 flex flex-col justify-between gap-3">
-        <div className="space-y-1 break-keep">
+      <div className="technique-card-info p-4 flex-1 flex flex-col justify-between gap-3">
+        <div className="technique-card-copy grid gap-1 break-keep">
           <div className="text-xs font-bold text-amber-600 dark:text-amber-400">
             "{text.vibeTag}"
           </div>
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <div className="technique-card-title flex flex-wrap content-start items-baseline gap-x-2 gap-y-0.5">
             <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
               {text.title}
             </h3>
@@ -172,44 +175,51 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         </div>
 
         {/* 하단 액션 버튼 바 */}
-        <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/70">
-          <button
-            onClick={copy}
-            disabled={copyStatus === 'copying'}
-            className="flex-1 h-8 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-indigo-50/60 dark:bg-slate-950 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 hover:text-indigo-700 dark:text-slate-300 dark:hover:text-white flex items-center justify-center gap-1.5 transition-colors"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-            <span>{copied ? t("actions.copied") : copyStatus === 'copying' ? t("actions.copying") : t("actions.copyPrompt")}</span>
-          </button>
+        <div className="technique-card-footer">
+          <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/70">
+            <button
+              onClick={copy}
+              disabled={copyStatus === 'copying'}
+              className="flex-1 min-w-0 h-11 sm:h-8 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-indigo-50/60 dark:bg-slate-950 dark:hover:bg-slate-800 text-xs font-bold whitespace-nowrap text-slate-700 hover:text-indigo-700 dark:text-slate-300 dark:hover:text-white flex items-center justify-center gap-1.5 transition-colors"
+            >
+              {copied ? (
+                <Check aria-hidden="true" className="hidden sm:block shrink-0 w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+              ) : (
+                <Copy aria-hidden="true" className="hidden sm:block shrink-0 w-3.5 h-3.5" />
+              )}
+              <span>{copied ? t("actions.copied") : copyStatus === 'copying' ? t("actions.copying") : t("actions.copyPrompt")}</span>
+            </button>
 
-          <button
-            onClick={() => onToggleCart(item)}
-            className={`flex-1 h-8 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all ${
-              isSelected
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs dark:bg-indigo-500/15 dark:border-indigo-500/50 dark:text-indigo-300 hover:bg-indigo-500 dark:hover:bg-indigo-500/25'
-                : 'bg-indigo-50/70 hover:bg-indigo-100/80 dark:bg-slate-900 dark:hover:bg-slate-800 border-indigo-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-slate-700 text-indigo-700 dark:text-slate-300 hover:text-indigo-900 dark:hover:text-white'
-            }`}
-          >
-            {isSelected ? (
-              <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-white dark:text-indigo-400" />
-                <span>{t("card.removeFromComposer")}</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-3.5 h-3.5 text-indigo-500 dark:text-slate-400" />
-                <span>{t("card.addToComposer")}</span>
-              </>
-            )}
-          </button>
+            <button
+              onClick={() => onToggleCart(item)}
+              aria-label={isSelected ? t('card.removeFromComposer') : t('card.addToComposer')}
+              className={`flex-1 min-w-0 h-11 sm:h-8 px-3 rounded-xl text-xs font-bold whitespace-nowrap flex items-center justify-center gap-1.5 border transition-all ${
+                isSelected
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs dark:bg-indigo-500/15 dark:border-indigo-500/50 dark:text-indigo-300 hover:bg-indigo-500 dark:hover:bg-indigo-500/25'
+                  : 'bg-indigo-50/70 hover:bg-indigo-100/80 dark:bg-slate-900 dark:hover:bg-slate-800 border-indigo-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-slate-700 text-indigo-700 dark:text-slate-300 hover:text-indigo-900 dark:hover:text-white'
+              }`}
+            >
+              {isSelected ? (
+                <>
+                  <CheckCircle2 aria-hidden="true" className="hidden sm:block shrink-0 w-3.5 h-3.5 text-white dark:text-indigo-400" />
+                  <span className="sm:hidden">{t('card.removeFromComposerCompact')}</span>
+                  <span className="hidden sm:inline">{t('card.removeFromComposer')}</span>
+                </>
+              ) : (
+                <>
+                  <Plus aria-hidden="true" className="hidden sm:block shrink-0 w-3.5 h-3.5 text-indigo-500 dark:text-slate-400" />
+                  <span className="sm:hidden">{t('card.addToComposerCompact')}</span>
+                  <span className="hidden sm:inline">{t('card.addToComposer')}</span>
+                </>
+              )}
+            </button>
+          </div>
+          {copyStatus === 'error' && (
+            <p role="alert" className="mt-2 text-xs text-rose-600 dark:text-rose-400">
+              {t("card.copyError")}
+            </p>
+          )}
         </div>
-        {copyStatus === 'error' && (
-          <p role="alert" className="mt-2 text-xs text-rose-600 dark:text-rose-400">{t("card.copyError")}</p>
-        )}
       </div>
     </article>
   );

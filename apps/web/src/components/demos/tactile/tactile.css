@@ -1,0 +1,3 @@
+.tactile-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 188px; padding: 44px 16px 20px; }
+.tt-weave-art, .tt-wood-art, .tt-metal-art, .tt-leather-art, .tt-terrazzo-art, .tt-cardboard-art, .tt-ceramic-art, .tt-marble-art, .tt-felt-art, .tt-knit-art { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 11 / 6; overflow: hidden; border: 1px solid #d8d0bf; border-radius: 12px; background: #f2eee5; }
+.dark .tt-weave-art, .dark .tt-wood-art, .dark .tt-metal-art, .dark .tt-leather-art, .dark .tt-terrazzo-art, .dark .tt-cardboard-art, .dark .tt-ceramic-art, .dark .tt-marble-art, .dark .tt-felt-art, .dark .tt-knit-art { border-color: #56615e; background: #20272a; }

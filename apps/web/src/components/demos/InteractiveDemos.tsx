@@ -1,5 +1,88 @@
 import { useLocale } from '../../i18n/LocaleContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { ADDITIONAL_DEMOS } from './additionalDemos';
+import { SwipeActionCardDemo } from './card/SwipeActionCard';
+import { ReorderListDemo } from './motion/ReorderListDemo';
+import { ReflowPanelDemo } from './motion/ReflowPanelDemo';
+import { ExitCollapseDemo } from './motion/ExitCollapseDemo';
+import { AnchoredPopoverDemo } from './motion/AnchoredPopoverDemo';
+import { RollingNumberDemo } from './text/RollingNumberDemo';
+import { SplitFlapTextDemo } from './text/SplitFlapTextDemo';
+import { SearchHighlightDemo } from './text/SearchHighlightDemo';
+import { InlineValidationDemo } from './feedback/InlineValidationDemo';
+import { NotificationBadgeDemo, StarRatingDemo } from './feedback/FeedbackDemos';
+import { TooltipDemo } from './feedback/TooltipDemo';
+import { DismissibleBannerDemo } from './feedback/DismissibleBannerDemo';
+import { InlineConfirmDemo } from './feedback/InlineConfirmDemo';
+import { ClipboardFeedbackDemo } from './feedback/ClipboardFeedbackDemo';
+import { EmptySearchDemo } from './feedback/EmptySearchDemo';
+import { CharacterBudgetDemo } from './feedback/CharacterBudgetDemo';
+import { ErrorSummaryDemo } from './feedback/ErrorSummaryDemo';
+import { UnderlineTabsDemo, VerticalTabsDemo } from './layout/ContentTabsDemos';
+import { IndeterminateLinearDemo, CircularSweepDemo, DotWaveDemo } from './layout/LoadingDemos';
+import { ManualBannerDemo } from './layout/ManualBannerDemo';
+import { SkeletonContentDemo } from './layout/SkeletonContentDemo';
+import { FoldedRibbonDemo, StickyAnnouncementDemo } from './layout/BannerDemos';
+import { ClosableTabsDemo } from './layout/ClosableTabsDemo';
+import { ValueBubbleSliderDemo } from './control/ValueBubbleSliderDemo';
+import { MixedCheckboxDemo } from './control/MixedCheckboxDemo';
+import { PreviewSelectDemo } from './control/PreviewSelectDemo';
+import { QuantityStepperDemo } from './control/QuantityStepperDemo';
+import { TokenInputDemo } from './control/TokenInputDemo';
+import { DualRangeDemo } from './control/DualRangeDemo';
+import { ColorSwatchDemo } from './control/ColorSwatchDemo';
+import { FilePickerDemo } from './control/FilePickerDemo';
+import { SearchComboboxDemo } from './control/SearchComboboxDemo';
+import { DateFieldDemo } from './control/DateFieldDemo';
+import { MotionPathDemo } from './graphic/MotionPathDemo';
+import { PolygonMorphDemo, MarchingAntsDemo } from './graphic/GraphicDemos';
+import { CutoutMaskDemo } from './graphic/CutoutMaskDemo';
+import { ConnectorMarkerDemo } from './graphic/ConnectorMarkerDemo';
+import { RosetteDemo } from './graphic/RosetteDemo';
+import { HatchFillDemo } from './graphic/HatchFillDemo';
+import { FixedStrokeZoomDemo } from './graphic/FixedStrokeZoomDemo';
+import { BezierEditorDemo } from './graphic/BezierEditorDemo';
+import { IntersectionClipDemo } from './graphic/IntersectionClipDemo';
+import { FadedGridDemo, MeteorShowerDemo, RisingLightParticlesDemo } from './shader/ShaderDemos';
+import { BlendLightsDemo } from './shader/BlendLightsDemo';
+import { DisplacementLinesDemo } from './shader/DisplacementLinesDemo';
+import { PointLightSurfaceDemo } from './shader/PointLightSurfaceDemo';
+import { MoireFieldDemo } from './shader/MoireFieldDemo';
+import { DitherGradientDemo } from './shader/DitherGradientDemo';
+import { ProjectedShadowDemo } from './shader/ProjectedShadowDemo';
+import { VoronoiCellsDemo } from './shader/VoronoiCellsDemo';
+import { DampedSpringDemo } from './physics/DampedSpringDemo';
+import { ProjectileArcDemo } from './physics/ProjectileArcDemo';
+import { PendulumPeriodDemo } from './physics/PendulumPeriodDemo';
+import { RestitutionBounceDemo } from './physics/RestitutionBounceDemo';
+import { FrictionSlideDemo } from './physics/FrictionSlideDemo';
+import { ElasticCollisionDemo } from './physics/ElasticCollisionDemo';
+import { RollingWheelDemo } from './physics/RollingWheelDemo';
+import { VariableInertiaDemo } from './physics/VariableInertiaDemo';
+import { PulleyConstraintDemo } from './physics/PulleyConstraintDemo';
+import { WaveSuperpositionDemo } from './physics/WaveSuperpositionDemo';
+import { SlicedTypeDemo } from './kinetic/SlicedTypeDemo';
+import { ProximityTypeDemo } from './kinetic/ProximityTypeDemo';
+import { CylinderTypeDemo } from './kinetic/CylinderTypeDemo';
+import { GooeyWordDemo } from './kinetic/GooeyWordDemo';
+import { CurvedTypeDemo } from './kinetic/CurvedTypeDemo';
+import { ScatterTypeDemo } from './kinetic/ScatterTypeDemo';
+import { ExtrudedTypeDemo } from './kinetic/ExtrudedTypeDemo';
+import { HingedTypeDemo } from './kinetic/HingedTypeDemo';
+import { DissolveTypeDemo } from './kinetic/DissolveTypeDemo';
+import { ReflectionTypeDemo } from './kinetic/ReflectionTypeDemo';
+import { OutlineFillTextDemo, WordMaskHeadlineDemo, CircularTextDemo, ClampedTextDemo, SpoilerTextDemo, StrokeLetteringDemo, DropCapTextDemo } from './text/TextDemos';
+import { DirectionalStepDemo, CrossfadeSceneDemo, BlurFocusRevealDemo, MaskedRiseDemo, SharedElementExpandDemo, TransportMorphDemo } from './motion/MotionDemos';
+import {
+  SelectableCardDemo, ProductSwatchDemo, LiftShadowCardDemo, FoldoutCardDemo,
+  ImageZoomCardDemo, ExpandableDetailCardDemo, MediaActionCardDemo, FolderPeekCardDemo,
+  ProfileFanCardDemo,
+} from './card/CardDemos';
+import {
+  SplitActionDemo, IconExpandDemo, OutlineTraceDemo, RollingLabelDemo,
+  DepthPressDemo, UnderlineTravelDemo, CornerBracketDemo, MenuIconMorphDemo,
+  BorderBeamDemo, LetterStaggerDemo,
+} from './hover/HoverDemos';
 import {
   Sparkles,
   Check,
@@ -18,7 +101,229 @@ interface DemoProps {
 }
 
 export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
+  const Addition = ADDITIONAL_DEMOS.get(techniqueId);
+  if (Addition) return <Addition />;
   switch (techniqueId) {
+    case 'mg-noise-dissolve-type':
+      return <DissolveTypeDemo />;
+    case 'mg-ripple-reflection-type':
+      return <ReflectionTypeDemo />;
+    case 'mg-hinged-opening-type':
+      return <HingedTypeDemo />;
+    case 'mg-layered-type-extrusion':
+      return <ExtrudedTypeDemo />;
+    case 'mg-scattered-letter-assembly':
+      return <ScatterTypeDemo />;
+    case 'mg-curved-type-baseline':
+      return <CurvedTypeDemo />;
+    case 'mg-gooey-word-morph':
+      return <GooeyWordDemo />;
+    case 'mg-cylinder-type-rotation':
+      return <CylinderTypeDemo />;
+    case 'mg-proximity-variable-type':
+      return <ProximityTypeDemo />;
+    case 'mg-sliced-type-assembly':
+      return <SlicedTypeDemo />;
+    case 'mg-phase-wave-superposition':
+      return <WaveSuperpositionDemo />;
+    case 'mg-fixed-pulley-constraint':
+      return <PulleyConstraintDemo />;
+    case 'mg-angular-momentum-spin':
+      return <VariableInertiaDemo />;
+    case 'mg-no-slip-rolling-wheel':
+      return <RollingWheelDemo />;
+    case 'mg-mass-ratio-elastic-collision':
+      return <ElasticCollisionDemo />;
+    case 'mg-kinetic-friction-slide':
+      return <FrictionSlideDemo />;
+    case 'mg-restitution-bounce-drop':
+      return <RestitutionBounceDemo />;
+    case 'mg-length-controlled-pendulum':
+      return <PendulumPeriodDemo />;
+    case 'mg-gravity-projectile-arc':
+      return <ProjectileArcDemo />;
+    case 'mg-damped-spring-release':
+      return <DampedSpringDemo />;
+    case 'mg-voronoi-cell-field':
+      return <VoronoiCellsDemo />;
+    case 'mg-occluder-projected-shadow':
+      return <ProjectedShadowDemo />;
+    case 'mg-binary-dither-gradient':
+      return <DitherGradientDemo />;
+    case 'mg-moire-ring-interference':
+      return <MoireFieldDemo />;
+    case 'mg-rising-light-particles':
+      return <RisingLightParticlesDemo />;
+    case 'mg-point-lit-noise-surface':
+      return <PointLightSurfaceDemo />;
+    case 'mg-turbulence-line-displacement':
+      return <DisplacementLinesDemo />;
+    case 'mg-theme-blend-lights':
+      return <BlendLightsDemo />;
+    case 'mg-diagonal-meteor-shower':
+      return <MeteorShowerDemo />;
+    case 'mg-faded-line-grid':
+      return <FadedGridDemo />;
+    case 'mg-intersection-clip':
+      return <IntersectionClipDemo />;
+    case 'mg-quadratic-bezier-editor':
+      return <BezierEditorDemo />;
+    case 'mg-fixed-stroke-zoom':
+      return <FixedStrokeZoomDemo />;
+    case 'mg-hatched-pattern-fill':
+      return <HatchFillDemo />;
+    case 'mg-marching-ants-outline':
+      return <MarchingAntsDemo />;
+    case 'mg-radial-rosette-repetition':
+      return <RosetteDemo />;
+    case 'mg-directed-connector-markers':
+      return <ConnectorMarkerDemo />;
+    case 'mg-luminance-cutout-mask':
+      return <CutoutMaskDemo />;
+    case 'mg-geometric-polygon-morph':
+      return <PolygonMorphDemo />;
+    case 'mg-bezier-motion-path':
+      return <MotionPathDemo />;
+    case 'native-date-field':
+      return <DateFieldDemo />;
+    case 'manual-search-combobox':
+      return <SearchComboboxDemo />;
+    case 'native-file-attachment':
+      return <FilePickerDemo />;
+    case 'native-color-swatch-field':
+      return <ColorSwatchDemo />;
+    case 'constrained-dual-range-slider':
+      return <DualRangeDemo />;
+    case 'dismissible-token-input':
+      return <TokenInputDemo />;
+    case 'native-quantity-stepper':
+      return <QuantityStepperDemo />;
+    case 'preview-linked-native-select':
+      return <PreviewSelectDemo />;
+    case 'mixed-state-checkbox-group':
+      return <MixedCheckboxDemo />;
+    case 'value-bubble-range-slider':
+      return <ValueBubbleSliderDemo />;
+    case 'closable-document-tabs':
+      return <ClosableTabsDemo />;
+    case 'sticky-announcement-banner':
+      return <StickyAnnouncementDemo />;
+    case 'folded-edge-ribbon':
+      return <FoldedRibbonDemo />;
+    case 'vertical-rail-tabs':
+      return <VerticalTabsDemo />;
+    case 'dot-wave-waiting-bubble':
+      return <DotWaveDemo />;
+    case 'stable-skeleton-content':
+      return <SkeletonContentDemo />;
+    case 'manual-banner-carousel':
+      return <ManualBannerDemo />;
+    case 'circular-sweep-spinner':
+      return <CircularSweepDemo />;
+    case 'indeterminate-linear-loader':
+      return <IndeterminateLinearDemo />;
+    case 'underline-content-tabs':
+      return <UnderlineTabsDemo />;
+    case 'linked-form-error-summary':
+      return <ErrorSummaryDemo />;
+    case 'character-budget-feedback':
+      return <CharacterBudgetDemo />;
+    case 'recoverable-search-empty-state':
+      return <EmptySearchDemo />;
+    case 'inline-copy-feedback':
+      return <ClipboardFeedbackDemo />;
+    case 'inline-delete-confirmation':
+      return <InlineConfirmDemo />;
+    case 'dismissible-inline-banner':
+      return <DismissibleBannerDemo />;
+    case 'native-star-rating':
+      return <StarRatingDemo />;
+    case 'hover-focus-tooltip':
+      return <TooltipDemo />;
+    case 'unread-notification-badge':
+      return <NotificationBadgeDemo />;
+    case 'inline-email-validation':
+      return <InlineValidationDemo />;
+    case 'editorial-drop-cap':
+      return <DropCapTextDemo />;
+    case 'svg-stroke-lettering':
+      return <StrokeLetteringDemo />;
+    case 'search-match-highlight':
+      return <SearchHighlightDemo />;
+    case 'inline-spoiler-text':
+      return <SpoilerTextDemo />;
+    case 'clamped-read-more-text':
+      return <ClampedTextDemo />;
+    case 'split-flap-typography':
+      return <SplitFlapTextDemo />;
+    case 'circular-path-text':
+      return <CircularTextDemo />;
+    case 'word-mask-headline':
+      return <WordMaskHeadlineDemo />;
+    case 'outline-fill-text':
+      return <OutlineFillTextDemo />;
+    case 'per-digit-rolling-counter':
+      return <RollingNumberDemo />;
+    case 'anchored-scale-popover':
+      return <AnchoredPopoverDemo />;
+    case 'flip-reorder-list':
+      return <ReorderListDemo />;
+    case 'directional-step-transition':
+      return <DirectionalStepDemo />;
+    case 'crossfade-scene-transition':
+      return <CrossfadeSceneDemo />;
+    case 'blur-focus-reveal':
+      return <BlurFocusRevealDemo />;
+    case 'masked-rise-entrance':
+      return <MaskedRiseDemo />;
+    case 'shared-element-expand':
+      return <SharedElementExpandDemo />;
+    case 'reflow-side-panel':
+      return <ReflowPanelDemo />;
+    case 'transport-icon-morph':
+      return <TransportMorphDemo />;
+    case 'exit-collapse-presence':
+      return <ExitCollapseDemo />;
+    case 'image-crop-zoom-card':
+      return <ImageZoomCardDemo />;
+    case 'expandable-detail-card':
+      return <ExpandableDetailCardDemo />;
+    case 'media-action-overlay-card':
+      return <MediaActionCardDemo />;
+    case 'folder-peek-card':
+      return <FolderPeekCardDemo />;
+    case 'swipe-action-card':
+      return <SwipeActionCardDemo />;
+    case 'profile-fanout-card':
+      return <ProfileFanCardDemo />;
+    case 'hinged-foldout-card':
+      return <FoldoutCardDemo />;
+    case 'lift-shadow-card':
+      return <LiftShadowCardDemo />;
+    case 'product-swatch-card':
+      return <ProductSwatchDemo />;
+    case 'selectable-plan-card':
+      return <SelectableCardDemo />;
+    case 'letter-stagger-button':
+      return <LetterStaggerDemo />;
+    case 'border-beam-button':
+      return <BorderBeamDemo />;
+    case 'menu-icon-morph':
+      return <MenuIconMorphDemo />;
+    case 'corner-bracket-button':
+      return <CornerBracketDemo />;
+    case 'underline-travel-button':
+      return <UnderlineTravelDemo />;
+    case 'depth-press-button':
+      return <DepthPressDemo />;
+    case 'rolling-label-button':
+      return <RollingLabelDemo />;
+    case 'outline-trace-button':
+      return <OutlineTraceDemo />;
+    case 'icon-expand-button':
+      return <IconExpandDemo />;
+    case 'split-action-button':
+      return <SplitActionDemo />;
     /* ==================== DOMAIN 1: UI 인터랙션 (32종) ==================== */
     case 'magnetic-hover':
       return <MagneticHoverDemo />;
@@ -554,8 +859,9 @@ const SpringBounceDemo: React.FC = () => {
       <div
         key={popKey}
         className="animate-spring-pop bg-linear-to-br from-amber-400 to-orange-500 text-slate-950 px-5 py-2.5 rounded-2xl shadow-lg font-black text-xs"
-      >{t("demo.aSpringyBounce")}</div>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.clickToBounceAgain")}</span>
+      >
+        {t("demo.aSpringyBounce")}
+      </div>
     </div>
   );
 };
@@ -578,7 +884,6 @@ const StaggeredListDemo: React.FC = () => {
             className="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1 text-[11px] text-slate-200 flex items-center justify-between"
           >
             <span>{label}</span>
-            <span className="text-[10px] text-indigo-400 font-mono">+{i * 100}{t("sample.staggeredList.ms")}</span>
           </div>
         ))}
       </div>
@@ -701,19 +1006,18 @@ const TypewriterDemo: React.FC = () => {
   return (
     <div
       onClick={() => setRunId((r) => r + 1)}
+      onMouseEnter={() => setRunId((r) => r + 1)}
       className="w-full h-40 flex flex-col items-center justify-center px-5 cursor-pointer select-none"
     >
       <div className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-3 font-mono text-xs text-emerald-300">
         {displayed}
         <span className="inline-block w-1.5 h-3.5 ml-0.5 align-middle bg-emerald-400 animate-pulse" />
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.clickToTypeAgain")}</span>
     </div>
   );
 };
 
 const ScrambleDecodeDemo: React.FC = () => {
-  const { t } = useLocale();
   const target = 'VIBE DICTIONARY';
   const chars = '!<>-_\\/[]{}—=+*^?#01';
   const [output, setOutput] = useState(target);
@@ -746,7 +1050,6 @@ const ScrambleDecodeDemo: React.FC = () => {
       <span className="font-mono text-sm font-black tracking-widest text-cyan-300 bg-slate-900 border border-cyan-500/30 px-4 py-2 rounded-xl">
         {output}
       </span>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.hoverClickToDecode")}</span>
     </div>
   );
 };
@@ -767,7 +1070,6 @@ const GradientFlowTextDemo: React.FC = () => {
 };
 
 const SlotNumberTickerDemo: React.FC = () => {
-  const { t } = useLocale();
   const [target, setTarget] = useState(2480);
   const [val, setVal] = useState(0);
 
@@ -798,7 +1100,6 @@ const SlotNumberTickerDemo: React.FC = () => {
       <span className="text-2xl font-mono font-black text-white">
         {val.toLocaleString()}
       </span>
-      <span className="mt-2 text-[10px] text-indigo-300 bg-indigo-950/70 px-2.5 py-0.5 rounded-full">{t("demo.clickToCountUpward")}</span>
     </div>
   );
 };
@@ -806,20 +1107,23 @@ const SlotNumberTickerDemo: React.FC = () => {
 const MarkerHighlightDrawDemo: React.FC = () => {
   const { t } = useLocale();
   const [drawn, setDrawn] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setDrawn(true), 200);
-    return () => clearTimeout(t);
+    timer.current = setTimeout(() => { timer.current = null; setDrawn(true); }, 200);
+    return () => { if (timer.current !== null) clearTimeout(timer.current); };
   }, []);
 
   const replay = () => {
+    if (timer.current !== null) clearTimeout(timer.current);
     setDrawn(false);
-    setTimeout(() => setDrawn(true), 120);
+    timer.current = setTimeout(() => { timer.current = null; setDrawn(true); }, 120);
   };
 
   return (
     <div
       onClick={replay}
+      onMouseEnter={replay}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-4"
     >
       <p className="text-xs font-bold text-slate-200">{t("demo.draw")}{' '}
@@ -835,8 +1139,11 @@ const MarkerHighlightDrawDemo: React.FC = () => {
               : 'none',
           }}
           className="px-1 text-amber-200"
-        >{t("demo.aHighlightBehindKeyWords")}</span>{' '}{t("demo.inASentence")}</p>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.clickToDrawAgain")}</span>
+        >
+          {t("demo.aHighlightBehindKeyWords")}
+        </span>{' '}
+        {t("demo.inASentence")}
+      </p>
     </div>
   );
 };
@@ -942,7 +1249,6 @@ const ErrorShakeDemo: React.FC = () => {
 };
 
 const HeartLikeBurstDemo: React.FC = () => {
-  const { t } = useLocale();
   const [burstId, setBurstId] = useState(1);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
@@ -959,7 +1265,6 @@ const HeartLikeBurstDemo: React.FC = () => {
           className="w-6 h-6 text-rose-500 fill-rose-500 animate-spring-pop"
         />
       </button>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.clickTheHeart")}</span>
     </div>
   );
 };
@@ -979,9 +1284,8 @@ const ToastSlideStackDemo: React.FC = () => {
   return (
     <div
       onClick={pushToast}
-      className="w-full h-40 flex flex-col justify-between pt-9 pb-3 px-4 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col justify-end pt-9 pb-3 px-4 cursor-pointer select-none"
     >
-      <span className="text-[10px] text-indigo-300 bg-indigo-950/70 px-2.5 py-0.5 rounded-full w-fit mx-auto">{t("demo.clickToAddAToast")}</span>
       <div className="space-y-1">
         {toasts.map((toast) => (
           <div
@@ -1150,7 +1454,6 @@ const DragSnapSlotDemo: React.FC = () => {
 };
 
 const ElasticToggleSwitchDemo: React.FC = () => {
-  const { t } = useLocale();
   const [on, setOn] = useState(true);
   const [stretching, setStretching] = useState(false);
 
@@ -1178,7 +1481,6 @@ const ElasticToggleSwitchDemo: React.FC = () => {
           className="w-7 h-7 rounded-full bg-white shadow-md"
         />
       </button>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.clickForASpringyToggle")}</span>
     </div>
   );
 };
@@ -1207,7 +1509,6 @@ const ComboGaugeDemo: React.FC = () => {
           className="h-full bg-linear-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
         />
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.clickToFillTheGauge")}</span>
     </div>
   );
 };
@@ -1218,19 +1519,16 @@ const ComboGaugeDemo: React.FC = () => {
 
 /* 1. 스쿼시 앤 스트레치 */
 const MgSquashStretchDemo: React.FC = () => {
-  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none pt-6">
       <div className="w-10 h-10 rounded-full bg-linear-to-b from-amber-300 to-orange-500 shadow-lg shadow-orange-500/30 animate-squash-bounce" />
       <div className="mt-[18px] w-16 h-1.5 rounded-full bg-slate-700/80" />
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.squashOnImpactStretchOnTakeoff")}</span>
     </div>
   );
 };
 
 /* 2. 앤티시페이션 (예비 동작) */
 const MgAnticipationDemo: React.FC = () => {
-  const { t } = useLocale();
   const [runKey, setRunKey] = useState(0);
   return (
     <div
@@ -1243,14 +1541,12 @@ const MgAnticipationDemo: React.FC = () => {
       >
         <Rocket className="w-5 h-5 text-slate-950 rotate-45" />
       </div>
-      <span className="mt-4 text-[10px] text-slate-400">{t("demo.windUpBackwardThenLaunchForward")}</span>
     </div>
   );
 };
 
 /* 3. 팔로우 스루 & 딜레이 트레일 */
 const MgFollowTrailDemo: React.FC = () => {
-  const { t } = useLocale();
   const [right, setRight] = useState(true);
 
   useEffect(() => {
@@ -1287,7 +1583,6 @@ const MgFollowTrailDemo: React.FC = () => {
             );
           })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.aStaggeredTrailFollowsTheLeader")}</span>
     </div>
   );
 };
@@ -1332,7 +1627,6 @@ const MgEasingCurvesDemo: React.FC = () => {
 
 /* 5. SVG 패스 라인 드로잉 */
 const MgSvgLineDrawDemo: React.FC = () => {
-  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <svg className="w-20 h-20" viewBox="0 0 100 100">
@@ -1346,25 +1640,21 @@ const MgSvgLineDrawDemo: React.FC = () => {
           className="animate-svg-draw"
         />
       </svg>
-      <span className="mt-1 text-[10px] text-slate-400">{t("demo.anSvgPathDrawsFromStart")}</span>
     </div>
   );
 };
 
 /* 6. 리퀴드 블롭 모핑 */
 const MgLiquidBlobMorphDemo: React.FC = () => {
-  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div className="w-20 h-20 bg-linear-to-tr from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 animate-liquid-morph" />
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.anOutlineMorphsLikeALiquid")}</span>
     </div>
   );
 };
 
 /* 7. 구이 메타볼 퓨전 (SVG Gooey Filter) */
 const MgGooeyMetaballDemo: React.FC = () => {
-  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <svg className="hidden">
@@ -1388,7 +1678,6 @@ const MgGooeyMetaballDemo: React.FC = () => {
         <div className="w-11 h-11 rounded-full bg-cyan-400 absolute animate-metaball-left" />
         <div className="w-11 h-11 rounded-full bg-indigo-500 absolute animate-metaball-right" />
       </div>
-      <span className="mt-1 text-[10px] text-slate-400">{t("demo.twoDropletsMergeAndSeparate")}</span>
     </div>
   );
 };
@@ -1415,7 +1704,6 @@ const MgOrbitRotationDemo: React.FC = () => {
 
 /* 9. 키네틱 웨이브 텍스트 */
 const MgKineticWaveTextDemo: React.FC = () => {
-  const { t } = useLocale();
   const chars = 'KINETIC WAVE'.split('');
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
@@ -1430,7 +1718,6 @@ const MgKineticWaveTextDemo: React.FC = () => {
           </span>
         ))}
       </div>
-      <span className="mt-3 text-[10px] text-slate-400">{t("demo.individualLettersRippleLikeAWave")}</span>
     </div>
   );
 };
@@ -1471,7 +1758,6 @@ const Mg3DTextRollerDemo: React.FC = () => {
           </div>
         </div>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.wordsCycleLikeASlotReel")}</span>
     </div>
   );
 };
@@ -1485,7 +1771,6 @@ const MgNeonSignFlickerDemo: React.FC = () => {
         <span>{t("sample.mgNeonSignFlicker.open")}</span>
         <span className="animate-neon-flicker text-rose-300">{t("sample.mgNeonSignFlicker.hours")}</span>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.aNeonSignFlickersAndGlows")}</span>
     </div>
   );
 };
@@ -1581,7 +1866,6 @@ const MgKenBurnsPanDemo: React.FC = () => {
 
 /* 15. 아이소메트릭 레이어 익스플로드 */
 const MgIsometricExplodeDemo: React.FC = () => {
-  const { t } = useLocale();
   const [exploded, setExploded] = useState(true);
   const layers = [
     { label: 'L1', color: 'bg-slate-800/95 border-slate-500 text-slate-300' },
@@ -1613,7 +1897,6 @@ const MgIsometricExplodeDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.hoverClickToSeparateLayers")}</span>
     </div>
   );
 };
@@ -1651,7 +1934,6 @@ const MgRgbChromaticGlitchDemo: React.FC = () => {
       <div className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800">
         <span className="font-mono text-lg font-black tracking-wider text-white inline-block animate-rgb-glitch">{t("sample.mgRgbChromaticGlitch.cyberGlitch")}</span>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.redCyanSplitAndDigitalNoise")}</span>
     </div>
   );
 };
@@ -1750,7 +2032,6 @@ const MgParticleNetworkDemo: React.FC = () => {
 
 /* 21. 인터랙티브 도트 매트릭스 그리드 */
 const MgDotMatrixGridDemo: React.FC = () => {
-  const { t } = useLocale();
   const [activeCol, setActiveCol] = useState(4);
   const cols = 9;
   const rows = 4;
@@ -1786,14 +2067,12 @@ const MgDotMatrixGridDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-1 text-[10px] text-slate-400">{t("demo.moveYourMouseLeftAndRight")}</span>
     </div>
   );
 };
 
 /* 22. 볼류메트릭 스포트라이트 빔 (God Rays) */
 const MgGodRayBeamDemo: React.FC = () => {
-  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex flex-col items-center justify-center overflow-hidden select-none bg-slate-950">
       <div
@@ -1803,8 +2082,6 @@ const MgGodRayBeamDemo: React.FC = () => {
         }}
         className="pointer-events-none absolute -top-6 w-64 h-48 blur-md animate-beam-sway"
       />
-      <span className="relative z-10 text-xs font-black tracking-widest text-cyan-200 mt-4">{t("sample.mgGodRayBeam.volumetricBeam")}</span>
-      <span className="relative z-10 mt-1 text-[10px] text-slate-400">{t("demo.aSoftBeamShinesFromAbove")}</span>
     </div>
   );
 };
@@ -1886,7 +2163,6 @@ const LyMasonryWaterfallDemo: React.FC = () => {
           <div className={`${shuffled ? 'h-11' : 'h-9'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>{t("sample.lyMasonryWaterfall.h6")}</div>
         </div>
       </div>
-      <span className="mt-1.5 text-[10px] text-slate-400">{t("demo.clickToRearrangeCardHeights")}</span>
     </div>
   );
 };
@@ -2009,7 +2285,6 @@ const LyHoneycombHexDemo: React.FC = () => {
           {row2.map(renderHex)}
         </div>
       </div>
-      <span className="mt-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">{t("demo.clickAHexagonalCell")}</span>
     </div>
   );
 };
@@ -2076,7 +2351,6 @@ const LyFullpageSnapDemo: React.FC = () => {
               className={`h-24 flex flex-col items-center justify-center border-l-4 ${colors[idx]}`}
             >
               <span className="text-xs font-black text-white">{t("sample.lyFullpageSnap.section0")}{idx + 1}</span>
-              <span className="text-[10px] text-slate-400">{t("demo.clickToSnapToTheNext")}</span>
             </div>
           ))}
         </div>
@@ -2177,7 +2451,6 @@ const LyCurtainRevealDemo: React.FC = () => {
 
 /* 9. 맥OS 독 매그니피케이션 바 (macOS Dock Magnification) */
 const LyMacosDockDemo: React.FC = () => {
-  const { t } = useLocale();
   const [hoverIdx, setHoverIdx] = useState<number | null>(2);
   const icons = ['🏠', '🔍', '⚡', '🎨', '🚀'];
   return (
@@ -2202,7 +2475,6 @@ const LyMacosDockDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">{t("demo.hoverOverAnIcon")}</span>
     </div>
   );
 };
@@ -2272,7 +2544,6 @@ const LyDynamicIslandNavDemo: React.FC = () => {
           </div>
         )}
       </div>
-      <span className="mt-2 text-[10px] text-slate-500 dark:text-slate-400">{t("demo.clickTheCapsuleToExpandCollapse")}</span>
     </div>
   );
 };
@@ -2343,7 +2614,6 @@ const LyBottomSheetDemo: React.FC = () => {
         <div className="w-8 h-1 rounded-full bg-slate-300 dark:bg-slate-600 mx-auto mb-1.5" />
         <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
           <span>{t("sample.lyBottomSheet.bottomSheet")}{snap.toUpperCase()})</span>
-          <span className="text-[10px] text-indigo-600 dark:text-indigo-400">{t("demo.clickToChangeHeight")}</span>
         </div>
         {snap === 'full' && (
           <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">{t("demo.detailsExpandAsIfTheHandle")}</p>
@@ -2412,14 +2682,12 @@ const LyKanbanBoardDemo: React.FC = () => {
           </div>
         ))}
       </div>
-      <span className="mt-1.5 text-[10px] text-slate-400">{t("demo.clickToMoveTheCardTo")}</span>
     </div>
   );
 };
 
 /* 16. 잔디 히트맵 매트릭스 (Contribution Heatmap Grid) */
 const LyHeatmapGridDemo: React.FC = () => {
-  const { t } = useLocale();
   const [seed, setSeed] = useState(1);
   const levels = [
     'bg-slate-800',
@@ -2439,7 +2707,6 @@ const LyHeatmapGridDemo: React.FC = () => {
           return <span key={idx} className={`w-3 h-3 rounded-[3px] ${levels[lv]}`} />;
         })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">{t("demo.clickToChangeTheActivityPattern")}</span>
     </div>
   );
 };
@@ -2618,7 +2885,6 @@ const St8BitPixelRetroDemo: React.FC = () => {
         className="px-4 py-2 bg-emerald-400 border-2 border-white text-slate-950 font-mono font-black text-xs active:translate-y-0.5"
       >{t("sample.st8BitPixelRetro.insertCoin")}{coins}
       </button>
-      <span className="mt-2 font-mono text-[10px] text-amber-300">{t("demo.pressStartClick")}</span>
     </div>
   );
 };
@@ -2661,8 +2927,9 @@ const StCrtScanlineTerminalDemo: React.FC = () => {
         }}
         className="pointer-events-none absolute inset-0 z-10"
       />
-      <div className="font-mono text-xs font-bold text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]">{t("sample.stCrtScanlineTerminal.gtSystemReady")}</div>
-      <span className="mt-1 font-mono text-[10px] text-emerald-600">{t("sample.stCrtScanlineTerminal.crtScanlineOverlay")}</span>
+      <div className="font-mono text-xs font-bold text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]">
+        {t("sample.stCrtScanlineTerminal.gtSystemReady")}
+      </div>
     </div>
   );
 };
@@ -3686,7 +3953,6 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
 const GooeyMenuFabDemo: React.FC = () => {
   const { t } = useLocale();
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState<string | null>(null);
   const actions = [
     { id: 'rocket', label: t("demo.launch"), icon: Rocket, dx: -52, dy: -18, color: 'from-indigo-500 to-blue-500' },
     { id: 'sparkles', label: t("demo.aiGeneration"), icon: Sparkles, dx: 0, dy: -48, color: 'from-violet-500 to-fuchsia-500' },
@@ -3703,7 +3969,6 @@ const GooeyMenuFabDemo: React.FC = () => {
             <button
               key={act.id}
               type="button"
-              onClick={() => setSelected(act.id)}
               style={{
                 transform: open
                   ? `translate(${act.dx}px, ${act.dy}px) scale(1)`
@@ -3737,9 +4002,6 @@ const GooeyMenuFabDemo: React.FC = () => {
           </svg>
         </button>
       </div>
-      <span className="mt-1 text-[10px] font-medium text-slate-400">
-        {selected ? t('demo.fab.selected', { action: actions.find(action => action.id === selected)!.label }) : open ? t("demo.clickAnIconOrTheButton") : t("demo.clickToExpandTheMenu")}
-      </span>
     </div>
   );
 };
@@ -3821,9 +4083,6 @@ const OtpPinFocusBounceDemo: React.FC = () => {
         ))}
       </div>
       <div className="flex items-center gap-2">
-        <span className={`text-[10px] font-semibold ${isComplete ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
-          {isComplete ? t("demo.sixDigitVerificationComplete") : t("demo.clickASlotOrPlayThe")}
-        </span>
         <button
           type="button"
           onClick={handleAutoFill}
@@ -3901,9 +4160,6 @@ const HoldToConfirmRingDemo: React.FC = () => {
           </span>
         </button>
       )}
-      <span className="text-[10px] text-slate-400">
-        {confirmed ? t("demo.clickToTestAgain") : t("demo.keepHoldingTheButtonToFill")}
-      </span>
     </div>
   );
 };
@@ -3958,7 +4214,6 @@ const PeekPasswordLampDemo: React.FC = () => {
           </button>
         </div>
       </div>
-      <span className="text-[10px] text-slate-400">{t("demo.clickTheRightFlashlightToReveal")}</span>
     </div>
   );
 };
@@ -4029,7 +4284,6 @@ const MgRadarSonarSweepDemo: React.FC = () => {
 
 /* [그래픽 +2] 스태거드 그리드 타일 웨이브 (Staggered Grid Tile Wave) */
 const MgMorphingGridWaveDemo: React.FC = () => {
-  const { t } = useLocale();
   const [tick, setTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => {
@@ -4064,7 +4318,6 @@ const MgMorphingGridWaveDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="text-[9px] font-mono text-cyan-300/80">{t("sample.mgMorphingGridWave.diagonalWaveRowCol")}</span>
     </div>
   );
 };
@@ -4472,7 +4725,6 @@ const LyResizableSplitPaneDemo: React.FC = () => {
           <div className="w-full h-7 rounded-sm bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">{t("sample.lyResizableSplitPane.liveView")}</div>
         </div>
       </div>
-      <span className="text-[9px] text-slate-400">{t("demo.dragTheCenterDividerLeftRight")}</span>
     </div>
   );
 };
@@ -4510,7 +4762,6 @@ const StHolographicFoilCardDemo: React.FC = () => {
           </div>
           <div>
             <div className="text-xs font-black text-white drop-shadow-sm">{t("sample.stHolographicFoilCard.iridescentPrism")}</div>
-            <div className="text-[9px] text-white/80">{t("demo.moveTheMouseToChangeThe")}</div>
           </div>
         </div>
       </div>

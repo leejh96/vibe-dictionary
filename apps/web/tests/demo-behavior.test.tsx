@@ -4,6 +4,26 @@ import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 
+test('demo stages omit appended helper captions while keeping their design content and controls', () => {
+  for (const id of ['spring-bounce-modal', 'staggered-list', 'elastic-toggle-switch', 'gooey-menu-fab', 'mg-god-ray-beam', 'st-crt-scanline-terminal']) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<InteractiveDemo techniqueId={id} />); });
+    try {
+      const stage = tree.root.findAllByType('div')[0];
+      const captions = stage.children.filter(child => typeof child !== 'string' && child.type === 'span');
+      assert.equal(captions.length, 0, `${id} must not append a text caption`);
+      assert.ok(stage.children.length > 0, `${id} keeps its visual design`);
+      if (id === 'gooey-menu-fab') {
+        const toggle = tree.root.findByProps({ 'aria-label': '플로팅 메뉴 열기/닫기' });
+        act(() => toggle.props.onClick());
+        assert.ok(toggle.findByType('svg').props.className.includes('rotate-0'));
+        act(() => toggle.props.onClick());
+        assert.ok(toggle.findByType('svg').props.className.includes('rotate-45'));
+      }
+    } finally { act(() => tree.unmount()); }
+  }
+});
+
 test('magnetic tracking stays fast on vertical movement and at the center; only leaving uses spring return', (t) => {
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<InteractiveDemo techniqueId="magnetic-hover" />); });
