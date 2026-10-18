@@ -68,6 +68,10 @@ npm install <package> --workspace @keke1933/vibe-dictionary-mcp
 
 웹의 공개 경로는 `/vibe-dictionary/`다. Pages 워크플로는 전체 테스트 후 웹만 빌드하고 `apps/web/dist/`를 배포한다. 루트 `dist/`를 사용하지 않는다.
 
+웹과 MCP는 독립적인 버전을 사용한다. 현재 웹 버전은 `apps/web/package.json`, MCP 버전은 `apps/mcp/package.json`에서 확인하며, 루트·내부 카탈로그 버전은 앱의 배포 버전이 아니다. [변경 기록](../CHANGE_LOG.md)도 웹·MCP별로 `미배포`와 버전 기록을 분리한다. 공통 카탈로그 변경은 영향을 받는 두 앱에 각각 기록하고 각 앱의 릴리스에 반영한다.
+
+웹 릴리스를 준비할 때는 `npm version <다음-웹-버전> --workspace vibe-dictionary-web --no-git-tag-version`으로 웹 버전과 루트 잠금 파일을 갱신한다. 변경 기록의 **웹 → 미배포**에서 이번 배포에 포함할 항목만 해당 웹 버전으로 옮기고, manifest·잠금 파일·변경 기록의 버전 일치를 확인한다. 웹 버전업으로 MCP 버전을 함께 올리지 않는다. 버전업 명령 자체는 커밋·push·Pages 배포를 수행하지 않는다.
+
 MCP의 npm 이름은 `@keke1933/vibe-dictionary-mcp`다. 패키지 검증과 공개 게시 절차는 [npm 게시 안내](npm-publishing.md)를 따른다.
 
 `publish-npm.yml`은 `master`에서 수동 실행하며 입력 버전 확인, 전체 테스트·빌드, 취약점 검사와 독립 설치 검증 후 검증한 tarball만 OIDC로 게시한다. 루트·웹·내부 카탈로그는 `private: true`를 유지한다. 워크플로 추가나 `master` push만으로 npm에 게시하지 않는다.

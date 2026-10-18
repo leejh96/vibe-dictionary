@@ -8,7 +8,7 @@
 - [카탈로그 언어와 검색](catalog-language-search.md): 고정 번역 키 관리·누락 자동 검사·웹 언어 전환·MCP 관련도 검색.
 - [프롬프트 품질 기준](prompt-quality.md): 의도한 효과와 상호작용을 재현하기 위한 작성·검증 기준.
 - [서비스 소개](../README.md): 웹 링크와 MCP 빠른 시작.
-- [변경 기록](../CHANGE_LOG.md): 미배포 변경과 버전별 주요 추가·수정 사항.
+- [변경 기록](../CHANGE_LOG.md): 독립적인 웹·MCP 버전별 변경과 각 앱의 미배포 항목, 저장소 관리 기록.
 - [개발 안내](development.md): 저장소 구조, 웹·MCP·공용 카탈로그의 책임과 개발·검증 명령.
 - [MCP 설치·사용 안내](../apps/mcp/README.md): npm 설치·Codex 연결, 기법 검색·프롬프트 조회 방법.
 - [npm 공개 게시 안내](npm-publishing.md): 최초 게시, npm Trusted Publisher 설정과 GitHub 수동 게시 절차.
