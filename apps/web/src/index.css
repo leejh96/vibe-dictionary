@@ -479,11 +479,10 @@ html:not(.dark) .demo-stage:not(.demo-keep-dark) :is(.text-white, .text-white\/9
 
 /* 4. 단, 솔리드 컬러 버튼·배지(indigo-500/600, emerald, red, gradient 등) 위의 text-white는 선명한 흰색 유지 */
 html:not(.dark) .demo-stage:not(.demo-keep-dark) :is(
-  .bg-indigo-500, .bg-indigo-600, .bg-indigo-700,
-  .bg-violet-600, .bg-purple-600,
+  .bg-indigo-500, .bg-indigo-600,
+  .bg-violet-600,
   .bg-emerald-500, .bg-emerald-600,
   .bg-rose-500, .bg-rose-600, .bg-red-600,
-  .bg-sky-600, .bg-blue-600,
   .bg-\[\#000080\],
   .from-indigo-600, .from-rose-600, .from-emerald-600
 ):not([class*="bg-clip-text"]) {
@@ -492,11 +491,10 @@ html:not(.dark) .demo-stage:not(.demo-keep-dark) :is(
 
 html:not(.dark) .demo-stage:not(.demo-keep-dark) :is(
   .bg-black,
-  .bg-indigo-500, .bg-indigo-600, .bg-indigo-700,
-  .bg-violet-600, .bg-purple-600,
+  .bg-indigo-500, .bg-indigo-600,
+  .bg-violet-600,
   .bg-emerald-500, .bg-emerald-600,
   .bg-rose-500, .bg-rose-600, .bg-red-600,
-  .bg-sky-600, .bg-blue-600,
   .bg-\[\#000080\],
   .from-indigo-600, .from-rose-600, .from-emerald-600
 ):not([class*="bg-clip-text"]) :is(.text-white, .text-white\/90, .text-white\/80) {

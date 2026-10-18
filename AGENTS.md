@@ -117,6 +117,7 @@
 
 ## 배포와 작업 범위
 
+- `master` 반영용 PR을 준비하거나 버전을 올릴 때 루트 `CHANGE_LOG.md`도 함께 갱신한다. 사용자에게 영향을 주는 추가·변경·수정과 호환성 영향을 요약한다. 미배포 변경은 `미배포`에 기록하고, 버전업 시 실제 릴리스에 포함되는 항목만 해당 버전으로 옮긴다. MCP 릴리스 버전은 패키지 manifest·잠금 파일·변경 기록이 일치하는지 확인한다.
 - `apps/web/vite.config.ts`의 `base`는 `/vibe-dictionary/`다. 자산 URL과 경로를 바꿀 때 GitHub Pages 하위 경로에서 동작하는지 확인한다.
 - `.github/workflows/check-pr.yml`은 `master` 대상 PR에서 테스트·빌드를 수행한다. `deploy-pages.yml`은 `master` push 또는 수동 실행 시 전체 테스트·웹 빌드 후 `apps/web/dist/`를 GitHub Pages에 배포한다. `master`에 push하면 배포까지 이어진다는 점을 고려하고, 커밋 요청을 push·배포 승인으로 해석하지 않는다.
 - `dist/`, `node_modules/`, `*.tsbuildinfo`는 생성물이다. 원본 코드를 수정하고 생성물은 커밋하지 않는다.
