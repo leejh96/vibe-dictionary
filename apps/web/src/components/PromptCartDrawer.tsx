@@ -1,13 +1,14 @@
+import { useLocale } from '../i18n/LocaleContext';
 import React, { useMemo } from 'react';
 import { X, Copy, Check, Trash2, Wand2 } from 'lucide-react';
-import { TechniqueItem, DOMAIN_LABELS } from '@vibe-dictionary/catalog';
+import { TechniqueItem, DOMAIN_LABELS, DOMAIN_NAMES, getTechniqueText } from '@vibe-dictionary/catalog';
 import { useClipboard } from '../hooks/useClipboard';
 
 interface PromptCartDrawerProps {
   cart: TechniqueItem[];
   contextNote: string;
   onContextNoteChange: (note: string) => void;
-  storageError: string | null;
+  storageError: 'composer.storageError' | null;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onRemoveItem: (id: string) => void;
@@ -24,30 +25,33 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
   onRemoveItem,
   onClearCart,
 }) => {
+  const { t, locale } = useLocale();
   const applicationTarget = contextNote.trim();
   const targetMissing = applicationTarget.length === 0;
   const copyBlocked = cart.length === 0 || targetMissing;
 
   const combinedPrompt = useMemo(() => {
     if (cart.length === 0) {
-      return '카탈로그에서 원하는 기법들을 [+ 조합기에 담기]로 선택해 주세요.';
+      return t("composer.chooseTechniques");
     }
 
     if (!applicationTarget) {
-      return '공통 적용 대상을 입력하면 조합된 프롬프트가 표시됩니다.';
+      return t("composer.enterTarget");
     }
 
-    const header = `아래 기법들을 다음 공통 적용 대상에 적용해 줘.\n- 공통 적용 대상: ${applicationTarget}\n- 적용 범위: 선택한 모든 기법은 위 대상 안에서만 구현해 줘. 각 기법에 나오는 버튼·카드·배경·화면 등의 표현도 위 대상 안의 해당 요소를 뜻해. 대상 밖의 화면이나 컴포넌트는 변경하지 말고, 요청한 기법과 관계없는 기존 동작은 유지해 줘.\n`;
+    const header = t('composer.scope', { target: applicationTarget });
 
     const list = cart
       .map(
         (item, idx) =>
-          `${idx + 1}. **[${DOMAIN_LABELS[item.domain]}] ${item.titleKo} (${item.titleEn})**\n   - ${item.promptSnippet}`
+          locale === 'ko'
+            ? `${idx + 1}. **[${DOMAIN_NAMES[locale][item.domain]}] ${item.titleKo} (${item.titleEn})**\n   - ${item.promptSnippet}`
+            : `${idx + 1}. **[${DOMAIN_NAMES.en[item.domain]}] ${item.titleEn}**\n   - ${getTechniqueText(item, locale).promptSnippet}`
       )
       .join('\n\n');
 
     return `${header}\n${list}`;
-  }, [cart, applicationTarget]);
+  }, [cart, applicationTarget, locale, t]);
 
   const { status: copyStatus, copy } = useClipboard(combinedPrompt, 1800);
   const copiedPrompt = copyStatus === 'copied';
@@ -67,7 +71,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
             className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-2xl shadow-indigo-500/40 transition-all"
           >
             <Wand2 className="w-4 h-4" />
-            <span>프롬프트 조합기</span>
+            <span>{t("composer.name")}</span>
             <span className="px-2 py-0.5 rounded-full bg-white text-slate-950 font-black text-[11px]">
               {cart.length}
             </span>
@@ -83,8 +87,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
             <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Wand2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                <h2 className="text-sm font-extrabold text-slate-900 dark:text-white">
-                  바이브 프롬프트 조합기 ({cart.length})
+                <h2 className="text-sm font-extrabold text-slate-900 dark:text-white">{t("composer.heading", { count: cart.length })}
                 </h2>
               </div>
               <button
@@ -96,32 +99,27 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
             </div>
 
             {/* 본문 */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div className="prompt-scroll flex-1 overflow-y-auto p-5 space-y-4">
               {storageError && (
                 <p role="status" className="text-xs text-amber-700 dark:text-amber-300">
-                  {storageError}
+                  {t(storageError)}
                 </p>
               )}
               {/* 선택한 기법 칩 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                    담은 기법
-                  </span>
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-400">{t("composer.selected")}</span>
                   {cart.length > 0 && (
                     <button
                       onClick={onClearCart}
                       className="text-[11px] text-rose-500 dark:text-rose-400 hover:text-rose-600 dark:hover:text-rose-300 flex items-center gap-1"
                     >
-                      <Trash2 className="w-3 h-3" /> 비우기
-                    </button>
+                      <Trash2 className="w-3 h-3" />{t("actions.clear")}</button>
                   )}
                 </div>
 
                 {cart.length === 0 ? (
-                  <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
-                    선택된 기법이 없습니다.
-                  </div>
+                  <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">{t("composer.empty")}</div>
                 ) : (
                   <div className="flex flex-wrap gap-1.5">
                     {cart.map((item) => (
@@ -132,7 +130,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                         <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400">
                           [{DOMAIN_LABELS[item.domain]}]
                         </span>
-                        <strong className="font-bold">{item.titleKo}</strong>
+                        <strong className="font-bold">{getTechniqueText(item, locale).title}</strong>
                         <button
                           onClick={() => onRemoveItem(item.id)}
                           className="text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400"
@@ -147,9 +145,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
               {/* 모든 기법에 공통으로 적용할 대상 */}
               <div>
-                <label htmlFor="prompt-application-target" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
-                  공통 적용 대상 (필수)
-                </label>
+                <label htmlFor="prompt-application-target" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">{t("composer.targetLabel")}</label>
                 <input
                   id="prompt-application-target"
                   type="text"
@@ -158,22 +154,18 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                   aria-describedby="prompt-target-help"
                   value={contextNote}
                   onChange={(e) => onContextNoteChange(e.target.value)}
-                  placeholder="예: 랜딩페이지 메인 버튼, 대시보드 통계 카드, 결제 모달..."
+                  placeholder={t("composer.targetPlaceholder")}
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-hidden focus:border-indigo-500"
                 />
                 <p id="prompt-target-help" role="status" className="mt-2 text-xs text-slate-600 dark:text-slate-400">
-                  {targetMissing
-                    ? '적용 대상을 입력해야 복사할 수 있습니다. 공백만 입력한 경우에도 복사가 차단됩니다.'
-                    : '담은 모든 기법에 같은 적용 대상이 사용됩니다.'}
+                  {targetMissing ? t("composer.targetRequired") : t("composer.targetHelp")}
                 </p>
               </div>
 
               {/* 생성된 프롬프트 */}
               <div>
-                <span className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
-                  조합된 프롬프트
-                </span>
-                <pre className="w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
+                <span className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">{t("composer.previewLabel")}</span>
+                <pre className="prompt-scroll w-full max-h-80 overflow-y-auto p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 font-mono whitespace-pre-wrap leading-relaxed">
                   {combinedPrompt}
                 </pre>
               </div>
@@ -182,9 +174,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
             {/* 하단 복사 버튼 */}
             <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/80">
               {copyStatus === 'error' && (
-                <p role="alert" className="mb-2 text-xs text-rose-600 dark:text-rose-400">
-                  복사하지 못했습니다. 다시 시도하거나 위 프롬프트를 선택해 직접 복사해 주세요.
-                </p>
+                <p role="alert" className="mb-2 text-xs text-rose-600 dark:text-rose-400">{t("composer.copyError")}</p>
               )}
               <button
                 onClick={handleCopyPrompt}
@@ -199,13 +189,11 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
               >
                 {copiedPrompt ? (
                   <>
-                    <Check className="w-4 h-4" />
-                    복사 완료!
-                  </>
+                    <Check className="w-4 h-4" />{t("actions.copyComplete")}</>
                 ) : (
                   <>
                     <Copy className="w-4 h-4" />
-                    {copyStatus === 'copying' ? '복사 중…' : '프롬프트 전체 복사하기'}
+                    {copyStatus === 'copying' ? t("actions.copying") : t("composer.copy")}
                   </>
                 )}
               </button>

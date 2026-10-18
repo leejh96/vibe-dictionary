@@ -4,10 +4,13 @@
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace vibe-dictionary-web --",
-    "test": "npm run test:web && npm run test:mcp",
+    "test": "npm run test:catalog && npm run test:web && npm run test:mcp",
     "test:web": "npm test --workspace vibe-dictionary-web",
     "test:mcp": "npm test --workspace @keke1933/vibe-dictionary-mcp",
     "build:mcp": "npm run build --workspace @keke1933/vibe-dictionary-mcp",
@@ -15,7 +18,9 @@
     "start:mcp": "node apps/mcp/dist/index.js",
     "build": "npm run build:web && npm run build:mcp",
     "build:web": "npm run build --workspace vibe-dictionary-web",
-    "preview": "npm run preview --workspace vibe-dictionary-web --"
+    "preview": "npm run preview --workspace vibe-dictionary-web --",
+    "test:catalog": "npm test --workspace @vibe-dictionary/catalog",
+    "check:i18n": "npm run check:i18n --workspace vibe-dictionary-web"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

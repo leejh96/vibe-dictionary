@@ -1,3 +1,29 @@
+import { HOVER_ADDITIONS } from './additions/hover';
+import { CARD_ADDITIONS } from './additions/card';
+import { MOTION_ADDITIONS } from './additions/motion';
+import { TEXT_ADDITIONS } from './additions/text';
+import { FEEDBACK_ADDITIONS } from './additions/feedback';
+import { LAYOUT_ADDITIONS } from './additions/layout';
+import { CONTROL_ADDITIONS } from './additions/control';
+import { GRAPHIC_ADDITIONS } from './additions/graphic';
+import { SHADER_ADDITIONS } from './additions/shader';
+import { PHYSICS_ADDITIONS } from './additions/physics';
+import { KINETIC_ADDITIONS } from './additions/kinetic';
+import { GRID_ADDITIONS } from './additions/grid';
+import { NAV_ADDITIONS } from './additions/nav';
+import { PANEL_ADDITIONS } from './additions/panel';
+import { MODERN_ADDITIONS } from './additions/modern';
+import { CAMERA_ADDITIONS } from './additions/camera';
+import { VFX_ADDITIONS } from './additions/vfx';
+import { SCROLL_ADDITIONS } from './additions/scroll';
+import { TACTILE_ADDITIONS } from './additions/tactile';
+import { RETRO_ADDITIONS } from './additions/retro';
+import { SCIFI_ADDITIONS } from './additions/scifi';
+import { PROMO_ADDITIONS } from './additions/promo';
+import { KINETIC_AD_ADDITIONS } from './additions/kinetic_ad';
+import { INFOGRAPHIC_ADDITIONS } from './additions/infographic';
+import { BROADCAST_ADDITIONS } from './additions/broadcast';
+
 export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'video';
 
 export type CategoryType =
@@ -121,6 +147,31 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...TACTILE_ADDITIONS,
+  ...RETRO_ADDITIONS,
+  ...SCIFI_ADDITIONS,
+  ...PROMO_ADDITIONS,
+  ...KINETIC_AD_ADDITIONS,
+  ...INFOGRAPHIC_ADDITIONS,
+  ...BROADCAST_ADDITIONS,
+  ...CAMERA_ADDITIONS,
+  ...VFX_ADDITIONS,
+  ...SCROLL_ADDITIONS,
+  ...GRID_ADDITIONS,
+  ...NAV_ADDITIONS,
+  ...PANEL_ADDITIONS,
+  ...MODERN_ADDITIONS,
+  ...KINETIC_ADDITIONS,
+  ...PHYSICS_ADDITIONS,
+  ...SHADER_ADDITIONS,
+  ...GRAPHIC_ADDITIONS,
+  ...CONTROL_ADDITIONS,
+  ...LAYOUT_ADDITIONS,
+  ...TEXT_ADDITIONS,
+  ...FEEDBACK_ADDITIONS,
+  ...MOTION_ADDITIONS,
+  ...CARD_ADDITIONS,
+  ...HOVER_ADDITIONS,
   /* =====================================================================
    * DOMAIN 1: UI (32종)
    * ===================================================================== */
@@ -518,7 +569,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Spring Speed-Dial Floating Action Button',
     summary: '메인 + 버튼을 누르면 45도 회전하며 서브 액션 아이콘들이 시간차 스프링으로 튀어나옴',
     promptSnippet:
-      "지정한 플로팅 액션 메뉴를 초기 열린 상태로 두고 메인 버튼 클릭 시 열기/닫기를 토글해 줘. 3개 하위 버튼의 열린 위치는 (-52px,-18px), (0,-48px), (52px,-18px)이며, 열 때만 0/45/90ms 지연과 0.3초 cubic-bezier(0.34, 1.56, 0.64, 1)로 scale(0.3)·opacity 0에서 scale(1)·opacity 1로 펼쳐 줘. 닫힐 때는 지연 없이 중앙으로 모으고 pointer-events-none으로 클릭을 막아 줘. + 아이콘은 0↔45deg 회전하고 하위 버튼 클릭은 선택한 액션명만 표시하는 시연으로 구현해 줘.",
+      "지정한 플로팅 액션 메뉴를 초기 열린 상태로 두고 메인 버튼 클릭 시 열기/닫기를 토글해 줘. 3개 하위 버튼의 열린 위치는 (-52px,-18px), (0,-48px), (52px,-18px)이며, 열 때만 0/45/90ms 지연과 0.3초 cubic-bezier(0.34, 1.56, 0.64, 1)로 scale(0.3)·opacity 0에서 scale(1)·opacity 1로 펼쳐 줘. 닫힐 때는 지연 없이 중앙으로 모으고 pointer-events-none으로 클릭을 막아 줘. + 아이콘은 0↔45deg 회전하게 해 줘. 하위 버튼은 배치와 등장 효과를 보여 주는 시연이며 별도 액션이나 선택 결과 문구는 추가하지 말아 줘.",
   },
   {
     id: 'otp-pin-focus-bounce',
@@ -654,7 +705,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Volumetric God Rays Light Beam',
     summary: '상단 광원에서 원뿔 모양의 빛줄기가 쏟아지며 은은하게 흔들리는 입체 조명',
     promptSnippet:
-      "지정한 어두운 배경의 상단에 conic-gradient(from 155deg at 50% 0%, transparent 0deg, rgba(56,189,248,0.35) 25deg, transparent 50deg) 빛기둥을 배치해 줘. blur-md와 pointer-events-none을 적용하고 4초 ease-in-out 무한 반복에서 rotate(-18deg) scaleX(1) opacity(0.55)↔rotate(-6deg) scaleX(1.25) opacity(0.85)로 흔들어 줘. 배경 밖으로 나가는 빔은 숨기고 글자는 빔보다 앞에 유지해 줘.",
+      "지정한 어두운 배경의 상단에 conic-gradient(from 155deg at 50% 0%, transparent 0deg, rgba(56,189,248,0.35) 25deg, transparent 50deg) 빛기둥을 배치해 줘. blur-md와 pointer-events-none을 적용하고 4초 ease-in-out 무한 반복에서 rotate(-18deg) scaleX(1) opacity(0.55)↔rotate(-6deg) scaleX(1.25) opacity(0.85)로 흔들어 줘. 배경 밖으로 나가는 빔은 숨기고 별도 제목이나 설명 문구는 추가하지 말아 줘.",
   },
   {
     id: 'mg-squash-stretch',
@@ -1264,7 +1315,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'CRT Phosphor Green & Scanlines',
     summary: '수평 스캔라인 줄무늬 오버레이와 네온 그린(`#4ade80`) 잔광이 흐르는 레트로 모니터 화풍',
     promptSnippet:
-      "지정한 터미널 그래픽의 배경을 #041208로 두고 repeating-linear-gradient(0deg, rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px, transparent 1px, transparent 3px) 스캔라인을 입력을 가로막지 않는 오버레이로 덮어 줘. 주요 고정폭 문구에는 에메랄드색과 drop-shadow(0 0 8px rgba(52,211,153,0.8))를 적용하고 보조 라벨은 더 어둡게 해 줘. 데모는 정적 CRT 표현이며 실제 터미널 입력이나 점멸 애니메이션은 없어.",
+      "지정한 터미널 그래픽의 배경을 #041208로 두고 repeating-linear-gradient(0deg, rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px, transparent 1px, transparent 3px) 스캔라인을 입력을 가로막지 않는 오버레이로 덮어 줘. 주요 고정폭 문구에는 에메랄드색과 drop-shadow(0 0 8px rgba(52,211,153,0.8))를 적용해 줘. 별도 보조 라벨은 추가하지 말아 줘. 데모는 정적 CRT 표현이며 실제 터미널 입력이나 점멸 애니메이션은 없어.",
   },
   {
     id: 'st-synthwave-sunset-grid',

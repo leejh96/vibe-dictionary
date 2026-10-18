@@ -1,0 +1,221 @@
+.promo-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 188px; padding: 44px 16px 20px; }
+.pr-sleeve-demo, .pr-stop-demo, .pr-callout-demo, .pr-section-demo, .pr-pour-demo, .pr-film-demo, .pr-spray-demo, .pr-screw-demo { flex-direction: column; gap: 8px; }
+.pr-sleeve-scene, .pr-stop-scene, .pr-callout-scene, .pr-section-scene, .pr-pour-scene, .pr-film-scene, .pr-spray-scene, .pr-screw-scene, .pr-dew-scene { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 66 / 37; overflow: hidden; border: 1px solid; border-radius: 12px; }
+.pr-sleeve-scene { border-color: #d6d3c8; background: #f5f1e7; }
+.pr-sleeve-shadow { fill: #51463524; }
+.pr-sleeve-tray-edge { fill: #b6aa93; }
+.pr-sleeve-tray-face { fill: #e8dec7; stroke: #b6aa93; stroke-width: 1; }
+.pr-sleeve-insert { fill: #c9bfa8; }
+.pr-sleeve-bottle { fill: #f4d99c; stroke: #a87932; stroke-width: 1; }
+.pr-sleeve-liquid { fill: #c18c37; }
+.pr-sleeve-glint { fill: none; stroke: #fff7d6; stroke-width: 2; stroke-linecap: round; }
+.pr-sleeve-cap { fill: #263d38; }
+.pr-sleeve-cap-line { fill: none; stroke: #668277; stroke-width: 1; }
+.pr-sleeve-top { fill: #3e6b5e; }
+.pr-sleeve-side { fill: #163c31; }
+.pr-sleeve-face { fill: #235346; }
+.pr-sleeve-emblem { fill: none; stroke: #ded3a6; stroke-width: 1; }
+.pr-sleeve-progress, .pr-stop-progress, .pr-callout-progress, .pr-section-progress, .pr-pour-progress, .pr-film-progress, .pr-spray-progress, .pr-screw-progress { display: block; width: 264px; max-width: 100%; min-width: 44px; height: 44px; margin: 0; cursor: pointer; }
+.pr-sleeve-progress { accent-color: #235346; }
+.pr-sleeve-progress:focus-visible { outline: 2px solid #235346; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-sleeve-scene { border-color: #484d43; background: #20251f; }
+.dark .pr-sleeve-shadow { fill: #0006; }
+.dark .pr-sleeve-tray-edge { fill: #8d846c; }
+.dark .pr-sleeve-tray-face { fill: #d6ccb2; stroke: #8d846c; }
+.dark .pr-sleeve-insert { fill: #a99e81; }
+.dark .pr-sleeve-top { fill: #538e79; }
+.dark .pr-sleeve-side { fill: #204d3d; }
+.dark .pr-sleeve-face { fill: #326e57; }
+.dark .pr-sleeve-emblem { stroke: #f2e2aa; }
+.dark .pr-sleeve-progress, .dark .pr-stop-progress { accent-color: #a8d5bb; }
+.dark .pr-sleeve-progress:focus-visible, .dark .pr-stop-progress:focus-visible { outline-color: #a8d5bb; }
+.pr-stop-scene { border-color: #dbc9ad; background: #ead8bb; }
+.pr-stop-paper-shadow { fill: #6d573326; }
+.pr-stop-paper { fill: #f9f1dd; }
+.pr-stop-paper-fold { fill: none; stroke: #dac7a6; stroke-width: 1; }
+.pr-stop-bean ellipse { fill: #6b3c25; }
+.pr-stop-bean path { fill: none; stroke: #be8661; stroke-width: 1; }
+.pr-stop-shadow { fill: #735d4133; }
+.pr-stop-saucer { fill: #fff8e8; stroke: #c2a982; stroke-width: 1; }
+.pr-stop-saucer-ring { fill: none; stroke: #e1cfb0; stroke-width: 1; }
+.pr-stop-handle { fill: none; stroke: #23695e; stroke-width: 9; }
+.pr-stop-cup { fill: #338e7d; }
+.pr-stop-coffee { fill: #8c4b26; stroke: #d99758; stroke-width: 2; }
+.pr-stop-latte { fill: #f6deb4; }
+.pr-stop-latte-stem { fill: none; stroke: #b47942; stroke-width: 1.5; }
+.pr-stop-progress { accent-color: #23695e; }
+.pr-stop-progress:focus-visible { outline: 2px solid #23695e; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-stop-scene { border-color: #66533c; background: #3b3024; }
+.dark .pr-stop-paper-shadow { fill: #0004; }
+.dark .pr-stop-paper { fill: #a68f6d; }
+.dark .pr-stop-paper-fold { stroke: #d3bb93; }
+.dark .pr-stop-bean ellipse { fill: #b57d52; }
+.dark .pr-stop-bean path { stroke: #efd1a3; }
+.dark .pr-stop-shadow { fill: #0005; }
+.pr-callout-scene { border-color: #cbd5dc; background: #e9eff1; }
+.pr-callout-shadow { fill: #243b532b; }
+.pr-callout-prism { fill: #9cacb8; stroke: #667987; stroke-width: 1; }
+.pr-callout-body { fill: #cbd5de; stroke: #667987; stroke-width: 1; }
+.pr-callout-top-edge { fill: none; stroke: #f3f7fa; stroke-width: 1; }
+.pr-callout-grip { fill: #344553; }
+.pr-callout-grip-lines { fill: none; stroke: #576a78; stroke-width: 1; }
+.pr-callout-viewfinder { fill: #243b53; }
+.pr-callout-lens-rim { fill: #536675; stroke: #f1f5f9; stroke-width: 1; }
+.pr-callout-lens-ring { fill: #172f41; stroke: #94aebf; stroke-width: 1; }
+.pr-callout-glass { fill: #225e79; }
+.pr-callout-glint { fill: #8bc8d4; }
+.pr-callout-dial { fill: #344553; stroke: #e2e8f0; stroke-width: 1; }
+.pr-callout-dial-grooves { fill: none; stroke: #748795; stroke-width: 1; }
+.pr-callout-leader, .pr-callout-marker-ring { fill: none; stroke: #9a3412; stroke-width: 1.5; stroke-linejoin: round; }
+.pr-callout-marker { fill: #9a3412; }
+.pr-callout-label { fill: #9a3412; font: 600 11px system-ui, sans-serif; }
+.pr-callout-progress, .pr-section-progress { accent-color: #9a3412; }
+.pr-callout-progress:focus-visible, .pr-section-progress:focus-visible { outline: 2px solid #9a3412; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-callout-scene { border-color: #344b5c; background: #162b3b; }
+.dark .pr-callout-shadow { fill: #0005; }
+.dark .pr-callout-leader, .dark .pr-callout-marker-ring { stroke: #fdba74; }
+.dark .pr-callout-marker, .dark .pr-callout-label { fill: #fdba74; }
+.dark .pr-callout-progress, .dark .pr-section-progress { accent-color: #fdba74; }
+.dark .pr-callout-progress:focus-visible, .dark .pr-section-progress:focus-visible { outline-color: #fdba74; }
+.pr-cine-button { display: block; width: 264px; max-width: 100%; min-width: 0; min-height: 44px; padding: 0; overflow: hidden; border: 1px solid #dacbb5; border-radius: 12px; background: #f6eee2; cursor: pointer; }
+.pr-cine-button:focus-visible { outline: 2px solid #9a3412; outline-offset: 2px; }
+.pr-cine-scene { display: block; width: 100%; height: auto; aspect-ratio: 66 / 37; }
+.pr-cine-arch { fill: #eaddc7; }
+.pr-cine-ground { fill: #76624724; }
+.pr-cine-plinth { fill: #b9aa91; }
+.pr-cine-jar { fill: #e8d2a9; stroke: #a99067; stroke-width: 1; }
+.pr-cine-jar-edge { fill: none; stroke: #fff5d5; stroke-width: 2; stroke-linecap: round; }
+.pr-cine-wax { fill: #fff4d2; stroke: #baa47a; stroke-width: 1; }
+.pr-cine-wax-pool { fill: #ead09b; }
+.pr-cine-wick { fill: none; stroke: #443426; stroke-width: 2; }
+.pr-cine-leaf { fill: #41634b; }
+.pr-cine-leaf-vein { fill: none; stroke: #adc49d; stroke-width: 1; }
+.pr-cine-flame { transform-origin: 132px 72px; animation: pr-cine-flicker 2.6s ease-in-out infinite; }
+.pr-cine-halo { fill: #f59e0b; opacity: .18; }
+.pr-cine-fire { fill: #ea8a24; }
+.pr-cine-core { fill: #fff4c2; }
+.dark .pr-cine-button { border-color: #57463a; background: #24222a; }
+.dark .pr-cine-button:focus-visible { outline-color: #fdba74; }
+.dark .pr-cine-arch { fill: #373037; }
+.dark .pr-cine-ground { fill: #0005; }
+.dark .pr-cine-plinth { fill: #8b7864; }
+.dark .pr-cine-halo { opacity: .3; }
+@keyframes pr-cine-flicker { 0%, 100% { transform: rotate(-3deg) scale(.98, 1); } 35% { transform: rotate(2deg) scale(1.03, .94); } 70% { transform: rotate(-1deg) scale(.95, 1.06); } }
+@media (prefers-reduced-motion: reduce) { .pr-cine-flame { animation: none; transform: none; } }
+.pr-section-scene { border-color: #cbd1bf; background: #eef1e5; }
+.pr-section-shadow { fill: #34462c25; }
+.pr-section-shell { stroke: #89947f; stroke-width: 1; }
+.pr-section-dimple { fill: none; stroke: #89947f; stroke-width: 1; opacity: .6; }
+.pr-section-direction { fill: none; stroke: #7e8972; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.pr-section-chord { fill: none; stroke: #9a3412; stroke-width: 2; }
+.pr-section-tip { fill: #9a3412; }
+.pr-section-layer { stroke-width: 1; }
+.pr-section-outer { fill: #e3e5d8; stroke: #879578; }
+.pr-section-mantle { fill: #739b7b; stroke: #42694a; }
+.pr-section-core { fill: #ce7c43; stroke: #9a5026; }
+.dark .pr-section-scene { border-color: #45543b; background: #1f2b20; }
+.dark .pr-section-shadow { fill: #0005; }
+.dark .pr-section-direction { stroke: #a9b89a; }
+.dark .pr-section-chord { stroke: #fdba74; }
+.dark .pr-section-tip { fill: #fdba74; }
+.pr-pour-scene { border-color: #d4cbb9; background: #f0eadc; }
+.pr-pour-shadow { fill: #57452726; }
+.pr-pour-glass-back { fill: #fff9e64a; }
+.pr-pour-tea { fill: #bc6b26; }
+.pr-pour-surface { fill: #df9b44; }
+.pr-pour-stream { fill: none; stroke: #ce8532; stroke-linecap: round; }
+.pr-pour-bottle-body { fill: #345e48; stroke: #254534; stroke-width: 1; }
+.pr-pour-neck { fill: #65816a; stroke: #254534; stroke-width: 1; }
+.pr-pour-lip { fill: none; stroke: #c6b47c; stroke-width: 2; }
+.pr-pour-label { fill: #eee3b9; }
+.pr-pour-leaf { fill: #547743; }
+.pr-pour-vein { fill: none; stroke: #a1b079; stroke-width: 1; }
+.pr-pour-bottle-glint { fill: none; stroke: #789380; stroke-width: 2; stroke-linecap: round; }
+.pr-pour-glass-outline { fill: none; stroke: #807b6c; stroke-width: 1.5; stroke-linejoin: round; }
+.pr-pour-glass-glint { fill: none; stroke: #fffdf4; stroke-width: 2; stroke-linecap: round; }
+.pr-pour-progress { accent-color: #345e48; }
+.pr-pour-progress:focus-visible { outline: 2px solid #345e48; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-pour-scene { border-color: #575246; background: #292b23; }
+.dark .pr-pour-shadow { fill: #0005; }
+.dark .pr-pour-glass-back { fill: #bfcab01c; }
+.dark .pr-pour-bottle-body { fill: #4d795b; stroke: #8eab8b; }
+.dark .pr-pour-neck { fill: #76926f; stroke: #8eab8b; }
+.dark .pr-pour-glass-outline { stroke: #bdc5ab; }
+.dark .pr-pour-glass-glint { stroke: #e5eacb; }
+.dark .pr-pour-progress { accent-color: #b7cfa3; }
+.dark .pr-pour-progress:focus-visible { outline-color: #b7cfa3; }
+.pr-film-scene { border-color: #c8d2cf; background: #e7eeeb; }
+.pr-film-shadow { fill: #29413a29; }
+.pr-film-body { fill: #8a9d99; stroke: #506560; stroke-width: 1; }
+.pr-film-rim { fill: #263a36; }
+.pr-film-camera { fill: #899e96; }
+.pr-film-display { fill: #23475a; }
+.pr-film-sun { fill: #ecb86b; }
+.pr-film-far-hill { fill: #628c82; }
+.pr-film-near-hill { fill: #b2c8a1; }
+.pr-film-adhered { fill: #d6dfd7; }
+.pr-film-back { fill: #e8ebd9; stroke: #a3b1a5; stroke-width: .75; stroke-linejoin: round; }
+.pr-film-curl { stroke: #879b90; stroke-width: .5; stroke-linejoin: round; }
+.pr-film-progress { accent-color: #3f6b5b; }
+.pr-film-progress:focus-visible { outline: 2px solid #3f6b5b; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-film-scene { border-color: #425f55; background: #1d302b; }
+.dark .pr-film-shadow { fill: #0006; }
+.dark .pr-film-body { fill: #879b92; stroke: #a6b8a7; }
+.dark .pr-film-progress { accent-color: #bad2ad; }
+.dark .pr-film-progress:focus-visible { outline-color: #bad2ad; }
+.pr-spray-scene { border-color: #d8c5cc; background: #f1e9e3; }
+.pr-spray-shadow { fill: #76566626; }
+.pr-spray-glass { fill: #dab9b0; stroke: #a67c78; stroke-width: 1; }
+.pr-spray-liquid { fill: #bc847e; }
+.pr-spray-edge { fill: none; stroke: #fff4e4; stroke-width: 2; stroke-linecap: round; }
+.pr-spray-label { fill: #f7edcf; }
+.pr-spray-flower { fill: none; stroke: #94725d; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.pr-spray-neck { fill: #e3d3aa; stroke: #af9b71; stroke-width: 1; }
+.pr-spray-stem { fill: #b49a69; }
+.pr-spray-collar { fill: #a88c56; }
+.pr-spray-collar-line { fill: none; stroke: #ddc894; stroke-width: 1; }
+.pr-spray-actuator { fill: #c4aa71; stroke: #947b49; stroke-width: 1; }
+.pr-spray-head-glint { fill: none; stroke: #f9eac1; stroke-width: 1; stroke-linecap: round; }
+.pr-spray-nozzle { fill: #6f593e; }
+.pr-spray-drop { fill: #765b6e; }
+.pr-spray-progress { accent-color: #805a73; }
+.pr-spray-progress:focus-visible { outline: 2px solid #805a73; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-spray-scene { border-color: #62475a; background: #2b202b; }
+.dark .pr-spray-shadow { fill: #0006; }
+.dark .pr-spray-drop { fill: #eed5e7; }
+.dark .pr-spray-progress { accent-color: #e9c1d8; }
+.dark .pr-spray-progress:focus-visible { outline-color: #e9c1d8; }
+.pr-screw-scene { border-color: #c8d3bb; background: #eef0df; }
+.pr-screw-shadow { fill: #47583a26; }
+.pr-screw-neck { fill: #d4d8bd; stroke: #8b9d78; stroke-width: 1; }
+.pr-screw-thread { fill: none; stroke: #8c9c70; stroke-width: 1.5; }
+.pr-screw-lip { fill: #e4e6ce; stroke: #8b9d78; stroke-width: 1; }
+.pr-screw-opening { fill: #526347; }
+.pr-screw-body { fill: #e4d9bc; stroke: #9b9f7e; stroke-width: 1; }
+.pr-screw-glint { fill: none; stroke: #fff9df; stroke-width: 2; stroke-linecap: round; }
+.pr-screw-seal { fill: none; stroke: #acb18b; stroke-width: 1; }
+.pr-screw-leaf { fill: none; stroke: #698064; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.pr-screw-cap-side { stroke: #214b38; stroke-width: 1; }
+.pr-screw-cap-top { fill: #61836b; stroke: #214b38; stroke-width: 1; }
+.pr-screw-grooves { fill: none; stroke: #a4bf99; stroke-linecap: round; }
+.pr-screw-badge { fill: #e8d4a3; }
+.pr-screw-progress { accent-color: #34654b; }
+.pr-screw-progress:focus-visible { outline: 2px solid #34654b; outline-offset: 2px; border-radius: 4px; }
+.dark .pr-screw-scene { border-color: #4c5c3e; background: #202b22; }
+.dark .pr-screw-shadow { fill: #0006; }
+.dark .pr-screw-progress { accent-color: #c5d9ac; }
+.dark .pr-screw-progress:focus-visible { outline-color: #c5d9ac; }
+.pr-dew-scene { border-color: #c4d8c1; background: #edf3dc; }
+.pr-dew-ground { fill: #31574426; }
+.pr-dew-can { stroke: #376958; stroke-width: 1; }
+.pr-dew-band { fill: #e9f1cf; }
+.pr-dew-citrus { fill: #ebba50; stroke: #f9edb7; stroke-width: 1.5; }
+.pr-dew-pith, .pr-dew-segments { fill: none; stroke: #fff2c7; stroke-width: 1; }
+.pr-dew-lid { fill: #c0cfc1; stroke: #638574; stroke-width: 1; }
+.pr-dew-lid-ring, .pr-dew-tab { fill: none; stroke: #789584; stroke-width: 1; }
+.pr-dew-base-rim { fill: none; stroke: #b8d2b4; stroke-width: 1.5; }
+.pr-dew-contact { fill: #174530; opacity: .22; }
+.pr-dew-water { stroke: #e2f2d5; stroke-width: .4; }
+.pr-dew-glint { fill: #fffef2; opacity: .95; }
+.dark .pr-dew-scene { border-color: #486a50; background: #1b3027; }
+.dark .pr-dew-ground { fill: #0006; }

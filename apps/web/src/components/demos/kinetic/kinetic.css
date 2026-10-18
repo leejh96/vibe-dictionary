@@ -1,0 +1,52 @@
+.kinetic-demo { --kt-accent: #4338ca; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 10rem; padding: 2.75rem 1rem .75rem; }
+.dark .kinetic-demo { --kt-accent: #a5b4fc; }
+@font-face { font-family: 'Vibe Roboto Flex'; src: url('/fonts/roboto-flex/RobotoFlex-VIBE-wght.woff2') format('woff2'); font-style: normal; font-weight: 100 1000; font-display: swap; unicode-range: U+42, U+45, U+49, U+56; }
+.kt-proximity-demo, .kt-cylinder-demo, .kt-gooey-demo, .kt-curve-demo, .kt-extrude-demo, .kt-dissolve-demo, .kt-reflect-demo { flex-direction: column; gap: .5rem; }
+.kt-proximity-word, .kt-cylinder-letter { font-family: 'Vibe Roboto Flex', system-ui, sans-serif; font-synthesis: none; }
+.kt-proximity-word { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; width: 264px; max-width: 100%; min-width: 0; height: 104px; color: var(--kt-accent); font-size: clamp(3rem, 6vw, 4rem); line-height: 1; user-select: none; }
+.kt-proximity-letter { display: block; text-align: center; transition: font-weight .12s ease-out; }
+.kt-position-control { display: grid; grid-template-columns: minmax(2rem, max-content) minmax(0, 1fr); align-items: center; gap: .5rem; width: 264px; max-width: 100%; color: var(--kt-accent); font-size: .75rem; }
+.kt-position-control > input { width: 100%; min-width: 0; height: 44px; margin: 0; border-radius: .3rem; accent-color: var(--kt-accent); cursor: pointer; }
+.kt-position-control > input:focus-visible { outline: 2px solid var(--kt-accent); outline-offset: 2px; }
+.dark .kt-position-control > input { color-scheme: dark; }
+.kt-slice-button, .kt-scatter-button, .kt-hinge-button { display: grid; place-items: center; width: 264px; max-width: 100%; min-width: 0; height: 104px; padding: 0; overflow: hidden; border: 0; border-radius: .75rem; background: transparent; color: var(--kt-accent); cursor: pointer; }
+.kt-slice-button { font-family: ui-monospace, monospace; font-size: clamp(2.75rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -.05em; }
+.kt-slice-button:focus-visible, .kt-cylinder-control:focus-visible, .kt-scatter-button:focus-visible, .kt-hinge-button:focus-visible { outline: 2px solid var(--kt-accent); outline-offset: 2px; }
+.kt-slice-stack { position: relative; display: block; width: 100%; height: 1.1em; }
+.kt-text-slice { position: absolute; inset: 0; display: grid; place-items: center; white-space: nowrap; animation: kt-slice-assemble .65s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes kt-slice-assemble { from { transform: translateX(var(--kt-from-x)) skewX(var(--kt-from-skew)); opacity: 0; } to { transform: translateX(0) skewX(0); opacity: 1; } }
+.kt-cylinder-scene { position: relative; width: 264px; max-width: 100%; height: 104px; perspective: 500px; overflow: clip; color: var(--kt-accent); user-select: none; }
+.kt-cylinder-tilt { position: absolute; left: 50%; top: calc(50% - 12px); width: 0; height: 0; transform: rotateX(-18deg); transform-style: preserve-3d; }
+.kt-cylinder-rotor { width: 0; height: 0; transform-style: preserve-3d; animation: kt-cylinder-spin 10s linear infinite; }
+.kt-cylinder-letter { position: absolute; left: -12px; top: -22px; display: grid; place-items: center; width: 24px; height: 44px; font-size: 32px; font-weight: 700; line-height: 1; backface-visibility: hidden; }
+.kt-cylinder-control { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--kt-accent); border-radius: .6rem; background: transparent; color: var(--kt-accent); cursor: pointer; }
+@keyframes kt-cylinder-spin { from { transform: rotateY(0); } to { transform: rotateY(-360deg); } }
+.kt-gooey-scene, .kt-curve-scene, .kt-extrude-scene, .kt-dissolve-scene, .kt-reflect-scene { display: block; width: 264px; max-width: 100%; height: 104px; overflow: hidden; color: var(--kt-accent); user-select: none; }
+.kt-gooey-scene text { fill: currentColor; font-family: system-ui, sans-serif; font-size: 72px; font-weight: 900; letter-spacing: -.045em; }
+.kt-curve-guide { fill: none; stroke: currentColor; stroke-width: 1.25; stroke-dasharray: 3 4; opacity: .4; }
+.kt-curve-scene text { fill: currentColor; font-family: system-ui, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: .035em; }
+.kt-extrude-scene { font-family: system-ui, sans-serif; font-size: 56px; font-weight: 900; letter-spacing: -.04em; }
+.kt-extrude-side { fill: #818cf8; }
+.dark .kt-extrude-side { fill: #6366f1; }
+.kt-extrude-front { fill: currentColor; }
+.kt-dissolve-scene { fill: currentColor; font-family: system-ui, sans-serif; font-size: 56px; font-weight: 900; letter-spacing: -.04em; }
+.kt-reflect-scene { fill: currentColor; font-family: system-ui, sans-serif; font-size: 32px; font-weight: 900; letter-spacing: -.035em; }
+.kt-scatter-button svg { display: block; width: 100%; height: 100%; fill: currentColor; font-family: system-ui, sans-serif; font-size: 28px; font-weight: 800; }
+.kt-scatter-letter { transform-origin: 0 0; transition: transform .5s cubic-bezier(.2,.8,.2,1); transition-delay: var(--kt-delay); }
+.kt-hinge-button { --kt-hinge-base: #c7d2fe; --kt-hinge-shadow: #818cf8; grid-template-columns: minmax(0, 1fr); }
+.dark .kt-hinge-button { --kt-hinge-base: #312e81; --kt-hinge-shadow: #6366f1; }
+.kt-hinge-word { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; width: 224px; max-width: 100%; height: 72px; font-family: system-ui, sans-serif; font-size: 56px; font-weight: 900; line-height: 1; }
+.kt-hinge-letter { position: relative; display: block; justify-self: center; perspective: 500px; transform-style: preserve-3d; color: var(--kt-hinge-base); }
+.kt-hinge-letter::before, .kt-hinge-letter::after { content: attr(data-letter); position: absolute; inset: 0; transform-origin: 0 50%; transition: transform .4s ease; }
+.kt-hinge-letter::before { color: var(--kt-hinge-shadow); transform: scaleX(1) skewY(0); }
+.kt-hinge-letter::after { color: var(--kt-accent); transform: rotateY(0); backface-visibility: hidden; }
+.kt-hinge-button[data-open="true"] .kt-hinge-letter::before { transform: scaleX(.82) skewY(18deg); }
+.kt-hinge-button[data-open="true"] .kt-hinge-letter::after { transform: rotateY(-48deg); }
+@media (prefers-reduced-motion: reduce) {
+  .kt-hinge-letter::before, .kt-hinge-letter::after { transition: none; }
+  .kt-scatter-letter { transition: none; }
+  .kt-text-slice { animation: none; transform: none; opacity: 1; }
+  .kt-proximity-letter { transition: none; }
+  .kt-cylinder-rotor { animation: none; transform: rotateY(0); }
+  .kt-cylinder-control { display: none; }
+}

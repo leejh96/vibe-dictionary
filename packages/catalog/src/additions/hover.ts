@@ -1,0 +1,75 @@
+import type { TechniqueItem } from '../techniques';
+
+export const HOVER_ADDITIONS: TechniqueItem[] = [
+  {
+    id: 'letter-stagger-button', domain: 'ui', category: 'hover',
+    titleKo: '스태거드 문자 호버', titleEn: 'Staggered Letter Hover',
+    vibeTag: '글자들이 차례대로 살짝 떠오르는', vibeKeywords: ['문자 호버', '스태거 버튼', '순차 글자'],
+    summary: '버튼 안의 각 글자가 짧은 시간차로 떠오르고 원위치로 돌아오는 효과',
+    promptSnippet: '지정한 버튼의 “새로운 시작” 문구를 글자별 span으로 나눠 한 줄로 배치하고 공백 폭을 보존해 줘. 초기에는 모두 translateY 0이며 호버·키보드 focus-visible에서 각 글자를 -4px 들어 올리고 강조색으로 바꿔 줘. 왼쪽부터 index×25ms 지연을 주고 이동은 0.3초 cubic-bezier(.34,1.56,.64,1), 색은 0.3초 ease로 전환해 줘. 활성 동안 올라간 상태를 유지하며 이탈·포커스 해제 시 같은 순서로 초기 위치와 색으로 복귀해 줘. 버튼 박스는 움직이지 않고 글자 묶음은 aria-hidden, 버튼 이름은 원래 문구 전체로 유지해 줘. 라이트는 크림 표면과 짙은 호박색 강조, 다크는 짙은 갈색 표면과 밝은 금색 강조를 써 줘. 최소 높이 48px와 충분한 위아래 여백으로 움직이는 글자가 잘리지 않게 하고 좁은 화면 폭을 넘지 않게 해 줘. 모션 감소 시 지연·전환 없이 즉시 바꿔 줘. 실제 페이지 이동은 하지 않는 시각 효과 데모야.',
+  },
+  {
+    id: 'border-beam-button', domain: 'ui', category: 'hover',
+    titleKo: '보더 빔 버튼', titleEn: 'Orbiting Border Beam',
+    vibeTag: '가느다란 빛이 테두리를 따라 도는', vibeKeywords: ['보더 빔', '회전 테두리', '빛 궤도 버튼'],
+    summary: '호버와 포커스 동안 좁은 테두리 안에서 빛이 계속 순환하는 버튼',
+    promptSnippet: '지정한 캡슐 버튼에 보더 빔을 구현해 줘. 초기에는 일반 테두리이고 호버·키보드 focus-visible 동안에만 conic-gradient의 빛 레이어를 표시해 줘. 버튼 중앙의 큰 정사각 레이어를 translate(-50%,-50%)를 유지한 채 3초 linear로 360도 무한 회전하고, 안쪽 2px inset 표면으로 중앙을 가려 좁은 테두리만 빛나게 해 줘. 버튼은 overflow hidden이며 가림 표면과 빛은 pointer-events none, 라벨과 SVG 화살표는 그 위에 두어 움직이지 않게 해 줘. 이탈·포커스 해제 시 빛의 불투명도를 0.2초로 낮추고 회전을 중단해 줘. 라이트는 짙은 보라 빛과 흰 표면, 다크는 밝은 보라 빛과 짙은 표면으로 대비를 맞춰 줘. 최소 높이 48px와 좁은 화면 여백, 포커스 표시를 유지하고 모션 감소 시 회전 없이 정적인 강조를 보여 줘. 실제 페이지 이동은 하지 않는 시각 효과 데모야.',
+  },
+  {
+    id: 'menu-icon-morph', domain: 'ui', category: 'hover',
+    titleKo: '메뉴 아이콘 모핑', titleEn: 'Menu to Close Icon Morph',
+    vibeTag: '두 줄이 모여 닫기 표시로 바뀌는', vibeKeywords: ['메뉴 모핑', '햄버거 아이콘', '닫기 전환'],
+    summary: '두 개의 SVG 선이 중앙으로 모이며 메뉴와 닫기 모양을 왕복',
+    promptSnippet: '지정한 48px 원형 버튼에 SVG 두 가로선으로 메뉴 아이콘을 만들어 줘. 24×24 viewBox에서 선은 (4,8)→(20,8), (4,16)→(20,16)이며 2px 둥근 끝으로 그려 줘. 초기 aria-pressed는 false이고 클릭·Enter·Space·터치마다 반전해 줘. true일 때 위 선은 아래로 4px 이동 후 45도, 아래 선은 위로 4px 이동 후 -45도 회전해 중앙에서 X가 되게 해 줘. 각 선의 transform-box fill-box와 중심 원점을 사용하고 0.25초 ease로 왕복해 줘. 이 데모는 아이콘만 전환하며 실제 메뉴 패널을 열지 않아. 접근 가능한 이름은 “메뉴 아이콘 전환”으로 유지하고 라이트·다크 대비, 키보드 포커스 윤곽과 좁은 화면 여백을 확보해 줘. 모션 감소 시 즉시 바꿔 줘.',
+  },
+  {
+    id: 'corner-bracket-button', domain: 'ui', category: 'hover',
+    titleKo: '코너 브래킷 포커스', titleEn: 'Corner Bracket Focus',
+    vibeTag: '네 모서리가 안으로 모여 대상을 잡는', vibeKeywords: ['모서리 포커스', '브래킷 버튼', '프레임 강조'],
+    summary: '네 모서리의 짧은 선이 안쪽으로 모이며 버튼 영역을 프레이밍',
+    promptSnippet: '지정한 버튼의 네 모서리에 짧은 ㄱ자 SVG 선 네 개를 한 레이어로 겹쳐 줘. 초기에는 선 레이어 opacity 0, scale 1.12이며 호버·키보드 focus-visible에서 opacity 1, scale 1로 0.25초 ease 전환해 모서리가 안으로 모이게 해 줘. 이탈·포커스 해제 시 초기값으로 복귀하고 버튼의 배경과 라벨은 움직이지 않게 해 줘. 선은 fill none, stroke 2px, non-scaling-stroke로 유지하고 aria-hidden·pointer-events none으로 장식 처리해 줘. “프레임 맞추기”는 시각 효과 데모이며 실제 카메라나 스캔 기능은 없어. 밝은 테마는 짙은 녹색 선과 연녹색 표면, 어두운 테마는 밝은 민트 선과 짙은 녹색 표면을 써 줘. 최소 높이 52px와 좁은 화면 여백을 유지하고 모션 감소 시 즉시 전환해 줘.',
+  },
+  {
+    id: 'underline-travel-button', domain: 'ui', category: 'hover',
+    titleKo: '트래블 언더라인 액션', titleEn: 'Traveling Underline Action',
+    vibeTag: '밑줄이 왼쪽에서 그어지고 오른쪽으로 사라지는', vibeKeywords: ['이동 밑줄', '언더라인 액션', '텍스트 버튼'],
+    summary: '문구 아래 선의 출발점과 퇴장 방향을 바꾸는 미니멀 액션',
+    promptSnippet: '지정한 텍스트 버튼에 배경 박스 없이 “작업 살펴보기” 문구와 오른쪽 SVG 화살표를 나란히 배치해 줘. 문구 아래 2px 선은 초기 scaleX 0, transform-origin right이며 호버·키보드 focus-visible에서는 origin left와 scaleX 1로 바꿔 왼쪽에서 오른쪽으로 그려 줘. 이탈·포커스 해제 시 origin right와 scaleX 0으로 바꿔 오른쪽으로 접혀 사라지게 해 줘. 선과 화살표 전환은 0.3초 ease이며 화살표는 활성 중 4px 오른쪽으로 이동하고 복귀해 줘. 이 버튼은 시각적 상호작용 데모이며 실제 이동은 하지 않아. 버튼 높이는 최소 48px, 포커스 윤곽선은 유지하고 양쪽 테마에서 문구·선 대비와 좁은 화면의 여유 공간을 확보해 줘. 모션 감소 시 즉시 전환해 줘.',
+  },
+  {
+    id: 'depth-press-button', domain: 'ui', category: 'hover',
+    titleKo: '입체 눌림 버튼', titleEn: 'Raised Depth Press',
+    vibeTag: '키캡처럼 깊이 눌리는', vibeKeywords: ['입체 버튼', '눌림 깊이', '키캡', '프레스'],
+    summary: '단단한 바닥 그림자와 눌리는 깊이가 함께 변하는 촉각 버튼',
+    promptSnippet: '지정한 버튼에 흐림 없는 6px 아래 그림자와 2px 테두리로 단단한 입체 바닥을 만들어 줘. 초기에는 translateY 0, 그림자 y 6px이며 호버·키보드 focus-visible에서 translateY 2px, 그림자 y 4px로 0.12초 ease 전환해 줘. 누르는 active 동안에는 translateY 6px와 그림자 y 0으로 바닥까지 눌리고 손을 떼면 현재 호버·포커스 상태로 복귀해 줘. 버튼과 SVG 아이콘·문구는 함께 이동해 줘. 이 버튼은 눌림 효과 시연이며 실제 미디어를 재생하지 않아. 라이트·다크에 맞는 표면·바닥·글자 명암과 포커스 표시를 유지하고 좁은 화면에서 버튼이 잘리지 않게 해 줘. 모션 감소 시 전환 시간만 없애 줘.',
+  },
+  {
+    id: 'rolling-label-button', domain: 'ui', category: 'hover',
+    titleKo: '롤링 라벨 버튼', titleEn: 'Rolling Label Button',
+    vibeTag: '버튼 글자가 위로 넘어가는', vibeKeywords: ['롤링 버튼', '문구 교체', '마스크 텍스트'],
+    summary: '한 줄 창 안에서 기본 문구가 올라가고 다음 문구가 이어지는 버튼',
+    promptSnippet: '지정한 버튼 안에 높이 1.5em, overflow hidden인 한 줄 텍스트 창을 만들고 같은 높이의 “다음 이야기”와 “계속 탐색하기”를 세로로 쌓아 줘. 초기에는 첫 문구만 보이며 호버·키보드 focus-visible에서 두 줄 트랙을 translateY(-50%)로 0.36초 cubic-bezier(.2,.8,.2,1) 전환해 둘째 문구가 보이게 해 줘. 이탈·포커스 해제 시 원위치로 돌아와. 오른쪽 SVG 화살표는 고정하고 버튼의 접근 가능한 이름은 두 표시 문구를 모두 포함한 “다음 이야기, 계속 탐색하기”로 유지해 줘. 이 버튼은 시각 효과 데모이며 실제 페이지 이동은 하지 않아. 라이트·다크에서 명암을 맞추고 좁은 폭에서도 두 문구가 잘리지 않게 해 줘. 모션 감소 설정에서는 즉시 전환해 줘.',
+  },
+  {
+    id: 'outline-trace-button', domain: 'ui', category: 'hover',
+    titleKo: '아웃라인 트레이스 버튼', titleEn: 'Outline Trace Button',
+    vibeTag: '테두리가 한 바퀴 그려지는', vibeKeywords: ['테두리 드로잉', '아웃라인 버튼', '선 그리기'],
+    summary: '호버와 키보드 포커스에서 버튼 외곽선이 연속해서 그려지는 효과',
+    promptSnippet: '지정한 버튼에 SVG 둥근 사각형 외곽선을 겹치는 Outline Trace를 구현해 줘. 버튼 라벨은 항상 보이게 하고 SVG는 aria-hidden과 pointer-events none으로 입력을 가로막지 않게 해 줘. rect의 pathLength를 1로 정규화하고 stroke-dasharray 1, stroke-dashoffset 1을 초기값으로 써 줘. 호버·focus-visible에서 offset을 0으로 0.6초 ease 전환해 한 바퀴 그리고 이탈·포커스 해제 시 1로 복귀해 줘. “컬렉션 보기”는 시각 효과 데모이며 실제 이동은 하지 않아. 버튼은 최대 가용 폭을 넘지 않으며 라이트·다크에서 테두리와 라벨을 구별하고 모션 감소 시 즉시 전환해 줘.',
+  },
+  {
+    id: 'icon-expand-button', domain: 'ui', category: 'hover',
+    titleKo: '아이콘 라벨 확장 버튼', titleEn: 'Expanding Icon Label',
+    vibeTag: '작은 아이콘에서 이름이 펼쳐지는', vibeKeywords: ['아이콘 확장', '라벨 펼침', '캡슐 버튼'],
+    summary: '아이콘 옆 숨겨진 라벨이 호버와 키보드 포커스에서 펼쳐지는 버튼',
+    promptSnippet: '지정한 버튼을 초기에는 화살표 아이콘만 보이는 캡슐로 만들어 줘. 라벨은 한 줄로 유지하면서 max-width 0, opacity 0으로 접고, 호버 또는 키보드 focus-visible일 때 max-width 9rem과 opacity 1로 0.3초 ease 전환하며 펼쳐 줘. 이탈과 포커스 해제 시 접어 줘. 접근 가능한 버튼 이름은 항상 “프로젝트 열기”로 유지하고 아이콘은 장식으로 처리해 줘. 이 버튼은 시각적 상호작용 데모이며 실제 이동은 하지 않아. 라이트·다크 대비와 좁은 폭을 고려하고 모션 감소 설정에서는 전환을 즉시 적용해 줘.',
+  },
+  {
+    id: 'split-action-button', domain: 'ui', category: 'hover',
+    titleKo: '분할 액션 버튼', titleEn: 'Split Action Button',
+    vibeTag: '기본 실행 옆에 선택지가 열리는',
+    vibeKeywords: ['분할 버튼', '스플릿', '보조 액션', '드롭다운'],
+    summary: '주 실행과 대체 실행을 나란히 두고 선택 결과를 알리는 버튼',
+    promptSnippet: '지정한 영역에 분할 액션 버튼을 구현해 줘. 왼쪽 기본 버튼은 “내보내기”, 오른쪽 화살표 버튼은 보조 선택지 열기이며 초기에는 PNG가 선택되고 선택지가 닫혀 있어야 해. 아래 방향 SVG 화살표를 사용하고 선택지가 열려도 회전하지 않게 유지해 줘. 열림 상태는 화살표 버튼의 표면색과 안쪽 그림자로 구분해 줘. 화살표 클릭으로 버튼 아래에 PNG·SVG 선택지를 토글하고 선택하면 기본 버튼 이름을 해당 형식으로 바꾸고 선택지를 닫아 줘. 기본 버튼은 선택한 형식을 표시하는 시각적 데모이며 실제 파일 생성이나 다운로드는 하지 않아. Escape나 영역 밖 포인터 입력으로 닫고 선택 후 화살표에 포커스를 돌려줘. 라이트·다크에서 두 버튼 사이 분할선과 포커스 대비를 유지하고, 터치 영역은 최소 44px 높이로 만들어 줘. 좁은 폭에서도 선택지가 데모 영역 안에 들어오고 상단 도구와 겹치지 않게 해 줘.',
+  },
+];

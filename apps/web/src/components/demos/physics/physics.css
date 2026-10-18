@@ -1,0 +1,41 @@
+.physics-demo { --pd-surface: #f8fafc; --pd-line: #94a3b8; --pd-border: #cbd5e1; --pd-accent: #4338ca; width: 100%; padding: 2.75rem 1rem .75rem; display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+.dark .physics-demo { --pd-surface: #0f172a; --pd-line: #64748b; --pd-border: #334155; --pd-accent: #a5b4fc; }
+.pd-scene { width: 264px; max-width: 100%; height: 144px; overflow: hidden; border: 1px solid var(--pd-border); border-radius: .75rem; background: var(--pd-surface); }
+.pd-svg { display: block; width: 100%; height: 100%; color: var(--pd-accent); }
+.pd-rail, .pd-equilibrium { fill: none; stroke: var(--pd-line); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+.pd-equilibrium { stroke-dasharray: 3 4; opacity: .5; }
+.pd-anchor, .pd-mass > rect, .pd-friction-mass > rect, .pd-collision-first > rect, .pd-pulley-loads > rect { fill: currentColor; }
+.pd-coil { transform-origin: 30px 72px; }
+.pd-coil > path { fill: none; stroke: currentColor; stroke-width: 2px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.pd-mass > path, .pd-friction-mass > path, .pd-collision-first > path { fill: none; stroke: var(--pd-surface); stroke-width: 2px; stroke-linecap: round; stroke-linejoin: round; }
+.pd-action { display: inline-flex; justify-content: center; align-items: center; gap: .5rem; width: 120px; max-width: 100%; height: 44px; border: 1px solid var(--pd-border); border-radius: .6rem; background: var(--pd-surface); color: var(--pd-accent); font-size: .8125rem; font-weight: 600; cursor: pointer; }
+.pd-action:focus-visible, .pd-range:focus-visible { outline: 2px solid var(--pd-accent); outline-offset: 2px; }
+.pd-flight-path { fill: none; stroke: currentColor; stroke-width: 1.5px; stroke-dasharray: 4 5; opacity: .55; vector-effect: non-scaling-stroke; }
+.pd-landing { fill: var(--pd-surface); stroke: currentColor; stroke-width: 1.5px; }
+.pd-projectile > circle:first-child, .pd-bounce-ball > circle:first-child { fill: currentColor; }
+.pd-projectile > circle:last-child, .pd-bounce-ball > circle:last-child { fill: var(--pd-surface); opacity: .7; }
+.pd-action-controls, .pd-icon-controls { display: grid; align-items: center; gap: .5rem; width: 264px; max-width: 100%; }
+.pd-action-controls { grid-template-columns: minmax(0, 1fr) 76px; }
+.pd-icon-controls { grid-template-columns: minmax(0, 1fr) 44px; }
+.pd-range-control { display: grid; grid-template-columns: minmax(2rem, max-content) minmax(0, 1fr); align-items: center; gap: .5rem; color: var(--pd-accent); font-size: .75rem; }
+.pd-standalone-control { width: 264px; max-width: 100%; }
+.pd-range { width: 100%; min-width: 0; height: 44px; margin: 0; border-radius: .3rem; accent-color: var(--pd-accent); cursor: pointer; }
+.dark .pd-range { color-scheme: dark; }
+.pd-compact-action { width: 100%; gap: .25rem; padding: 0 .375rem; }
+.pd-icon-action { width: 44px; padding: 0; }
+.pd-pendulum { transform-origin: 132px 24px; }
+.pd-pendulum > path { fill: none; stroke: currentColor; stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.pd-pendulum-bob { fill: currentColor; }
+.pd-pendulum-shine { fill: var(--pd-surface); opacity: .7; }
+.pd-drop-origin { fill: none; stroke: var(--pd-line); stroke-dasharray: 2 3; opacity: .45; }
+.pd-friction-hatch { fill: none; stroke: var(--pd-line); stroke-width: 1px; opacity: .55; vector-effect: non-scaling-stroke; }
+.pd-collision-target > rect { fill: currentColor; fill-opacity: .35; }
+.pd-rolling-wheel, .pd-inertia-rotor, .pd-pulley-wheel { transform-origin: 0px 0px; }
+.pd-wheel-rim { fill: currentColor; fill-opacity: .12; stroke: currentColor; stroke-width: 2px; }
+.pd-rolling-wheel > path, .pd-inertia-rotor > path, .pd-pulley-wheel > path, .pd-pulley-rope { fill: none; stroke: currentColor; stroke-width: 2px; stroke-linecap: round; }
+.pd-rolling-wheel > circle:not(:first-child) { fill: currentColor; }
+.pd-inertia-weight { fill: currentColor; }
+.pd-inertia-hub { fill: var(--pd-surface); stroke: currentColor; stroke-width: 1.5px; }
+.pd-wave-component, .pd-wave-sum, .pd-wave-operators { fill: none; stroke: currentColor; stroke-linecap: round; }
+.pd-wave-component, .pd-wave-operators { stroke-width: 1.5px; opacity: .7; }
+.pd-wave-sum { stroke-width: 2.5px; }

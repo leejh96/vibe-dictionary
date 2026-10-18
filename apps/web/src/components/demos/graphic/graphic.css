@@ -1,0 +1,48 @@
+.graphic-demo { --gd-ink: #4338ca; --gd-secondary: #0284c7; --gd-track: #64748b; --gd-surface: #fff; width: 100%; min-height: 10rem; padding: 2.75rem 1rem .75rem; display: flex; align-items: center; justify-content: center; }
+.dark .graphic-demo { --gd-ink: #a5b4fc; --gd-secondary: #67e8f9; --gd-surface: #1e293b; }
+.gd-path-canvas, .gd-mask-canvas, .gd-connector-canvas, .gd-rosette-canvas, .gd-ants-canvas, .gd-hatch-canvas, .gd-zoom-canvas, .gd-intersection-canvas { display: block; width: 240px; max-width: 100%; height: auto; }
+.gd-path-rail { fill: none; stroke: var(--gd-track); stroke-width: 2; stroke-dasharray: 4 7; stroke-linecap: round; }
+.gd-path-end { fill: var(--gd-track); }
+.gd-path-marker { fill: var(--gd-ink); offset-anchor: center; offset-rotate: auto; transform-box: fill-box; offset-distance: 0%; animation: gd-follow-path 4s linear infinite; }
+@keyframes gd-follow-path { to { offset-distance: 100%; } }
+@supports not (offset-path: path('M0 0L1 1')) { .gd-path-marker { transform: translate(16px, 90px); animation: none; } }
+.gd-polygon-morph { --gd-polygon-start: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); width: 96px; max-width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, var(--gd-ink), var(--gd-secondary)); clip-path: var(--gd-polygon-start); animation: gd-polygon-morph 6s ease-in-out infinite; }
+@keyframes gd-polygon-morph {
+  0%, 100% { clip-path: var(--gd-polygon-start); }
+  33% { clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%); }
+  66% { clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%); }
+}
+.gd-mask-hole { transform: translateX(-38px); animation: gd-mask-pan 4s ease-in-out infinite alternate; }
+@keyframes gd-mask-pan { to { transform: translateX(38px); } }
+.gd-connector-lines { fill: none; stroke: var(--gd-ink); stroke-width: 2; stroke-linecap: round; }
+.gd-connector-head, .gd-connector-hub, .gd-rosette-core { fill: var(--gd-ink); }
+.gd-connector-leaves { fill: var(--gd-surface); stroke: var(--gd-secondary); stroke-width: 2; }
+.gd-rosette-petals { fill: var(--gd-secondary); fill-opacity: .28; stroke: var(--gd-ink); stroke-width: 1.2; stroke-linejoin: round; }
+.gd-ants-art > circle { fill: var(--gd-secondary); opacity: .55; }
+.gd-ants-art > rect { fill: var(--gd-ink); opacity: .8; }
+.gd-ants-outline { fill: none; stroke: var(--gd-ink); stroke-width: 2; stroke-dasharray: 4 4; stroke-dashoffset: 0; animation: gd-marching-ants .8s linear infinite; }
+@keyframes gd-marching-ants { to { stroke-dashoffset: -8; } }
+.gd-hatch-tile { fill: var(--gd-surface); }
+.gd-hatch-lines { fill: none; stroke: var(--gd-secondary); stroke-width: 1.5; }
+.gd-hatch-shapes { stroke: var(--gd-ink); stroke-width: 2; }
+.gd-zoom-demo, .gd-bezier-demo, .gd-intersection-demo { flex-direction: column; gap: .5rem; }
+.gd-zoom-face { fill: var(--gd-secondary); fill-opacity: .25; }
+.gd-zoom-lines { fill: none; stroke: var(--gd-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.gd-zoom-button { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; width: 112px; max-width: 100%; height: 44px; padding: 0 .5rem; border: 1px solid var(--gd-ink); border-radius: .6rem; color: var(--gd-ink); background: var(--gd-surface); font-size: .8125rem; font-weight: 600; cursor: pointer; }
+.gd-zoom-button:focus-visible { outline: 2px solid var(--gd-ink); outline-offset: 3px; }
+.gd-bezier-frame { position: relative; width: 240px; max-width: 100%; aspect-ratio: 240 / 112; }
+.gd-bezier-frame > svg { display: block; width: 100%; height: auto; }
+.gd-bezier-guide { fill: none; stroke: var(--gd-track); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.gd-bezier-curve { fill: none; stroke: var(--gd-ink); stroke-width: 3; stroke-linecap: round; }
+.gd-bezier-ends { fill: var(--gd-ink); }
+.gd-bezier-handle { position: absolute; width: 44px; height: 44px; transform: translate(-50%, -50%); display: grid; place-items: center; cursor: grab; touch-action: none; user-select: none; }
+.gd-bezier-handle:active { cursor: grabbing; }
+.gd-bezier-handle::after { content: ''; width: 12px; height: 12px; border: 2px solid var(--gd-ink); border-radius: 50%; background: var(--gd-surface); }
+.gd-range-controls { width: 240px; max-width: 100%; }
+.gd-range-controls > label { display: grid; grid-template-columns: minmax(2rem, max-content) minmax(0, 1fr); align-items: center; gap: .5rem; color: var(--gd-ink); font-size: .75rem; }
+.gd-range { width: 100%; min-width: 0; height: 44px; margin: 0; accent-color: var(--gd-ink); cursor: pointer; }
+.gd-range:focus-visible { outline: 2px solid var(--gd-ink); outline-offset: 2px; border-radius: .3rem; }
+.dark .gd-range { color-scheme: dark; }
+.gd-intersection-fill { fill: var(--gd-secondary); }
+.gd-intersection-outlines { fill: none; stroke: var(--gd-ink); stroke-width: 1.5; }
+@media (prefers-reduced-motion: reduce) { .gd-path-marker, .gd-polygon-morph, .gd-mask-hole, .gd-ants-outline { animation: none; } }

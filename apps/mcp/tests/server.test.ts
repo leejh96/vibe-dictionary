@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES, matchesSearch } from '@vibe-dictionary/catalog';
+import { TECHNIQUES, searchTechniques, getTechniqueText } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const entry = fileURLToPath(new URL('../dist/index.js', import.meta.url));
@@ -82,7 +82,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
   await t.test('Korean, English, multiple tokens, filters and no matches', async () => {
     for (const query of ['마그네틱', 'MAGNETIC', '마그네틱 버튼', '0.45초', '존재하지않는효과12345']) {
       const output = await call('search_techniques', { query, limit: 50 });
-      const expected = TECHNIQUES.filter((item) => matchesSearch(item, query));
+      const expected = searchTechniques({ query }).map(({ item }) => item);
       assert.equal(output.total, expected.length);
       assert.deepEqual(output.items.map((item: { id: string }) => item.id), expected.slice(0, 50).map(({ id }) => id));
     }
@@ -102,6 +102,26 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     }
   });
 
+  await t.test('bilingual ranked search, metadata filters and English prompts work through stdio', async () => {
+    const page = await call('search_techniques', { query: '마우스를 올리면 버튼이 자석처럼 따라오는 디자인', locale: 'en', target: 'button', trigger: 'pointer-move', limit: 5 });
+    assert.equal(page.items[0].id, 'magnetic-hover');
+    assert.equal(page.items[0].locale, 'en');
+    assert.ok(page.items[0].matchedOn.includes('alias'));
+    assert.ok(page.items.every((item: Record<string, unknown>) => !('promptSnippet' in item)));
+    assert.doesNotMatch(page.items[0].summary + page.items[0].useCases.join(' '), /[가-힣]/);
+    const first = await call('search_techniques', { query: 'card', locale: 'en', limit: 2 });
+    const next = await call('search_techniques', { query: 'card', locale: 'en', limit: 2, offset: first.nextOffset });
+    const expected = searchTechniques({ query: 'card' }).slice(0, 4).map(({ item }) => item.id);
+    assert.deepEqual([...first.items, ...next.items].map(item => item.id), expected);
+    for (const item of TECHNIQUES) {
+      const detail = await call('get_technique', { id: item.id, locale: 'en' });
+      assert.equal(detail.promptSnippet, getTechniqueText(item, 'en').promptSnippet);
+      assert.equal(detail.locale, 'en');
+      assert.equal(detail.title, item.titleEn);
+      assert.doesNotMatch(detail.promptSnippet, /[가-힣]/);
+    }
+  });
+
   await t.test('unknown IDs and invalid inputs fail without breaking the connection', async () => {
     for (const [name, args] of [
       ['get_technique', { id: 'does-not-exist' }],
@@ -114,6 +134,10 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['search_techniques', { offset: -1 }],
       ['search_techniques', { offset: 1.5 }],
       ['search_techniques', { query: 'x'.repeat(501) }],
+      ['search_techniques', { locale: 'fr' }],
+      ['search_techniques', { target: 'unknown' }],
+      ['search_techniques', { trigger: 'scroll' }],
+      ['get_technique', { id: 'magnetic-hover', locale: 'fr' }],
     ] as const) {
       const response = await client.callTool({ name, arguments: args });
       assert.equal(response.isError, true, JSON.stringify({ name, args, response }));

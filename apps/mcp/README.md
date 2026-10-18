@@ -6,16 +6,38 @@
 
 | 도구 | 입력 | 결과 |
 | --- | --- | --- |
-| `search_techniques` | 선택 사항: `query`, `domain`, `category`, `limit`, `offset` | 기법 ID·이름·분류·요약과 페이지 정보 |
-| `get_technique` | 필수: `id` | 기법 상세·키워드·`promptSnippet` 원문 |
+| `search_techniques` | 선택: `query`, `domain`, `category`, `target`, `trigger`, `locale`, `limit`, `offset` | 요약·사용 상황·검색 근거·점수·페이지 정보 |
+| `get_technique` | 필수: `id`, 선택: `locale` | 기법 상세·별칭·키워드·해당 언어의 `promptSnippet` 원문 |
 
-`query`를 생략하면 전체 목록을 조회한다. 공백으로 나눈 검색어를 모두 포함하는 항목을 찾으며, 영문 대소문자를 구분하지 않는다. 검색 대상은 한·영 이름, 효과 태그, 키워드, 요약과 프롬프트다. 문장 의미를 추론하는 검색은 아니므로 `마그네틱`, `magnetic`, `카드`, `SVG`처럼 짧은 검색어를 사용한다.
+두 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 이름·요약·태그·사용 상황·프롬프트를 선택 언어로 반환하며, 호환성을 위해 `titleKo`·`titleEn`은 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 프롬프트를 받을 수 있다.
 
-도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `video`(모션 영상)다. 카테고리 ID는 도구의 입력 스키마와 검색 결과에서 확인한다. 도메인·카테고리 필터를 함께 지정하면 둘 다 만족해야 한다. 검색 결과는 카탈로그 순서이며 관련도 순위는 제공하지 않는다.
+검색은 한영 이름·별칭·효과 키워드·사용 상황·요약·프롬프트를 대상으로 한다. 대소문자를 구분하지 않으며, 동의어를 연결하고 이름·별칭·사용 상황을 본문보다 우선한다. 모든 단어의 일치를 요구하지 않고 검색어 충족 비율로 후보를 좁힌다. `마그네틱`, `mouse tilt card`, `클릭한 곳에서 물결 퍼지는 버튼`처럼 구체적인 효과와 대상을 사용한다. 의미를 추론하는 AI 검색은 아니므로 모호한 문장은 핵심 단어로 바꾸고, 상위 후보의 요약·사용 상황을 비교한다.
 
-검색 결과의 `total`은 필터와 검색 조건에 맞는 전체 개수다. 기본 페이지 크기는 20, 최대는 50이며 `nextOffset`을 다음 요청의 `offset`으로 보내면 이어서 조회한다. `nextOffset: null`이면 마지막 페이지다. 일치 항목이 없으면 빈 목록을 반환한다. 잘못된 입력과 존재하지 않는 상세 ID는 MCP 오류 결과를 반환한다.
+도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `video`(모션 영상)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
 
-검색 결과에는 프롬프트 전문을 넣지 않는다. 선택한 기법을 `get_technique`로 조회하면 웹과 같은 원문을 받을 수 있다. MCP 자체는 조합·클립보드 접근·프로젝트 파일 수정·UI 생성·외부 API 호출을 수행하지 않는다. 구현은 연결한 코딩 에이전트가 사용자 요청에 따라 수행한다.
+검색어가 있으면 관련도순이며 `score`는 정렬용 수치로 적합성 확률이 아니다. `matchedOn`은 일치한 필드명(`title`, `alias`, `keyword`, `useCase`, `target`, `trigger`, `summary`, `prompt`)이다. `query`를 생략하면 카탈로그 순서로 목록을 조회한다. 일치가 없으면 빈 목록을 반환한다.
+
+`total`은 전체 일치 개수다. 기본 페이지 크기는 20, 최대 50이며 처음 후보를 좁힐 때는 `limit: 5`를 권장한다. `nextOffset`을 다음 요청의 `offset`으로 보내 이어서 조회한다. `nextOffset: null`이면 마지막 페이지다. 잘못된 입력과 존재하지 않는 상세 ID는 MCP 오류 결과를 반환한다.
+
+검색 결과에는 프롬프트 전문을 넣지 않는다. 선택한 ID를 `get_technique`로 조회하면 웹과 같은 언어의 원문을 받는다. MCP는 조합·클립보드·파일 수정·UI 생성·외부 API 호출을 수행하지 않는다.
+
+### English usage
+
+Search with concrete effect words or a use case, compare a few summaries, then retrieve only the selected prompt:
+
+```json
+{"query":"a button that follows the mouse cursor","target":"button","trigger":"pointer-move","locale":"en","limit":5}
+```
+
+Then call `get_technique`:
+
+```json
+{"id":"magnetic-hover","locale":"en"}
+```
+
+Search matches both Korean and English regardless of output locale. Scores indicate relative ranking, not confidence. Unknown or unsuitable results require reformulating the query or clarifying the request. Tools return reference text only and never modify your project.
+
+These capabilities describe the current source. An installed, pinned npm version does not automatically pick up local source changes. For local verification, build the repository and register `node <repository>/apps/mcp/dist/index.js` with your MCP client, then restart that server.
 
 ## npm 패키지로 Codex에 연결
 
@@ -77,7 +99,7 @@ command = "cmd"
 args = ["/d", "/c", "npx", "-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.2"]
 ```
 
-다른 MCP 클라이언트도 `stdio` 전송 방식으로 위 `command`와 `args`를 등록하면 된다. 클라이언트마다 설정 형식은 다르다. 표준 출력은 MCP 통신 전용이므로 실행 명령을 `npm run start`로 감싸지 않는다.
+다른 MCP 클라이언트도 `stdio` 전송 방식으로 위 `command`와 `args`를 등록하면 된다. 클라이언트마다 설정 형식은 다르다.
 
 ### 선택 사항: npm 전역 설치 후 연결
 
@@ -119,34 +141,8 @@ codex mcp remove vibe-dictionary
 - 다운로드 오류나 `E404`가 나면 npm 레지스트리 접근과 지정 버전의 공개 여부를 확인한다. 패키지 설치·확인 과정은 네트워크를 사용할 수 있지만, 실행된 MCP의 검색·조회는 외부 API를 호출하지 않는다.
 - 터미널에서 MCP만 직접 실행했을 때 출력 없이 대기하는 것은 stdio 요청을 기다리는 동작이다. 실제 연결 확인은 Codex의 도구 호출로 진행한다.
 
-## 저장소 개발용 로컬 빌드 연결
-
-패키지를 사용하는 대신 소스를 수정하며 확인할 때만 저장소 루트에서 다음 명령을 실행한다.
-
-```sh
-npm ci
-npm run build:mcp
-codex mcp add vibe-dictionary -- node "/absolute/path/to/vibe-dictionary/apps/mcp/dist/index.js"
-```
-
-예제 경로를 자신의 빌드 파일 **실제 절대 경로**로 바꾼다. `node`가 Codex의 `PATH`에 없다면 Node 실행 파일도 절대 경로로 지정한다. 같은 이름의 npm 연결을 로컬 빌드 연결로 바꾸므로, 공개 패키지로 돌아가려면 위 npm 등록 명령을 다시 실행한다.
-
-## 데이터와 배포
-
-기법 데이터와 검색 함수는 내부 패키지 `@vibe-dictionary/catalog`로 웹과 공유하며 빌드 시 실행 파일에 포함된다. 카탈로그는 빌드 전용 의존성이므로 사용자 설치 시 별도로 가져오지 않는다. 실행 중에는 웹 접속·API 키·네트워크 연결이 필요 없다. 패키지 다운로드와 의존성 설치 시에는 네트워크가 필요하다. 카탈로그 변경은 재빌드하고 MCP 프로세스를 재시작해야 반영된다. npm 배포 이후에는 새 패키지 버전도 게시해야 한다.
-
-저장소에서 `npm test`는 웹 회귀 테스트와 빌드된 MCP의 실제 stdio 연결 테스트를 함께 실행한다. `npm run build`는 웹과 MCP 전체 빌드, `npm run build:web`은 웹만, `npm run build:mcp`는 MCP만 빌드한다.
-
-저장소 루트에서 다음 명령으로 배포 파일을 검증할 수 있다. 실행 파일·이 문서·LICENSE·패키지 메타데이터 4개만 포함하는지 검사하고, tarball을 임시 경로에 설치해 도구 목록과 모든 기법·프롬프트 원문을 대조한다. 설치에는 npm 레지스트리 연결이 필요하다. 최종 tarball 경로를 출력하며, 임시 설치 폴더는 정리한다.
-
-```sh
-npm run check:package
-```
-
-저장소 관리자는 GitHub Actions의 `Publish MCP to npm`을 `master`에서 수동 실행한다. 입력한 버전은 이미 커밋된 MCP 버전과 같아야 하며, GitHub `npm` environment와 npm Trusted Publisher를 사전에 설정한다. 최초 1회 패키지 생성·2FA 게시와 설정값은 [npm 게시 안내](https://github.com/leejh96/vibe-dictionary/blob/master/docs/npm-publishing.md)를 참고한다. npm 토큰을 GitHub Secrets에 추가할 필요는 없다.
-
 ## 라이선스
 
-MCP 코드와 번들에 포함된 기법 데이터·프롬프트는 [MIT License](LICENSE)를 따른다. 제3자 의존성은 각각의 라이선스를 따른다.
+이 패키지의 코드·기법·프롬프트는 [MIT License](LICENSE)를 따른다. 제3자 의존성은 각각의 라이선스를 따른다.
 
-연결 방식의 근거: [MCP 공식 SDK](https://ts.sdk.modelcontextprotocol.io/server), [Codex 공식 MCP 문서](https://developers.openai.com/codex/mcp), [npm npx 문서](https://docs.npmjs.com/cli/v11/commands/npx/), [npm 전역 설치 문서](https://docs.npmjs.com/downloading-and-installing-packages-globally/).
+연결 방식의 근거: [Codex 공식 MCP 문서](https://developers.openai.com/codex/mcp), [npm npx 문서](https://docs.npmjs.com/cli/v11/commands/npx/), [npm 전역 설치 문서](https://docs.npmjs.com/downloading-and-installing-packages-globally/).

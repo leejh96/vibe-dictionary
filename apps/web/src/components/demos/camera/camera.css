@@ -1,0 +1,171 @@
+.camera-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 188px; padding: 44px 16px 20px; }
+.ca-dolly-demo, .ca-orbit-demo, .ca-roll-demo, .ca-projection-demo, .ca-pan-demo, .ca-tilt-demo, .ca-truck-demo, .ca-pedestal-demo, .ca-shift-demo, .ca-radial-demo { flex-direction: column; gap: 8px; }
+.ca-dolly-scene, .ca-orbit-scene, .ca-roll-scene, .ca-projection-scene, .ca-pan-scene, .ca-tilt-scene, .ca-truck-scene, .ca-pedestal-scene, .ca-shift-scene, .ca-radial-scene { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 66 / 37; overflow: hidden; border: 1px solid; border-radius: 12px; }
+.ca-dolly-scene { border-color: #718d96; background: #d5e5e8; }
+.ca-dolly-ceiling { fill: #b3cdd3; }
+.ca-dolly-floor { fill: #ecf4f5; }
+.ca-dolly-rays { fill: none; stroke: #718d96; stroke-width: 1; }
+.ca-dolly-frame { fill: none; stroke: #387786; stroke-width: 2; }
+.ca-dolly-door { fill: #387786; }
+.ca-dolly-subject { fill: #b45309; }
+.ca-dolly-shadow { fill: #64748b50; }
+.ca-dolly-control, .ca-orbit-control, .ca-pan-control, .ca-tilt-control, .ca-truck-control, .ca-pedestal-control, .ca-radial-control { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; width: 264px; max-width: 100%; color: #475569; font-size: 12px; }
+.ca-dolly-control input, .ca-orbit-control input, .ca-roll-control input, .ca-pan-control input, .ca-tilt-control input, .ca-truck-control input, .ca-pedestal-control input, .ca-radial-control input { display: block; width: 100%; min-width: 44px; height: 44px; margin: 0; accent-color: #0e7490; cursor: pointer; }
+.ca-dolly-control input:focus-visible, .ca-orbit-control input:focus-visible, .ca-roll-control input:focus-visible, .ca-pan-control input:focus-visible, .ca-tilt-control input:focus-visible, .ca-truck-control input:focus-visible, .ca-pedestal-control input:focus-visible, .ca-radial-control input:focus-visible, .ca-roll-control button:focus-visible, .ca-projection-control button:focus-visible, .ca-shift-control button:focus-visible { outline: 2px solid #0e7490; outline-offset: 2px; border-radius: 4px; }
+.dark .ca-dolly-scene { border-color: #476775; background: #142d3b; }
+.dark .ca-dolly-ceiling { fill: #10212d; }
+.dark .ca-dolly-floor { fill: #244655; }
+.dark .ca-dolly-rays { stroke: #476775; }
+.dark .ca-dolly-frame { stroke: #67b8c7; }
+.dark .ca-dolly-door { fill: #67b8c7; }
+.dark .ca-dolly-subject { fill: #fcd34d; }
+.dark .ca-dolly-shadow { fill: #02061770; }
+.dark .ca-dolly-control, .dark .ca-orbit-control, .dark .ca-pan-control, .dark .ca-tilt-control, .dark .ca-truck-control, .dark .ca-pedestal-control, .dark .ca-radial-control { color: #cbd5e1; }
+.dark .ca-dolly-control input, .dark .ca-orbit-control input, .dark .ca-roll-control input, .dark .ca-pan-control input, .dark .ca-tilt-control input, .dark .ca-truck-control input, .dark .ca-pedestal-control input, .dark .ca-radial-control input { accent-color: #67e8f9; }
+.dark .ca-dolly-control input:focus-visible, .dark .ca-orbit-control input:focus-visible, .dark .ca-roll-control input:focus-visible, .dark .ca-pan-control input:focus-visible, .dark .ca-tilt-control input:focus-visible, .dark .ca-truck-control input:focus-visible, .dark .ca-pedestal-control input:focus-visible, .dark .ca-radial-control input:focus-visible, .dark .ca-roll-control button:focus-visible, .dark .ca-projection-control button:focus-visible, .dark .ca-shift-control button:focus-visible { outline-color: #67e8f9; }
+.ca-orbit-scene { border-color: #c7d2fe; background: #eef2ff; }
+.ca-orbit-face { stroke: #312e81; stroke-width: 1; stroke-linejoin: round; }
+.ca-orbit-front { fill: #6366f1; }
+.ca-orbit-right { fill: #4f46e5; }
+.ca-orbit-back { fill: #0f766e; }
+.ca-orbit-left { fill: #4338ca; }
+.ca-orbit-top { fill: #c7d2fe; }
+.ca-orbit-mark { fill: #fef3c7; }
+.dark .ca-orbit-scene { border-color: #46446d; background: #16162c; }
+.dark .ca-orbit-face { stroke: #c7d2fe; }
+.dark .ca-orbit-front { fill: #818cf8; }
+.dark .ca-orbit-right { fill: #6366f1; }
+.dark .ca-orbit-back { fill: #0d9488; }
+.dark .ca-orbit-left { fill: #4f46e5; }
+.ca-roll-scene { border-color: #b6c4c3; }
+.ca-roll-sky { fill: #f4e4ce; }
+.ca-roll-sun { fill: #d97706; }
+.ca-roll-ground { fill: #b9d2cb; }
+.ca-roll-road { fill: #7fa79d; }
+.ca-roll-city { fill: #175a60; }
+.ca-roll-windows { fill: none; stroke: #d7f0e9; stroke-width: 3; }
+.ca-roll-horizon { fill: none; stroke: #0f766e; stroke-width: 2; }
+.ca-roll-viewfinder { fill: none; stroke: #0f3c43; stroke-width: 2; stroke-linejoin: round; }
+.ca-roll-control { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: center; gap: 8px; width: 264px; max-width: 100%; }
+.ca-roll-control button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #6c9392; border-radius: 8px; color: #175a60; background: #e5f0ed; cursor: pointer; }
+.ca-roll-control button[aria-disabled="true"] { opacity: .45; cursor: default; }
+.dark .ca-roll-scene { border-color: #46666a; }
+.dark .ca-roll-sky { fill: #172b3a; }
+.dark .ca-roll-sun { fill: #fcd34d; }
+.dark .ca-roll-ground { fill: #1c4a4f; }
+.dark .ca-roll-road { fill: #34757a; }
+.dark .ca-roll-city { fill: #6cb8b5; }
+.dark .ca-roll-windows { stroke: #152f39; }
+.dark .ca-roll-horizon { stroke: #99ddd3; }
+.dark .ca-roll-viewfinder { stroke: #e0f2f1; }
+.dark .ca-roll-control button { border-color: #5e9398; color: #bbefe9; background: #163d43; }
+.ca-projection-scene { border-color: #cbd5e1; background: #f8fafc; }
+.ca-projection-floor { fill: #e2e8f0; }
+.ca-projection-grid { fill: none; stroke: #94a3b8; stroke-width: .8; }
+.ca-projection-panel { stroke-width: 1.5; stroke-linejoin: round; }
+.ca-projection-panel path { fill: none; }
+.ca-projection-near { fill: #fef3c7; stroke: #b45309; }
+.ca-projection-far { fill: #ccfbf1; stroke: #0f766e; }
+.ca-projection-control, .ca-shift-control { display: grid; grid-template-columns: repeat(2, minmax(44px, 1fr)); gap: 8px; width: 264px; max-width: 100%; }
+.ca-projection-control button, .ca-shift-control button { min-width: 44px; height: 44px; padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 8px; background: #f1f5f9; color: #334155; font-size: 12px; font-weight: 600; cursor: pointer; }
+.ca-projection-control button[aria-pressed="true"], .ca-shift-control button[aria-pressed="true"] { border-color: #0e7490; background: #0e7490; color: #fff; }
+.dark .ca-projection-scene { border-color: #475569; background: #111b2b; }
+.dark .ca-projection-floor { fill: #23334a; }
+.dark .ca-projection-grid { stroke: #64748b; }
+.dark .ca-projection-near { fill: #78350f; stroke: #fcd34d; }
+.dark .ca-projection-far { fill: #134e4a; stroke: #5eead4; }
+.dark .ca-projection-control button, .dark .ca-shift-control button { border-color: #64748b; background: #1e293b; color: #e2e8f0; }
+.dark .ca-projection-control button[aria-pressed="true"], .dark .ca-shift-control button[aria-pressed="true"] { border-color: #67e8f9; background: #67e8f9; color: #083344; }
+.ca-pan-scene { border-color: #b7c9c2; background: #eaf3ff; }
+.ca-pan-ground { fill: #e4e9d6; }
+.ca-pan-horizon { fill: none; stroke: #90a99b; stroke-width: 1; }
+.ca-pan-grid { fill: none; stroke: #9eaf9c; stroke-width: .7; }
+.ca-pan-monument { stroke: #574c38; stroke-width: 1; stroke-linejoin: round; }
+.ca-pan-center { fill: #6caaa3; }
+.ca-pan-left { fill: #e6b967; }
+.ca-pan-right { fill: #cc8c72; }
+.ca-pan-monument [data-face="side"] { filter: brightness(.82); }
+.ca-pan-monument [data-face="top"] { filter: brightness(1.12); }
+.dark .ca-pan-scene { border-color: #4a6c62; background: #122c3f; }
+.dark .ca-pan-ground { fill: #244137; }
+.dark .ca-pan-horizon { stroke: #6a9c8c; }
+.dark .ca-pan-grid { stroke: #4a7968; }
+.dark .ca-pan-monument { stroke: #c5d9ce; }
+.dark .ca-pan-center { fill: #5caaa0; }
+.dark .ca-pan-left { fill: #c99749; }
+.dark .ca-pan-right { fill: #b66f59; }
+.ca-tilt-scene { border-color: #a7bad6; background: #e7f0ff; }
+.ca-tilt-ground { fill: #cbd5e6; }
+.ca-tilt-horizon, .ca-tilt-ground-grid { fill: none; stroke: #8da0bd; stroke-width: .8; }
+.ca-tilt-facade { stroke: #1e3a8a; stroke-width: 1.2; stroke-linejoin: round; }
+.ca-tilt-left { fill: #a5b4cd; }
+.ca-tilt-right { fill: #7c96ba; }
+.ca-tilt-tower { fill: #3b6ea9; }
+.ca-tilt-windows { fill: none; stroke: #bddbff; stroke-width: 1; }
+.dark .ca-tilt-scene { border-color: #45608b; background: #0e2038; }
+.dark .ca-tilt-ground { fill: #263c59; }
+.dark .ca-tilt-horizon, .dark .ca-tilt-ground-grid { stroke: #597594; }
+.dark .ca-tilt-facade { stroke: #a8caed; }
+.dark .ca-tilt-left { fill: #3a5070; }
+.dark .ca-tilt-right { fill: #49658a; }
+.dark .ca-tilt-tower { fill: #225180; }
+.dark .ca-tilt-windows { stroke: #89c5f6; }
+.ca-truck-scene { border-color: #b7c6bc; background: #edf1e8; }
+.ca-truck-ground { fill: #d4ddcf; }
+.ca-truck-horizon, .ca-truck-grid { fill: none; stroke: #a5b5a0; stroke-width: .8; }
+.ca-truck-alcoves { fill: #c2cdbc; }
+.ca-truck-frame { fill: #574b3b; }
+.ca-truck-paper { fill: #fff4da; }
+.ca-truck-disc { fill: #d97739; }
+.ca-truck-art-line { fill: none; stroke: #385b51; stroke-width: 4; stroke-linejoin: round; }
+.ca-truck-front { fill: #397d72; stroke: #225c54; stroke-width: 1; }
+.ca-truck-side { fill: #286357; stroke: #225c54; stroke-width: 1; }
+.dark .ca-truck-scene { border-color: #4c665d; background: #20342f; }
+.dark .ca-truck-ground { fill: #2a433b; }
+.dark .ca-truck-horizon, .dark .ca-truck-grid { stroke: #4f6d5e; }
+.dark .ca-truck-alcoves { fill: #314d40; }
+.dark .ca-truck-frame { fill: #a99c80; }
+.dark .ca-truck-paper { fill: #e3d5b5; }
+.dark .ca-truck-disc { fill: #b95c29; }
+.dark .ca-truck-front { fill: #71b5a1; stroke: #305e50; }
+.dark .ca-truck-side { fill: #4a8a76; stroke: #305e50; }
+.ca-pedestal-scene { border-color: #c2b5a1; background: #f1eadf; }
+.ca-pedestal-ground { fill: #dfd5c3; }
+.ca-pedestal-horizon, .ca-pedestal-grid { fill: none; stroke: #b4a790; stroke-width: .7; }
+.ca-pedestal-left, .ca-pedestal-front, .ca-pedestal-top { stroke: #765849; stroke-width: 1; stroke-linejoin: round; }
+.ca-pedestal-left { fill: #b77f6d; }
+.ca-pedestal-front { fill: #d6a58d; }
+.ca-pedestal-top { fill: #285d58; }
+.ca-pedestal-windows { fill: #394d59; }
+.ca-pedestal-ring, .ca-pedestal-mark { fill: #f5de9c; }
+.dark .ca-pedestal-scene { border-color: #546b6c; background: #1f2d36; }
+.dark .ca-pedestal-ground { fill: #243d40; }
+.dark .ca-pedestal-horizon, .dark .ca-pedestal-grid { stroke: #496361; }
+.dark .ca-pedestal-left, .dark .ca-pedestal-front, .dark .ca-pedestal-top { stroke: #c9a992; }
+.dark .ca-pedestal-left { fill: #8d5d50; }
+.dark .ca-pedestal-front { fill: #b98574; }
+.dark .ca-pedestal-top { fill: #326f63; }
+.dark .ca-pedestal-windows { fill: #193342; }
+.ca-shift-scene { border-color: #c5b8a6; background: #f3eee6; }
+.ca-shift-ground { fill: #ddd4c3; }
+.ca-shift-horizon, .ca-shift-grid { fill: none; stroke: #b3a58f; stroke-width: .8; }
+.ca-shift-facade { stroke: #765b48; stroke-width: 1; stroke-linejoin: round; }
+.ca-shift-left { fill: #d5c4a8; }
+.ca-shift-right { fill: #bdae99; }
+.ca-shift-tower { fill: #b56b4e; }
+.ca-shift-windows { fill: none; stroke: #ffe4ba; stroke-width: 1; }
+.dark .ca-shift-scene { border-color: #6c6254; background: #252b31; }
+.dark .ca-shift-ground { fill: #3c403d; }
+.dark .ca-shift-horizon, .dark .ca-shift-grid { stroke: #646a5d; }
+.dark .ca-shift-facade { stroke: #d4bda3; }
+.dark .ca-shift-left { fill: #5e6257; }
+.dark .ca-shift-right { fill: #6e705c; }
+.dark .ca-shift-tower { fill: #914e39; }
+.ca-radial-scene { border-color: #a7beb0; background: #f0f5ef; }
+.ca-radial-sheet { fill: #dcebe0; stroke: #386f61; stroke-width: 1.5; stroke-linejoin: round; }
+.ca-radial-grid { fill: none; stroke: #648d77; stroke-width: 1; stroke-linecap: round; }
+.ca-radial-center { fill: #b45339; }
+.dark .ca-radial-scene { border-color: #476d62; background: #142b30; }
+.dark .ca-radial-sheet { fill: #203f3c; stroke: #91c4ad; }
+.dark .ca-radial-grid { stroke: #618f7c; }
+.dark .ca-radial-center { fill: #f5ad7f; }

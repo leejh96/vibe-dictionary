@@ -1,4 +1,88 @@
+import { useLocale } from '../../i18n/LocaleContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { ADDITIONAL_DEMOS } from './additionalDemos';
+import { SwipeActionCardDemo } from './card/SwipeActionCard';
+import { ReorderListDemo } from './motion/ReorderListDemo';
+import { ReflowPanelDemo } from './motion/ReflowPanelDemo';
+import { ExitCollapseDemo } from './motion/ExitCollapseDemo';
+import { AnchoredPopoverDemo } from './motion/AnchoredPopoverDemo';
+import { RollingNumberDemo } from './text/RollingNumberDemo';
+import { SplitFlapTextDemo } from './text/SplitFlapTextDemo';
+import { SearchHighlightDemo } from './text/SearchHighlightDemo';
+import { InlineValidationDemo } from './feedback/InlineValidationDemo';
+import { NotificationBadgeDemo, StarRatingDemo } from './feedback/FeedbackDemos';
+import { TooltipDemo } from './feedback/TooltipDemo';
+import { DismissibleBannerDemo } from './feedback/DismissibleBannerDemo';
+import { InlineConfirmDemo } from './feedback/InlineConfirmDemo';
+import { ClipboardFeedbackDemo } from './feedback/ClipboardFeedbackDemo';
+import { EmptySearchDemo } from './feedback/EmptySearchDemo';
+import { CharacterBudgetDemo } from './feedback/CharacterBudgetDemo';
+import { ErrorSummaryDemo } from './feedback/ErrorSummaryDemo';
+import { UnderlineTabsDemo, VerticalTabsDemo } from './layout/ContentTabsDemos';
+import { IndeterminateLinearDemo, CircularSweepDemo, DotWaveDemo } from './layout/LoadingDemos';
+import { ManualBannerDemo } from './layout/ManualBannerDemo';
+import { SkeletonContentDemo } from './layout/SkeletonContentDemo';
+import { FoldedRibbonDemo, StickyAnnouncementDemo } from './layout/BannerDemos';
+import { ClosableTabsDemo } from './layout/ClosableTabsDemo';
+import { ValueBubbleSliderDemo } from './control/ValueBubbleSliderDemo';
+import { MixedCheckboxDemo } from './control/MixedCheckboxDemo';
+import { PreviewSelectDemo } from './control/PreviewSelectDemo';
+import { QuantityStepperDemo } from './control/QuantityStepperDemo';
+import { TokenInputDemo } from './control/TokenInputDemo';
+import { DualRangeDemo } from './control/DualRangeDemo';
+import { ColorSwatchDemo } from './control/ColorSwatchDemo';
+import { FilePickerDemo } from './control/FilePickerDemo';
+import { SearchComboboxDemo } from './control/SearchComboboxDemo';
+import { DateFieldDemo } from './control/DateFieldDemo';
+import { MotionPathDemo } from './graphic/MotionPathDemo';
+import { PolygonMorphDemo, MarchingAntsDemo } from './graphic/GraphicDemos';
+import { CutoutMaskDemo } from './graphic/CutoutMaskDemo';
+import { ConnectorMarkerDemo } from './graphic/ConnectorMarkerDemo';
+import { RosetteDemo } from './graphic/RosetteDemo';
+import { HatchFillDemo } from './graphic/HatchFillDemo';
+import { FixedStrokeZoomDemo } from './graphic/FixedStrokeZoomDemo';
+import { BezierEditorDemo } from './graphic/BezierEditorDemo';
+import { IntersectionClipDemo } from './graphic/IntersectionClipDemo';
+import { FadedGridDemo, MeteorShowerDemo, RisingLightParticlesDemo } from './shader/ShaderDemos';
+import { BlendLightsDemo } from './shader/BlendLightsDemo';
+import { DisplacementLinesDemo } from './shader/DisplacementLinesDemo';
+import { PointLightSurfaceDemo } from './shader/PointLightSurfaceDemo';
+import { MoireFieldDemo } from './shader/MoireFieldDemo';
+import { DitherGradientDemo } from './shader/DitherGradientDemo';
+import { ProjectedShadowDemo } from './shader/ProjectedShadowDemo';
+import { VoronoiCellsDemo } from './shader/VoronoiCellsDemo';
+import { DampedSpringDemo } from './physics/DampedSpringDemo';
+import { ProjectileArcDemo } from './physics/ProjectileArcDemo';
+import { PendulumPeriodDemo } from './physics/PendulumPeriodDemo';
+import { RestitutionBounceDemo } from './physics/RestitutionBounceDemo';
+import { FrictionSlideDemo } from './physics/FrictionSlideDemo';
+import { ElasticCollisionDemo } from './physics/ElasticCollisionDemo';
+import { RollingWheelDemo } from './physics/RollingWheelDemo';
+import { VariableInertiaDemo } from './physics/VariableInertiaDemo';
+import { PulleyConstraintDemo } from './physics/PulleyConstraintDemo';
+import { WaveSuperpositionDemo } from './physics/WaveSuperpositionDemo';
+import { SlicedTypeDemo } from './kinetic/SlicedTypeDemo';
+import { ProximityTypeDemo } from './kinetic/ProximityTypeDemo';
+import { CylinderTypeDemo } from './kinetic/CylinderTypeDemo';
+import { GooeyWordDemo } from './kinetic/GooeyWordDemo';
+import { CurvedTypeDemo } from './kinetic/CurvedTypeDemo';
+import { ScatterTypeDemo } from './kinetic/ScatterTypeDemo';
+import { ExtrudedTypeDemo } from './kinetic/ExtrudedTypeDemo';
+import { HingedTypeDemo } from './kinetic/HingedTypeDemo';
+import { DissolveTypeDemo } from './kinetic/DissolveTypeDemo';
+import { ReflectionTypeDemo } from './kinetic/ReflectionTypeDemo';
+import { OutlineFillTextDemo, WordMaskHeadlineDemo, CircularTextDemo, ClampedTextDemo, SpoilerTextDemo, StrokeLetteringDemo, DropCapTextDemo } from './text/TextDemos';
+import { DirectionalStepDemo, CrossfadeSceneDemo, BlurFocusRevealDemo, MaskedRiseDemo, SharedElementExpandDemo, TransportMorphDemo } from './motion/MotionDemos';
+import {
+  SelectableCardDemo, ProductSwatchDemo, LiftShadowCardDemo, FoldoutCardDemo,
+  ImageZoomCardDemo, ExpandableDetailCardDemo, MediaActionCardDemo, FolderPeekCardDemo,
+  ProfileFanCardDemo,
+} from './card/CardDemos';
+import {
+  SplitActionDemo, IconExpandDemo, OutlineTraceDemo, RollingLabelDemo,
+  DepthPressDemo, UnderlineTravelDemo, CornerBracketDemo, MenuIconMorphDemo,
+  BorderBeamDemo, LetterStaggerDemo,
+} from './hover/HoverDemos';
 import {
   Sparkles,
   Check,
@@ -17,7 +101,229 @@ interface DemoProps {
 }
 
 export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
+  const Addition = ADDITIONAL_DEMOS.get(techniqueId);
+  if (Addition) return <Addition />;
   switch (techniqueId) {
+    case 'mg-noise-dissolve-type':
+      return <DissolveTypeDemo />;
+    case 'mg-ripple-reflection-type':
+      return <ReflectionTypeDemo />;
+    case 'mg-hinged-opening-type':
+      return <HingedTypeDemo />;
+    case 'mg-layered-type-extrusion':
+      return <ExtrudedTypeDemo />;
+    case 'mg-scattered-letter-assembly':
+      return <ScatterTypeDemo />;
+    case 'mg-curved-type-baseline':
+      return <CurvedTypeDemo />;
+    case 'mg-gooey-word-morph':
+      return <GooeyWordDemo />;
+    case 'mg-cylinder-type-rotation':
+      return <CylinderTypeDemo />;
+    case 'mg-proximity-variable-type':
+      return <ProximityTypeDemo />;
+    case 'mg-sliced-type-assembly':
+      return <SlicedTypeDemo />;
+    case 'mg-phase-wave-superposition':
+      return <WaveSuperpositionDemo />;
+    case 'mg-fixed-pulley-constraint':
+      return <PulleyConstraintDemo />;
+    case 'mg-angular-momentum-spin':
+      return <VariableInertiaDemo />;
+    case 'mg-no-slip-rolling-wheel':
+      return <RollingWheelDemo />;
+    case 'mg-mass-ratio-elastic-collision':
+      return <ElasticCollisionDemo />;
+    case 'mg-kinetic-friction-slide':
+      return <FrictionSlideDemo />;
+    case 'mg-restitution-bounce-drop':
+      return <RestitutionBounceDemo />;
+    case 'mg-length-controlled-pendulum':
+      return <PendulumPeriodDemo />;
+    case 'mg-gravity-projectile-arc':
+      return <ProjectileArcDemo />;
+    case 'mg-damped-spring-release':
+      return <DampedSpringDemo />;
+    case 'mg-voronoi-cell-field':
+      return <VoronoiCellsDemo />;
+    case 'mg-occluder-projected-shadow':
+      return <ProjectedShadowDemo />;
+    case 'mg-binary-dither-gradient':
+      return <DitherGradientDemo />;
+    case 'mg-moire-ring-interference':
+      return <MoireFieldDemo />;
+    case 'mg-rising-light-particles':
+      return <RisingLightParticlesDemo />;
+    case 'mg-point-lit-noise-surface':
+      return <PointLightSurfaceDemo />;
+    case 'mg-turbulence-line-displacement':
+      return <DisplacementLinesDemo />;
+    case 'mg-theme-blend-lights':
+      return <BlendLightsDemo />;
+    case 'mg-diagonal-meteor-shower':
+      return <MeteorShowerDemo />;
+    case 'mg-faded-line-grid':
+      return <FadedGridDemo />;
+    case 'mg-intersection-clip':
+      return <IntersectionClipDemo />;
+    case 'mg-quadratic-bezier-editor':
+      return <BezierEditorDemo />;
+    case 'mg-fixed-stroke-zoom':
+      return <FixedStrokeZoomDemo />;
+    case 'mg-hatched-pattern-fill':
+      return <HatchFillDemo />;
+    case 'mg-marching-ants-outline':
+      return <MarchingAntsDemo />;
+    case 'mg-radial-rosette-repetition':
+      return <RosetteDemo />;
+    case 'mg-directed-connector-markers':
+      return <ConnectorMarkerDemo />;
+    case 'mg-luminance-cutout-mask':
+      return <CutoutMaskDemo />;
+    case 'mg-geometric-polygon-morph':
+      return <PolygonMorphDemo />;
+    case 'mg-bezier-motion-path':
+      return <MotionPathDemo />;
+    case 'native-date-field':
+      return <DateFieldDemo />;
+    case 'manual-search-combobox':
+      return <SearchComboboxDemo />;
+    case 'native-file-attachment':
+      return <FilePickerDemo />;
+    case 'native-color-swatch-field':
+      return <ColorSwatchDemo />;
+    case 'constrained-dual-range-slider':
+      return <DualRangeDemo />;
+    case 'dismissible-token-input':
+      return <TokenInputDemo />;
+    case 'native-quantity-stepper':
+      return <QuantityStepperDemo />;
+    case 'preview-linked-native-select':
+      return <PreviewSelectDemo />;
+    case 'mixed-state-checkbox-group':
+      return <MixedCheckboxDemo />;
+    case 'value-bubble-range-slider':
+      return <ValueBubbleSliderDemo />;
+    case 'closable-document-tabs':
+      return <ClosableTabsDemo />;
+    case 'sticky-announcement-banner':
+      return <StickyAnnouncementDemo />;
+    case 'folded-edge-ribbon':
+      return <FoldedRibbonDemo />;
+    case 'vertical-rail-tabs':
+      return <VerticalTabsDemo />;
+    case 'dot-wave-waiting-bubble':
+      return <DotWaveDemo />;
+    case 'stable-skeleton-content':
+      return <SkeletonContentDemo />;
+    case 'manual-banner-carousel':
+      return <ManualBannerDemo />;
+    case 'circular-sweep-spinner':
+      return <CircularSweepDemo />;
+    case 'indeterminate-linear-loader':
+      return <IndeterminateLinearDemo />;
+    case 'underline-content-tabs':
+      return <UnderlineTabsDemo />;
+    case 'linked-form-error-summary':
+      return <ErrorSummaryDemo />;
+    case 'character-budget-feedback':
+      return <CharacterBudgetDemo />;
+    case 'recoverable-search-empty-state':
+      return <EmptySearchDemo />;
+    case 'inline-copy-feedback':
+      return <ClipboardFeedbackDemo />;
+    case 'inline-delete-confirmation':
+      return <InlineConfirmDemo />;
+    case 'dismissible-inline-banner':
+      return <DismissibleBannerDemo />;
+    case 'native-star-rating':
+      return <StarRatingDemo />;
+    case 'hover-focus-tooltip':
+      return <TooltipDemo />;
+    case 'unread-notification-badge':
+      return <NotificationBadgeDemo />;
+    case 'inline-email-validation':
+      return <InlineValidationDemo />;
+    case 'editorial-drop-cap':
+      return <DropCapTextDemo />;
+    case 'svg-stroke-lettering':
+      return <StrokeLetteringDemo />;
+    case 'search-match-highlight':
+      return <SearchHighlightDemo />;
+    case 'inline-spoiler-text':
+      return <SpoilerTextDemo />;
+    case 'clamped-read-more-text':
+      return <ClampedTextDemo />;
+    case 'split-flap-typography':
+      return <SplitFlapTextDemo />;
+    case 'circular-path-text':
+      return <CircularTextDemo />;
+    case 'word-mask-headline':
+      return <WordMaskHeadlineDemo />;
+    case 'outline-fill-text':
+      return <OutlineFillTextDemo />;
+    case 'per-digit-rolling-counter':
+      return <RollingNumberDemo />;
+    case 'anchored-scale-popover':
+      return <AnchoredPopoverDemo />;
+    case 'flip-reorder-list':
+      return <ReorderListDemo />;
+    case 'directional-step-transition':
+      return <DirectionalStepDemo />;
+    case 'crossfade-scene-transition':
+      return <CrossfadeSceneDemo />;
+    case 'blur-focus-reveal':
+      return <BlurFocusRevealDemo />;
+    case 'masked-rise-entrance':
+      return <MaskedRiseDemo />;
+    case 'shared-element-expand':
+      return <SharedElementExpandDemo />;
+    case 'reflow-side-panel':
+      return <ReflowPanelDemo />;
+    case 'transport-icon-morph':
+      return <TransportMorphDemo />;
+    case 'exit-collapse-presence':
+      return <ExitCollapseDemo />;
+    case 'image-crop-zoom-card':
+      return <ImageZoomCardDemo />;
+    case 'expandable-detail-card':
+      return <ExpandableDetailCardDemo />;
+    case 'media-action-overlay-card':
+      return <MediaActionCardDemo />;
+    case 'folder-peek-card':
+      return <FolderPeekCardDemo />;
+    case 'swipe-action-card':
+      return <SwipeActionCardDemo />;
+    case 'profile-fanout-card':
+      return <ProfileFanCardDemo />;
+    case 'hinged-foldout-card':
+      return <FoldoutCardDemo />;
+    case 'lift-shadow-card':
+      return <LiftShadowCardDemo />;
+    case 'product-swatch-card':
+      return <ProductSwatchDemo />;
+    case 'selectable-plan-card':
+      return <SelectableCardDemo />;
+    case 'letter-stagger-button':
+      return <LetterStaggerDemo />;
+    case 'border-beam-button':
+      return <BorderBeamDemo />;
+    case 'menu-icon-morph':
+      return <MenuIconMorphDemo />;
+    case 'corner-bracket-button':
+      return <CornerBracketDemo />;
+    case 'underline-travel-button':
+      return <UnderlineTravelDemo />;
+    case 'depth-press-button':
+      return <DepthPressDemo />;
+    case 'rolling-label-button':
+      return <RollingLabelDemo />;
+    case 'outline-trace-button':
+      return <OutlineTraceDemo />;
+    case 'icon-expand-button':
+      return <IconExpandDemo />;
+    case 'split-action-button':
+      return <SplitActionDemo />;
     /* ==================== DOMAIN 1: UI 인터랙션 (32종) ==================== */
     case 'magnetic-hover':
       return <MagneticHoverDemo />;
@@ -282,6 +588,7 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
  * ============================================================================ */
 
 const MagneticHoverDemo: React.FC = () => {
+  const { t } = useLocale();
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isTracking, setIsTracking] = useState(false);
   return (
@@ -309,14 +616,13 @@ const MagneticHoverDemo: React.FC = () => {
               : 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
         className="px-5 py-2.5 rounded-full bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/35"
-      >
-        마우스를 이리저리 움직여보세요 🧲
-      </button>
+      >{t("demo.moveYourMouseAround")}</button>
     </div>
   );
 };
 
 const ShimmerSweepDemo: React.FC = () => {
+  const { t } = useLocale();
   const [boostKey, setBoostKey] = useState(0);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
@@ -326,9 +632,7 @@ const ShimmerSweepDemo: React.FC = () => {
         className="relative overflow-hidden px-6 py-3 rounded-xl bg-linear-to-r from-indigo-600 via-violet-600 to-indigo-600 border border-indigo-400/50 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 active:scale-95 transition-transform"
       >
         <span className="relative z-10 flex items-center gap-1.5">
-          <Sparkles className="w-4 h-4 text-amber-300" />
-          Shimmer Sweep Button
-        </span>
+          <Sparkles className="w-4 h-4 text-amber-300" />{t("sample.shimmerSweep.shimmerSweepButton")}</span>
         <span className="pointer-events-none absolute top-0 bottom-0 left-0 w-20 bg-linear-to-r from-transparent via-white/55 to-transparent animate-shimmer-sweep" />
       </button>
     </div>
@@ -336,6 +640,7 @@ const ShimmerSweepDemo: React.FC = () => {
 };
 
 const RippleClickDemo: React.FC = () => {
+  const { t } = useLocale();
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -356,7 +661,7 @@ const RippleClickDemo: React.FC = () => {
         onClick={handleClick}
         className="relative overflow-hidden px-6 py-3 rounded-xl bg-indigo-600 text-white font-bold text-xs shadow-md active:scale-[0.98] transition-transform"
       >
-        <span className="relative z-10">클릭한 곳에서 물결이 퍼집니다 💧</span>
+        <span className="relative z-10">{t("demo.ripplesSpreadFromYourClick")}</span>
         {ripples.map((r) => (
           <span
             key={r.id}
@@ -370,6 +675,7 @@ const RippleClickDemo: React.FC = () => {
 };
 
 const NeonGlowPulseDemo: React.FC = () => {
+  const { t } = useLocale();
   const [active, setActive] = useState(true);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
@@ -381,13 +687,14 @@ const NeonGlowPulseDemo: React.FC = () => {
             : 'bg-slate-900 border-slate-700 text-slate-500'
         }`}
       >
-        ⚡ {active ? 'NEON PULSE ON' : 'NEON OFF (클릭)'}
+        ⚡ {active ? t("sample.neonGlowPulse.neonPulseOn") : t("demo.neonOffClick")}
       </button>
     </div>
   );
 };
 
 const LiquidSlideFillDemo: React.FC = () => {
+  const { t } = useLocale();
   const [filled, setFilled] = useState(false);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
@@ -399,7 +706,7 @@ const LiquidSlideFillDemo: React.FC = () => {
           filled ? 'text-slate-950' : 'text-emerald-300'
         }`}
       >
-        <span className="relative z-10">마우스 올리기 / 클릭 →</span>
+        <span className="relative z-10">{t("demo.hoverClick")}</span>
         <span
           className={`absolute inset-0 bg-emerald-400 transition-transform duration-300 ease-out ${
             filled ? 'translate-x-0' : '-translate-x-full'
@@ -411,6 +718,7 @@ const LiquidSlideFillDemo: React.FC = () => {
 };
 
 const CardFlipDemo: React.FC = () => {
+  const { t } = useLocale();
   const [flipped, setFlipped] = useState(false);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
@@ -424,12 +732,12 @@ const CardFlipDemo: React.FC = () => {
           }`}
         >
           <div className="absolute inset-0 backface-hidden rounded-xl bg-linear-to-br from-indigo-600 to-violet-700 p-3.5 flex flex-col justify-between border border-indigo-400/40 shadow-lg">
-            <span className="text-[10px] font-bold text-indigo-200">FRONT SIDE</span>
-            <p className="text-xs font-extrabold text-white">클릭해 카드 뒤집기 ↻</p>
+            <span className="text-[10px] font-bold text-indigo-200">{t("sample.cardFlip.frontSide")}</span>
+            <p className="text-xs font-extrabold text-white">{t("demo.clickToFlipTheCard")}</p>
           </div>
           <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl bg-linear-to-br from-emerald-600 to-teal-700 p-3.5 flex flex-col justify-between border border-emerald-400/40 shadow-lg">
-            <span className="text-[10px] font-bold text-emerald-100">BACK SIDE</span>
-            <p className="text-xs font-extrabold text-white">뒷면 정보 노출 ✨ (다시 클릭)</p>
+            <span className="text-[10px] font-bold text-emerald-100">{t("sample.cardFlip.backSide")}</span>
+            <p className="text-xs font-extrabold text-white">{t("demo.backDetailsClickAgain")}</p>
           </div>
         </div>
       </div>
@@ -438,6 +746,7 @@ const CardFlipDemo: React.FC = () => {
 };
 
 const Tilt3DCardDemo: React.FC = () => {
+  const { t } = useLocale();
   const [rot, setRot] = useState({ x: 0, y: 0, gx: 50, gy: 50 });
   return (
     <div
@@ -465,29 +774,29 @@ const Tilt3DCardDemo: React.FC = () => {
           }}
           className="pointer-events-none absolute inset-0"
         />
-        <span className="relative z-10 text-[10px] font-mono text-white/80">3D TILT</span>
-        <span className="relative z-10 text-xs font-black text-white">
-          마우스 따라 입체로 기울어짐
-        </span>
+        <span className="relative z-10 text-[10px] font-mono text-white/80">{t("sample.tilt3DCard.title")}</span>
+        <span className="relative z-10 text-xs font-black text-white">{t("demo.tiltsIn3dWithYourCursor")}</span>
       </div>
     </div>
   );
 };
 
 const GlassmorphismDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex items-center justify-center overflow-hidden select-none">
       <div className="w-16 h-16 rounded-full bg-pink-500 blur-md absolute animate-glass-orb-1" />
       <div className="w-16 h-16 rounded-full bg-cyan-400 blur-md absolute animate-glass-orb-2" />
       <div className="relative z-10 w-52 h-24 rounded-2xl bg-white/10 backdrop-blur-md border border-white/25 shadow-xl p-3.5 flex flex-col justify-between">
-        <span className="text-[10px] font-mono text-white/80">FROSTED GLASS</span>
-        <span className="text-xs font-bold text-white">배경 빛이 은은히 비치는 유리</span>
+        <span className="text-[10px] font-mono text-white/80">{t("sample.glassmorphism.frostedGlass")}</span>
+        <span className="text-xs font-bold text-white">{t("demo.glassWithSoftlyGlowingBackgroundLight")}</span>
       </div>
     </div>
   );
 };
 
 const SpotlightBorderCardDemo: React.FC = () => {
+  const { t } = useLocale();
   const [pos, setPos] = useState({ x: 100, y: 45 });
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
@@ -501,18 +810,19 @@ const SpotlightBorderCardDemo: React.FC = () => {
         }}
         className="w-56 h-24 rounded-xl border border-indigo-400/40 p-3.5 flex flex-col justify-between cursor-pointer"
       >
-        <span className="text-[10px] font-mono text-indigo-300">RADIAL SPOTLIGHT</span>
-        <span className="text-xs font-bold text-white">카드 위에서 마우스를 움직여보세요</span>
+        <span className="text-[10px] font-mono text-indigo-300">{t("sample.spotlightBorderCard.radialSpotlight")}</span>
+        <span className="text-xs font-bold text-white">{t("demo.moveYourMouseOverTheCard")}</span>
       </div>
     </div>
   );
 };
 
 const StackedCardCycleDemo: React.FC = () => {
+  const { t } = useLocale();
   const [cards, setCards] = useState([
-    { id: 1, label: '1번 카드 (클릭해 넘기기)', color: 'from-indigo-600 to-purple-600' },
-    { id: 2, label: '2번 카드 (클릭해 넘기기)', color: 'from-emerald-600 to-teal-600' },
-    { id: 3, label: '3번 카드 (클릭해 넘기기)', color: 'from-rose-600 to-orange-500' },
+    { id: 1, labelKey: "demo.card1ClickToCycle" as const, color: 'from-indigo-600 to-purple-600' },
+    { id: 2, labelKey: "demo.card2ClickToCycle" as const, color: 'from-emerald-600 to-teal-600' },
+    { id: 3, labelKey: "demo.card3ClickToCycle" as const, color: 'from-rose-600 to-orange-500' },
   ]);
 
   return (
@@ -530,8 +840,8 @@ const StackedCardCycleDemo: React.FC = () => {
           }}
           className={`absolute w-52 h-24 rounded-xl bg-linear-to-r ${c.color} p-3.5 shadow-lg border border-white/20 flex flex-col justify-between transition-all duration-300`}
         >
-          <span className="text-[10px] font-mono text-white/80">STACKED DECK</span>
-          <span className="text-xs font-black text-white">{c.label}</span>
+          <span className="text-[10px] font-mono text-white/80">{t("sample.stackedCardCycle.stackedDeck")}</span>
+          <span className="text-xs font-black text-white">{t(c.labelKey)}</span>
         </div>
       ))}
     </div>
@@ -539,6 +849,7 @@ const StackedCardCycleDemo: React.FC = () => {
 };
 
 const SpringBounceDemo: React.FC = () => {
+  const { t } = useLocale();
   const [popKey, setPopKey] = useState(1);
   return (
     <div
@@ -549,14 +860,14 @@ const SpringBounceDemo: React.FC = () => {
         key={popKey}
         className="animate-spring-pop bg-linear-to-br from-amber-400 to-orange-500 text-slate-950 px-5 py-2.5 rounded-2xl shadow-lg font-black text-xs"
       >
-        🎉 통통 튀는 바운스!
+        {t("demo.aSpringyBounce")}
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">클릭하면 다시 튕깁니다</span>
     </div>
   );
 };
 
 const StaggeredListDemo: React.FC = () => {
+  const { t } = useLocale();
   const [replayKey, setReplayKey] = useState(0);
   return (
     <div
@@ -564,7 +875,7 @@ const StaggeredListDemo: React.FC = () => {
       className="w-full h-40 flex flex-col justify-center px-6 pt-5 cursor-pointer select-none"
     >
       <div key={replayKey} className="space-y-1.5">
-        {['1. 첫 번째 카드 등장', '2. 두 번째 카드 등장', '3. 세 번째 카드 등장'].map((label, i) => (
+        {[t("demo.stagger.firstItem"), t("demo.stagger.secondItem"), t("demo.stagger.thirdItem")].map((label, i) => (
           <div
             key={i}
             style={{
@@ -573,7 +884,6 @@ const StaggeredListDemo: React.FC = () => {
             className="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1 text-[11px] text-slate-200 flex items-center justify-between"
           >
             <span>{label}</span>
-            <span className="text-[10px] text-indigo-400 font-mono">+{i * 100}ms</span>
           </div>
         ))}
       </div>
@@ -588,6 +898,7 @@ const StaggeredListDemo: React.FC = () => {
 };
 
 const SmoothAccordionDemo: React.FC = () => {
+  const { t } = useLocale();
   const [open, setOpen] = useState(true);
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 select-none">
@@ -596,7 +907,7 @@ const SmoothAccordionDemo: React.FC = () => {
         className="w-full rounded-xl bg-slate-900 border border-slate-700 p-3 cursor-pointer"
       >
         <div className="flex items-center justify-between text-xs font-bold text-white">
-          <span>클릭해서 스르륵 접기 / 펼치기</span>
+          <span>{t("demo.clickToCollapseExpand")}</span>
           <ChevronDown
             className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${
               open ? 'rotate-180' : ''
@@ -608,9 +919,7 @@ const SmoothAccordionDemo: React.FC = () => {
             open ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
           }`}
         >
-          <div className="overflow-hidden text-[11px] text-indigo-300">
-            높이가 끊기지 않고 부드럽게 열리고 닫힙니다.
-          </div>
+          <div className="overflow-hidden text-[11px] text-indigo-300">{t("demo.opensAndClosesWithASmooth")}</div>
         </div>
       </div>
     </div>
@@ -618,6 +927,7 @@ const SmoothAccordionDemo: React.FC = () => {
 };
 
 const MorphingStateButtonDemo: React.FC = () => {
+  const { t } = useLocale();
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -652,12 +962,12 @@ const MorphingStateButtonDemo: React.FC = () => {
             : 'w-32 bg-emerald-500 text-slate-950'
         }`}
       >
-        {status === 'idle' && <span>클릭해 상태 변형</span>}
+        {status === 'idle' && <span>{t("demo.clickToChangeState")}</span>}
         {status === 'loading' && <Loader2 className="w-4 h-4 animate-spin" />}
         {status === 'done' && (
           <>
             <Check className="w-4 h-4" />
-            <span>완료! (재클릭)</span>
+            <span>{t("demo.doneClickAgain")}</span>
           </>
         )}
       </button>
@@ -677,7 +987,8 @@ const FloatingLevitationDemo: React.FC = () => {
 };
 
 const TypewriterDemo: React.FC = () => {
-  const text = '타자기처럼 한 글자씩 다다닥 출력됩니다.';
+  const { t } = useLocale();
+  const text = t("demo.textAppearsOneCharacterAtA");
   const [displayed, setDisplayed] = useState('');
   const [runId, setRunId] = useState(0);
 
@@ -690,18 +1001,18 @@ const TypewriterDemo: React.FC = () => {
       if (i >= text.length) clearInterval(t);
     }, 55);
     return () => clearInterval(t);
-  }, [runId]);
+  }, [runId, text]);
 
   return (
     <div
       onClick={() => setRunId((r) => r + 1)}
+      onMouseEnter={() => setRunId((r) => r + 1)}
       className="w-full h-40 flex flex-col items-center justify-center px-5 cursor-pointer select-none"
     >
       <div className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-3 font-mono text-xs text-emerald-300">
         {displayed}
         <span className="inline-block w-1.5 h-3.5 ml-0.5 align-middle bg-emerald-400 animate-pulse" />
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">클릭 시 다시 타이핑</span>
     </div>
   );
 };
@@ -739,12 +1050,12 @@ const ScrambleDecodeDemo: React.FC = () => {
       <span className="font-mono text-sm font-black tracking-widest text-cyan-300 bg-slate-900 border border-cyan-500/30 px-4 py-2 rounded-xl">
         {output}
       </span>
-      <span className="mt-2 text-[10px] text-slate-400">마우스 올리기 / 클릭 시 해독</span>
     </div>
   );
 };
 
 const GradientFlowTextDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex items-center justify-center select-none px-4">
       <span
@@ -753,9 +1064,7 @@ const GradientFlowTextDemo: React.FC = () => {
             'linear-gradient(90deg, #818cf8, #f472b6, #fbbf24, #34d399, #818cf8)',
         }}
         className="text-xl font-black bg-clip-text text-transparent animate-gradient-flow"
-      >
-        Aurora Flowing Text
-      </span>
+      >{t("sample.gradientFlowText.auroraFlowingText")}</span>
     </div>
   );
 };
@@ -791,33 +1100,33 @@ const SlotNumberTickerDemo: React.FC = () => {
       <span className="text-2xl font-mono font-black text-white">
         {val.toLocaleString()}
       </span>
-      <span className="mt-2 text-[10px] text-indigo-300 bg-indigo-950/70 px-2.5 py-0.5 rounded-full">
-        클릭하면 숫자가 드르륵 올라갑니다
-      </span>
     </div>
   );
 };
 
 const MarkerHighlightDrawDemo: React.FC = () => {
+  const { t } = useLocale();
   const [drawn, setDrawn] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setDrawn(true), 200);
-    return () => clearTimeout(t);
+    timer.current = setTimeout(() => { timer.current = null; setDrawn(true); }, 200);
+    return () => { if (timer.current !== null) clearTimeout(timer.current); };
   }, []);
 
   const replay = () => {
+    if (timer.current !== null) clearTimeout(timer.current);
     setDrawn(false);
-    setTimeout(() => setDrawn(true), 120);
+    timer.current = setTimeout(() => { timer.current = null; setDrawn(true); }, 120);
   };
 
   return (
     <div
       onClick={replay}
+      onMouseEnter={replay}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-4"
     >
-      <p className="text-xs font-bold text-slate-200">
-        문장 속{' '}
+      <p className="text-xs font-bold text-slate-200">{t("demo.draw")}{' '}
         <span
           style={{
             backgroundImage:
@@ -831,16 +1140,16 @@ const MarkerHighlightDrawDemo: React.FC = () => {
           }}
           className="px-1 text-amber-200"
         >
-          핵심 키워드에 형광펜
+          {t("demo.aHighlightBehindKeyWords")}
         </span>{' '}
-        드로잉
+        {t("demo.inASentence")}
       </p>
-      <span className="mt-2.5 text-[10px] text-slate-400">클릭 시 다시 슥 긋기</span>
     </div>
   );
 };
 
 const ConfettiBurstDemo: React.FC = () => {
+  const { t } = useLocale();
   const [burstKey, setBurstKey] = useState(0);
   const [active, setActive] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -901,14 +1210,13 @@ const ConfettiBurstDemo: React.FC = () => {
       <button
         onClick={fire}
         className="px-5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs shadow-lg active:scale-95 transition-transform"
-      >
-        🎉 폭죽 터뜨리기 (클릭)
-      </button>
+      >{t("demo.burstConfettiClick")}</button>
     </div>
   );
 };
 
 const ErrorShakeDemo: React.FC = () => {
+  const { t } = useLocale();
   const [shaking, setShaking] = useState(false);
   const [showTip, setShowTip] = useState(true);
 
@@ -923,9 +1231,7 @@ const ErrorShakeDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-6 pt-5 select-none">
       {showTip && (
-        <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">
-          ⚠️ 값을 다시 확인해 주세요!
-        </div>
+        <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">{t("demo.pleaseCheckTheValue")}</div>
       )}
       <div
         onClick={trigger}
@@ -935,10 +1241,8 @@ const ErrorShakeDemo: React.FC = () => {
             : 'border-slate-700 hover:border-rose-500/60'
         }`}
       >
-        <span className="text-xs font-mono text-rose-300">Invalid Input</span>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm bg-rose-500/20 text-rose-300">
-          클릭해 진동
-        </span>
+        <span className="text-xs font-mono text-rose-300">{t("sample.errorShake.invalidInput")}</span>
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm bg-rose-500/20 text-rose-300">{t("demo.clickToShake")}</span>
       </div>
     </div>
   );
@@ -961,38 +1265,35 @@ const HeartLikeBurstDemo: React.FC = () => {
           className="w-6 h-6 text-rose-500 fill-rose-500 animate-spring-pop"
         />
       </button>
-      <span className="mt-2 text-[10px] text-slate-400">하트를 클릭해 보세요</span>
     </div>
   );
 };
 
 const ToastSlideStackDemo: React.FC = () => {
-  const [toasts, setToasts] = useState([{ id: 1, text: '저장이 완료되었습니다.' }]);
+  const { t } = useLocale();
+  const [toasts, setToasts] = useState([{ id: 1, number: null as number | null }]);
 
   const pushToast = () => {
     const nextId = Date.now();
     setToasts((prev) => [
       ...prev.slice(-1),
-      { id: nextId, text: `새 알림 도착 #${(nextId % 90) + 10}` },
+      { id: nextId, number: (nextId % 90) + 10 },
     ]);
   };
 
   return (
     <div
       onClick={pushToast}
-      className="w-full h-40 flex flex-col justify-between pt-9 pb-3 px-4 cursor-pointer select-none"
+      className="w-full h-40 flex flex-col justify-end pt-9 pb-3 px-4 cursor-pointer select-none"
     >
-      <span className="text-[10px] text-indigo-300 bg-indigo-950/70 px-2.5 py-0.5 rounded-full w-fit mx-auto">
-        + 클릭해서 토스트 알림 띄우기
-      </span>
       <div className="space-y-1">
-        {toasts.map((t) => (
+        {toasts.map((toast) => (
           <div
-            key={t.id}
+            key={toast.id}
             className="animate-toast-slide-up w-full bg-slate-900 border border-indigo-500/40 rounded-xl px-3 py-1.5 shadow-lg flex items-center gap-2"
           >
             <Bell className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-            <span className="text-xs font-bold text-white">{t.text}</span>
+            <span className="text-xs font-bold text-white">{toast.number === null ? t('demo.savedSuccessfully') : t('demo.toast.newNotification', { number: toast.number })}</span>
           </div>
         ))}
       </div>
@@ -1001,8 +1302,9 @@ const ToastSlideStackDemo: React.FC = () => {
 };
 
 const SlidingPillTabsDemo: React.FC = () => {
+  const { t } = useLocale();
   const [activeIdx, setActiveIdx] = useState(0);
-  const tabs = ['홈', '트렌드', '설정'];
+  const tabs = [t("demo.home"), t("demo.trending"), t("demo.settings")];
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 select-none">
       <div className="relative grid grid-cols-3 bg-slate-900 p-1 rounded-xl border border-slate-800 w-full max-w-[230px]">
@@ -1060,11 +1362,12 @@ const SkeletonShimmerDemo: React.FC = () => {
 };
 
 const SpotlightFocusDemo: React.FC = () => {
+  const { t } = useLocale();
   const [focusIdx, setFocusIdx] = useState(1);
   return (
     <div className="w-full h-40 flex items-center justify-center px-6 pt-5 select-none">
       <div className="w-full space-y-1.5">
-        {['1. 상단 메뉴 영역', '2. 포커스된 핵심 영역 (클릭)', '3. 하단 정보 영역'].map(
+        {[t("demo.focus.topMenu"), t("demo.focus.mainContent"), t("demo.focus.bottomInfo")].map(
           (label, i) => (
             <div
               key={i}
@@ -1085,19 +1388,16 @@ const SpotlightFocusDemo: React.FC = () => {
 };
 
 const BeforeAfterSliderDemo: React.FC = () => {
+  const { t } = useLocale();
   const [pos, setPos] = useState(55);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-6 select-none">
       <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-700">
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-600 to-cyan-500 flex items-center justify-end pr-4 text-xs font-black text-white">
-          AFTER ✨
-        </div>
+        <div className="absolute inset-0 bg-linear-to-r from-indigo-600 to-cyan-500 flex items-center justify-end pr-4 text-xs font-black text-white">{t("sample.beforeAfterSlider.after")}</div>
         <div
           style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
           className="absolute inset-0 bg-slate-900 flex items-center pl-4 text-xs font-black text-slate-400"
-        >
-          BEFORE
-        </div>
+        >{t("sample.beforeAfterSlider.before")}</div>
         <div
           style={{ left: `${pos}%` }}
           className="absolute top-0 bottom-0 w-0.5 bg-white flex items-center justify-center"
@@ -1120,12 +1420,13 @@ const BeforeAfterSliderDemo: React.FC = () => {
 };
 
 const DragSnapSlotDemo: React.FC = () => {
+  const { t } = useLocale();
   const [selected, setSelected] = useState('Motion');
   const chips = ['Motion', '3D UI', 'Spring'];
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-5 select-none gap-2.5">
       <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2">
-        <span className="text-xs text-slate-400">장착 슬롯:</span>
+        <span className="text-xs text-slate-400">{t("demo.selectedSlot")}</span>
         <span
           key={selected}
           className="px-3 py-0.5 rounded-lg text-xs font-bold border-2 border-emerald-400 bg-emerald-500/20 text-emerald-300 animate-spring-pop"
@@ -1180,12 +1481,12 @@ const ElasticToggleSwitchDemo: React.FC = () => {
           className="w-7 h-7 rounded-full bg-white shadow-md"
         />
       </button>
-      <span className="mt-2 text-[10px] text-slate-400">클릭 시 탄성 스위치 전환</span>
     </div>
   );
 };
 
 const ComboGaugeDemo: React.FC = () => {
+  const { t } = useLocale();
   const [count, setCount] = useState(3);
   const pct = ((count % 5) + 1) * 20;
   return (
@@ -1198,7 +1499,7 @@ const ComboGaugeDemo: React.FC = () => {
           key={count}
           className="animate-combo-pop inline-flex items-center gap-1 bg-orange-500 text-slate-950 font-black text-xs px-2.5 py-0.5 rounded-full"
         >
-          <Flame className="w-3.5 h-3.5 fill-current" /> COMBO x{count}
+          <Flame className="w-3.5 h-3.5 fill-current" />{t("sample.comboGauge.comboX")}{count}
         </span>
         <span className="text-xs font-mono font-bold text-emerald-400">{pct}%</span>
       </div>
@@ -1208,7 +1509,6 @@ const ComboGaugeDemo: React.FC = () => {
           className="h-full bg-linear-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
         />
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">클릭해 게이지 채우기</span>
     </div>
   );
 };
@@ -1223,7 +1523,6 @@ const MgSquashStretchDemo: React.FC = () => {
     <div className="w-full h-40 flex flex-col items-center justify-center select-none pt-6">
       <div className="w-10 h-10 rounded-full bg-linear-to-b from-amber-300 to-orange-500 shadow-lg shadow-orange-500/30 animate-squash-bounce" />
       <div className="mt-[18px] w-16 h-1.5 rounded-full bg-slate-700/80" />
-      <span className="mt-2 text-[10px] text-slate-400">충돌 시 납작 ➔ 도약 시 길쭉</span>
     </div>
   );
 };
@@ -1242,7 +1541,6 @@ const MgAnticipationDemo: React.FC = () => {
       >
         <Rocket className="w-5 h-5 text-slate-950 rotate-45" />
       </div>
-      <span className="mt-4 text-[10px] text-slate-400">뒤로 움츠렸다가 앞으로 폭발 발사</span>
     </div>
   );
 };
@@ -1285,7 +1583,6 @@ const MgFollowTrailDemo: React.FC = () => {
             );
           })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">선두 뒤를 시차 두고 따라오는 잔상 꼬리</span>
     </div>
   );
 };
@@ -1310,16 +1607,16 @@ const MgEasingCurvesDemo: React.FC = () => {
       onClick={() => setActive(!active)}
       className="w-full h-40 flex flex-col justify-center px-6 pt-5 gap-2 cursor-pointer select-none"
     >
-      {tracks.map((tr) => (
-        <div key={tr.name} className="flex items-center gap-2">
-          <span className="w-14 text-[10px] font-mono text-slate-400">{tr.name}</span>
+      {tracks.map((track) => (
+        <div key={track.name} className="flex items-center gap-2">
+          <span className="w-14 text-[10px] font-mono text-slate-400">{track.name}</span>
           <div className="relative flex-1 h-5 bg-slate-900 rounded-full border border-slate-800 flex items-center overflow-hidden">
             <div
               style={{
-                transition: `left 0.9s ${tr.easing}`,
+                transition: `left 0.9s ${track.easing}`,
                 left: active ? 'calc(100% - 22px)' : '8px',
               }}
-              className={`absolute w-3.5 h-3.5 rounded-full ${tr.color}`}
+              className={`absolute w-3.5 h-3.5 rounded-full ${track.color}`}
             />
           </div>
         </div>
@@ -1343,7 +1640,6 @@ const MgSvgLineDrawDemo: React.FC = () => {
           className="animate-svg-draw"
         />
       </svg>
-      <span className="mt-1 text-[10px] text-slate-400">SVG 선이 시작점부터 끝점까지 그려짐</span>
     </div>
   );
 };
@@ -1353,7 +1649,6 @@ const MgLiquidBlobMorphDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
       <div className="w-20 h-20 bg-linear-to-tr from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-lg shadow-indigo-500/30 animate-liquid-morph" />
-      <span className="mt-2.5 text-[10px] text-slate-400">물방울처럼 곡률이 계속 변형됨</span>
     </div>
   );
 };
@@ -1383,7 +1678,6 @@ const MgGooeyMetaballDemo: React.FC = () => {
         <div className="w-11 h-11 rounded-full bg-cyan-400 absolute animate-metaball-left" />
         <div className="w-11 h-11 rounded-full bg-indigo-500 absolute animate-metaball-right" />
       </div>
-      <span className="mt-1 text-[10px] text-slate-400">두 물방울이 끈적하게 합체·분리</span>
     </div>
   );
 };
@@ -1424,13 +1718,13 @@ const MgKineticWaveTextDemo: React.FC = () => {
           </span>
         ))}
       </div>
-      <span className="mt-3 text-[10px] text-slate-400">글자 단위로 쪼개져 파도처럼 출렁임</span>
     </div>
   );
 };
 
 /* 10. 버티컬 키네틱 텍스트 롤러 */
 const Mg3DTextRollerDemo: React.FC = () => {
+  const { t } = useLocale();
   const words = ['MOTION', 'GRAPHICS', 'CINEMA', 'INTERACTION'];
   const [idx, setIdx] = useState(0);
 
@@ -1445,7 +1739,7 @@ const Mg3DTextRollerDemo: React.FC = () => {
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
       <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-        <span>CREATE</span>
+        <span>{t("sample.mg3DTextRoller.create")}</span>
         <div className="h-7 overflow-hidden bg-slate-900 border border-indigo-500/40 rounded-lg px-2.5">
           <div
             style={{
@@ -1464,26 +1758,26 @@ const Mg3DTextRollerDemo: React.FC = () => {
           </div>
         </div>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">슬롯 롤러처럼 단어가 회전 교체</span>
     </div>
   );
 };
 
 /* 11. 네온 사인 플리커 점등 */
 const MgNeonSignFlickerDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
       <div className="px-4 py-2 rounded-xl bg-slate-950 border border-rose-500/30 font-mono text-lg font-black tracking-widest text-rose-400">
-        <span>OPEN </span>
-        <span className="animate-neon-flicker text-rose-300">24H</span>
+        <span>{t("sample.mgNeonSignFlicker.open")}</span>
+        <span className="animate-neon-flicker text-rose-300">{t("sample.mgNeonSignFlicker.hours")}</span>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">네온관이 파르르 깜빡이며 점등</span>
     </div>
   );
 };
 
 /* 12. 2.5D 멀티레이어 패럴랙스 */
 const MgParallaxDepthDemo: React.FC = () => {
+  const { t } = useLocale();
   const [pos, setPos] = useState({ x: 0, y: 0 });
   return (
     <div
@@ -1502,28 +1796,27 @@ const MgParallaxDepthDemo: React.FC = () => {
         style={{ transform: `translate(${pos.x * 0.4}px, ${pos.y * 0.4}px)` }}
         className="w-40 h-20 rounded-xl bg-slate-900 border border-slate-800 flex items-start justify-end p-2 transition-transform duration-75"
       >
-        <span className="text-[9px] text-slate-500 font-mono">BG (0.4x)</span>
+        <span className="text-[9px] text-slate-500 font-mono">{t("sample.mgParallaxDepth.bg04x")}</span>
       </div>
       {/* 중경 레이어 (중간) */}
       <div
         style={{ transform: `translate(${pos.x * 1.1}px, ${pos.y * 1.1}px)` }}
         className="absolute w-28 h-14 rounded-xl bg-indigo-950/90 border border-indigo-500/40 flex items-start justify-end p-1.5 shadow-lg transition-transform duration-75"
       >
-        <span className="text-[9px] text-indigo-300 font-mono">MID (1.1x)</span>
+        <span className="text-[9px] text-indigo-300 font-mono">{t("sample.mgParallaxDepth.mid11x")}</span>
       </div>
       {/* 전경 레이어 (빠름) */}
       <div
         style={{ transform: `translate(${pos.x * 2.1}px, ${pos.y * 2.1}px)` }}
         className="absolute px-3 py-1.5 rounded-lg bg-cyan-400 text-slate-950 font-black text-xs shadow-xl transition-transform duration-75"
-      >
-        FG (2.1x)
-      </div>
+      >{t("sample.mgParallaxDepth.fg21x")}</div>
     </div>
   );
 };
 
 /* 13. 카메라 랙 포커스 (초점 심도 전환) */
 const MgRackFocusBlurDemo: React.FC = () => {
+  const { t } = useLocale();
   const [focusFront, setFocusFront] = useState(true);
   return (
     <div
@@ -1537,9 +1830,7 @@ const MgRackFocusBlurDemo: React.FC = () => {
             ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-violet-300 shadow-xl'
             : 'blur-xs scale-90 opacity-45 z-0'
         }`}
-      >
-        🏔️ 배경 피사체 (Back)
-      </div>
+      >{t("demo.backgroundSubjectBack")}</div>
       {/* 전경 피사체 */}
       <div
         className={`absolute left-7 bottom-4 px-3.5 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs transition-all duration-500 ${
@@ -1547,27 +1838,26 @@ const MgRackFocusBlurDemo: React.FC = () => {
             ? 'blur-0 scale-105 opacity-100 z-10 ring-2 ring-emerald-200 shadow-xl'
             : 'blur-xs scale-90 opacity-45 z-0'
         }`}
-      >
-        📷 전경 피사체 (클릭 전환)
-      </div>
+      >{t("demo.foregroundSubjectClickToSwitch")}</div>
     </div>
   );
 };
 
 /* 14. 시네마틱 켄 번즈 (줌 & 패닝) */
 const MgKenBurnsPanDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none px-6">
       <div className="relative w-52 h-24 rounded-xl overflow-hidden border border-slate-700">
         <div className="w-full h-full bg-linear-to-br from-indigo-900 via-purple-900 to-amber-700 animate-ken-burns flex items-center justify-center">
           <div className="text-center">
-            <span className="text-[10px] font-mono text-amber-200 block">CAMERA PAN & ZOOM</span>
-            <span className="text-xs font-black text-white">Ken Burns Effect</span>
+            <span className="text-[10px] font-mono text-amber-200 block">{t("sample.mgKenBurnsPan.cameraPanZoom")}</span>
+            <span className="text-xs font-black text-white">{t("sample.mgKenBurnsPan.kenBurnsEffect")}</span>
           </div>
         </div>
         {/* 카메라 뷰파인더 가이드 */}
         <div className="pointer-events-none absolute inset-2 border border-white/25 rounded-sm flex items-start justify-between p-1">
-          <span className="text-[8px] font-mono text-rose-400">● REC</span>
+          <span className="text-[8px] font-mono text-rose-400">{t("sample.mgKenBurnsPan.rec")}</span>
         </div>
       </div>
     </div>
@@ -1607,13 +1897,13 @@ const MgIsometricExplodeDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">마우스 오버 / 클릭 시 입체 층 분리</span>
     </div>
   );
 };
 
 /* 16. 서큘러 아이리스 와이프 전환 */
 const MgIrisCircleWipeDemo: React.FC = () => {
+  const { t } = useLocale();
   const [closed, setClosed] = useState(false);
   return (
     <div
@@ -1621,7 +1911,7 @@ const MgIrisCircleWipeDemo: React.FC = () => {
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-6"
     >
       <div className="relative w-52 h-24 rounded-xl overflow-hidden border border-slate-700 bg-slate-950 flex items-center justify-center">
-        <span className="text-xs font-bold text-slate-400">SCENE #2 (클릭해 열기)</span>
+        <span className="text-xs font-bold text-slate-400">{t("demo.scene2ClickToOpen")}</span>
         <div
           style={{
             clipPath: closed ? 'circle(0% at 50% 50%)' : 'circle(120% at 50% 50%)',
@@ -1629,7 +1919,7 @@ const MgIrisCircleWipeDemo: React.FC = () => {
           }}
           className="absolute inset-0 bg-linear-to-r from-indigo-600 to-emerald-500 flex items-center justify-center"
         >
-          <span className="text-xs font-black text-white">SCENE #1 (클릭해 조리개 닫기)</span>
+          <span className="text-xs font-black text-white">{t("demo.scene1ClickToCloseIris")}</span>
         </div>
       </div>
     </div>
@@ -1638,20 +1928,19 @@ const MgIrisCircleWipeDemo: React.FC = () => {
 
 /* 17. RGB 색수차 글리치 */
 const MgRgbChromaticGlitchDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
       <div className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800">
-        <span className="font-mono text-lg font-black tracking-wider text-white inline-block animate-rgb-glitch">
-          CYBER GLITCH
-        </span>
+        <span className="font-mono text-lg font-black tracking-wider text-white inline-block animate-rgb-glitch">{t("sample.mgRgbChromaticGlitch.cyberGlitch")}</span>
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">Red·Cyan 채널 분리 및 디지털 노이즈</span>
     </div>
   );
 };
 
 /* 18. 스피드 라인 & 모션 스트리크 */
 const MgSpeedLinesStreakDemo: React.FC = () => {
+  const { t } = useLocale();
   const lines = [
     { top: '20%', delay: '0ms', width: 'w-20' },
     { top: '38%', delay: '220ms', width: 'w-28' },
@@ -1668,23 +1957,20 @@ const MgSpeedLinesStreakDemo: React.FC = () => {
           className={`pointer-events-none absolute left-0 h-0.5 ${l.width} bg-linear-to-r from-transparent via-cyan-400 to-white animate-speed-streak`}
         />
       ))}
-      <div className="relative z-10 px-4 py-1.5 rounded-full bg-indigo-600 text-white font-black text-xs italic shadow-lg">
-        ⚡ HYPER SPEED
-      </div>
+      <div className="relative z-10 px-4 py-1.5 rounded-full bg-indigo-600 text-white font-black text-xs italic shadow-lg">{t("sample.mgSpeedLinesStreak.hyperSpeed")}</div>
     </div>
   );
 };
 
 /* 19. 오로라 메쉬 그라데이션 */
 const MgAuroraMeshDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex items-center justify-center overflow-hidden select-none bg-slate-950">
       <div className="w-32 h-32 rounded-full bg-indigo-500/60 blur-2xl absolute animate-aurora-1" />
       <div className="w-32 h-32 rounded-full bg-emerald-400/50 blur-2xl absolute animate-aurora-2" />
       <div className="w-28 h-28 rounded-full bg-fuchsia-500/50 blur-2xl absolute animate-glass-orb-1" />
-      <span className="relative z-10 text-xs font-black tracking-wider text-white/90 bg-slate-950/40 backdrop-blur-xs px-3 py-1 rounded-full border border-white/15">
-        AURORA MESH
-      </span>
+      <span className="relative z-10 text-xs font-black tracking-wider text-white/90 bg-slate-950/40 backdrop-blur-xs px-3 py-1 rounded-full border border-white/15">{t("sample.mgAuroraMesh.auroraMesh")}</span>
     </div>
   );
 };
@@ -1781,7 +2067,6 @@ const MgDotMatrixGridDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-1 text-[10px] text-slate-400">마우스를 좌우로 움직여보세요</span>
     </div>
   );
 };
@@ -1797,12 +2082,6 @@ const MgGodRayBeamDemo: React.FC = () => {
         }}
         className="pointer-events-none absolute -top-6 w-64 h-48 blur-md animate-beam-sway"
       />
-      <span className="relative z-10 text-xs font-black tracking-widest text-cyan-200 mt-4">
-        VOLUMETRIC BEAM
-      </span>
-      <span className="relative z-10 mt-1 text-[10px] text-slate-400">
-        상단에서 쏟아지는 입체 빛기둥
-      </span>
     </div>
   );
 };
@@ -1813,6 +2092,7 @@ const MgGodRayBeamDemo: React.FC = () => {
 
 /* 1. 벤토 그리드 (Bento Grid) */
 const LyBentoGridDemo: React.FC = () => {
+  const { t } = useLocale();
   const [activeTile, setActiveTile] = useState(0);
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
@@ -1825,8 +2105,8 @@ const LyBentoGridDemo: React.FC = () => {
               : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
           }`}
         >
-          <span className="text-[9px] font-mono text-indigo-300">2x2 MAIN</span>
-          <span className="text-xs font-extrabold">Bento Hero</span>
+          <span className="text-[9px] font-mono text-indigo-300">{t("sample.lyBentoGrid.mainTile")}</span>
+          <span className="text-xs font-extrabold">{t("sample.lyBentoGrid.bentoHero")}</span>
         </div>
         <div
           onClick={() => setActiveTile(1)}
@@ -1836,8 +2116,8 @@ const LyBentoGridDemo: React.FC = () => {
               : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
           }`}
         >
-          <span className="text-[10px] font-bold">Wide Tile</span>
-          <span className="text-[9px] font-mono text-emerald-300">2x1</span>
+          <span className="text-[10px] font-bold">{t("sample.lyBentoGrid.wideTile")}</span>
+          <span className="text-[9px] font-mono text-emerald-300">{t("sample.lyBentoGrid.wideTile")}</span>
         </div>
         <div
           onClick={() => setActiveTile(2)}
@@ -1846,9 +2126,7 @@ const LyBentoGridDemo: React.FC = () => {
               ? 'bg-amber-500/30 border-amber-400 text-amber-200'
               : 'bg-slate-900 border-slate-800 text-slate-400'
           }`}
-        >
-          1x1
-        </div>
+        >{t("sample.lyBentoGrid.smallTile")}</div>
         <div
           onClick={() => setActiveTile(3)}
           className={`col-span-1 row-span-1 rounded-xl flex items-center justify-center cursor-pointer border text-[10px] font-bold transition-all ${
@@ -1856,9 +2134,7 @@ const LyBentoGridDemo: React.FC = () => {
               ? 'bg-pink-500/30 border-pink-400 text-pink-200'
               : 'bg-slate-900 border-slate-800 text-slate-400'
           }`}
-        >
-          1x1
-        </div>
+        >{t("sample.lyBentoGrid.smallTile")}</div>
       </div>
     </div>
   );
@@ -1866,6 +2142,7 @@ const LyBentoGridDemo: React.FC = () => {
 
 /* 2. 메이슨리 폭포수 그리드 (Masonry Waterfall) */
 const LyMasonryWaterfallDemo: React.FC = () => {
+  const { t } = useLocale();
   const [shuffled, setShuffled] = useState(false);
   return (
     <div
@@ -1874,25 +2151,25 @@ const LyMasonryWaterfallDemo: React.FC = () => {
     >
       <div className="w-full grid grid-cols-3 gap-1.5 items-start">
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-indigo-500/30 border border-indigo-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-indigo-200`}>H1</div>
-          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H2</div>
+          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-indigo-500/30 border border-indigo-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-indigo-200`}>{t("sample.lyMasonryWaterfall.h1")}</div>
+          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>{t("sample.lyMasonryWaterfall.h2")}</div>
         </div>
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H3</div>
-          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-cyan-500/30 border border-cyan-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-cyan-200`}>H4</div>
+          <div className={`${shuffled ? 'h-12' : 'h-7'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>{t("sample.lyMasonryWaterfall.h3")}</div>
+          <div className={`${shuffled ? 'h-8' : 'h-12'} rounded-lg bg-cyan-500/30 border border-cyan-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-cyan-200`}>{t("sample.lyMasonryWaterfall.h4")}</div>
         </div>
         <div className="space-y-1.5">
-          <div className={`${shuffled ? 'h-10' : 'h-11'} rounded-lg bg-fuchsia-500/30 border border-fuchsia-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-fuchsia-200`}>H5</div>
-          <div className={`${shuffled ? 'h-11' : 'h-9'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>H6</div>
+          <div className={`${shuffled ? 'h-10' : 'h-11'} rounded-lg bg-fuchsia-500/30 border border-fuchsia-500/50 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-fuchsia-200`}>{t("sample.lyMasonryWaterfall.h5")}</div>
+          <div className={`${shuffled ? 'h-11' : 'h-9'} rounded-lg bg-slate-800 border border-slate-700 transition-all duration-300 flex items-center justify-center text-[9px] font-mono text-slate-400`}>{t("sample.lyMasonryWaterfall.h6")}</div>
         </div>
       </div>
-      <span className="mt-1.5 text-[10px] text-slate-400">클릭 시 높이 단차 재배치</span>
     </div>
   );
 };
 
 /* 3. 매거진 비대칭 오버랩 (Asymmetric Editorial) */
 const LyEditorialAsymmetricDemo: React.FC = () => {
+  const { t } = useLocale();
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -1911,8 +2188,8 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
           hovered ? 'translate-x-1 -translate-y-1' : ''
         }`}
       >
-        <span className="text-[9px] font-mono text-amber-300">ISSUE 04</span>
-        <p className="text-xs font-black text-white leading-tight">EDITORIAL OVERLAP</p>
+        <span className="text-[9px] font-mono text-amber-300">{t("sample.lyEditorialAsymmetric.issue04")}</span>
+        <p className="text-xs font-black text-white leading-tight">{t("sample.lyEditorialAsymmetric.editorialOverlap")}</p>
       </div>
     </div>
   );
@@ -1920,6 +2197,7 @@ const LyEditorialAsymmetricDemo: React.FC = () => {
 
 /* 4. 허니컴 육각형 타일 (Honeycomb Grid) - 라이트/다크 모드 고대비 벡터 타일 */
 const LyHoneycombHexDemo: React.FC = () => {
+  const { t } = useLocale();
   const [selected, setSelected] = useState(2);
   const hexes = [
     { id: 0, label: 'AI', role: 'CORE' },
@@ -1946,7 +2224,7 @@ const LyHoneycombHexDemo: React.FC = () => {
             setSelected(item.id);
           }
         }}
-        aria-label={`${item.label} 육각형 셀`}
+        aria-label={t("demo.honeycomb.cellLabel", { name: item.label })}
         style={{
           outline: 'none',
           border: 'none',
@@ -2007,15 +2285,13 @@ const LyHoneycombHexDemo: React.FC = () => {
           {row2.map(renderHex)}
         </div>
       </div>
-      <span className="mt-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-        육각형 셀을 클릭해 보세요
-      </span>
     </div>
   );
 };
 
 /* 5. 스티키 스크롤텔링 (Sticky Scrolltelling) */
 const LyStickyScrolltellingDemo: React.FC = () => {
+  const { t } = useLocale();
   const [step, setStep] = useState(0);
   const steps = [
     { title: 'Step 01', color: 'from-indigo-500 to-cyan-400' },
@@ -2032,7 +2308,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
         <div
           className={`h-full rounded-lg bg-linear-to-br ${steps[step].color} flex flex-col items-center justify-center text-slate-950 font-black text-xs transition-all duration-300`}
         >
-          <span className="text-[9px] font-mono opacity-75">STICKY LEFT</span>
+          <span className="text-[9px] font-mono opacity-75">{t("sample.lyStickyScrolltelling.stickyLeft")}</span>
           <span>{steps[step].title}</span>
         </div>
         {/* 우측 스크롤 스토리 */}
@@ -2046,8 +2322,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
                   : 'bg-slate-950 text-slate-500'
               }`}
             >
-              {s.title} 스크롤 단락
-            </div>
+              {t("demo.story.section", { title: s.title })}</div>
           ))}
         </div>
       </div>
@@ -2057,6 +2332,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
 
 /* 6. 풀페이지 스냅 섹션 (Full-Page Scroll Snap) */
 const LyFullpageSnapDemo: React.FC = () => {
+  const { t } = useLocale();
   const [page, setPage] = useState(0);
   const colors = ['bg-indigo-600/30 border-indigo-400', 'bg-emerald-600/30 border-emerald-400', 'bg-rose-600/30 border-rose-400'];
   return (
@@ -2074,8 +2350,7 @@ const LyFullpageSnapDemo: React.FC = () => {
               key={idx}
               className={`h-24 flex flex-col items-center justify-center border-l-4 ${colors[idx]}`}
             >
-              <span className="text-xs font-black text-white">SECTION 0{idx + 1}</span>
-              <span className="text-[10px] text-slate-400">클릭 시 다음 섹션으로 철컥 스냅</span>
+              <span className="text-xs font-black text-white">{t("sample.lyFullpageSnap.section0")}{idx + 1}</span>
             </div>
           ))}
         </div>
@@ -2094,6 +2369,7 @@ const LyFullpageSnapDemo: React.FC = () => {
 
 /* 7. 가로 스크롤 쇼케이스 (Horizontal Scroll Showcase) */
 const LyHorizontalShowcaseDemo: React.FC = () => {
+  const { t } = useLocale();
   const [idx, setIdx] = useState(0);
   return (
     <div
@@ -2119,9 +2395,7 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
                 className={`text-[9px] ${
                   i === idx ? 'text-indigo-100 font-semibold' : 'text-indigo-400/80'
                 }`}
-              >
-                스냅 슬라이드
-              </span>
+              >{t("demo.snapSlide")}</span>
             </div>
           ))}
         </div>
@@ -2147,6 +2421,7 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
 
 /* 8. 언더빌 커튼 리빌 푸터 (Curtain Reveal) */
 const LyCurtainRevealDemo: React.FC = () => {
+  const { t } = useLocale();
   const [lifted, setLifted] = useState(false);
   return (
     <div
@@ -2156,8 +2431,8 @@ const LyCurtainRevealDemo: React.FC = () => {
       <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-800 bg-indigo-950 flex items-end justify-center p-2">
         {/* 바닥에 깔린 고정 레이어 */}
         <div className="text-center">
-          <span className="text-[10px] font-mono text-indigo-300">FIXED FOOTER LAYER</span>
-          <p className="text-xs font-black text-white">숨겨진 하단 푸터 등장 ✨</p>
+          <span className="text-[10px] font-mono text-indigo-300">{t("sample.lyCurtainReveal.fixedFooterLayer")}</span>
+          <p className="text-xs font-black text-white">{t("demo.aHiddenFooterIsRevealed")}</p>
         </div>
         {/* 위를 덮은 본문 커튼 */}
         <div
@@ -2166,7 +2441,7 @@ const LyCurtainRevealDemo: React.FC = () => {
           }`}
         >
           <span className="text-xs font-bold text-slate-200">
-            {lifted ? '커튼 닫기 ↓ (클릭)' : '본문 커튼 들어올리기 ↑ (클릭)'}
+            {lifted ? t("demo.closeCurtainClick") : t("demo.liftContentCurtainClick")}
           </span>
         </div>
       </div>
@@ -2200,21 +2475,21 @@ const LyMacosDockDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="mt-2.5 text-[10px] text-slate-400">아이콘 위에 마우스를 올려보세요</span>
     </div>
   );
 };
 
 /* 10. 커맨드 팔레트 스포트라이트 (Command Palette Cmd+K) */
 const LyCommandPaletteDemo: React.FC = () => {
+  const { t } = useLocale();
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const cmds = ['⚡ 새 프로젝트 생성', '🎨 다크 테마 전환', '📋 프롬프트 전체 복사'];
+  const cmds = [t("demo.createProject"), t("demo.switchDarkTheme"), t("demo.copyFullPrompt")];
   return (
     <div className="w-full h-40 flex items-center justify-center px-6 pt-6 select-none">
       <div className="w-full rounded-xl bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
         <div className="px-3 py-1.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-          <span>🔍 Type a command...</span>
-          <kbd className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] border border-slate-200 dark:border-transparent">⌘K</kbd>
+          <span>{t("sample.lyCommandPalette.typeACommand")}</span>
+          <kbd className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[9px] border border-slate-200 dark:border-transparent">{t("sample.lyCommandPalette.k")}</kbd>
         </div>
         <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
@@ -2239,6 +2514,7 @@ const LyCommandPaletteDemo: React.FC = () => {
 
 /* 11. 다이나믹 아일랜드 캡슐 바 (Dynamic Island Capsule) */
 const LyDynamicIslandNavDemo: React.FC = () => {
+  const { t } = useLocale();
   const [expanded, setExpanded] = useState(false);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
@@ -2254,29 +2530,27 @@ const LyDynamicIslandNavDemo: React.FC = () => {
           <span className="flex items-center gap-1.5 text-slate-900 dark:text-white">
             <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
             <span className="text-[11px] font-black tracking-tight text-slate-900 dark:text-white">
-              {expanded ? 'Now Playing' : 'Island'}
+              {expanded ? t("sample.lyDynamicIslandNav.nowPlaying") : t("sample.lyDynamicIslandNav.island")}
             </span>
           </span>
           <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-300 font-bold">
-            {expanded ? '접기' : '클릭'}
+            {expanded ? t("actions.collapse") : t("demo.click")}
           </span>
         </div>
         {expanded && (
           <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-600 dark:text-slate-200 border-t border-slate-100 dark:border-slate-800/80 pt-1.5">
-            <span className="text-slate-700 dark:text-slate-200 font-medium">🎵 Vibe Synth Track</span>
-            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold shadow-xs">
-              LIVE
-            </span>
+            <span className="text-slate-700 dark:text-slate-200 font-medium">{t("sample.lyDynamicIslandNav.vibeSynthTrack")}</span>
+            <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold shadow-xs">{t("sample.lyDynamicIslandNav.live")}</span>
           </div>
         )}
       </div>
-      <span className="mt-2 text-[10px] text-slate-500 dark:text-slate-400">캡슐을 클릭해 확장/축소</span>
     </div>
   );
 };
 
 /* 12. 원형 파이 메뉴 (Radial Pie Menu) */
 const LyRadialPieMenuDemo: React.FC = () => {
+  const { t } = useLocale();
   const [open, setOpen] = useState(true);
   const items = [
     { icon: '🎨', x: -38, y: -28 },
@@ -2306,7 +2580,7 @@ const LyRadialPieMenuDemo: React.FC = () => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        aria-label="파이 메뉴 열기/닫기"
+        aria-label={t("demo.openClosePieMenu")}
         className="relative z-10 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg border border-indigo-400/40 cursor-pointer"
       >
         <svg
@@ -2325,6 +2599,7 @@ const LyRadialPieMenuDemo: React.FC = () => {
 
 /* 13. 바텀 시트 드로어 (Draggable Bottom Sheet) */
 const LyBottomSheetDemo: React.FC = () => {
+  const { t } = useLocale();
   const [snap, setSnap] = useState<'half' | 'full'>('half');
   return (
     <div
@@ -2338,13 +2613,10 @@ const LyBottomSheetDemo: React.FC = () => {
       >
         <div className="w-8 h-1 rounded-full bg-slate-300 dark:bg-slate-600 mx-auto mb-1.5" />
         <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-          <span>Bottom Sheet ({snap.toUpperCase()})</span>
-          <span className="text-[10px] text-indigo-600 dark:text-indigo-400">클릭해 높이 전환</span>
+          <span>{t("sample.lyBottomSheet.bottomSheet")}{snap.toUpperCase()})</span>
         </div>
         {snap === 'full' && (
-          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
-            핸들바를 잡고 올린 것처럼 상세 컨텐츠가 펼쳐집니다.
-          </p>
+          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">{t("demo.detailsExpandAsIfTheHandle")}</p>
         )}
       </div>
     </div>
@@ -2353,11 +2625,12 @@ const LyBottomSheetDemo: React.FC = () => {
 
 /* 14. 마스터-디테일 스플릿 뷰 (Master-Detail Split View) */
 const LyMasterDetailSplitDemo: React.FC = () => {
+  const { t } = useLocale();
   const [activeId, setActiveId] = useState(0);
   const items = [
-    { name: 'Inbox #1', desc: '첫 번째 상세 데이터 프리뷰' },
-    { name: 'Inbox #2', desc: '두 번째 항목 즉시 렌더링' },
-    { name: 'Inbox #3', desc: '세 번째 리포트 상세 보기' },
+    { name: 'Inbox #1', desc: t("demo.detailPreviewForTheFirstItem") },
+    { name: 'Inbox #2', desc: t("demo.instantDetailForTheSecondItem") },
+    { name: 'Inbox #3', desc: t("demo.reportDetailsForTheThirdItem") },
   ];
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
@@ -2378,7 +2651,7 @@ const LyMasterDetailSplitDemo: React.FC = () => {
           ))}
         </div>
         <div className="col-span-3 p-2.5 flex flex-col justify-center">
-          <span className="text-[9px] font-mono text-indigo-600 dark:text-indigo-400">DETAIL VIEW</span>
+          <span className="text-[9px] font-mono text-indigo-600 dark:text-indigo-400">{t("sample.lyMasterDetailSplit.detailView")}</span>
           <p className="text-xs font-extrabold text-slate-900 dark:text-white mt-0.5">{items[activeId].name}</p>
           <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">{items[activeId].desc}</p>
         </div>
@@ -2389,6 +2662,7 @@ const LyMasterDetailSplitDemo: React.FC = () => {
 
 /* 15. 칸반 보드 컬럼 (Kanban Board Columns) */
 const LyKanbanBoardDemo: React.FC = () => {
+  const { t } = useLocale();
   const [col, setCol] = useState<0 | 1 | 2>(1);
   const cols = ['TODO', 'DOING', 'DONE'];
   return (
@@ -2401,16 +2675,13 @@ const LyKanbanBoardDemo: React.FC = () => {
           <div key={title} className="rounded-lg bg-slate-900 border border-slate-800 p-2 h-20">
             <div className="text-[9px] font-mono text-slate-400 mb-1">{title}</div>
             {col === i ? (
-              <div className="rounded-sm bg-indigo-600/30 border border-indigo-400 p-1 text-[10px] font-bold text-white animate-spring-pop">
-                태스크 카드 →
-              </div>
+              <div className="rounded-sm bg-indigo-600/30 border border-indigo-400 p-1 text-[10px] font-bold text-white animate-spring-pop">{t("demo.taskCard")}</div>
             ) : (
               <div className="h-6 rounded-sm border border-dashed border-slate-800" />
             )}
           </div>
         ))}
       </div>
-      <span className="mt-1.5 text-[10px] text-slate-400">클릭해 카드를 다음 컬럼으로 이동</span>
     </div>
   );
 };
@@ -2436,7 +2707,6 @@ const LyHeatmapGridDemo: React.FC = () => {
           return <span key={idx} className={`w-3 h-3 rounded-[3px] ${levels[lv]}`} />;
         })}
       </div>
-      <span className="mt-2 text-[10px] text-slate-400">클릭 시 잔디 밀도 패턴 변경 🌱</span>
     </div>
   );
 };
@@ -2447,6 +2717,7 @@ const LyHeatmapGridDemo: React.FC = () => {
 
 /* 1. 네오 브루탈리즘 (Neo-Brutalism) */
 const StNeoBrutalismDemo: React.FC = () => {
+  const { t } = useLocale();
   const [pressed, setPressed] = useState(false);
   return (
     <div className="w-full h-40 flex items-center justify-center bg-amber-300/95 select-none">
@@ -2457,22 +2728,21 @@ const StNeoBrutalismDemo: React.FC = () => {
           transform: pressed ? 'translate(4px, 4px)' : 'translate(0px, 0px)',
         }}
         className="px-5 py-2.5 bg-pink-400 border-[3px] border-black text-black font-black text-xs tracking-wide transition-all duration-100"
-      >
-        NEO-BRUTAL CLICK!
-      </button>
+      >{t("sample.stNeoBrutalism.neoBrutalClick")}</button>
     </div>
   );
 };
 
 /* 2. 리퀴드 아크릴 글래스 (Liquid Acrylic Glass) */
 const StLiquidAcrylicDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex items-center justify-center overflow-hidden select-none">
       <div className="w-24 h-24 rounded-full bg-fuchsia-500/70 blur-xl absolute -left-2 animate-aurora-1" />
       <div className="w-24 h-24 rounded-full bg-cyan-400/70 blur-xl absolute right-2 animate-aurora-2" />
       <div className="relative z-10 w-52 h-24 rounded-2xl bg-linear-to-b from-white/20 to-white/5 backdrop-blur-xl border border-white/30 shadow-2xl p-3.5 flex flex-col justify-between">
-        <span className="text-[10px] font-mono text-white/90">LIQUID ACRYLIC</span>
-        <span className="text-xs font-extrabold text-white">영롱한 다중 굴절 아크릴</span>
+        <span className="text-[10px] font-mono text-white/90">{t("sample.stLiquidAcrylic.liquidAcrylic")}</span>
+        <span className="text-xs font-extrabold text-white">{t("demo.luminousTranslucentAcrylic")}</span>
       </div>
     </div>
   );
@@ -2480,14 +2750,13 @@ const StLiquidAcrylicDemo: React.FC = () => {
 
 /* 3. 리니어풍 다크 미니멀 (Linear-Style Dark Minimal) */
 const StLinearDarkMinimalDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex items-center justify-center bg-[#090A0F] px-6 pt-5 select-none">
       <div className="relative w-full h-24 rounded-xl bg-[#12131A] border border-white/10 p-3.5 flex flex-col justify-between overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-6 right-6 h-px bg-linear-to-r from-transparent via-indigo-400/80 to-transparent" />
-        <span className="text-[10px] font-mono text-slate-400">1PX TOP HAIRLINE</span>
-        <span className="text-xs font-bold bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent">
-          Linear Precision Dark UI
-        </span>
+        <span className="text-[10px] font-mono text-slate-400">{t("sample.stLinearDarkMinimal.hairline")}</span>
+        <span className="text-xs font-bold bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent">{t("sample.stLinearDarkMinimal.linearPrecisionDarkUi")}</span>
       </div>
     </div>
   );
@@ -2495,6 +2764,7 @@ const StLinearDarkMinimalDemo: React.FC = () => {
 
 /* 4. 매트 필름 그레인 텍스처 (Matte Film Grain) */
 const StMatteFilmGrainDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex items-center justify-center bg-stone-900 overflow-hidden select-none">
       <div
@@ -2506,8 +2776,8 @@ const StMatteFilmGrainDemo: React.FC = () => {
         className="pointer-events-none absolute inset-0 opacity-60"
       />
       <div className="relative z-10 px-5 py-3 rounded-xl bg-stone-800/90 border border-stone-600/50 text-center">
-        <span className="text-[10px] font-mono text-amber-200/80">ANALOG FILM GRAIN</span>
-        <p className="text-xs font-bold text-stone-100 mt-0.5">차분한 매트 노이즈 질감</p>
+        <span className="text-[10px] font-mono text-amber-200/80">{t("sample.stMatteFilmGrain.analogFilmGrain")}</span>
+        <p className="text-xs font-bold text-stone-100 mt-0.5">{t("demo.aSubtleMatteGrainTexture")}</p>
       </div>
     </div>
   );
@@ -2515,6 +2785,7 @@ const StMatteFilmGrainDemo: React.FC = () => {
 
 /* 5. 뉴모피즘 소프트 엠보싱 (Neumorphism Soft UI) */
 const StNeumorphismSoftDemo: React.FC = () => {
+  const { t } = useLocale();
   const [inset, setInset] = useState(false);
   return (
     <div className="w-full h-40 flex items-center justify-center bg-slate-800 select-none">
@@ -2527,7 +2798,7 @@ const StNeumorphismSoftDemo: React.FC = () => {
         }}
         className="px-6 py-3 rounded-2xl bg-slate-800 text-xs font-extrabold text-slate-200 transition-all"
       >
-        {inset ? '음각 눌림 (클릭)' : '양각 돌출 (클릭)'}
+        {inset ? t("demo.insetSurfaceClick") : t("demo.raisedSurfaceClick")}
       </button>
     </div>
   );
@@ -2535,6 +2806,7 @@ const StNeumorphismSoftDemo: React.FC = () => {
 
 /* 6. 클레이모피즘 3D 점토 (Claymorphism 3D) */
 const StClaymorphism3DDemo: React.FC = () => {
+  const { t } = useLocale();
   const [bounce, setBounce] = useState(false);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
@@ -2547,15 +2819,14 @@ const StClaymorphism3DDemo: React.FC = () => {
         className={`px-6 py-3.5 rounded-[24px] bg-indigo-400 text-slate-950 font-black text-xs cursor-pointer transition-transform ${
           bounce ? 'scale-95' : 'hover:scale-105'
         }`}
-      >
-        🎈 말랑폭신 3D 클레이 카드
-      </div>
+      >{t("demo.aSoftPuffy3dClayCard")}</div>
     </div>
   );
 };
 
 /* 7. 스큐어모피즘 리얼 촉감 스위치 (Tactile Skeuomorphism) */
 const StSkeuomorphismTactileDemo: React.FC = () => {
+  const { t } = useLocale();
   const [on, setOn] = useState(true);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
@@ -2578,7 +2849,7 @@ const StSkeuomorphismTactileDemo: React.FC = () => {
           }`}
         />
         <span className="text-xs font-mono font-bold text-slate-200">
-          {on ? 'HARDWARE ON' : 'HARDWARE OFF'}
+          {on ? t("sample.stSkeuomorphismTactile.hardwareOn") : t("sample.stSkeuomorphismTactile.hardwareOff")}
         </span>
       </button>
     </div>
@@ -2587,14 +2858,15 @@ const StSkeuomorphismTactileDemo: React.FC = () => {
 
 /* 8. 페이퍼 컷아웃 레이어 (Paper Cutout Collage) */
 const StPaperCutoutLayerDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex items-center justify-center pt-3 select-none">
       <div className="relative w-48 h-24 flex items-center justify-center">
         <div className="absolute inset-0 rounded-xl bg-amber-400 rotate-[-4deg] shadow-md" />
         <div className="absolute inset-0 rounded-xl bg-rose-500 rotate-3 shadow-md" />
         <div className="relative z-10 w-full h-full rounded-xl bg-slate-900 border-2 border-white/80 flex flex-col items-center justify-center shadow-lg">
-          <span className="text-xs font-black text-white">PAPER CUTOUT</span>
-          <span className="text-[10px] text-amber-300">겹겹이 오려 붙인 종이 단차</span>
+          <span className="text-xs font-black text-white">{t("sample.stPaperCutoutLayer.paperCutout")}</span>
+          <span className="text-[10px] text-amber-300">{t("demo.layersOfCutPaper")}</span>
         </div>
       </div>
     </div>
@@ -2603,6 +2875,7 @@ const StPaperCutoutLayerDemo: React.FC = () => {
 
 /* 9. 8비트 픽셀 아케이드 레트로 (8-Bit Pixel Retro) */
 const St8BitPixelRetroDemo: React.FC = () => {
+  const { t } = useLocale();
   const [coins, setCoins] = useState(99);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center bg-slate-950 select-none">
@@ -2610,16 +2883,15 @@ const St8BitPixelRetroDemo: React.FC = () => {
         onClick={() => setCoins((c) => c + 1)}
         style={{ boxShadow: '4px 4px 0px #1e1b4b' }}
         className="px-4 py-2 bg-emerald-400 border-2 border-white text-slate-950 font-mono font-black text-xs active:translate-y-0.5"
-      >
-        👾 INSERT COIN: {coins}
+      >{t("sample.st8BitPixelRetro.insertCoin")}{coins}
       </button>
-      <span className="mt-2 font-mono text-[10px] text-amber-300">PRESS START (클릭)</span>
     </div>
   );
 };
 
 /* 10. 윈도우95 클래식 데스크탑 (Win95 Classic OS) */
 const StWin95RetroOsDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex items-center justify-center bg-[#008080] px-6 pt-4 select-none">
       <div
@@ -2632,11 +2904,11 @@ const StWin95RetroOsDemo: React.FC = () => {
         className="w-56 bg-[#c0c0c0] p-1 text-black"
       >
         <div className="bg-[#000080] text-white px-2 py-0.5 text-[10px] font-bold flex items-center justify-between">
-          <span>Vibe95.exe</span>
+          <span>{t("sample.stWin95RetroOs.vibe95Exe")}</span>
           <span className="bg-[#c0c0c0] text-black px-1 font-mono text-[9px]">×</span>
         </div>
         <div className="p-2.5 text-center">
-          <p className="text-[11px] font-bold">Classic 3D Bevel Window</p>
+          <p className="text-[11px] font-bold">{t("sample.stWin95RetroOs.classic3dBevelWindow")}</p>
         </div>
       </div>
     </div>
@@ -2645,6 +2917,7 @@ const StWin95RetroOsDemo: React.FC = () => {
 
 /* 11. CRT 브라운관 그린 터미널 (CRT Scanline Terminal) */
 const StCrtScanlineTerminalDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex flex-col items-center justify-center bg-[#041208] overflow-hidden select-none">
       <div
@@ -2655,15 +2928,15 @@ const StCrtScanlineTerminalDemo: React.FC = () => {
         className="pointer-events-none absolute inset-0 z-10"
       />
       <div className="font-mono text-xs font-bold text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]">
-        &gt; SYSTEM READY_
+        {t("sample.stCrtScanlineTerminal.gtSystemReady")}
       </div>
-      <span className="mt-1 font-mono text-[10px] text-emerald-600">CRT SCANLINE OVERLAY</span>
     </div>
   );
 };
 
 /* 12. 신스웨이브 선셋 그리드 (Synthwave 80s Grid) */
 const StSynthwaveSunsetGridDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="relative w-full h-40 flex flex-col items-center justify-end overflow-hidden bg-linear-to-b from-[#1a052e] via-[#3b0764] to-[#be185d] select-none pb-3">
       <div className="w-12 h-12 rounded-full bg-linear-to-b from-amber-300 to-rose-500 mb-2 shadow-[0_0_20px_#f43f5e]" />
@@ -2676,15 +2949,14 @@ const StSynthwaveSunsetGridDemo: React.FC = () => {
         }}
         className="w-full h-14 border-t border-pink-400"
       />
-      <span className="relative z-10 text-[10px] font-mono font-black tracking-widest text-cyan-300">
-        SYNTHWAVE 1984
-      </span>
+      <span className="relative z-10 text-[10px] font-mono font-black tracking-widest text-cyan-300">{t("sample.stSynthwaveSunsetGrid.synthwave1984")}</span>
     </div>
   );
 };
 
 /* 13. SF 사이버네틱 HUD 프레임 (Sci-Fi Chamfered HUD) */
 const StScifiHudChamferDemo: React.FC = () => {
+  const { t } = useLocale();
   const chamferClip =
     'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)';
   return (
@@ -2698,15 +2970,11 @@ const StScifiHudChamferDemo: React.FC = () => {
           className="w-full h-full bg-slate-950/90 p-3.5 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between text-[9px] font-mono text-cyan-300">
-            <span>SYS.HUD // 45° CHAMFER</span>
+            <span>{t("sample.stScifiHudChamfer.sysHud45Chamfer")}</span>
             <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              ONLINE
-            </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />{t("sample.stScifiHudChamfer.online")}</span>
           </div>
-          <div className="text-xs font-black tracking-wider text-white">
-            TACTICAL FRAME UI
-          </div>
+          <div className="text-xs font-black tracking-wider text-white">{t("sample.stScifiHudChamfer.tacticalFrameUi")}</div>
         </div>
       </div>
     </div>
@@ -2715,6 +2983,7 @@ const StScifiHudChamferDemo: React.FC = () => {
 
 /* 14. 엔지니어링 블루프린트 도면 (Architectural Blueprint) */
 const StArchitectBlueprintDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div
       style={{
@@ -2725,10 +2994,8 @@ const StArchitectBlueprintDemo: React.FC = () => {
       className="w-full h-40 flex items-center justify-center bg-[#0a2540] px-6 select-none"
     >
       <div className="relative border border-dashed border-sky-300/80 px-5 py-3 text-center">
-        <span className="absolute -top-2 left-2 bg-[#0a2540] px-1 text-[9px] font-mono text-sky-300">
-          240px × 96px
-        </span>
-        <p className="font-mono text-xs font-bold text-white">CAD BLUEPRINT</p>
+        <span className="absolute -top-2 left-2 bg-[#0a2540] px-1 text-[9px] font-mono text-sky-300">{t("sample.stArchitectBlueprint.dimensions")}</span>
+        <p className="font-mono text-xs font-bold text-white">{t("sample.stArchitectBlueprint.cadBlueprint")}</p>
       </div>
     </div>
   );
@@ -2736,20 +3003,17 @@ const StArchitectBlueprintDemo: React.FC = () => {
 
 /* 15. 스위스 국제 타이포그래피 그리드 (Swiss International Grid) */
 const StSwissEditorialGridDemo: React.FC = () => {
+  const { t } = useLocale();
   return (
     <div className="w-full h-40 flex items-center justify-center bg-stone-100 text-stone-950 px-6 pt-6 select-none">
       <div className="w-full h-24 border-2 border-stone-950 grid grid-cols-3">
         <div className="border-r-2 border-stone-950 bg-red-600 text-white p-2 flex flex-col justify-between">
           <span className="text-[9px] font-mono font-bold">01</span>
-          <span className="text-sm font-black">SWISS</span>
+          <span className="text-sm font-black">{t("sample.stSwissEditorialGrid.swiss")}</span>
         </div>
         <div className="col-span-2 p-2 flex flex-col justify-between">
-          <span className="text-[9px] font-mono uppercase tracking-widest">
-             Grid System 1957
-          </span>
-          <p className="text-xs font-black leading-tight">
-            노출된 격자선과 대담한 타이포 비례
-          </p>
+          <span className="text-[9px] font-mono uppercase tracking-widest">{t("sample.stSwissEditorialGrid.gridSystem1957")}</span>
+          <p className="text-xs font-black leading-tight">{t("demo.exposedGridLinesAndBoldTypography")}</p>
         </div>
       </div>
     </div>
@@ -2758,6 +3022,7 @@ const StSwissEditorialGridDemo: React.FC = () => {
 
 /* 16. 코믹스 팝아트 망점 (Comic Halftone Pop-Art) */
 const StComicHalftonePopDemo: React.FC = () => {
+  const { t } = useLocale();
   const [bang, setBang] = useState(false);
   return (
     <div
@@ -2774,7 +3039,7 @@ const StComicHalftonePopDemo: React.FC = () => {
           bang ? 'rotate-3 scale-110' : '-rotate-3'
         }`}
       >
-        {bang ? '💥 POW!!' : '💬 BAM! (클릭)'}
+        {bang ? t("sample.stComicHalftonePop.pow") : t("demo.bamClick")}
       </div>
     </div>
   );
@@ -2786,6 +3051,7 @@ const StComicHalftonePopDemo: React.FC = () => {
 
 /* 1. SaaS 프로덕트 런칭 쇼릴 (3-Scene Sequence) */
 const VdSaasLaunchReelDemo: React.FC = () => {
+  const { t } = useLocale();
   const [scene, setScene] = useState(0);
 
   useEffect(() => {
@@ -2802,11 +3068,8 @@ const VdSaasLaunchReelDemo: React.FC = () => {
     >
       {scene === 0 && (
         <div className="animate-spring-pop text-center space-y-1">
-          <span className="text-[9px] font-mono text-indigo-400 tracking-widest uppercase">
-            SCENE 01 · INTRO
-          </span>
-          <div className="text-base font-black text-white tracking-tight">
-            Workflow, <span className="text-indigo-400">Reimagined.</span>
+          <span className="text-[9px] font-mono text-indigo-400 tracking-widest uppercase">{t("sample.vdSaasLaunchReel.scene01Intro")}</span>
+          <div className="text-base font-black text-white tracking-tight">{t("sample.vdSaasLaunchReel.workflow")}<span className="text-indigo-400">{t("sample.vdSaasLaunchReel.reimagined")}</span>
           </div>
         </div>
       )}
@@ -2814,7 +3077,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
       {scene === 1 && (
         <div className="animate-spring-pop w-48 bg-slate-900/95 border border-indigo-500/50 rounded-xl p-2.5 shadow-xl shadow-indigo-500/20 space-y-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold text-indigo-300">AI Dashboard</span>
+            <span className="text-[9px] font-bold text-indigo-300">{t("sample.vdSaasLaunchReel.aiDashboard")}</span>
             <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-emerald-500/20 text-emerald-300 font-bold">
               +142%
             </span>
@@ -2831,9 +3094,9 @@ const VdSaasLaunchReelDemo: React.FC = () => {
         <div className="animate-spring-pop flex flex-col items-center gap-1.5">
           <div className="px-3.5 py-1.5 rounded-full bg-indigo-600 text-white text-xs font-black shadow-lg shadow-indigo-500/40 flex items-center gap-1.5">
             <Rocket className="w-3.5 h-3.5" />
-            <span>Start Free Today ➔</span>
+            <span>{t("sample.vdSaasLaunchReel.startFreeToday")}</span>
           </div>
-          <span className="text-[9px] font-mono text-slate-400">vibe.app</span>
+          <span className="text-[9px] font-mono text-slate-400">{t("sample.vdSaasLaunchReel.vibeApp")}</span>
         </div>
       )}
 
@@ -2854,6 +3117,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
 
 /* 2. 3D 디바이스 목업 투어 */
 const VdDevice3DSpinDemo: React.FC = () => {
+  const { t } = useLocale();
   const [front, setFront] = useState(false);
 
   useEffect(() => {
@@ -2885,7 +3149,7 @@ const VdDevice3DSpinDemo: React.FC = () => {
             }}
             className="p-1.5 rounded-lg bg-linear-to-r from-indigo-600 to-violet-600 text-white text-[10px] font-extrabold shadow-lg transition-transform duration-700 flex items-center justify-between"
           >
-            <span>✨ 결제 승인 완료</span>
+            <span>{t("demo.paymentApproved")}</span>
             <Check className="w-3 h-3" />
           </div>
         </div>
@@ -2896,6 +3160,7 @@ const VdDevice3DSpinDemo: React.FC = () => {
 
 /* 3. 인터랙티브 커서 줌 워크스루 */
 const VdAppWalkthroughZoomDemo: React.FC = () => {
+  const { t } = useLocale();
   const [step, setStep] = useState(0); // 0: 이동전, 1: 타겟 줌인+클릭, 2: 완료 후 복귀
 
   useEffect(() => {
@@ -2932,7 +3197,7 @@ const VdAppWalkthroughZoomDemo: React.FC = () => {
                 : 'bg-indigo-600 text-white'
             }`}
           >
-            {step >= 1 ? '✓ 배포됨' : 'Deploy'}
+            {step >= 1 ? t("demo.deployed") : t("sample.vdAppWalkthroughZoom.deploy")}
           </div>
         </div>
 
@@ -2957,6 +3222,7 @@ const VdAppWalkthroughZoomDemo: React.FC = () => {
 
 /* 4. 멀티 스크린 스플릿 쇼릴 (3단계: 교차 진입 -> 정렬 -> 타이틀 오버레이) */
 const VdSplitPromoReelDemo: React.FC = () => {
+  const { t } = useLocale();
   const [stage, setStage] = useState(1); // 0: 분리 교차, 1: 3분할 정렬, 2: 타이틀 합체
 
   useEffect(() => {
@@ -3004,12 +3270,8 @@ const VdSplitPromoReelDemo: React.FC = () => {
           <div className="absolute inset-0 z-10 bg-slate-950 flex flex-col items-center justify-center gap-1.5 rounded-xl border border-indigo-500/50 shadow-xl">
             <div className="animate-spring-pop flex flex-col items-center gap-1">
               <span className="px-3.5 py-1.5 rounded-full bg-indigo-600 text-white text-xs font-black tracking-tight shadow-lg flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-                ALL-IN-ONE REEL
-              </span>
-              <span className="text-[9px] font-mono font-bold text-indigo-400 tracking-wider">
-                UNIFIED MASTER CUT
-              </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />{t("sample.vdSplitPromoReel.allInOneReel")}</span>
+              <span className="text-[9px] font-mono font-bold text-indigo-400 tracking-wider">{t("sample.vdSplitPromoReel.unifiedMasterCut")}</span>
             </div>
           </div>
         )}
@@ -3058,6 +3320,7 @@ const VdStompBeatTypoDemo: React.FC = () => {
 
 /* 6. 하이라이트 마커 스와이프 씬 (단방향 좌➔우 스와이프 리빌, 역방향 후진 버그 수정) */
 const VdHighlightSwipeRevealDemo: React.FC = () => {
+  const { t } = useLocale();
   // phase 0: 왼쪽 대기(숨김), phase 1: 마커 바가 덮음, phase 2: 오른쪽으로 빠지며 텍스트 리빌
   const [phase, setPhase] = useState(2);
 
@@ -3079,9 +3342,7 @@ const VdHighlightSwipeRevealDemo: React.FC = () => {
           className={`text-sm font-black tracking-tight text-white transition-opacity duration-150 ${
             phase >= 2 ? 'opacity-100' : 'opacity-0'
           }`}
-        >
-          10x Faster Video Prompts
-        </span>
+        >{t("sample.vdHighlightSwipeReveal.headline")}</span>
         <div
           style={{
             transform:
@@ -3156,6 +3417,7 @@ const VdCountdownEnergeticIntroDemo: React.FC = () => {
 
 /* 8. 메신저 대화 빌드업 씬 (고정 높이 스테이지로 말풍선 추가 시 상하 점프 현상 제거) */
 const VdChatStorySequenceDemo: React.FC = () => {
+  const { t } = useLocale();
   const [step, setStep] = useState(2);
 
   useEffect(() => {
@@ -3177,9 +3439,7 @@ const VdChatStorySequenceDemo: React.FC = () => {
           className={`self-end px-3 py-1 rounded-2xl rounded-br-sm bg-indigo-600 text-white text-[11px] font-bold shadow-md ${
             step === 0 ? 'animate-spring-pop' : ''
           }`}
-        >
-          "런칭 쇼릴 영상 만들어줘"
-        </div>
+        >{t("demo.createALaunchShowreel")}</div>
 
         {/* Step 1: 타이핑 인디케이터 */}
         {step === 1 && (
@@ -3194,7 +3454,7 @@ const VdChatStorySequenceDemo: React.FC = () => {
         {step === 2 && (
           <div className="self-start px-3 py-1.5 rounded-xl bg-slate-900 border border-emerald-500/50 text-emerald-300 text-[11px] font-bold flex items-center gap-1.5 animate-spring-pop shadow-lg">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span>1080p 모션 시퀀스 완성!</span>
+            <span>{t("demo.chat.resultReady")}</span>
           </div>
         )}
       </div>
@@ -3380,6 +3640,7 @@ const VdNodeFlowPipelineDemo: React.FC = () => {
 
 /* 12. 멀티 링 게이지 인포그래픽 (자동 충전 루프 애니메이션 추가) */
 const VdCircularRingDashboardDemo: React.FC = () => {
+  const { t } = useLocale();
   const [filled, setFilled] = useState(true);
 
   useEffect(() => {
@@ -3440,14 +3701,11 @@ const VdCircularRingDashboardDemo: React.FC = () => {
       </svg>
 
       <div className="space-y-1 text-[10px] font-mono">
-        <div className="text-indigo-400 font-bold">
-          ● Reach {filled ? '88%' : '0%'}
+        <div className="text-indigo-400 font-bold">{t("sample.vdCircularRingDashboard.reach")}{filled ? '88%' : '0%'}
         </div>
-        <div className="text-emerald-400 font-bold">
-          ● Conv {filled ? '78%' : '0%'}
+        <div className="text-emerald-400 font-bold">{t("sample.vdCircularRingDashboard.conv")}{filled ? '78%' : '0%'}
         </div>
-        <div className="text-amber-400 font-bold">
-          ● Ret {filled ? '68%' : '0%'}
+        <div className="text-amber-400 font-bold">{t("sample.vdCircularRingDashboard.ret")}{filled ? '68%' : '0%'}
         </div>
       </div>
     </div>
@@ -3456,6 +3714,7 @@ const VdCircularRingDashboardDemo: React.FC = () => {
 
 /* 13. 모던 로어써드 방송 자막 (Broadcast Lower Third) */
 const VdLowerThirdBannerDemo: React.FC = () => {
+  const { t } = useLocale();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -3481,16 +3740,12 @@ const VdLowerThirdBannerDemo: React.FC = () => {
             className={`px-3 py-1 bg-white text-slate-950 text-xs font-black tracking-tight rounded-r-lg transition-transform duration-500 ${
               visible ? 'translate-x-0' : '-translate-x-full'
             }`}
-          >
-            ALEX KIM · Product Lead
-          </div>
+          >{t("sample.vdLowerThirdBanner.alexKimProductLead")}</div>
           <div
             className={`px-2.5 py-0.5 bg-indigo-600 text-white text-[10px] font-bold rounded-r-md w-fit transition-transform duration-500 delay-100 ${
               visible ? 'translate-x-0' : '-translate-x-full'
             }`}
-          >
-            KEYNOTE 2026 LIVE
-          </div>
+          >{t("sample.vdLowerThirdBanner.keynote2026Live")}</div>
         </div>
       </div>
     </div>
@@ -3499,6 +3754,7 @@ const VdLowerThirdBannerDemo: React.FC = () => {
 
 /* 14. 다이어고널 멀티 와이프 전환 (3겹 슬라이스 + 역방향 복귀 시 transition-none 처리 + 자동 전환) */
 const VdDiagonalShutterWipeDemo: React.FC = () => {
+  const { t } = useLocale();
   const [sceneB, setSceneB] = useState(false);
   // phase: 'idle' (좌측 대기, transition-none) | 'wiping' (우측 끝으로 이동, transition-transform)
   const [phase, setPhase] = useState<'idle' | 'wiping'>('idle');
@@ -3542,10 +3798,10 @@ const VdDiagonalShutterWipeDemo: React.FC = () => {
     >
       <div className="text-center">
         <span className="text-[10px] font-mono text-indigo-400 block">
-          {sceneB ? 'SCENE 02 · ON AIR' : 'SCENE 01 · INTRO'}
+          {sceneB ? t("sample.vdDiagonalShutterWipe.scene02OnAir") : t("sample.vdDiagonalShutterWipe.scene01Intro")}
         </span>
         <span className="text-sm font-black text-white">
-          {sceneB ? '🚀 NEXT CHAPTER' : '🎬 STINGER WIPE'}
+          {sceneB ? t("sample.vdDiagonalShutterWipe.nextChapter") : t("sample.vdDiagonalShutterWipe.stingerWipe")}
         </span>
       </div>
 
@@ -3571,6 +3827,7 @@ const VdDiagonalShutterWipeDemo: React.FC = () => {
 
 /* 15. 네온 로고 스팅어 아웃트로 (광선 충돌 ➔ 충격파 링 ➔ 로고 & 자간 확장 3단계 시퀀스) */
 const VdLogoStingerOutroDemo: React.FC = () => {
+  const { t } = useLocale();
   const [stage, setStage] = useState(2); // 0: 좌우 광선 진입, 1: 충돌 쇼크웨이브, 2: 로고 완성
 
   useEffect(() => {
@@ -3623,9 +3880,7 @@ const VdLogoStingerOutroDemo: React.FC = () => {
           className={`text-[10px] font-black text-white uppercase transition-all duration-500 ${
             stage === 2 ? 'tracking-[0.26em]' : 'tracking-tight'
           }`}
-        >
-          VIBE STUDIO
-        </span>
+        >{t("sample.vdLogoStingerOutro.vibeStudio")}</span>
       </div>
     </div>
   );
@@ -3633,6 +3888,7 @@ const VdLogoStingerOutroDemo: React.FC = () => {
 
 /* 16. 오디오 스펙트럼 비주얼라이저 (실제 주파수 바 상하 율동 + 실시간 재생 타임코드 진행) */
 const VdAudioSpectrumVisualizerDemo: React.FC = () => {
+  const { t } = useLocale();
   const [playing, setPlaying] = useState(true);
   const [seconds, setSeconds] = useState(84);
   const bars = [45, 75, 95, 60, 85, 100, 70, 50, 90, 100, 65, 80, 55, 78, 60, 42];
@@ -3681,7 +3937,7 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
               : 'bg-slate-800 text-slate-400'
           }`}
         >
-          {playing ? '● AUDIO ON' : '❚❚ PAUSED'}
+          {playing ? t("sample.vdAudioSpectrumVisualizer.audioOn") : t("sample.vdAudioSpectrumVisualizer.paused")}
         </span>
         <span>{fmt(seconds)} / 03:45</span>
       </div>
@@ -3695,12 +3951,12 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
 
 /* [UI +1] 구이 플로팅 액션 버튼 (Spring Speed-Dial FAB) */
 const GooeyMenuFabDemo: React.FC = () => {
+  const { t } = useLocale();
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState<string | null>(null);
   const actions = [
-    { id: 'rocket', label: '런칭', icon: Rocket, dx: -52, dy: -18, color: 'from-indigo-500 to-blue-500' },
-    { id: 'sparkles', label: 'AI 생성', icon: Sparkles, dx: 0, dy: -48, color: 'from-violet-500 to-fuchsia-500' },
-    { id: 'flame', label: '부스트', icon: Flame, dx: 52, dy: -18, color: 'from-amber-500 to-rose-500' },
+    { id: 'rocket', label: t("demo.launch"), icon: Rocket, dx: -52, dy: -18, color: 'from-indigo-500 to-blue-500' },
+    { id: 'sparkles', label: t("demo.aiGeneration"), icon: Sparkles, dx: 0, dy: -48, color: 'from-violet-500 to-fuchsia-500' },
+    { id: 'flame', label: t("demo.boost"), icon: Flame, dx: 52, dy: -18, color: 'from-amber-500 to-rose-500' },
   ];
 
   return (
@@ -3713,7 +3969,6 @@ const GooeyMenuFabDemo: React.FC = () => {
             <button
               key={act.id}
               type="button"
-              onClick={() => setSelected(act.label)}
               style={{
                 transform: open
                   ? `translate(${act.dx}px, ${act.dy}px) scale(1)`
@@ -3733,7 +3988,7 @@ const GooeyMenuFabDemo: React.FC = () => {
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
-          aria-label="플로팅 메뉴 열기/닫기"
+          aria-label={t("demo.openCloseFloatingMenu")}
           className="relative z-10 w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/40 border border-white/25 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 cursor-pointer"
         >
           <svg
@@ -3747,15 +4002,13 @@ const GooeyMenuFabDemo: React.FC = () => {
           </svg>
         </button>
       </div>
-      <span className="mt-1 text-[10px] font-medium text-slate-400">
-        {selected ? `${selected} 액션 선택됨 ✨` : open ? '아이콘 또는 × 버튼을 눌러보세요' : '+ 버튼을 눌러 메뉴 펼치기'}
-      </span>
     </div>
   );
 };
 
 /* [UI +2] OTP 핀 코드 바운스 인풋 */
 const OtpPinFocusBounceDemo: React.FC = () => {
+  const { t } = useLocale();
   const [digits, setDigits] = useState<string[]>(['4', '8', '2', '9', '', '']);
   const [activeIdx, setActiveIdx] = useState<number>(4);
   const [bounceIdx, setBounceIdx] = useState<number | null>(null);
@@ -3830,16 +4083,11 @@ const OtpPinFocusBounceDemo: React.FC = () => {
         ))}
       </div>
       <div className="flex items-center gap-2">
-        <span className={`text-[10px] font-semibold ${isComplete ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
-          {isComplete ? '✓ 6자리 인증 완료!' : '칸을 누르거나 연속 입력을 실행하세요'}
-        </span>
         <button
           type="button"
           onClick={handleAutoFill}
           className="px-2 py-0.5 rounded-sm bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-[9px] font-bold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-slate-700 cursor-pointer transition-colors"
-        >
-          연속 입력 재생
-        </button>
+        >{t("demo.playInputSequence")}</button>
       </div>
     </div>
   );
@@ -3847,6 +4095,7 @@ const OtpPinFocusBounceDemo: React.FC = () => {
 
 /* [UI +3] 홀드 투 컨펌 (Hold-to-Confirm Progress Button) */
 const HoldToConfirmRingDemo: React.FC = () => {
+  const { t } = useLocale();
   const [progress, setProgress] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
   const [holding, setHolding] = useState(false);
@@ -3888,8 +4137,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
           onClick={reset}
           className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 animate-spring-pop cursor-pointer"
         >
-          <Check className="w-3.5 h-3.5" /> 배포 승인 완료 (초기화)
-        </button>
+          <Check className="w-3.5 h-3.5" />{t("demo.deploymentApprovedReset")}</button>
       ) : (
         <button
           type="button"
@@ -3908,19 +4156,17 @@ const HoldToConfirmRingDemo: React.FC = () => {
           />
           <span className="relative z-10 flex items-center gap-1.5">
             <Flame className="w-3.5 h-3.5 text-amber-500" />
-            {holding ? `길게 누르는 중... ${progress}%` : '길게 눌러 프로덕션 배포'}
+            {holding ? t("demo.hold.progress", { percent: progress }) : t("demo.holdToDeployToProduction")}
           </span>
         </button>
       )}
-      <span className="text-[10px] text-slate-400">
-        {confirmed ? '클릭하면 다시 테스트할 수 있습니다' : '버튼을 꾹 누르고 있으면 게이지가 차오릅니다'}
-      </span>
     </div>
   );
 };
 
 /* [UI +4] 스포트라이트 패스워드 피크 (Flashlight Password Peek) */
 const PeekPasswordLampDemo: React.FC = () => {
+  const { t } = useLocale();
   const [lampOn, setLampOn] = useState(true);
   const secret = 'Vibe#2026!';
 
@@ -3962,15 +4208,12 @@ const PeekPasswordLampDemo: React.FC = () => {
                 ? 'bg-amber-400 text-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.8)]'
                 : 'bg-slate-800 text-slate-400 hover:text-white'
             }`}
-            title="손전등 토글"
+            title={t("demo.toggleFlashlight")}
           >
             🔦
           </button>
         </div>
       </div>
-      <span className="text-[10px] text-slate-400">
-        우측 손전등(🔦)을 눌러 비밀번호 조명을 켜고 꺼보세요
-      </span>
     </div>
   );
 };
@@ -4075,7 +4318,6 @@ const MgMorphingGridWaveDemo: React.FC = () => {
           );
         })}
       </div>
-      <span className="text-[9px] font-mono text-cyan-300/80">DIAGONAL WAVE (ROW + COL)</span>
     </div>
   );
 };
@@ -4213,11 +4455,12 @@ const MgGravityNewtonCradleDemo: React.FC = () => {
 
 /* [레이아웃 +1] 스크롤스파이 플로팅 목차 (Scrollspy Floating TOC) */
 const LyFloatingTocSpyDemo: React.FC = () => {
+  const { t } = useLocale();
   const [activeSec, setActiveSec] = useState(0);
   const sections = [
-    { title: '1. 개요', desc: '아키텍처 핵심 레이어 구조' },
-    { title: '2. 설치', desc: '패키지 및 환경변수 세팅' },
-    { title: '3. 배포', desc: '엣지 네트워크 무중단 배포' },
+    { title: t("demo.toc.overview"), desc: t("demo.coreArchitectureLayers") },
+    { title: t("demo.toc.installation"), desc: t("demo.packagesAndEnvironmentSetup") },
+    { title: t("demo.toc.deployment"), desc: t("demo.zeroDowntimeEdgeDeployment") },
   ];
 
   useEffect(() => {
@@ -4282,12 +4525,13 @@ const LyFloatingTocSpyDemo: React.FC = () => {
 
 /* [레이아웃 +2] 접이식 미니 레일 사이드바 (Collapsible Icon-Rail Sidebar) */
 const LyCollapsibleRailSidebarDemo: React.FC = () => {
+  const { t } = useLocale();
   const [expanded, setExpanded] = useState(true);
   const [activeNav, setActiveNav] = useState(0);
   const navs = [
-    { icon: '🏠', label: '대시보드' },
-    { icon: '📊', label: '애널리틱스' },
-    { icon: '⚡', label: '자동화 워크' },
+    { icon: '🏠', label: t("demo.dashboard") },
+    { icon: '📊', label: t("demo.analytics") },
+    { icon: '⚡', label: t("demo.automations") },
   ];
 
   return (
@@ -4321,7 +4565,7 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
             onClick={() => setExpanded((e) => !e)}
             className="w-full h-4 rounded-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-[8px] font-mono text-slate-600 dark:text-slate-400 flex items-center justify-center cursor-pointer border border-slate-200/80 dark:border-transparent transition-colors"
           >
-            {expanded ? '« 레일 축소' : '»'}
+            {expanded ? t("demo.collapseRail") : '»'}
           </button>
         </div>
 
@@ -4330,7 +4574,7 @@ const LyCollapsibleRailSidebarDemo: React.FC = () => {
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-slate-900 dark:text-white">{navs[activeNav].label}</span>
             <span className="text-[8px] px-1.5 py-0.5 rounded-sm bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-mono border border-indigo-100 dark:border-transparent">
-              {expanded ? '220px' : '56px'}
+              {expanded ? t("sample.lyCollapsibleRailSidebar.label220px") : t("sample.lyCollapsibleRailSidebar.label56px")}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
@@ -4427,6 +4671,7 @@ const LyBreadcrumbFolderDrillDemo: React.FC = () => {
 
 /* [레이아웃 +4] 리사이저블 스플릿 패인 (Resizable Dual Split Pane) */
 const LyResizableSplitPaneDemo: React.FC = () => {
+  const { t } = useLocale();
   const [leftRatio, setLeftRatio] = useState(45);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
@@ -4457,7 +4702,7 @@ const LyResizableSplitPaneDemo: React.FC = () => {
           style={{ width: `${leftRatio}%` }}
           className="h-full bg-slate-950 p-2 flex flex-col justify-between overflow-hidden"
         >
-          <span className="text-[8px] font-mono text-indigo-400">EDITOR ({leftRatio}%)</span>
+          <span className="text-[8px] font-mono text-indigo-400">{t("sample.lyResizableSplitPane.editor")}{leftRatio}%)</span>
           <div className="space-y-1">
             <div className="w-4/5 h-1.5 rounded-sm bg-indigo-500/40" />
             <div className="w-3/5 h-1.5 rounded-sm bg-slate-700" />
@@ -4469,26 +4714,24 @@ const LyResizableSplitPaneDemo: React.FC = () => {
           onPointerDown={() => setDragging(true)}
           onClick={() => setLeftRatio((r) => (r === 45 ? 65 : r === 65 ? 30 : 45))}
           className="w-2 h-full bg-slate-800 hover:bg-indigo-500 active:bg-indigo-400 flex items-center justify-center cursor-col-resize transition-colors shrink-0"
-          title="좌우로 드래그하거나 클릭하세요"
+          title={t("demo.dragLeftRightOrClick")}
         >
           <MoveHorizontal className="w-2.5 h-2.5 text-slate-300" />
         </div>
 
         {/* 우측 Preview 패인 */}
         <div className="flex-1 h-full bg-slate-900 p-2 flex flex-col justify-between overflow-hidden">
-          <span className="text-[8px] font-mono text-emerald-400">PREVIEW ({100 - leftRatio}%)</span>
-          <div className="w-full h-7 rounded-sm bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">
-            LIVE VIEW
-          </div>
+          <span className="text-[8px] font-mono text-emerald-400">{t("sample.lyResizableSplitPane.preview")}{100 - leftRatio}%)</span>
+          <div className="w-full h-7 rounded-sm bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[8px] font-bold text-emerald-300">{t("sample.lyResizableSplitPane.liveView")}</div>
         </div>
       </div>
-      <span className="text-[9px] text-slate-400">중앙 분할선을 좌우로 드래그하거나 클릭해 보세요</span>
     </div>
   );
 };
 
 /* [스타일 +1] 홀로그래픽 포일 이리데슨트 (Holographic Foil Iridescent Style) */
 const StHolographicFoilCardDemo: React.FC = () => {
+  const { t } = useLocale();
   const [angle, setAngle] = useState(125);
 
   return (
@@ -4514,14 +4757,11 @@ const StHolographicFoilCardDemo: React.FC = () => {
           className="w-full h-full rounded-[14px] bg-slate-950/80 backdrop-blur-md p-3 flex flex-col justify-between relative overflow-hidden"
         >
           <div className="flex items-center justify-between">
-            <span className="px-1.5 py-0.5 rounded-sm bg-white/15 border border-white/30 text-[8px] font-black text-white tracking-wider">
-              ✦ HOLO FOIL
-            </span>
-            <span className="text-[9px] font-mono text-cyan-200">#001 SSR</span>
+            <span className="px-1.5 py-0.5 rounded-sm bg-white/15 border border-white/30 text-[8px] font-black text-white tracking-wider">{t("sample.stHolographicFoilCard.holoFoil")}</span>
+            <span className="text-[9px] font-mono text-cyan-200">{t("sample.stHolographicFoilCard.edition")}</span>
           </div>
           <div>
-            <div className="text-xs font-black text-white drop-shadow-sm">IRIDESCENT PRISM</div>
-            <div className="text-[9px] text-white/80">마우스를 움직여 광택 각도 조절</div>
+            <div className="text-xs font-black text-white drop-shadow-sm">{t("sample.stHolographicFoilCard.iridescentPrism")}</div>
           </div>
         </div>
       </div>
@@ -4531,6 +4771,7 @@ const StHolographicFoilCardDemo: React.FC = () => {
 
 /* [스타일 +2] 서멀 영수증 & 바코드 티켓 (Thermal Receipt & Barcode Ticket) */
 const StReceiptThermalMonoDemo: React.FC = () => {
+  const { t } = useLocale();
   const [stamped, setStamped] = useState(true);
   const bars = [2, 1, 3, 1, 2, 1, 4, 1, 2, 2, 1, 3, 1, 2, 1, 3, 2, 1];
 
@@ -4541,16 +4782,16 @@ const StReceiptThermalMonoDemo: React.FC = () => {
     >
       <div className="relative w-full max-w-[195px] bg-[#faf8f5] text-zinc-900 rounded-xs px-3 py-2 font-mono shadow-lg border-y-2 border-dashed border-zinc-400">
         <div className="flex items-center justify-between text-[9px] font-bold border-b border-dashed border-zinc-400 pb-1">
-          <span>VIBE MART #042</span>
+          <span>{t("sample.stReceiptThermalMono.vibeMart042")}</span>
           <span>2026-10-17</span>
         </div>
         <div className="py-1 space-y-0.5 text-[9px]">
           <div className="flex justify-between">
-            <span>1x UI PROMPT PACK</span>
+            <span>{t("sample.stReceiptThermalMono.uiItem")}</span>
             <span className="font-bold">$24.00</span>
           </div>
           <div className="flex justify-between text-zinc-600">
-            <span>1x MOTION REEL</span>
+            <span>{t("sample.stReceiptThermalMono.motionItem")}</span>
             <span className="font-bold">$18.00</span>
           </div>
         </div>
@@ -4570,7 +4811,7 @@ const StReceiptThermalMonoDemo: React.FC = () => {
               stamped ? 'border-rose-600 text-rose-600 -rotate-6' : 'border-zinc-500 text-zinc-500'
             } transition-transform`}
           >
-            {stamped ? 'PAID ✓' : 'RECEIPT'}
+            {stamped ? t("sample.stReceiptThermalMono.paid") : t("sample.stReceiptThermalMono.receipt")}
           </span>
         </div>
       </div>
@@ -4580,6 +4821,7 @@ const StReceiptThermalMonoDemo: React.FC = () => {
 
 /* [스타일 +3] Y2K 애시드 크롬 & 파스텔 윈도우 (Y2K Metallic Chrome & Pastel UI) */
 const StVaporwaveY2kChromeDemo: React.FC = () => {
+  const { t } = useLocale();
   const [liked, setLiked] = useState(true);
 
   return (
@@ -4595,16 +4837,14 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
           }}
           className="rounded-lg px-2 py-0.5 border border-slate-400 flex items-center justify-between text-[9px] font-black text-slate-800 mb-1.5"
         >
-          <span>✦ CYBER_GIRL_2000.EXE</span>
+          <span>{t("sample.stVaporwaveY2kChrome.cyberGirl2000Exe")}</span>
           <span className="text-pink-600">♥</span>
         </div>
 
         <div className="flex items-center justify-between px-1 py-1">
           <div>
-            <div className="text-[11px] font-black tracking-tight text-fuchsia-900">
-              AESTHETIC CHROME ✧
-            </div>
-            <div className="text-[9px] font-semibold text-sky-800">Track 01 · Bubblegum Pop</div>
+            <div className="text-[11px] font-black tracking-tight text-fuchsia-900">{t("sample.stVaporwaveY2kChrome.aestheticChrome")}</div>
+            <div className="text-[9px] font-semibold text-sky-800">{t("sample.stVaporwaveY2kChrome.track01BubblegumPop")}</div>
           </div>
           <span
             style={{
@@ -4612,7 +4852,7 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
             }}
             className="px-2 py-1 rounded-full border border-slate-500 text-[9px] font-black text-slate-900 shadow-xs"
           >
-            {liked ? '★ PLAY' : '☆ CUE'}
+            {liked ? t("sample.stVaporwaveY2kChrome.play") : t("sample.stVaporwaveY2kChrome.cue")}
           </span>
         </div>
       </div>
@@ -4622,6 +4862,7 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
 
 /* [스타일 +4] 사이버펑크 하이볼티지 네온 (Cyberpunk High-Voltage Neon UI) */
 const StCyberpunkNeonGlitchDemo: React.FC = () => {
+  const { t } = useLocale();
   const [overdrive, setOverdrive] = useState(true);
 
   return (
@@ -4636,14 +4877,12 @@ const StCyberpunkNeonGlitchDemo: React.FC = () => {
         className="w-full max-w-[205px] bg-[#facc15] text-zinc-950 p-2.5 relative shadow-[0_0_20px_rgba(250,204,21,0.3)] border-l-4 border-cyan-400"
       >
         <div className="flex items-center justify-between mb-1">
-          <span className="bg-zinc-950 text-[#00f0ff] text-[8px] font-mono font-black px-1.5 py-0.5 tracking-wider">
-            NC-2077 // SYS
-          </span>
-          <span className="text-[8px] font-mono font-black text-zinc-900">VOLTAGE: 99.4V</span>
+          <span className="bg-zinc-950 text-[#00f0ff] text-[8px] font-mono font-black px-1.5 py-0.5 tracking-wider">{t("sample.stCyberpunkNeonGlitch.nc2077Sys")}</span>
+          <span className="text-[8px] font-mono font-black text-zinc-900">{t("sample.stCyberpunkNeonGlitch.voltage994v")}</span>
         </div>
 
         <div className="text-xs font-black tracking-tight uppercase leading-tight">
-          {overdrive ? '⚡ NEON OVERDRIVE' : '⚠️ BREACH PROTOCOL'}
+          {overdrive ? t("sample.stCyberpunkNeonGlitch.neonOverdrive") : t("sample.stCyberpunkNeonGlitch.breachProtocol")}
         </div>
 
         {/* 하단 해저드 스트라이프 바 */}
@@ -4661,6 +4900,7 @@ const StCyberpunkNeonGlitchDemo: React.FC = () => {
 
 /* [모션 영상 +1] 사이버 글리치 컷 티저 릴 (Glitch Cut Spec Teaser Reel) */
 const VdGlitchCutReelDemo: React.FC = () => {
+  const { t } = useLocale();
   const [idx, setIdx] = useState(0);
   const [glitching, setGlitching] = useState(false);
 
@@ -4704,7 +4944,7 @@ const VdGlitchCutReelDemo: React.FC = () => {
         )}
         <div className="flex items-center justify-between text-[8px] font-mono text-slate-400">
           <span>{cur.tag}</span>
-          <span className="text-rose-400 font-bold">● REC</span>
+          <span className="text-rose-400 font-bold">{t("sample.mgKenBurnsPan.rec")}</span>
         </div>
         <div className="text-base font-black tracking-wider text-white font-mono">
           {cur.title}
@@ -4724,6 +4964,7 @@ const VdGlitchCutReelDemo: React.FC = () => {
 
 /* [모션 영상 +2] 슬롯 릴 잭팟 헤드라인 씬 (Slot Reel Jackpot Headline Scene) */
 const VdSlotJackpotHeadlineDemo: React.FC = () => {
+  const { t } = useLocale();
   const [step, setStep] = useState(3);
   const reels = [
     ['SHIP', 'BUILD', 'CREATE'],
@@ -4782,7 +5023,7 @@ const VdSlotJackpotHeadlineDemo: React.FC = () => {
         })}
       </div>
       <span className="text-[9px] font-mono text-slate-400">
-        {locked ? '★ JACKPOT: CREATE 10X FASTER' : 'ROLLING HEADLINE REELS...'}
+        {locked ? t("sample.vdSlotJackpotHeadline.jackpotCreate10xFaster") : t("sample.vdSlotJackpotHeadline.rollingHeadlineReels")}
       </span>
     </div>
   );
@@ -4790,6 +5031,7 @@ const VdSlotJackpotHeadlineDemo: React.FC = () => {
 
 /* [모션 영상 +3] 컨버전 퍼널 단계별 리빌 씬 (Conversion Funnel Stage Reveal) */
 const VdFunnelConversionDropDemo: React.FC = () => {
+  const { t } = useLocale();
   const [stage, setStage] = useState(3);
   const steps = [
     { label: 'VISITORS', val: '100%', width: 'w-44', color: 'from-indigo-500 to-blue-500' },
@@ -4827,23 +5069,22 @@ const VdFunnelConversionDropDemo: React.FC = () => {
         className={`mt-0.5 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-[9px] font-mono font-bold text-emerald-300 transition-all duration-300 ${
           stage >= 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
         }`}
-      >
-        ▲ FINAL CVR +28.4%
-      </div>
+      >{t("sample.vdFunnelConversionDrop.finalCvr284")}</div>
     </div>
   );
 };
 
 /* [모션 영상 +4] 브레이킹 뉴스 속보 & 티커 씬 (Breaking News Broadcast Overlay) */
 const VdBreakingNewsTickerDemo: React.FC = () => {
+  const { t } = useLocale();
   const [headIdx, setHeadIdx] = useState(0);
   const headlines = [
-    'AI 바이브 사전 122종 인터랙션 돌파',
-    '클릭 한 번으로 모션 영상 프롬프트 복사',
-    '실시간 라이브 데모 프리뷰 전면 가동',
+    t("demo.vibeDictionaryReaches122Interactions"),
+    t("demo.copyMotionVideoPromptsWithOne"),
+    t("demo.liveInteractiveDemoPreviewsAreReady"),
   ];
   const tickerText =
-    '[속보] UI 36 · 그래픽 26 · 레이아웃 20 · 스타일 20 · 모션 영상 20 총 122종 바이브 수록 완료   •   ';
+    t("demo.newsUi36Graphics26Layout");
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -4862,9 +5103,9 @@ const VdBreakingNewsTickerDemo: React.FC = () => {
         <div className="bg-linear-to-r from-rose-600 to-red-700 px-2.5 py-1 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-            <span className="text-[9px] font-black tracking-wider text-white">BREAKING NEWS</span>
+            <span className="text-[9px] font-black tracking-wider text-white">{t("sample.vdBreakingNewsTicker.breakingNews")}</span>
           </div>
-          <span className="text-[8px] font-mono text-rose-100">LIVE 24H</span>
+          <span className="text-[8px] font-mono text-rose-100">{t("sample.vdBreakingNewsTicker.live24h")}</span>
         </div>
 
         {/* 중앙 수직 슬라이드 교체형 속보 헤드라인 */}

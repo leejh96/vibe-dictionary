@@ -1,0 +1,88 @@
+.vfx-demo { width: 100%; padding: 2.75rem 1rem .75rem; display: flex; flex-direction: column; align-items: center; gap: .5rem; color: #4338ca; }
+.dark .vfx-demo { color: #a5b4fc; }
+.vfx-scene { display: block; width: 264px; max-width: 100%; height: auto; aspect-ratio: 11 / 6; overflow: hidden; border: 1px solid #cbd5e1; border-radius: .75rem; }
+.dark .vfx-scene { border-color: #475569; }
+.vfx-cold-sky { fill: #dbeafe; }
+.vfx-moon { fill: #fff; }
+.vfx-far-mountain { fill: #7c98c4; }
+.vfx-snow { fill: #eff6ff; }
+.vfx-near-mountain { fill: #355c85; }
+.vfx-warm-sky { fill: #ffedd5; }
+.vfx-sun { fill: #fb923c; }
+.vfx-far-dune { fill: #f7b578; }
+.vfx-near-dune { fill: #c96d46; }
+.vfx-cactus { fill: none; stroke: #684237; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.dark .vfx-cold-sky { fill: #14263e; }
+.dark .vfx-moon { fill: #dbeafe; }
+.dark .vfx-far-mountain { fill: #536a96; }
+.dark .vfx-snow { fill: #bed3ef; }
+.dark .vfx-near-mountain { fill: #284768; }
+.dark .vfx-warm-sky { fill: #4b2d42; }
+.dark .vfx-sun { fill: #fdba74; }
+.dark .vfx-far-dune { fill: #a75b61; }
+.dark .vfx-near-dune { fill: #733e51; }
+.dark .vfx-cactus { stroke: #f8ccae; }
+.vfx-range-control { display: grid; grid-template-columns: minmax(2rem, max-content) minmax(0, 1fr); align-items: center; gap: .5rem; width: 264px; max-width: 100%; font-size: .75rem; }
+.vfx-range-control input { width: 100%; min-width: 0; height: 44px; margin: 0; color: inherit; accent-color: currentColor; cursor: pointer; }
+.vfx-range-control input:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: .3rem; }
+.dark .vfx-range-control input { color-scheme: dark; }
+.vfx-city-night .vfx-city-sky { fill: #dbeafe; }
+.vfx-city-moon { fill: #64748b; }
+.vfx-city-night .vfx-city-buildings { fill: #345779; }
+.vfx-city-night .vfx-city-windows { stroke: #fef3c7; }
+.vfx-city-stars { fill: none; stroke: #64748b; stroke-width: 2; stroke-linecap: round; }
+.vfx-city-day .vfx-city-sky { fill: #fff2d7; }
+.vfx-city-sun { fill: #f59e0b; }
+.vfx-city-day .vfx-city-buildings { fill: #ca7c63; }
+.vfx-city-day .vfx-city-windows { stroke: #ffe9cc; }
+.vfx-city-windows { fill: none; stroke-width: 4; }
+.dark .vfx-city-night .vfx-city-sky { fill: #13233b; }
+.dark .vfx-city-night .vfx-city-buildings { fill: #354b70; }
+.dark .vfx-city-moon { fill: #dbeafe; }
+.dark .vfx-city-stars { stroke: #a5b4fc; }
+.dark .vfx-city-day .vfx-city-sky { fill: #5d3c4b; }
+.dark .vfx-city-day .vfx-city-buildings { fill: #ba7a79; }
+.dark .vfx-city-sun { fill: #fed7aa; }
+.vfx-block-cool-sky { fill: #dbeafe; }
+.vfx-block-world { fill: #0f766e; }
+.vfx-block-bands { fill: none; stroke: #99f6e4; stroke-width: 5; }
+.vfx-block-orbit { fill: none; stroke: #6366f1; stroke-width: 3; }
+.vfx-block-satellite { fill: #6366f1; }
+.vfx-block-rays { fill: none; stroke: #ea580c; stroke-width: 5; opacity: .45; }
+.vfx-block-disc { fill: #ea580c; }
+.vfx-block-core { fill: #fed7aa; }
+.dark .vfx-block-cool-sky { fill: #14243f; }
+.dark .vfx-block-world { fill: #5eead4; }
+.dark .vfx-block-bands { stroke: #0f766e; }
+.dark .vfx-block-orbit { stroke: #c4b5fd; }
+.dark .vfx-block-satellite { fill: #c4b5fd; }
+.dark .vfx-block-rays { stroke: #fb923c; }
+.dark .vfx-block-disc { fill: #fb923c; }
+.dark .vfx-block-core { fill: #7c3f4d; }
+.vfx-luma-sun { fill: #6366f1; }
+.vfx-luma-far-water { fill: #7dd3fc; }
+.vfx-luma-near-water { fill: #0284c7; }
+.vfx-luma-foam { fill: none; stroke: #e0f2fe; stroke-width: 3; stroke-linecap: round; }
+.vfx-luma-outer-arch { fill: #e57867; }
+.vfx-luma-inner-arch { fill: #9a4c4c; }
+.vfx-luma-small-disc { fill: #d97706; }
+.vfx-luma-lines { fill: none; stroke: #9a4c4c; stroke-width: 4; }
+.dark .vfx-luma-sun { fill: #c4b5fd; }
+.dark .vfx-luma-far-water { fill: #3478a0; }
+.dark .vfx-luma-near-water { fill: #165777; }
+.dark .vfx-luma-outer-arch { fill: #ec9d8f; }
+.dark .vfx-luma-inner-arch { fill: #ac6268; }
+.dark .vfx-luma-small-disc { fill: #fbbf24; }
+.dark .vfx-luma-lines { stroke: #ec9d8f; }
+.vfx-flare-scene { --vfx-flare-light: #d97706; background: #e2e8f0; }
+.dark .vfx-flare-scene { --vfx-flare-light: #fde68a; background: #111c30; }
+.vfx-flare-ghost { fill: currentColor; fill-opacity: .12; stroke: currentColor; stroke-opacity: .65; stroke-width: 1.5; }
+.vfx-flare-ghost:nth-child(2) { color: #0f766e; }
+.vfx-flare-ghost:nth-child(3) { color: #b45309; }
+.dark .vfx-flare-ghost:nth-child(2) { color: #5eead4; }
+.dark .vfx-flare-ghost:nth-child(3) { color: #fbbf24; }
+.vfx-flare-streak { fill: none; stroke-width: 1.5; }
+.vfx-flare-star { fill: none; stroke: var(--vfx-flare-light); stroke-width: 1.5; }
+.vfx-flare-core { fill: #fff7ed; stroke: var(--vfx-flare-light); stroke-width: 1; }
+.vfx-bloom-scene, .vfx-directional-scene { background: #1e293b; }
+.dark .vfx-bloom-scene, .dark .vfx-directional-scene { background: #0b1220; }

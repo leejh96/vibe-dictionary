@@ -1,0 +1,170 @@
+.infographic-demo { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 216px; padding: 44px 16px 16px; }
+.ig-waterfall { --ig-text: #334155; --ig-line: #94a3b8; --ig-grid: #cbd5e1; --ig-total: #4338ca; --ig-increase: #0f766e; --ig-decrease: #c2410c; position: relative; width: 264px; max-width: 100%; height: 156px; padding-top: 20px; color: var(--ig-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-waterfall { --ig-text: #e2e8f0; --ig-line: #94a3b8; --ig-grid: #475569; --ig-total: #a5b4fc; --ig-increase: #5eead4; --ig-decrease: #fdba74; }
+.ig-waterfall-axis { position: absolute; top: 20px; bottom: 28px; left: 0; display: flex; flex-direction: column; justify-content: space-between; width: 20px; text-align: right; }
+.ig-waterfall-axis > span { height: 0; transform: translateY(-8px); }
+.ig-waterfall-plot { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; height: 108px; margin-left: 24px; background: linear-gradient(var(--ig-line), var(--ig-line)) left bottom / 100% 1px no-repeat, linear-gradient(var(--ig-grid), var(--ig-grid)) left top / 100% 1px no-repeat, linear-gradient(var(--ig-grid), var(--ig-grid)) left center / 100% 1px no-repeat; }
+.ig-waterfall-column { position: relative; min-width: 0; }
+.ig-waterfall-bar { position: absolute; left: 14%; width: 72%; transform-origin: center bottom; animation: ig-waterfall-rise 450ms ease-out var(--ig-delay) backwards; }
+.ig-waterfall-total { background: var(--ig-total); }
+.ig-waterfall-increase { background: var(--ig-increase); }
+.ig-waterfall-decrease { background: var(--ig-decrease); transform-origin: center top; }
+.ig-waterfall-value { position: absolute; left: 50%; white-space: nowrap; transform: translateX(-50%); font-weight: 650; }
+.ig-waterfall-label { position: absolute; top: calc(100% + 8px); left: 50%; white-space: nowrap; transform: translateX(-50%); }
+.ig-waterfall-connector { position: absolute; left: 86%; width: calc(28% + 12px); border-top: 1px dashed var(--ig-line); }
+.ig-waterfall-value, .ig-waterfall-connector { animation: ig-waterfall-appear 200ms ease-out var(--ig-delay) backwards; }
+@keyframes ig-waterfall-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes ig-waterfall-appear { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-waterfall-bar, .ig-waterfall-value, .ig-waterfall-connector { animation: none; } }
+.ig-dumbbell { --ig-pair-ink: #4338ca; --ig-pair-previous: #64748b; --ig-pair-grid: #cbd5e1; --ig-pair-text: #334155; --ig-pair-surface: #fff; width: 264px; max-width: 100%; color: var(--ig-pair-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-dumbbell { --ig-pair-ink: #a5b4fc; --ig-pair-previous: #cbd5e1; --ig-pair-grid: #475569; --ig-pair-text: #e2e8f0; --ig-pair-surface: #1e293b; }
+.ig-dumbbell-legend { display: flex; justify-content: flex-end; gap: 16px; margin-bottom: 8px; }
+.ig-dumbbell-legend > span { display: flex; align-items: center; gap: 5px; }
+.ig-dumbbell-legend i, .ig-dumbbell-before > i, .ig-dumbbell-after > i { display: block; width: 9px; height: 9px; border-radius: 50%; }
+.ig-dumbbell-legend > span:first-child > i, .ig-dumbbell-before > i { border: 2px solid var(--ig-pair-previous); background: var(--ig-pair-surface); }
+.ig-dumbbell-legend > span:last-child > i, .ig-dumbbell-after > i { background: var(--ig-pair-ink); }
+.ig-dumbbell-row { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 8px; height: 44px; }
+.ig-dumbbell-track { position: relative; height: 44px; margin: 0 12px; background: linear-gradient(var(--ig-pair-grid), var(--ig-pair-grid)) left center / 100% 1px no-repeat; }
+.ig-dumbbell-link { position: absolute; top: 21px; height: 2px; background: var(--ig-pair-ink); animation: ig-dumbbell-extend 600ms ease-out var(--ig-pair-delay) backwards; }
+.ig-dumbbell-before, .ig-dumbbell-after { position: absolute; top: 22px; display: block; width: 0; height: 0; }
+.ig-dumbbell-before { left: var(--ig-before); }
+.ig-dumbbell-after { left: var(--ig-after); animation: ig-dumbbell-travel 600ms ease-out var(--ig-pair-delay) backwards; }
+.ig-dumbbell-before > i, .ig-dumbbell-after > i { position: absolute; top: -4.5px; left: -4.5px; }
+.ig-dumbbell-before > span, .ig-dumbbell-after > span { position: absolute; left: 0; transform: translateX(-50%); }
+.ig-dumbbell-before > span { bottom: 6px; color: var(--ig-pair-previous); }
+.ig-dumbbell-after > span { top: 6px; color: var(--ig-pair-ink); }
+.ig-dumbbell-axis { display: flex; justify-content: space-between; margin: 4px 12px 0 52px; }
+.ig-dumbbell-axis > span { width: 0; display: flex; justify-content: center; }
+@keyframes ig-dumbbell-extend { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ig-dumbbell-travel { from { left: var(--ig-before); } to { left: var(--ig-after); } }
+@media (prefers-reduced-motion: reduce) { .ig-dumbbell-link, .ig-dumbbell-after { animation: none; } }
+.ig-histogram-demo { flex-direction: column; gap: 8px; }
+.ig-histogram { --ig-histogram-ink: #4338ca; --ig-histogram-text: #334155; --ig-histogram-grid: #cbd5e1; position: relative; width: 264px; max-width: 100%; height: 156px; padding: 20px 8px 0 0; color: var(--ig-histogram-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-histogram { --ig-histogram-ink: #a5b4fc; --ig-histogram-text: #e2e8f0; --ig-histogram-grid: #475569; }
+.ig-histogram-count-axis { position: absolute; top: 20px; bottom: 28px; left: 0; display: flex; flex-direction: column; justify-content: space-between; width: 20px; text-align: right; }
+.ig-histogram-count-axis > span { height: 0; transform: translateY(-8px); }
+.ig-histogram-plot { display: grid; height: 108px; margin-left: 24px; background: linear-gradient(var(--ig-histogram-grid), var(--ig-histogram-grid)) left top / 100% 1px no-repeat, linear-gradient(var(--ig-histogram-grid), var(--ig-histogram-grid)) left center / 100% 1px no-repeat, linear-gradient(var(--ig-histogram-grid), var(--ig-histogram-grid)) left bottom / 100% 1px no-repeat; }
+.ig-histogram-bin { position: relative; min-width: 0; }
+.ig-histogram-bar { position: absolute; bottom: 0; left: 0; width: 100%; border-right: 1px solid var(--ig-histogram-grid); border-left: 1px solid var(--ig-histogram-grid); background: var(--ig-histogram-ink); transition: height 450ms ease-out; }
+.ig-histogram-bar > span { position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); color: var(--ig-histogram-text); }
+.ig-histogram-value-axis { display: flex; justify-content: space-between; margin: 8px 0 0 24px; }
+.ig-histogram-value-axis > span { display: flex; justify-content: center; width: 0; }
+.ig-histogram-control { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 8px; width: 264px; max-width: 100%; color: #334155; font-size: 12px; line-height: 16px; }
+.ig-histogram-control select { width: 100%; min-width: 0; height: 44px; padding: 0 10px; border: 1px solid #94a3b8; border-radius: 8px; color: inherit; background: #fff; cursor: pointer; }
+.ig-histogram-control select:focus-visible { outline: 2px solid #4338ca; outline-offset: 2px; }
+.dark .ig-histogram-control { color: #e2e8f0; }
+.dark .ig-histogram-control select { border-color: #64748b; background: #1e293b; color-scheme: dark; }
+.dark .ig-histogram-control select:focus-visible { outline-color: #a5b4fc; }
+@media (prefers-reduced-motion: reduce) { .ig-histogram-bar { transition: none; } }
+.ig-boxplot { --ig-box-ink: #4338ca; --ig-box-fill: #e0e7ff; --ig-box-text: #334155; --ig-box-grid: #cbd5e1; position: relative; width: 264px; max-width: 100%; height: 164px; padding-top: 12px; color: var(--ig-box-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-boxplot { --ig-box-ink: #a5b4fc; --ig-box-fill: #312e81; --ig-box-text: #e2e8f0; --ig-box-grid: #475569; }
+.ig-boxplot-axis { position: absolute; top: 12px; bottom: 24px; left: 0; display: flex; flex-direction: column; justify-content: space-between; width: 20px; text-align: right; }
+.ig-boxplot-axis > span { height: 0; transform: translateY(-8px); }
+.ig-boxplot-plot { position: relative; height: 128px; margin: 0 72px 0 24px; background: linear-gradient(var(--ig-box-grid), var(--ig-box-grid)) left top / 100% 1px no-repeat, linear-gradient(var(--ig-box-grid), var(--ig-box-grid)) left center / 100% 1px no-repeat, linear-gradient(var(--ig-box-grid), var(--ig-box-grid)) left bottom / 100% 1px no-repeat; }
+.ig-boxplot-whisker { position: absolute; left: calc(50% - 1px); width: 2px; background: var(--ig-box-ink); animation: ig-boxplot-open 500ms ease-out backwards; }
+.ig-boxplot-whisker::before, .ig-boxplot-whisker::after { position: absolute; left: -15px; width: 32px; height: 2px; background: var(--ig-box-ink); content: ''; }
+.ig-boxplot-whisker::before { top: 0; transform: translateY(-50%); }
+.ig-boxplot-whisker::after { bottom: 0; transform: translateY(50%); }
+.ig-boxplot-box { position: absolute; left: calc(50% - 28px); width: 56px; border: 2px solid var(--ig-box-ink); background: var(--ig-box-fill); animation: ig-boxplot-open 500ms ease-out backwards; }
+.ig-boxplot-median { position: absolute; left: calc(50% - 28px); width: 56px; height: 3px; background: var(--ig-box-ink); transform: translateY(50%); animation: ig-boxplot-show 200ms ease-out 300ms backwards; }
+.ig-boxplot-statistic { position: absolute; left: calc(50% + 36px); display: grid; grid-template-columns: 28px 18px; gap: 4px; transform: translateY(50%); white-space: nowrap; animation: ig-boxplot-show 200ms ease-out 500ms backwards; }
+.ig-boxplot-statistic > span:last-child { text-align: right; font-weight: 650; }
+@keyframes ig-boxplot-open { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes ig-boxplot-show { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-boxplot-whisker, .ig-boxplot-box, .ig-boxplot-median, .ig-boxplot-statistic { animation: none; } }
+.ig-treemap { --ig-tree-text: #334155; --ig-tree-border: #fff; --ig-tree-one: #ddd6fe; --ig-tree-two: #a78bfa; --ig-tree-three: #99f6e4; --ig-tree-four: #2dd4bf; width: 264px; max-width: 100%; color: var(--ig-tree-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-treemap { --ig-tree-text: #f1f5f9; --ig-tree-border: #1e293b; --ig-tree-one: #4c1d95; --ig-tree-two: #5b21b6; --ig-tree-three: #115e59; --ig-tree-four: #0f766e; }
+.ig-treemap-groups { display: flex; }
+.ig-treemap-group { flex-shrink: 0; min-width: 0; }
+.ig-treemap-heading { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
+.ig-treemap-heading > span:last-child { font-weight: 650; }
+.ig-treemap-branch { height: 144px; }
+.ig-treemap-leaf { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; box-shadow: inset 0 0 0 1px var(--ig-tree-border); background: var(--ig-tree-one); color: #1e1b4b; animation: ig-treemap-reveal 360ms ease-out var(--ig-treemap-delay) backwards; }
+.ig-treemap-group:first-child .ig-treemap-leaf:last-child { background: var(--ig-tree-two); }
+.ig-treemap-group:last-child .ig-treemap-leaf:first-child { background: var(--ig-tree-three); color: #134e4a; }
+.ig-treemap-group:last-child .ig-treemap-leaf:last-child { background: var(--ig-tree-four); color: #134e4a; }
+.ig-treemap-leaf > span:last-child { font-weight: 700; }
+.dark .ig-treemap-leaf, .dark .ig-treemap-group:last-child .ig-treemap-leaf { color: #f1f5f9; }
+@keyframes ig-treemap-reveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-treemap-leaf { animation: none; } }
+.ig-scatterplot { --ig-scatterplot-ink: #4338ca; --ig-scatterplot-text: #334155; --ig-scatterplot-grid: #cbd5e1; --ig-scatterplot-surface: #fff; width: 264px; max-width: 100%; color: var(--ig-scatterplot-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-scatterplot { --ig-scatterplot-ink: #a5b4fc; --ig-scatterplot-text: #e2e8f0; --ig-scatterplot-grid: #475569; --ig-scatterplot-surface: #1e293b; }
+.ig-scatterplot-content { position: relative; height: 184px; padding-top: 24px; }
+.ig-scatterplot-y-title { position: absolute; top: 0; left: 0; }
+.ig-scatterplot-y-axis { position: absolute; top: 24px; left: 0; display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 112px; text-align: right; }
+.ig-scatterplot-y-axis > span { height: 0; transform: translateY(-8px); }
+.ig-scatterplot-plot { position: relative; height: 112px; margin: 0 12px 0 32px; background: linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) left top / 100% 1px no-repeat, linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) left center / 100% 1px no-repeat, linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) left bottom / 100% 1px no-repeat, linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) left top / 1px 100% no-repeat, linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) center top / 1px 100% no-repeat, linear-gradient(var(--ig-scatterplot-grid), var(--ig-scatterplot-grid)) right top / 1px 100% no-repeat; }
+.ig-scatterplot-point { position: absolute; width: 0; height: 0; animation: ig-scatterplot-reveal 300ms ease-out var(--ig-scatterplot-delay) backwards; }
+.ig-scatterplot-point > i { position: absolute; top: -5px; left: -5px; width: 10px; height: 10px; border: 1px solid var(--ig-scatterplot-surface); border-radius: 50%; background: var(--ig-scatterplot-ink); }
+.ig-scatterplot-point > span { position: absolute; left: 7px; bottom: 4px; color: var(--ig-scatterplot-ink); font-weight: 650; }
+.ig-scatterplot-x-axis { display: flex; justify-content: space-between; margin: 8px 12px 0 32px; }
+.ig-scatterplot-x-axis > span { display: flex; justify-content: center; width: 0; }
+.ig-scatterplot-x-title { margin: 8px 12px 0 32px; text-align: center; }
+@keyframes ig-scatterplot-reveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-scatterplot-point { animation: none; } }
+.ig-percent-stack { --ig-percent-stack-text: #334155; --ig-percent-stack-grid: #cbd5e1; --ig-percent-stack-direct: #4338ca; --ig-percent-stack-search: #0f766e; --ig-percent-stack-referral: #b45309; --ig-percent-stack-label: #fff; width: 264px; max-width: 100%; padding-right: 16px; color: var(--ig-percent-stack-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-percent-stack { --ig-percent-stack-text: #e2e8f0; --ig-percent-stack-grid: #475569; --ig-percent-stack-direct: #a5b4fc; --ig-percent-stack-search: #5eead4; --ig-percent-stack-referral: #fbbf24; --ig-percent-stack-label: #0f172a; }
+.ig-percent-stack-legend { display: flex; justify-content: center; gap: 12px; margin: 0 0 12px 36px; }
+.ig-percent-stack-legend > span { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.ig-percent-stack-legend i { display: block; width: 8px; height: 8px; }
+.ig-percent-stack-tone-0 { background: var(--ig-percent-stack-direct); }
+.ig-percent-stack-tone-1 { background: var(--ig-percent-stack-search); }
+.ig-percent-stack-tone-2 { background: var(--ig-percent-stack-referral); }
+.ig-percent-stack-rows { display: grid; gap: 12px; }
+.ig-percent-stack-row { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 8px; }
+.ig-percent-stack-track { height: 28px; background: var(--ig-percent-stack-grid); }
+.ig-percent-stack-bar { display: flex; height: 100%; animation: ig-percent-stack-reveal 600ms ease-out var(--ig-percent-stack-delay) backwards; }
+.ig-percent-stack-segment { display: flex; flex-shrink: 0; align-items: center; justify-content: center; min-width: 0; color: var(--ig-percent-stack-label); }
+.ig-percent-stack-segment > span { white-space: nowrap; animation: ig-percent-stack-label 200ms ease-out var(--ig-percent-stack-label-delay) backwards; }
+.ig-percent-stack-axis { display: flex; justify-content: space-between; margin: 8px 0 0 36px; }
+.ig-percent-stack-axis > span { display: flex; justify-content: center; width: 0; }
+@keyframes ig-percent-stack-reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes ig-percent-stack-label { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-percent-stack-bar, .ig-percent-stack-segment > span { animation: none; } }
+.ig-time-line { --ig-time-line-ink: #4338ca; --ig-time-line-text: #334155; --ig-time-line-grid: #cbd5e1; --ig-time-line-surface: #fff; width: 264px; max-width: 100%; color: var(--ig-time-line-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-time-line { --ig-time-line-ink: #a5b4fc; --ig-time-line-text: #e2e8f0; --ig-time-line-grid: #475569; --ig-time-line-surface: #1e293b; }
+.ig-time-line-content { position: relative; height: 160px; padding-top: 24px; }
+.ig-time-line-unit { position: absolute; top: 0; left: 0; }
+.ig-time-line-y-axis { position: absolute; top: 24px; left: 0; display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 112px; text-align: right; }
+.ig-time-line-y-axis > span { height: 0; transform: translateY(-8px); }
+.ig-time-line-plot { position: relative; height: 112px; margin: 0 16px 0 32px; background: linear-gradient(var(--ig-time-line-grid), var(--ig-time-line-grid)) left top / 100% 1px no-repeat, linear-gradient(var(--ig-time-line-grid), var(--ig-time-line-grid)) left center / 100% 1px no-repeat, linear-gradient(var(--ig-time-line-grid), var(--ig-time-line-grid)) left bottom / 100% 1px no-repeat; }
+.ig-time-line-plot > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; color: var(--ig-time-line-ink); clip-path: inset(-2px); animation: ig-time-line-reveal 900ms linear backwards; }
+.ig-time-line-point { position: absolute; width: 0; height: 0; animation: ig-time-line-mark 200ms ease-out 900ms backwards; }
+.ig-time-line-point > i { position: absolute; top: -4px; left: -4px; width: 8px; height: 8px; border: 1px solid var(--ig-time-line-ink); border-radius: 50%; background: var(--ig-time-line-surface); }
+.ig-time-line-point > span { position: absolute; bottom: 7px; left: 0; transform: translateX(-50%); color: var(--ig-time-line-ink); font-weight: 650; }
+.ig-time-line-x-axis { display: flex; justify-content: space-between; margin: 8px 16px 0 32px; }
+.ig-time-line-x-axis > span { display: flex; justify-content: center; width: 0; white-space: nowrap; }
+@keyframes ig-time-line-reveal { from { clip-path: inset(-2px calc(100% + 2px) -2px -2px); } to { clip-path: inset(-2px); } }
+@keyframes ig-time-line-mark { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-time-line-plot > svg, .ig-time-line-point { animation: none; } }
+.ig-sankey { --ig-sankey-text: #334155; --ig-sankey-web: #4338ca; --ig-sankey-app: #0f766e; --ig-sankey-target: #64748b; --ig-sankey-surface: #fff; width: 264px; max-width: 100%; color: var(--ig-sankey-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-sankey { --ig-sankey-text: #e2e8f0; --ig-sankey-web: #a5b4fc; --ig-sankey-app: #5eead4; --ig-sankey-target: #94a3b8; --ig-sankey-surface: #1e293b; }
+.ig-sankey-layout { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; gap: 4px; }
+.ig-sankey-labels, .ig-sankey-plot { position: relative; height: 136px; min-width: 0; }
+.ig-sankey-node-label { position: absolute; left: 0; display: flex; flex-direction: column; align-items: center; width: 100%; transform: translateY(-50%); }
+.ig-sankey-node-label > span:last-child { font-weight: 650; }
+.ig-sankey-plot > svg { display: block; width: 100%; height: 100%; }
+.ig-sankey-web { fill: var(--ig-sankey-web); }
+.ig-sankey-app { fill: var(--ig-sankey-app); }
+.ig-sankey-target { fill: var(--ig-sankey-target); }
+.ig-sankey-flow { opacity: .4; animation: ig-sankey-flow-reveal 300ms ease-out var(--ig-sankey-delay) backwards; }
+.ig-sankey-value { position: absolute; left: 50%; width: 24px; height: 16px; transform: translate(-50%, -50%); border-radius: 3px; background: var(--ig-sankey-surface); text-align: center; font-weight: 650; animation: ig-sankey-value-reveal 200ms ease-out 600ms backwards; }
+@keyframes ig-sankey-flow-reveal { from { opacity: 0; } to { opacity: .4; } }
+@keyframes ig-sankey-value-reveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-sankey-flow, .ig-sankey-value { animation: none; } }
+.ig-radar-profile { --ig-radar-profile-ink: #4338ca; --ig-radar-profile-text: #334155; --ig-radar-profile-grid: #94a3b8; --ig-radar-profile-surface: #fff; position: relative; width: 264px; max-width: 100%; height: 184px; color: var(--ig-radar-profile-text); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.dark .ig-radar-profile { --ig-radar-profile-ink: #a5b4fc; --ig-radar-profile-text: #e2e8f0; --ig-radar-profile-grid: #64748b; --ig-radar-profile-surface: #1e293b; }
+.ig-radar-profile svg { position: absolute; top: 24px; left: 50%; width: 136px; height: 136px; transform: translateX(-50%); }
+.ig-radar-profile-grid { fill: none; stroke: var(--ig-radar-profile-grid); stroke-width: 1; }
+.ig-radar-profile-shape { fill: var(--ig-radar-profile-ink); fill-opacity: .15; stroke: var(--ig-radar-profile-ink); stroke-width: 2; stroke-linejoin: round; animation: ig-radar-profile-reveal 500ms ease-out backwards; }
+.ig-radar-profile-mark { fill: var(--ig-radar-profile-ink); stroke: var(--ig-radar-profile-surface); stroke-width: 1; }
+.ig-radar-profile-mark, .ig-radar-profile-value { animation: ig-radar-profile-reveal 200ms ease-out 500ms backwards; }
+.ig-radar-profile-tick { position: absolute; left: calc(50% - 6px); padding: 0 2px; transform: translate(-100%, -50%); background: var(--ig-radar-profile-surface); }
+.ig-radar-profile-label { position: absolute; display: flex; flex-direction: column; align-items: center; width: 28px; }
+.ig-radar-profile-top { transform: translate(-50%, calc(-100% - 8px)); }
+.ig-radar-profile-right { transform: translate(8px, -50%); }
+.ig-radar-profile-bottom { transform: translate(-50%, 8px); }
+.ig-radar-profile-left { transform: translate(calc(-100% - 8px), -50%); }
+.ig-radar-profile-value { color: var(--ig-radar-profile-ink); font-weight: 650; }
+@keyframes ig-radar-profile-reveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ig-radar-profile-shape, .ig-radar-profile-mark, .ig-radar-profile-value { animation: none; } }
