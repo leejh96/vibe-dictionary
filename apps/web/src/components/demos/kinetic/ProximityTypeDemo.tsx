@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function ProximityTypeDemo() {
   const { t } = useLocale();
-  const [position, setPosition] = useState(50);
+  const [position, setPosition] = useDemoNumber(50, 0, 100, .5);
   const id = useId();
 
   return <div className="kinetic-demo kt-proximity-demo">

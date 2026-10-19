@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function GooeyWordDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const id = useId();
   const fraction = progress / 100;
 

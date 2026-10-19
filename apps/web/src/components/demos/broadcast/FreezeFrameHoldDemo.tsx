@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function FreezeFrameHoldDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [position, setPosition] = useState(50);
+  const [position, setPosition] = useDemoNumber(50, 0, 100, 1);
   const sourcePhase = position < 40 ? position * 1.25 : position <= 60 ? 50 : (position - 20) * 1.25;
   const distance = sourcePhase * 1.64;
   const wheelAngle = distance / 17.5 * 180 / Math.PI;

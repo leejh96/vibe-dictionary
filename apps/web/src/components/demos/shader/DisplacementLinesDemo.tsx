@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DisplacementLinesDemo() {
   const { t } = useLocale();
-  const [strength, setStrength] = useState(18);
+  const [strength, setStrength] = useDemoNumber(18, 0, 32, 1);
   const id = useId();
   return <div className="shader-demo sd-displacement-demo">
     <div className="sd-scene">

@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function CurvedTypeDemo() {
   const { t } = useLocale();
-  const [bend, setBend] = useState(40);
+  const [bend, setBend] = useDemoNumber(40, -60, 60, 1);
   const id = useId();
 
   return <div className="kinetic-demo kt-curve-demo">

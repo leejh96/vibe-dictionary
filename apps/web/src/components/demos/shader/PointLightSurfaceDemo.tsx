@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function PointLightSurfaceDemo() {
   const { t } = useLocale();
-  const [lightX, setLightX] = useState(132);
+  const [lightX, setLightX] = useDemoNumber(132, 12, 252, 1);
   const id = useId();
   return <div className="shader-demo sd-surface-light-demo">
     <div className="sd-scene">
