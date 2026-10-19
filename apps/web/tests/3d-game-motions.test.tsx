@@ -130,3 +130,42 @@ test('InteractiveDemo renders 3D Lucky Wheel and handles spin physics and locale
 
   act(() => tree.unmount());
 });
+
+test('lucky wheel waits for deceleration, aligns all eight rewards and permits another spin', t => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let random = 0;
+  t.mock.method(Math, 'random', () => random);
+  const rewards = ['다이아 100개', '골드 50,000', '777 잭팟', '황금 티켓', '보물상자', '보상 2배', '경험치 부스터', '럭키 박스'];
+  for (let slot = 0; slot < 8; slot++) {
+    // From initial slot 2, existing selection offsets 2..6 cover slots 4..0.
+    // Subsequent spins cover the remaining targets without changing the reward distribution.
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<LuckyWheel3DDemo />); });
+    const button = () => tree.root.findByType('button');
+    const disc = () => tree.root.findByProps({ className: 'lw-wheel-disc' });
+    const status = () => tree.root.findAll(node => typeof node.type === 'string' && node.props.className?.split(' ').includes('lw-status-chip'))[0].children.join('');
+    let currentSlot = 2;
+    do {
+      const offset = (slot - currentSlot + 8) % 8;
+      const step = offset >= 2 && offset <= 6 ? offset : 2;
+      random = (step - 2 + .1) / 5;
+      const before = Number(disc().props.style.transform.match(/rotate\((.+)deg\)/)[1]);
+      act(() => button().props.onClick());
+      const target = Number(disc().props.style.transform.match(/rotate\((.+)deg\)/)[1]);
+      assert.ok(target - before >= 1440, 'each spin completes at least four turns');
+      act(() => button().props.onClick());
+      assert.equal(Number(disc().props.style.transform.match(/rotate\((.+)deg\)/)[1]), target, 'rapid clicks cannot start another spin');
+      act(() => t.mock.timers.tick(2400));
+      assert.equal(button().props.disabled, true, 'reward remains pending while the 2.8s disc transition runs');
+      assert.equal(status(), '회전 중…');
+      act(() => t.mock.timers.tick(400));
+      currentSlot = (currentSlot + step) % 8;
+      assert.equal(button().props.disabled, false);
+      assert.equal((target + currentSlot * 45) % 360, 0, 'the announced reward center must stop under the top pointer');
+      assert.equal(status(), `${rewards[currentSlot]} 당첨!`);
+    } while (currentSlot !== slot);
+    act(() => t.mock.timers.tick(3000));
+    assert.equal(status(), '🎯 룰렛 돌리기 (클릭)', 'reward badge expires without preventing another spin');
+    act(() => tree.unmount());
+  }
+});

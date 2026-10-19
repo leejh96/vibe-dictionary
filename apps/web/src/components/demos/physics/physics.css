@@ -1445,7 +1445,7 @@
   width: 122px;
   height: 122px;
   transform-style: preserve-3d;
-  transform: rotateX(32deg);
+  transform: rotateX(16deg);
 }
 .lw-wheel-depth {
   position: absolute;
@@ -1458,13 +1458,17 @@
 }
 
 .lw-wheel-disc {
+  /* An inline span cannot rotate or provide a stable square for its reward positions. */
+  display: block;
   position: relative;
   width: 122px;
   height: 122px;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transform-origin: 50% 50%;
-  transition: transform 2.8s cubic-bezier(0.12, 0.86, 0.2, 1);
+  transition-property: transform;
+  transition-duration: var(--lw-spin-duration);
+  transition-timing-function: cubic-bezier(0.12, 0.86, 0.2, 1);
   will-change: transform;
 }
 
@@ -1569,7 +1573,7 @@
 /* Pointer */
 .lw-pointer {
   position: absolute;
-  top: -12px;
+  top: -8px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
@@ -1579,29 +1583,32 @@
   align-items: center;
 }
 .lw-pointer-bracket {
-  width: 14px;
+  position: relative;
+  z-index: 1;
+  width: 12px;
   height: 6px;
-  background: linear-gradient(180deg, #94a3b8 0%, #475569 100%);
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  background: radial-gradient(circle at 50% 40%, #fff7d6 0 1px, #d99a30 2px, #8a5617 5px);
+  border: 1px solid #fcd778;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 .lw-pointer-pin {
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 18px solid #f59e0b;
-  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.45));
+  width: 12px;
+  height: 14px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, #e4af4d, #fff7dc 48%, #f0c76c);
+  clip-path: polygon(5% 0, 95% 0, 85% 55%, 50% 100%, 15% 55%);
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
   transform-origin: 50% 0;
 }
 .lw-pointer-ticking .lw-pointer-pin {
-  animation: lw-pointer-wobble 0.08s ease-in-out infinite alternate;
+  animation: lw-pointer-wobble var(--lw-spin-duration) ease-out both;
 }
 .lw-pointer-shadow {
   position: absolute;
-  top: 18px;
-  width: 10px;
-  height: 4px;
+  top: 16px;
+  width: 8px;
+  height: 3px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.4);
   filter: blur(2px);
@@ -1651,8 +1658,12 @@
 }
 
 @keyframes lw-pointer-wobble {
-  0% { transform: rotate(-8deg); }
-  100% { transform: rotate(12deg); }
+  0%, 4%, 9%, 15%, 23%, 34%, 49%, 70%, 100% { transform: rotate(0deg); }
+  2%, 6%, 11% { transform: rotate(-20deg); }
+  18%, 27% { transform: rotate(-15deg); }
+  39% { transform: rotate(-10deg); }
+  56% { transform: rotate(-6deg); }
+  79% { transform: rotate(-3deg); }
 }
 @keyframes lw-jackpot-pulse {
   0% { transform: scale(1.04); }

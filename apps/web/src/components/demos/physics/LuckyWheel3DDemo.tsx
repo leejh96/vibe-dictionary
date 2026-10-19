@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const SLOTS = [
@@ -13,6 +13,7 @@ const SLOTS = [
 ] as const;
 
 type SlotItem = (typeof SLOTS)[number];
+const SPIN_DURATION_MS = 2800;
 
 export function LuckyWheel3DDemo() {
   const { t } = useLocale();
@@ -55,7 +56,7 @@ export function LuckyWheel3DDemo() {
       popTimerRef.current = setTimeout(() => {
         setHasLanded(false);
       }, 3000);
-    }, 2400);
+    }, SPIN_DURATION_MS);
   }, [selectedSlot]);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export function LuckyWheel3DDemo() {
       id={id}
       type="button"
       className="lw-scene-container"
+      style={{ '--lw-spin-duration': `${SPIN_DURATION_MS}ms` } as CSSProperties}
       aria-label={t('demo.wheel.scene')}
       data-demo-control
       onClick={handleSpin}
