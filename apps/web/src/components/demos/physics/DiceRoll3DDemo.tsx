@@ -1,7 +1,6 @@
 import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Dices } from 'lucide-react';
 
 const FACE_ROTATIONS: Record<number, { x: number; y: number }> = {
   1: { x: 0, y: 0 },
@@ -58,96 +57,82 @@ export function DiceRoll3DDemo() {
   const rotY = targetRotation.y + spin * 1080;
 
   return (
-    <div className="physics-demo">
-      <div
-        id={id}
-        className="pd-scene pd-dice-scene-container"
-        role="region"
-        aria-label={t('demo.dice.scene')}
-        data-demo-control
-        onClick={handleRoll}
-      >
-        {/* Subtle arena felt / rolling mat */}
-        <div className="pd-dice-mat" aria-hidden="true" />
+    <button
+      id={id}
+      type="button"
+      className="pd-scene pd-dice-scene-container"
+      aria-label={isRolling ? t('demo.dice.rolling') : t('demo.dice.roll')}
+      data-demo-control
+      onClick={handleRoll}
+      disabled={isRolling}
+    >
+      {/* Subtle arena felt / rolling mat */}
+      <span className="pd-dice-mat" aria-hidden="true" />
 
-        {/* Dynamic height-synchronized contact & ambient shadow */}
-        <div className={`pd-dice-shadow ${isRolling ? 'pd-dice-shadow-rolling' : ''}`} aria-hidden="true" />
+      {/* Dynamic height-synchronized contact & ambient shadow */}
+      <span className={`pd-dice-shadow ${isRolling ? 'pd-dice-shadow-rolling' : ''}`} aria-hidden="true" />
 
-        {/* 3D isometric tilting stage with airborne leap animation */}
-        <div className={`pd-dice-stage ${isRolling ? 'pd-dice-stage-rolling' : ''}`}>
-          <div
-            className="pd-dice-cube"
-            style={{
-              transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
-            }}
-          >
-            {/* Face 1 (Crimson Red Pip) */}
-            <div className="pd-dice-face pd-face-1" aria-hidden="true">
-              <span className="pd-dice-pip pd-dice-pip-red pd-pip-2-2" />
-            </div>
-
-            {/* Face 2 */}
-            <div className="pd-dice-face pd-face-2" aria-hidden="true">
-              <span className="pd-dice-pip pd-pip-1-1" />
-              <span className="pd-dice-pip pd-pip-3-3" />
-            </div>
-
-            {/* Face 3 */}
-            <div className="pd-dice-face pd-face-3" aria-hidden="true">
-              <span className="pd-dice-pip pd-pip-1-1" />
-              <span className="pd-dice-pip pd-pip-2-2" />
-              <span className="pd-dice-pip pd-pip-3-3" />
-            </div>
-
-            {/* Face 4 */}
-            <div className="pd-dice-face pd-face-4" aria-hidden="true">
-              <span className="pd-dice-pip pd-pip-1-1" />
-              <span className="pd-dice-pip pd-pip-1-3" />
-              <span className="pd-dice-pip pd-pip-3-1" />
-              <span className="pd-dice-pip pd-pip-3-3" />
-            </div>
-
-            {/* Face 5 */}
-            <div className="pd-dice-face pd-face-5" aria-hidden="true">
-              <span className="pd-dice-pip pd-pip-1-1" />
-              <span className="pd-dice-pip pd-pip-1-3" />
-              <span className="pd-dice-pip pd-pip-2-2" />
-              <span className="pd-dice-pip pd-pip-3-1" />
-              <span className="pd-dice-pip pd-pip-3-3" />
-            </div>
-
-            {/* Face 6 */}
-            <div className="pd-dice-face pd-face-6" aria-hidden="true">
-              <span className="pd-dice-pip pd-pip-1-1" />
-              <span className="pd-dice-pip pd-pip-1-3" />
-              <span className="pd-dice-pip pd-pip-2-1" />
-              <span className="pd-dice-pip pd-pip-2-3" />
-              <span className="pd-dice-pip pd-pip-3-1" />
-              <span className="pd-dice-pip pd-pip-3-3" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Control row with result chip and roll button */}
-      <div className="pd-action-controls pd-dice-controls">
-        <div className={`pd-dice-result-badge ${hasLanded ? 'pd-dice-result-pop' : ''}`}>
-          <span className="pd-dice-result-text" aria-live="polite">
-            🎲 {t('demo.dice.result', { value })}
-          </span>
-        </div>
-        <button
-          type="button"
-          className="pd-dice-btn pd-action pd-compact-action"
-          aria-label={t('demo.dice.roll')}
-          aria-controls={id}
-          onClick={handleRoll}
-          disabled={isRolling}
+      {/* 3D isometric tilting stage with airborne leap animation */}
+      <span className={`pd-dice-stage ${isRolling ? 'pd-dice-stage-rolling' : ''}`}>
+        <span
+          className="pd-dice-cube"
+          style={{
+            transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
+          }}
         >
-          <Dices size={16} className={isRolling ? 'animate-spin' : ''} aria-hidden="true" />
-          {isRolling ? t('demo.dice.rolling') : t('demo.dice.roll')}
-        </button>
-      </div>
-    </div>
+          {/* Face 1 (Crimson Red Pip) */}
+          <span className="pd-dice-face pd-face-1" aria-hidden="true">
+            <span className="pd-dice-pip pd-dice-pip-red pd-pip-2-2" />
+          </span>
+
+          {/* Face 2 */}
+          <span className="pd-dice-face pd-face-2" aria-hidden="true">
+            <span className="pd-dice-pip pd-pip-1-1" />
+            <span className="pd-dice-pip pd-pip-3-3" />
+          </span>
+
+          {/* Face 3 */}
+          <span className="pd-dice-face pd-face-3" aria-hidden="true">
+            <span className="pd-dice-pip pd-pip-1-1" />
+            <span className="pd-dice-pip pd-pip-2-2" />
+            <span className="pd-dice-pip pd-pip-3-3" />
+          </span>
+
+          {/* Face 4 */}
+          <span className="pd-dice-face pd-face-4" aria-hidden="true">
+            <span className="pd-dice-pip pd-pip-1-1" />
+            <span className="pd-dice-pip pd-pip-1-3" />
+            <span className="pd-dice-pip pd-pip-3-1" />
+            <span className="pd-dice-pip pd-pip-3-3" />
+          </span>
+
+          {/* Face 5 */}
+          <span className="pd-dice-face pd-face-5" aria-hidden="true">
+            <span className="pd-dice-pip pd-pip-1-1" />
+            <span className="pd-dice-pip pd-pip-1-3" />
+            <span className="pd-dice-pip pd-pip-2-2" />
+            <span className="pd-dice-pip pd-pip-3-1" />
+            <span className="pd-dice-pip pd-pip-3-3" />
+          </span>
+
+          {/* Face 6 */}
+          <span className="pd-dice-face pd-face-6" aria-hidden="true">
+            <span className="pd-dice-pip pd-pip-1-1" />
+            <span className="pd-dice-pip pd-pip-1-3" />
+            <span className="pd-dice-pip pd-pip-2-1" />
+            <span className="pd-dice-pip pd-pip-2-3" />
+            <span className="pd-dice-pip pd-pip-3-1" />
+            <span className="pd-dice-pip pd-pip-3-3" />
+          </span>
+        </span>
+      </span>
+
+      {/* Floating result chip inside arena */}
+      <span className={`pd-dice-result-badge ${hasLanded ? 'pd-dice-result-pop' : ''}`}>
+        <span className="pd-dice-result-text" aria-live="polite">
+          🎲 {t('demo.dice.result', { value })}
+        </span>
+      </span>
+    </button>
   );
 }

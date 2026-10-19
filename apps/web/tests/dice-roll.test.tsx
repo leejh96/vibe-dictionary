@@ -58,14 +58,16 @@ test('3D dice roll interacts on button click, updates values, and handles locale
 
   // During roll, button shows rolling state and is disabled
   assert.equal(button().props.disabled, true);
-  assert.match(button().children.join(''), /굴리는 중/);
+  assert.equal(button().props['aria-label'], '굴리는 중…');
+  const rollingTransform = cube().props.style.transform;
+  assert.notEqual(rollingTransform, initialTransform, 'Cube rotation must update on roll');
 
   // Switch locale to English
   act(() => {
     setLocale('en');
   });
 
-  assert.equal(button().props['aria-label'], 'Roll Dice');
+  assert.equal(button().props['aria-label'], 'Rolling…');
   assert.match(resultText().children.join(''), /Value \d/);
   assert.doesNotMatch(JSON.stringify(tree.toJSON()), /[가-힣]/u, 'English view must not leak Korean copy');
 
@@ -73,7 +75,7 @@ test('3D dice roll interacts on button click, updates values, and handles locale
   act(() => {
     setLocale('ko');
   });
-  assert.equal(button().props['aria-label'], '주사위 던지기');
+  assert.equal(button().props['aria-label'], '굴리는 중…');
   assert.match(resultText().children.join(''), /눈금 \d/);
 
   act(() => tree.unmount());
