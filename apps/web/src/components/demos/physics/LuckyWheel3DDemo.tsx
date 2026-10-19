@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const SLOTS = [
@@ -22,11 +21,13 @@ export function LuckyWheel3DDemo() {
   const [selectedSlot, setSelectedSlot] = useState(2);
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasLanded, setHasLanded] = useState(false);
+  const isSpinningRef = useRef(false);
   const spinTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const popTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSpin = useCallback(() => {
-    if (isSpinning) return;
+    if (isSpinningRef.current) return;
+    isSpinningRef.current = true;
     setIsSpinning(true);
     setHasLanded(false);
 
@@ -46,17 +47,16 @@ export function LuckyWheel3DDemo() {
     if (popTimerRef.current) clearTimeout(popTimerRef.current);
 
     spinTimerRef.current = setTimeout(() => {
+      isSpinningRef.current = false;
       setIsSpinning(false);
       setSelectedSlot(nextSlot);
       setHasLanded(true);
 
       popTimerRef.current = setTimeout(() => {
         setHasLanded(false);
-      }, 1500);
+      }, 3000);
     }, 2400);
-  }, [isSpinning, selectedSlot]);
-
-  useDemoPulse(handleSpin);
+  }, [selectedSlot]);
 
   useEffect(() => {
     return () => {
@@ -71,6 +71,12 @@ export function LuckyWheel3DDemo() {
   const resultText = isJackpot
     ? t('demo.wheel.jackpot')
     : t('demo.wheel.reward', { name: rewardName });
+
+  const statusMessage = isSpinning
+    ? t('demo.wheel.spinning')
+    : hasLanded
+      ? resultText
+      : `🎯 ${t('demo.wheel.spin')}`;
 
   return (
     <button
@@ -166,7 +172,7 @@ export function LuckyWheel3DDemo() {
               <span className="lw-center-glow" />
               <span className="lw-center-cap" aria-hidden="true">
                 <span className="lw-center-text">
-                  {isSpinning ? '•••' : '🎯'}
+                  {isSpinning ? '•••' : t('demo.wheel.spinAction')}
                 </span>
               </span>
             </span>
@@ -180,7 +186,7 @@ export function LuckyWheel3DDemo() {
           className={`lw-status-chip ${hasLanded ? 'lw-status-chip-landed' : ''} ${isJackpot && hasLanded ? 'lw-status-chip-jackpot' : ''}`}
           aria-live="polite"
         >
-          {isSpinning ? t('demo.wheel.spinning') : resultText}
+          {statusMessage}
         </span>
       </span>
     </button>

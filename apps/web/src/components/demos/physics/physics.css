@@ -730,12 +730,12 @@
   border-radius: 0;
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.08) 0%, transparent 65%);
   overflow: hidden;
   transition: background 0.3s ease;
 }
 .dark .tc-scene-container {
-  background: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.22) 0%, transparent 75%);
+  background: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
 }
 .tc-scene-container:focus-visible {
   outline: 2px solid #f59e0b;
@@ -744,10 +744,10 @@
 
 .tc-ambient-glow {
   position: absolute;
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.28) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 65%);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -758,7 +758,7 @@
 
 .tc-shadow {
   position: absolute;
-  bottom: 18px;
+  bottom: 22px;
   width: 110px;
   height: 26px;
   border-radius: 50%;
@@ -769,22 +769,23 @@
   pointer-events: none;
 }
 .dark .tc-shadow {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.65);
   filter: blur(8px);
 }
 .tc-shadow-open {
-  transform: scale(1.22);
+  transform: scale(1.18);
   opacity: 0.9;
 }
 
 .tc-stage {
   position: relative;
-  width: 130px;
-  height: 95px;
+  width: 120px;
+  height: 90px;
+  perspective: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(2px);
+  transform: translateY(12px);
   transition: transform 0.35s ease;
 }
 .tc-stage-opening {
@@ -793,110 +794,78 @@
 
 .tc-chest {
   position: relative;
-  width: 130px;
-  height: 95px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.tc-box-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+  width: 96px;
+  height: 38px;
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg) rotateY(-24deg);
 }
 
 /* God Rays Beams */
 .tc-god-rays {
   position: absolute;
-  top: -70px;
-  left: -50px;
-  width: 230px;
-  height: 230px;
+  top: -65px;
+  left: -47px;
+  width: 190px;
+  height: 190px;
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  transform: scale(0.3) rotate(0deg);
+  transform: scale(0.4) rotate(0deg);
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    rgba(251, 191, 36, 0.45) 15deg,
+    rgba(251, 191, 36, 0.35) 15deg,
     transparent 30deg,
-    rgba(251, 191, 36, 0.45) 45deg,
+    rgba(251, 191, 36, 0.35) 45deg,
     transparent 60deg,
-    rgba(251, 191, 36, 0.45) 75deg,
+    rgba(251, 191, 36, 0.35) 75deg,
     transparent 90deg,
-    rgba(251, 191, 36, 0.45) 105deg,
+    rgba(251, 191, 36, 0.35) 105deg,
     transparent 120deg,
-    rgba(251, 191, 36, 0.45) 135deg,
+    rgba(251, 191, 36, 0.35) 135deg,
     transparent 150deg,
-    rgba(251, 191, 36, 0.45) 165deg,
+    rgba(251, 191, 36, 0.35) 165deg,
     transparent 180deg,
-    rgba(251, 191, 36, 0.45) 195deg,
+    rgba(251, 191, 36, 0.35) 195deg,
     transparent 210deg,
-    rgba(251, 191, 36, 0.45) 225deg,
+    rgba(251, 191, 36, 0.35) 225deg,
     transparent 240deg,
-    rgba(251, 191, 36, 0.45) 255deg,
+    rgba(251, 191, 36, 0.35) 255deg,
     transparent 270deg,
-    rgba(251, 191, 36, 0.45) 285deg,
+    rgba(251, 191, 36, 0.35) 285deg,
     transparent 300deg,
-    rgba(251, 191, 36, 0.45) 315deg,
+    rgba(251, 191, 36, 0.35) 315deg,
     transparent 330deg,
-    rgba(251, 191, 36, 0.45) 345deg,
+    rgba(251, 191, 36, 0.35) 345deg,
     transparent 360deg
   );
-  -webkit-mask-image: radial-gradient(circle, black 20%, rgba(0,0,0,0.5) 45%, transparent 68%);
-  mask-image: radial-gradient(circle, black 20%, rgba(0,0,0,0.5) 45%, transparent 68%);
-  z-index: 5;
+  -webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%);
+  mask-image: radial-gradient(circle, black 30%, transparent 70%);
+  z-index: 1;
 }
 .tc-god-rays-active {
-  opacity: 1;
+  opacity: 0.8;
   transform: scale(1) rotate(180deg);
   animation: tc-rays-spin 12s linear infinite;
-}
-
-/* Interior Cavity & Lid Pivot Animation */
-.tc-interior-cavity {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.tc-interior-open {
-  opacity: 1;
-  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.85));
-}
-
-.tc-lid-pivot {
-  transform-origin: 60px 18px;
-  transition: transform 0.55s cubic-bezier(0.34, 1.45, 0.64, 1);
-}
-.tc-lid-open {
-  transform: translateY(-24px) rotate(-38deg) scaleY(0.85);
-}
-.tc-lid-inside {
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-.tc-lid-open .tc-lid-inside {
-  opacity: 1;
 }
 
 /* Levitating Gem Loot */
 .tc-gem-wrapper {
   position: absolute;
-  top: 10px;
-  left: 45px;
+  top: -6px;
+  left: 28px;
   width: 40px;
   height: 40px;
   pointer-events: none;
   opacity: 0;
   transform: translateY(12px) scale(0.2);
   transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
-  z-index: 25;
+  z-index: 30;
 }
 .tc-gem-active {
   opacity: 1;
-  transform: translateY(-44px) scale(1);
+  transform: translateY(-46px) scale(1.08);
   animation: tc-gem-bob 2.2s ease-in-out infinite alternate;
 }
 
@@ -927,6 +896,327 @@
 .tc-sp-1 { top: -6px; left: -6px; animation-delay: 0.1s; }
 .tc-sp-2 { top: -12px; right: -4px; font-size: 0.875rem; animation-delay: 0.45s; }
 .tc-sp-3 { bottom: 2px; right: -8px; font-size: 0.625rem; animation-delay: 0.75s; }
+
+/* 3D Chest Base Assembly */
+.tc-box-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 36px;
+  transform-style: preserve-3d;
+}
+
+.tc-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.tc-base-front {
+  width: 96px;
+  height: 36px;
+  transform: rotateY(0deg) translateZ(28px);
+  background: linear-gradient(180deg, #b45309 0%, #92400e 35%, #78350f 70%, #451a03 100%);
+  border: 1px solid #78350f;
+  box-shadow: inset 0 1px 2px rgba(254, 240, 138, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.tc-plank-1 {
+  position: absolute;
+  top: 11px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #270e01;
+  box-shadow: 0 1px 0 rgba(254, 240, 138, 0.15);
+}
+.tc-plank-2 {
+  position: absolute;
+  top: 23px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #270e01;
+  box-shadow: 0 1px 0 rgba(254, 240, 138, 0.15);
+}
+
+.tc-base-back {
+  width: 96px;
+  height: 36px;
+  transform: rotateY(180deg) translateZ(28px);
+  background: #5c2409;
+}
+
+.tc-base-left {
+  width: 56px;
+  height: 36px;
+  left: 20px;
+  transform: rotateY(-90deg) translateZ(48px);
+  background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
+  border: 1px solid #451a03;
+}
+
+.tc-base-right {
+  width: 56px;
+  height: 36px;
+  left: 20px;
+  transform: rotateY(90deg) translateZ(48px);
+  background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
+  border: 1px solid #451a03;
+}
+
+.tc-base-bottom {
+  width: 96px;
+  height: 56px;
+  top: -10px;
+  left: 0;
+  transform: rotateX(-90deg) translateZ(18px);
+  background: #270e01;
+}
+
+/* Metal Straps and Rivets */
+.tc-strap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+}
+.tc-strap-left { left: 16px; }
+.tc-strap-right { right: 16px; }
+.tc-strap-mid { left: 50%; transform: translateX(-50%); }
+
+.tc-strap::before,
+.tc-strap::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fef08a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.tc-strap::before { top: 3px; }
+.tc-strap::after { bottom: 3px; }
+
+/* Corner Brackets */
+.tc-bracket {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 60%, #b45309 100%);
+}
+.tc-bracket-tl { top: 0; left: 0; }
+.tc-bracket-bl { bottom: 0; left: 0; }
+.tc-bracket-tr { top: 0; right: 0; }
+.tc-bracket-br { bottom: 0; right: 0; }
+
+/* Center Lock Plate */
+.tc-lock-plate {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 18px;
+  background: linear-gradient(145deg, #fef08a 0%, #d97706 70%, #92400e 100%);
+  border-radius: 2px 2px 7px 7px;
+  border: 1px solid #78350f;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tc-lock-keyhole {
+  width: 4px;
+  height: 6px;
+  background: #1c0a03;
+  border-radius: 2px 2px 1px 1px;
+  box-shadow: inset 0 1px 1px #000;
+}
+
+/* Side Handle Mount */
+.tc-handle-mount {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tc-handle-ring {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #f59e0b;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Interior Velvet Cavity & Coins */
+.tc-interior-cavity {
+  position: absolute;
+  width: 92px;
+  height: 52px;
+  top: -8px;
+  left: 2px;
+  transform: rotateX(90deg) translateZ(-6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: #1e1b4b;
+  border: 2px solid #f59e0b;
+  border-radius: 2px;
+  box-shadow: inset 0 0 12px #000;
+  overflow: hidden;
+}
+.tc-interior-open {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.7));
+}
+.tc-gold-pile {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, #fef08a 0%, #f59e0b 50%, #b45309 80%, #1e1b4b 100%);
+}
+.tc-coin {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fef08a;
+  border: 1px solid #d97706;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.tc-coin.c-1 { top: 12px; left: 16px; }
+.tc-coin.c-2 { top: 8px; left: 34px; }
+.tc-coin.c-3 { top: 18px; left: 48px; }
+.tc-coin.c-4 { top: 10px; left: 62px; }
+.tc-coin.c-5 { top: 22px; left: 30px; }
+.tc-gem-ruby {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  transform: rotate(45deg);
+  box-shadow: 0 0 4px #ef4444;
+}
+.tc-gem-emerald {
+  position: absolute;
+  top: 14px;
+  left: 54px;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  transform: rotate(45deg);
+  box-shadow: 0 0 4px #10b981;
+}
+
+/* 3D Chest Lid Assembly (Pivots Open around Rear Hinge) */
+.tc-lid-assembly {
+  position: absolute;
+  top: -18px;
+  left: -2px;
+  width: 100px;
+  height: 18px;
+  transform-style: preserve-3d;
+  transform-origin: 50px 18px -30px;
+  transition: transform 0.6s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+.tc-lid-open {
+  transform: rotateX(115deg);
+}
+
+.tc-lid-front {
+  width: 100px;
+  height: 18px;
+  transform: rotateY(0deg) translateZ(30px);
+  background: linear-gradient(180deg, #c2410c 0%, #9a3412 50%, #7c2d12 100%);
+  border: 1px solid #78350f;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset 0 1px 2px rgba(254, 240, 138, 0.35);
+}
+
+.tc-clasp-latch {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 60%, #b45309 100%);
+  border: 1px solid #78350f;
+  border-radius: 2px 2px 5px 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+.tc-clasp-latch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #78350f;
+}
+
+.tc-lid-top {
+  width: 100px;
+  height: 60px;
+  top: -21px;
+  left: 0;
+  transform: rotateX(90deg) translateZ(9px);
+  background: linear-gradient(180deg, #ea580c 0%, #c2410c 35%, #9a3412 70%, #7c2d12 100%);
+  border: 1px solid #78350f;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.tc-lid-left {
+  width: 60px;
+  height: 18px;
+  left: 20px;
+  transform: rotateY(-90deg) translateZ(50px);
+  background: linear-gradient(180deg, #9a3412 0%, #451a03 100%);
+  border: 1px solid #451a03;
+}
+
+.tc-lid-right {
+  width: 60px;
+  height: 18px;
+  left: 20px;
+  transform: rotateY(90deg) translateZ(50px);
+  background: linear-gradient(180deg, #9a3412 0%, #451a03 100%);
+  border: 1px solid #451a03;
+}
+
+.tc-lid-back {
+  width: 100px;
+  height: 18px;
+  transform: rotateY(180deg) translateZ(30px);
+  background: #5c2409;
+}
+
+.tc-lid-under {
+  width: 98px;
+  height: 58px;
+  top: -20px;
+  left: 1px;
+  transform: rotateX(-90deg) translateZ(-8px);
+  background: #2e1065;
+  border: 2px solid #d97706;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+}
 
 /* Status Chip */
 .tc-status-container {
