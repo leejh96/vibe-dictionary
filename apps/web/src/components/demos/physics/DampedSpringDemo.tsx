@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
@@ -10,6 +11,7 @@ const SAMPLES = Array.from({ length: 101 }, (_, index) => {
 export function DampedSpringDemo() {
   const { t } = useLocale();
   const [release, setRelease] = useState(0);
+  useDemoPulse(() => setRelease(value => value + 1));
   const mass = useRef<SVGGElement>(null);
   const coil = useRef<SVGGElement>(null);
   const id = useId();

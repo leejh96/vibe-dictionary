@@ -1,9 +1,10 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 export function ProductCalloutDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const sceneId = useId();
   const cameraX = 98 + progress * .48;
   const anchorX = cameraX + 30;

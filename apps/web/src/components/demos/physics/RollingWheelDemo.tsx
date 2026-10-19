@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
@@ -8,6 +9,7 @@ export function RollingWheelDemo() {
   const { t } = useLocale();
   const [radius, setRadius] = useState(22);
   const [roll, setRoll] = useState(0);
+  useDemoPulse(() => setRoll(value => value + 1));
   const travel = useRef<SVGGElement>(null);
   const wheel = useRef<SVGGElement>(null);
   const id = useId();

@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
@@ -9,6 +10,7 @@ export function FrictionSlideDemo() {
   const { t } = useLocale();
   const [friction, setFriction] = useState(50);
   const [push, setPush] = useState(0);
+  useDemoPulse(() => setPush(value => value + 1));
   const mass = useRef<SVGGElement>(null);
   const id = useId();
   const deceleration = friction / 100 * 500;

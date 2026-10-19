@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
@@ -9,6 +10,7 @@ export function ProjectileArcDemo() {
   const { t } = useLocale();
   const [angle, setAngle] = useState(45);
   const [shot, setShot] = useState(0);
+  useDemoPulse(() => setShot(value => value + 1));
   const ball = useRef<SVGGElement>(null);
   const id = useId();
   const radians = angle * Math.PI / 180;

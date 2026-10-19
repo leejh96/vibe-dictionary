@@ -1,5 +1,6 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 const DROPLETS = Array.from({ length: 42 }, (_, index) => {
   const row = Math.floor(index / 7);
@@ -13,7 +14,7 @@ const DROPLETS = Array.from({ length: 42 }, (_, index) => {
 
 export function AtomizerSprayDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const sceneId = useId();
   const press = 6 * Math.max(0, Math.min(1, progress / 20, (75 - progress) / 20));
 
