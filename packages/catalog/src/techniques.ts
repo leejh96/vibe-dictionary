@@ -923,6 +923,18 @@ export const TECHNIQUES: TechniqueItem[] = [
     promptSnippet:
       "지정한 그래픽에 상단 지지대와 구슬 5개를 매달고 transform-origin: top center인 Newton's Cradle 시연을 구현해 줘. 초기 왼쪽 끝 구슬만 +34deg로 기울이고 320ms마다 [왼쪽 +34deg→모두 0deg→오른쪽 -34deg→모두 0deg]의 4단계를 순환해 줘. 중앙 3개는 고정하고 클릭해도 한 단계 진행해 줘. 회전은 0.3초, 바깥쪽 스윙은 cubic-bezier(0.215,0.61,0.355,1), 복귀는 cubic-bezier(0.55,0.055,0.675,0.19)를 사용해 줘. 실제 물리 시뮬레이션이 아닌 상태 기반 시연이야.",
   },
+  {
+    id: 'mg-dice-roll-3d',
+    domain: 'motion',
+    category: 'physics',
+    vibeTag: '굴러가며 회전하다 한 면으로 착지하는 3D 주사위',
+    vibeKeywords: ['주사위 던지기', '주사위 굴리기', '3D 주사위', '다이스 롤', '주사위 물리'],
+    titleKo: '3D 주사위 굴리기',
+    titleEn: '3D Dice Roll Physics',
+    summary: '클릭 시 3D 공간에서 텀블링 회전과 바운스를 거쳐 임의의 눈금으로 안착하는 주사위',
+    promptSnippet:
+      "지정한 영역에 3D 공간에서 굴러가며 회전하다 멈추는 3D 주사위 애니메이션을 구현해 줘. perspective: 600px와 transform-style: preserve-3d를 적용한 60×60px 주사위 큐브를 배치하고, 1부터 6까지의 점(Pip)이 있는 6개 면을 translateZ(30px)와 rotateX/Y로 조립해 줘. 주사위 던지기 버튼을 누르면 무작위 눈금(1~6)을 선택하고, 공중으로 튀어 오르는 translateY(-28px) 점프와 함께 다중 회전(720deg 이상) 텀블링 애니메이션을 0.85초 cubic-bezier(0.25, 1, 0.35, 1.15)로 재생한 뒤 해당 눈금이 정면에 오도록 안착시켜 줘. 바닥에는 주사위 높이에 따라 크기와 투명도가 연동되는 그림자를 배치해 줘. 모션 감소 환경에서는 회전 애니메이션 없이 선택된 눈금으로 즉시 전환해 줘.",
+  },
 
   /* =====================================================================
    * DOMAIN 3: 레이아웃 (20종)

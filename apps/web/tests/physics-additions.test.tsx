@@ -614,7 +614,7 @@ for (const mode of ['animated', 'reduced-motion', 'unsupported-api']) test(`spri
 });
 
 test('physics category adds exactly ten unique searchable techniques with mapped scenes and no helper captions', () => {
-  const originals = new Set(['mg-squash-stretch', 'mg-anticipation', 'mg-follow-trail', 'mg-easing-curves', 'mg-gravity-newton-cradle']);
+  const originals = new Set(['mg-squash-stretch', 'mg-anticipation', 'mg-follow-trail', 'mg-easing-curves', 'mg-gravity-newton-cradle', 'mg-dice-roll-3d']);
   const additions = TECHNIQUES.filter(item => item.category === 'physics' && !originals.has(item.id));
   assert.equal(additions.length, 10);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
