@@ -6,7 +6,81 @@ import { TECHNIQUES, matchesSearch } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { TreasureChest3DDemo } from '../src/components/demos/physics/TreasureChest3DDemo';
 import { LuckyWheel3DDemo } from '../src/components/demos/physics/LuckyWheel3DDemo';
+import { DiceRoll3DDemo } from '../src/components/demos/physics/DiceRoll3DDemo';
+import { MarbleBoardDemo } from '../src/components/demos/physics/MarbleBoardDemo';
 import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
+
+test('all six announced dice values face upward in standalone dice and board rolls', t => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  let random = 0;
+  let now = 0;
+  t.mock.method(Math, 'random', () => random);
+  t.mock.method(Date, 'now', () => now);
+  // Face normals before cube rotation: front, top, right, left, bottom, back.
+  const normals = [[0, 0, 1], [0, -1, 0], [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, 0, -1]];
+  for (const [Demo, cubeClass, duration] of [
+    [DiceRoll3DDemo, 'pd-dice-cube', 850],
+    [MarbleBoardDemo, 'mb-dice-cube', 750],
+  ] as const) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<Demo />); });
+    for (let value = 1; value <= 6; value++) {
+      now = value <= 3 ? 0 : 700;
+      random = Demo === DiceRoll3DDemo ? (value - .5) / 6 : ((value <= 3 ? value - 1 : value - 4) + .5) / 3;
+      act(() => tree.root.findByType('button').props.onClick());
+      assert.equal(tree.root.findByType('button').props.disabled, true);
+      for (const cube of tree.root.findAllByProps({ className: cubeClass })) {
+        const [, x, y] = cube.props.style.transform.match(/rotateX\(([-\d.]+)deg\) rotateY\(([-\d.]+)deg\)/);
+        const rx = Number(x) * Math.PI / 180, ry = Number(y) * Math.PI / 180;
+        const [nx, ny, nz] = normals[value - 1];
+        const afterYz = -nx * Math.sin(ry) + nz * Math.cos(ry);
+        const up = ny * Math.cos(rx) - afterYz * Math.sin(rx);
+        assert.ok(Math.abs(up + 1) < 1e-9, `${cubeClass}: announced value ${value} must be on top`);
+      }
+      act(() => t.mock.timers.tick(duration));
+      if (Demo === MarbleBoardDemo) {
+        assert.equal(tree.root.findByType('button').props.disabled, true, 'board stays locked until pawn movement finishes');
+        for (let step = 0; step < value * 2; step++) act(() => t.mock.timers.tick(160));
+      } else act(() => t.mock.timers.tick(300));
+      assert.equal(tree.root.findByType('button').props.disabled, false);
+    }
+    act(() => tree.unmount());
+  }
+});
+
+test('board results translate during movement and landmark status follows the visible city level', t => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  let now = 0;
+  t.mock.method(Date, 'now', () => now);
+  t.mock.method(Math, 'random', () => .4);
+  let setLocale!: (locale: 'ko' | 'en') => void;
+  function LanguageControl() { setLocale = useLocale().setLocale; return null; }
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<LocaleProvider initialLocale="ko"><LanguageControl /><MarbleBoardDemo /></LocaleProvider>); });
+  const status = () => tree.root.findByProps({ className: 'mb-status-text' }).children.join('');
+  const roll = (steps: number) => {
+    act(() => tree.root.findByType('button').props.onClick());
+    act(() => t.mock.timers.tick(750));
+    for (let step = 0; step < steps; step++) act(() => t.mock.timers.tick(160));
+  };
+  assert.equal(tree.root.findByType('button').props.role, undefined, 'native board button must retain its button role');
+  act(() => tree.root.findByType('button').props.onClick());
+  act(() => t.mock.timers.tick(750));
+  assert.equal(status(), '2 + 2 = 4칸 이동');
+  act(() => setLocale('en'));
+  assert.equal(status(), '2 + 2 = Move 4');
+  for (let step = 0; step < 4; step++) act(() => t.mock.timers.tick(160));
+  assert.equal(status(), 'ACQUIRED!', 'a roll started in Korean must land with the current English locale');
+  act(() => setLocale('ko'));
+  assert.equal(status(), '인수 완료!');
+  now = 700; // 5 + 5 makes a full lap back to the same city.
+  for (const [building, message] of [['🏢', '인수 완료!'], ['🏰', '랜드마크 건설!'], ['🏠', '인수 완료!']]) {
+    roll(10);
+    assert.equal(tree.root.findByProps({ className: 'mb-tile-building' }).children.join(''), building);
+    assert.equal(status(), message);
+  }
+  act(() => tree.unmount());
+});
 
 test('3D Treasure Chest and Lucky Wheel are registered in catalog and searchable', () => {
   const chest = TECHNIQUES.find(t => t.id === 'mg-treasure-chest-3d');

@@ -4,10 +4,10 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 
 const FACE_ROTATIONS: Record<number, { x: number; y: number }> = {
   1: { x: 90, y: 0 },
-  2: { x: 180, y: 0 },
+  2: { x: 0, y: 0 },
   3: { x: 90, y: -90 },
   4: { x: 90, y: 90 },
-  5: { x: 0, y: 0 },
+  5: { x: 180, y: 0 },
   6: { x: 90, y: 180 },
 };
 
@@ -29,6 +29,10 @@ interface TileConfig {
   type: 'start' | 'city' | 'chance' | 'island' | 'tax' | 'tour';
   color?: string;
 }
+
+type BoardStatus =
+  | { key: 'demo.marble.total'; values: { val1: number; val2: number; total: number } }
+  | { key: 'demo.marble.roll' | 'demo.marble.landmark' | 'demo.marble.acquired' | 'demo.marble.chanceEffect' | 'demo.marble.toll' | 'demo.marble.start' };
 
 const TILES: TileConfig[] = [
   { id: 'start', nameKey: 'demo.marble.tile.start', type: 'start' },
@@ -118,7 +122,7 @@ export function MarbleBoardDemo() {
   const [showCoins, setShowCoins] = useState(false);
   const [cityLevels, setCityLevels] = useState<Record<number, number>>({});
 
-  const [statusMessage, setStatusMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState<BoardStatus>({ key: 'demo.marble.roll' });
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -181,7 +185,7 @@ export function MarbleBoardDemo() {
       if (doubleAchieved) {
         setIsDouble(true);
       }
-      setStatusMessage(t('demo.marble.total', { val1: d1, val2: d2, total }));
+      setStatusMessage({ key: 'demo.marble.total', values: { val1: d1, val2: d2, total } });
 
       // Phase 2: Pawn hops step by step along board tiles
       setIsMoving(true);
@@ -201,20 +205,20 @@ export function MarbleBoardDemo() {
           // Phase 3: Trigger tile-specific game FX
           if (landedTile.type === 'city') {
             setShowStamp(true);
+            const nextLevel = ((cityLevels[finalPos] || 0) % 3) + 1;
             setCityLevels(prev => ({
               ...prev,
-              [finalPos]: ((prev[finalPos] || 0) % 3) + 1,
+              [finalPos]: nextLevel,
             }));
-            const isLandmark = (cityLevels[finalPos] || 0) >= 2;
-            setStatusMessage(t(isLandmark ? 'demo.marble.landmark' : 'demo.marble.acquired'));
+            setStatusMessage({ key: nextLevel === 3 ? 'demo.marble.landmark' : 'demo.marble.acquired' });
           } else if (landedTile.type === 'chance') {
             setShowChance(true);
-            setStatusMessage(t('demo.marble.chanceEffect'));
+            setStatusMessage({ key: 'demo.marble.chanceEffect' });
           } else if (landedTile.type === 'tax') {
             setShowCoins(true);
-            setStatusMessage(t('demo.marble.toll'));
+            setStatusMessage({ key: 'demo.marble.toll' });
           } else if (landedTile.type === 'start') {
-            setStatusMessage(t('demo.marble.start'));
+            setStatusMessage({ key: 'demo.marble.start' });
           }
         }
       }, 160);
@@ -223,7 +227,7 @@ export function MarbleBoardDemo() {
     }, 750);
 
     timersRef.current.push(t1);
-  }, [isRolling, isMoving, pawnPos, cityLevels, t]);
+  }, [isRolling, isMoving, pawnPos, cityLevels]);
 
   useDemoPulse(handleRoll);
 
@@ -232,7 +236,6 @@ export function MarbleBoardDemo() {
       id={id}
       type="button"
       className="mb-board-container"
-      role="region"
       aria-label={t('demo.marble.scene')}
       data-demo-control
       onClick={handleRoll}
@@ -307,7 +310,7 @@ export function MarbleBoardDemo() {
           {/* 3. Event / Status Message Chip */}
           <div className="mb-status-chip">
             <span className="mb-status-text" aria-live="polite">
-              {statusMessage || t('demo.marble.roll')}
+              {'values' in statusMessage ? t(statusMessage.key, statusMessage.values) : t(statusMessage.key)}
             </span>
           </div>
 

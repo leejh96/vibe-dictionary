@@ -4,10 +4,10 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 
 const FACE_ROTATIONS: Record<number, { x: number; y: number }> = {
   1: { x: 90, y: 0 },
-  2: { x: 180, y: 0 },
+  2: { x: 0, y: 0 },
   3: { x: 90, y: -90 },
   4: { x: 90, y: 90 },
-  5: { x: 0, y: 0 },
+  5: { x: 180, y: 0 },
   6: { x: 90, y: 180 },
 };
 
