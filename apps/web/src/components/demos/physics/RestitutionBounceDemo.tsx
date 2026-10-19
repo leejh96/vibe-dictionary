@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
@@ -29,6 +30,7 @@ export function RestitutionBounceDemo() {
   const { t } = useLocale();
   const [restitution, setRestitution] = useState(65);
   const [drop, setDrop] = useState(0);
+  useDemoPulse(() => setDrop(value => value + 1));
   const ball = useRef<SVGGElement>(null);
   const id = useId();
   const bounce = useMemo(() => bounceFrames(restitution / 100), [restitution]);

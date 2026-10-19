@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function MoireFieldDemo() {
   const { t } = useLocale();
-  const [offset, setOffset] = useState(24);
+  const [offset, setOffset] = useDemoNumber(24, 0, 48, 1);
   const id = useId();
   return <div className="shader-demo sd-moire-demo">
     <div id={id} className="sd-scene" role="img" aria-label={t('demo.additions.shader.moireScene')}>

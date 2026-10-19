@@ -52,31 +52,31 @@
 .hd-inline-label > svg { flex: none; }
 .hd-expand > span:first-child { display: flex; align-items: center; justify-content: center; width: 1.5rem; }
 .hd-expand-label { display: block; overflow: hidden; white-space: nowrap; max-width: 0; opacity: 0; transition: max-width .3s ease, opacity .3s ease, margin .3s ease; }
-.hd-expand:is(:hover, :focus-visible) .hd-expand-label { max-width: 9rem; opacity: 1; margin: 0 .4rem; }
+.hd-expand:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) .hd-expand-label { max-width: 9rem; opacity: 1; margin: 0 .4rem; }
 .hd-trace { width: 11.25rem; min-height: 3rem; border-color: transparent; background: var(--hd-tint); }
 .hd-trace > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .hd-trace rect { fill: none; stroke: var(--hd-accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .6s ease; }
-.hd-trace:is(:hover, :focus-visible) rect { stroke-dashoffset: 0; }
+.hd-trace:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) rect { stroke-dashoffset: 0; }
 .hd-roll { display: inline-flex; align-items: center; gap: 1rem; min-height: 3rem; border-radius: 2rem; padding-inline: 1.2rem; }
 .hd-roll-window { display: block; overflow: hidden; height: 1.5em; line-height: 1.5; min-width: 7em; }
 .hd-roll-track { display: flex; flex-direction: column; transition: transform .36s cubic-bezier(.2,.8,.2,1); }
 .hd-roll-track > span { height: 1.5em; white-space: nowrap; }
-.hd-roll:is(:hover, :focus-visible) .hd-roll-track { transform: translateY(-50%); }
+.hd-roll:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) .hd-roll-track { transform: translateY(-50%); }
 .hd-depth { min-height: 3rem; padding-inline: 1.25rem; border: 2px solid var(--hd-accent); background: var(--hd-tint); box-shadow: 0 6px 0 var(--hd-accent); transition: transform .12s ease, box-shadow .12s ease; }
-.hd-depth:is(:hover, :focus-visible) { transform: translateY(2px); box-shadow: 0 4px 0 var(--hd-accent); }
+.hd-depth:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) { transform: translateY(2px); box-shadow: 0 4px 0 var(--hd-accent); }
 .hd-depth:active { transform: translateY(6px); box-shadow: 0 0 0 var(--hd-accent); }
 .hd-underline { min-height: 3rem; border: 0; border-radius: .25rem; background: transparent; font-size: .95rem; padding-inline: .4rem; }
 .hd-underline:hover { background: transparent; }
 .hd-underline-label { position: relative; padding-block: .3rem; }
 .hd-underline-label::after { content: ''; position: absolute; inset: auto 0 0; height: 2px; background: var(--hd-accent); transform: scaleX(0); transform-origin: right; transition: transform .3s ease; }
-.hd-underline:is(:hover, :focus-visible) .hd-underline-label::after { transform: scaleX(1); transform-origin: left; }
+.hd-underline:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) .hd-underline-label::after { transform: scaleX(1); transform-origin: left; }
 .hd-underline > svg { transition: transform .3s ease; }
-.hd-underline:is(:hover, :focus-visible) > svg { transform: translateX(4px); }
+.hd-underline:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) > svg { transform: translateX(4px); }
 .hd-brackets { --hd-accent: #047857; --hd-tint: #ecfdf5; width: 11.25rem; min-height: 3.25rem; border: 0; background: var(--hd-tint); color: var(--hd-accent); border-radius: .25rem; }
 .dark .hd-brackets { --hd-accent: #6ee7b7; --hd-tint: #064e3b; }
 .hd-brackets > svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--hd-accent); stroke-width: 2; pointer-events: none; opacity: 0; transform: scale(1.12); transition: opacity .25s ease, transform .25s ease; }
 .hd-brackets path { vector-effect: non-scaling-stroke; }
-.hd-brackets:is(:hover, :focus-visible) > svg { opacity: 1; transform: scale(1); }
+.hd-brackets:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) > svg { opacity: 1; transform: scale(1); }
 .hd-icon-morph { width: 3rem; height: 3rem; padding: 0; display: grid; place-items: center; border-radius: 50%; }
 .hd-icon-morph > svg { width: 1.5rem; height: 1.5rem; }
 .hd-icon-morph path { transform-box: fill-box; transform-origin: center; transition: transform .25s ease; }
@@ -86,14 +86,14 @@
 .hd-beam::before { content: ''; position: absolute; left: 50%; top: 50%; width: 240%; aspect-ratio: 1; background: conic-gradient(transparent 65%, var(--hd-accent) 85%, transparent 100%); transform: translate(-50%, -50%); opacity: 0; z-index: 0; pointer-events: none; transition: opacity .2s ease; }
 .hd-beam::after { content: ''; position: absolute; inset: 2px; background: var(--hd-surface); border-radius: inherit; z-index: 1; pointer-events: none; }
 .hd-beam-content { position: relative; z-index: 2; }
-.hd-beam:is(:hover, :focus-visible)::before { opacity: 1; animation: hd-border-orbit 3s linear infinite; }
+.hd-beam:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *))::before { opacity: 1; animation: hd-border-orbit 3s linear infinite; }
 @keyframes hd-border-orbit { to { transform: translate(-50%, -50%) rotate(1turn); } }
 .hd-letter-step { --hd-accent: #b45309; --hd-tint: #fffbeb; min-height: 3rem; padding-inline: 1.3rem; border-radius: 2rem; background: var(--hd-tint); font-size: .95rem; font-weight: 750; }
 .dark .hd-letter-step { --hd-accent: #fcd34d; --hd-tint: #451a03; }
 .hd-letter-row { display: inline-flex; letter-spacing: .03em; }
 .hd-letter-row > span { display: block; transition: transform .3s cubic-bezier(.34,1.56,.64,1), color .3s ease; }
-.hd-letter-step:is(:hover, :focus-visible) { border-color: var(--hd-accent); }
-.hd-letter-step:is(:hover, :focus-visible) .hd-letter-row > span { transform: translateY(-4px); color: var(--hd-accent); }
+.hd-letter-step:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) { border-color: var(--hd-accent); }
+.hd-letter-step:is(:hover, :focus-visible, :where(.demo-preview[data-demo-active="true"] *)) .hd-letter-row > span { transform: translateY(-4px); color: var(--hd-accent); }
 @media (prefers-reduced-motion: reduce) {
   .hover-demo *, .hover-demo *::before, .hover-demo *::after { animation: none !important; transition: none !important; }
 }

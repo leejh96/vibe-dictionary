@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
@@ -9,6 +10,7 @@ export function ElasticCollisionDemo() {
   const { t } = useLocale();
   const [massRatio, setMassRatio] = useState(100);
   const [collision, setCollision] = useState(0);
+  useDemoPulse(() => setCollision(value => value + 1));
   const first = useRef<SVGGElement>(null);
   const second = useRef<SVGGElement>(null);
   const id = useId();

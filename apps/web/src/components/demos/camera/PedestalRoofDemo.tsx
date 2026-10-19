@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const H_MARK: Point[] = [[-.5, 1.5, -.65], [-.25, 1.5, -.65], [-.25, 1.5, -.12],
 
 export function PedestalRoofDemo() {
   const { t } = useLocale();
-  const [height, setHeight] = useState(.5);
+  const [height, setHeight] = useDemoNumber(.5, 0.5, 3.2, 0.1);
   const sceneId = useId();
   // Level camera at (-6, height, -8), with fixed forward (.6, 0, .8).
   const project = ([x, y, z]: Point) => {

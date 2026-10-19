@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function AlphaChannelViewDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [alphaView, setAlphaView] = useState(false);
+  const [alphaView, setAlphaView] = useDemoToggle(false);
 
   return <div className="broadcast-demo bc-alpha-demo">
     <svg id={id} className="bc-alpha-scene" viewBox="0 0 264 144" role="img" aria-label={t(alphaView ? 'demo.additions.broadcast.alphaScene' : 'demo.additions.broadcast.alphaColorScene')}>

@@ -1,5 +1,6 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 const POSES = [
   [-42, 0, -15], [-30, -5, -10], [-18, -3, -5], [-6, -7, 0],
@@ -8,7 +9,7 @@ const POSES = [
 
 export function StopMotionFlatlayDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const sceneId = useId();
   const frame = Math.min(7, Math.floor(progress * 8 / 100));
   const [x, y, rotation] = POSES[frame];

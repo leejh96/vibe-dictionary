@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function HingedTypeDemo() {
   const { t } = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDemoToggle(false);
 
   return <div className="kinetic-demo">
     <button type="button" className="kt-hinge-button" aria-label={t('demo.additions.kinetic.hingeToggle')} aria-pressed={open} data-open={open} onClick={() => setOpen(value => !value)}>

@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 type Point = { x: number; y: number };
@@ -36,7 +37,7 @@ function cellFor(site: Point, sites: Point[]) {
 
 export function VoronoiCellsDemo() {
   const { t } = useLocale();
-  const [centerX, setCenterX] = useState(132);
+  const [centerX, setCenterX] = useDemoNumber(132, 112, 180, 1);
   const id = useId();
   const sites = [...FIXED_SITES, { x: centerX, y: 70 }];
   return <div className="shader-demo sd-voronoi-demo">

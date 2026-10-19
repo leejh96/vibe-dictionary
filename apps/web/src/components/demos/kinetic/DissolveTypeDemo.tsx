@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DissolveTypeDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useDemoNumber(50, 0, 100, 1);
   const id = useId();
   const filterId = `${id}-dissolve`;
 

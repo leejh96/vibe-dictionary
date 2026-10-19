@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DirectionalBlurDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [strength, setStrength] = useState(50);
+  const [strength, setStrength] = useDemoNumber(50, 0, 100, 1);
   return <div className="vfx-demo">
     <svg id={`${id}-scene`} className="vfx-scene vfx-directional-scene" viewBox="0 0 264 144" role="img" aria-label={t('demo.additions.vfx.directional.scene')}>
       <defs>

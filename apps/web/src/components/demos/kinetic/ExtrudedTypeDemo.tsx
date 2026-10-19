@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function ExtrudedTypeDemo() {
   const { t } = useLocale();
-  const [depth, setDepth] = useState(8);
+  const [depth, setDepth] = useDemoNumber(8, 0, 16, 1, 'steps');
   const id = useId();
   const glyphId = `${id}-glyph`;
 

@@ -1,12 +1,14 @@
-import { useId, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function FaceBlurMaskDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [position, setPosition] = useState(50);
-  const [masked, setMasked] = useState(true);
+  const [position, setPosition] = useDemoNumber(50, 0, 100, 1);
+  const [masked, setMasked] = useDemoToggle(true);
   const Icon = masked ? EyeOff : Eye;
 
   return <div className="broadcast-demo bc-face-demo">

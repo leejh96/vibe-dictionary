@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 type Point = [number, number, number];
@@ -12,7 +13,7 @@ const FACES: { id: string; normal: Point; offset: number; vertices: Point[]; mar
 
 export function OrbitCameraDemo() {
   const { t } = useLocale();
-  const [angle, setAngle] = useState(30);
+  const [angle, setAngle] = useDemoNumber(30, -180, 180, 1);
   const sceneId = useId();
   const yaw = angle * Math.PI / 180;
   const elevation = 20 * Math.PI / 180;

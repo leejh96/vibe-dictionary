@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { Fragment, useState } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
@@ -10,6 +11,7 @@ function FlapHalf({ className, letter }: { className: string; letter: string }) 
 export function SplitFlapTextDemo() {
   const { t } = useLocale();
   const [word, setWord] = useState({ index: 0, previous: 0 });
+  useDemoPulse(() => setWord(current => ({ index: (current.index + 1) % WORD_KEYS.length, previous: current.index })));
   const currentWord = t(WORD_KEYS[word.index]);
   const previousWord = t(WORD_KEYS[word.previous]);
   return <div className="text-demo">

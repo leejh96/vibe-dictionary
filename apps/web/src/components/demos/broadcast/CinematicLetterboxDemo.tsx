@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function CinematicLetterboxDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [progress, setProgress] = useState(100);
+  const [progress, setProgress] = useDemoNumber(100, 0, 100, 1);
   const ratio = 16 / 9 + (2.35 - 16 / 9) * progress / 100;
   const barHeight = (148.5 - 264 / ratio) / 2;
 

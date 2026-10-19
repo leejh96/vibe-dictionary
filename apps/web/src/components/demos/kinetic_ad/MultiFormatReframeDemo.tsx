@@ -1,10 +1,11 @@
-import { useId, useState, type CSSProperties } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId, type CSSProperties } from 'react';
 import { RectangleHorizontal, RectangleVertical } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function MultiFormatReframeDemo() {
   const { t } = useLocale();
-  const [portrait, setPortrait] = useState(false);
+  const [portrait, setPortrait] = useDemoToggle(false);
   const sceneId = useId();
 
   return <div className="kinetic-ad-demo ka-reframe-demo">

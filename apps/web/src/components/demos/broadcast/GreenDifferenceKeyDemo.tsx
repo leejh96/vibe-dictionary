@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function GreenDifferenceKeyDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [strength, setStrength] = useState(3);
+  const [strength, setStrength] = useDemoNumber(3, 0, 4, 0.1);
 
   return <div className="broadcast-demo bc-key-demo">
     <svg id={id} className="bc-key-scene" viewBox="0 0 264 144" role="img" aria-label={t('demo.additions.broadcast.keyScene')}>

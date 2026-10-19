@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DipToBlackDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const phase = t(progress < 50 ? 'demo.additions.broadcast.dipCoast' : progress > 50 ? 'demo.additions.broadcast.dipCity' : 'demo.additions.broadcast.dipBlack');
 
   return <div className="broadcast-demo bc-dip-demo">

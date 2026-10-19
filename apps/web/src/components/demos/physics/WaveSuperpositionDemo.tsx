@@ -1,5 +1,6 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 function wavePath(baseline: number, displacement: (angle: number) => number) {
   return Array.from({ length: 97 }, (_, index) => `${index ? 'L' : 'M'}${16 + 232 * index / 96} ${baseline - displacement(4 * Math.PI * index / 96)}`).join(' ');
@@ -9,7 +10,7 @@ const FIRST_WAVE = wavePath(28, angle => 8 * Math.sin(angle));
 
 export function WaveSuperpositionDemo() {
   const { t } = useLocale();
-  const [phase, setPhase] = useState(0);
+  const [phase, setPhase] = useDemoNumber(0, 0, 360, 5);
   const id = useId();
   const radians = phase * Math.PI / 180;
   const second = wavePath(64, angle => 8 * Math.sin(angle + radians));

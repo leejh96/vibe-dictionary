@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const GHOSTS = [[.4, 8], [1, 17], [1.2, 11]] as const;
@@ -6,7 +7,7 @@ const GHOSTS = [[.4, 8], [1, 17], [1.2, 11]] as const;
 export function LensFlareDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [sourceX, setSourceX] = useState(72);
+  const [sourceX, setSourceX] = useDemoNumber(72, 48, 216, 1);
   return <div className="vfx-demo">
     <svg id={`${id}-scene`} className="vfx-scene vfx-flare-scene" viewBox="0 0 264 144" role="img" aria-label={t('demo.additions.vfx.flare.scene')}>
       <defs>

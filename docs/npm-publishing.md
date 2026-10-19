@@ -52,9 +52,9 @@ OIDC 게시를 확인한 뒤 패키지 Settings → Publishing access에서 **Re
 
 저장소 Settings → Environments에서 `npm` environment를 만들고 배포 허용 브랜치를 `master`로 제한한다. 필요하면 승인 담당자를 지정한다. npm에 입력한 environment 이름도 대소문자까지 `npm`이어야 한다.
 
-1. MCP 버전을 올린다. 예: `npm version 0.1.1 --workspace @keke1933/vibe-dictionary-mcp --no-git-tag-version`. 함께 바뀐 잠금 파일을 검토한다.
+1. MCP 버전을 올린다. 예: `npm version 0.2.1 --workspace @keke1933/vibe-dictionary-mcp --no-git-tag-version`. 함께 바뀐 잠금 파일을 검토하고, [변경 기록](../CHANGE_LOG.md)의 **MCP → 미배포** 항목 중 이번 릴리스에 포함되는 내용을 해당 MCP 버전으로 옮긴다. MCP의 패키지 manifest·잠금 파일·변경 기록의 버전이 일치하는지 확인한다. 웹 버전과 웹 변경 기록은 별도로 관리한다.
 2. 변경과 버전을 검증·커밋하고 `master`에 반영한다. 패키지 버전은 워크플로에서 자동 변경하지 않는다.
-3. Actions → **Publish MCP to npm** → Run workflow에서 브랜치 `master`와 해당 버전(예: `0.1.1`)을 입력한다.
+3. Actions → **Publish MCP to npm** → Run workflow에서 브랜치 `master`와 해당 버전(예: `0.2.1`)을 입력한다.
 4. 저장소·브랜치·버전 확인 → 전체 취약점 감사 → 테스트·빌드 → tarball 독립 설치·전체 프롬프트 대조 → **검증한 tarball 게시** 순서로 진행된다. 앞 단계가 실패하면 게시하지 않는다.
 5. npm에서 버전과 빌드 출처 증명(provenance)을 확인하고 실제 패키지 설치·조회도 확인한다. 실패한 게시를 다시 실행하기 전에 레지스트리에 버전이 생성됐는지 먼저 확인한다.
 

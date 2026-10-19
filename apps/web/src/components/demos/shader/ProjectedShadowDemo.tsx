@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const LIGHT = { x: 132, y: 12 };
@@ -12,7 +13,7 @@ function projectToBottom(edgeX: number, edgeY: number) {
 
 export function ProjectedShadowDemo() {
   const { t } = useLocale();
-  const [blockerX, setBlockerX] = useState(132);
+  const [blockerX, setBlockerX] = useDemoNumber(132, 90, 174, 1);
   const id = useId();
   const left = blockerX - 22;
   const right = blockerX + 22;

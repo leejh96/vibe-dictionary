@@ -1,7 +1,7 @@
 import { useLocale } from '../i18n/LocaleContext';
-import React, { useMemo } from 'react';
+import React, { useEffect, useId, useMemo, useRef } from 'react';
 import { X, Copy, Check, Trash2, Wand2 } from 'lucide-react';
-import { TechniqueItem, DOMAIN_LABELS, DOMAIN_NAMES, getTechniqueText } from '@vibe-dictionary/catalog';
+import { TechniqueItem, DOMAIN_NAMES, getTechniqueText } from '@vibe-dictionary/catalog';
 import { useClipboard } from '../hooks/useClipboard';
 
 interface PromptCartDrawerProps {
@@ -26,6 +26,17 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
   onClearCart,
 }) => {
   const { t, locale } = useLocale();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const targetRef = useRef<HTMLInputElement>(null);
+  const headingId = useId();
+  useEffect(() => {
+    if (!isOpen) return;
+    const dialog = dialogRef.current;
+    const previousFocus = typeof document === 'undefined' ? null : document.activeElement as HTMLElement | null;
+    dialog?.showModal?.();
+    targetRef.current?.focus();
+    return () => { dialog?.close?.(); if (previousFocus?.isConnected) previousFocus.focus(); };
+  }, [isOpen]);
   const applicationTarget = contextNote.trim();
   const targetMissing = applicationTarget.length === 0;
   const copyBlocked = cart.length === 0 || targetMissing;
@@ -81,16 +92,26 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
 
       {/* 슬라이드 드로어 */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs">
+        <dialog ref={dialogRef} aria-labelledby={headingId} aria-modal="true"
+          onCancel={event => { event.preventDefault(); onOpenChange(false); }}
+          onKeyDown={event => {
+            if (event.key !== 'Tab') return;
+            const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), [tabindex="0"]'));
+            const first = controls[0], last = controls[controls.length - 1];
+            if (event.shiftKey && event.target === first && last) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && event.target === last && first) { event.preventDefault(); first.focus(); }
+          }}
+          className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none border-0 p-0 z-50 open:flex justify-end bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs">
           <div className="w-full max-w-lg bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-full flex flex-col shadow-2xl transition-colors duration-200">
             {/* 헤더 */}
             <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Wand2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                <h2 className="text-sm font-extrabold text-slate-900 dark:text-white">{t("composer.heading", { count: cart.length })}
+                <h2 id={headingId} className="text-sm font-extrabold text-slate-900 dark:text-white">{t("composer.heading", { count: cart.length })}
                 </h2>
               </div>
               <button
+                aria-label={t('composer.close')}
                 onClick={() => onOpenChange(false)}
                 className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
               >
@@ -128,10 +149,11 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                         className="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200"
                       >
                         <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400">
-                          [{DOMAIN_LABELS[item.domain]}]
+                          [{DOMAIN_NAMES[locale][item.domain]}]
                         </span>
                         <strong className="font-bold">{getTechniqueText(item, locale).title}</strong>
                         <button
+                          aria-label={t('composer.removeTechnique', { title: getTechniqueText(item, locale).title })}
                           onClick={() => onRemoveItem(item.id)}
                           className="text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400"
                         >
@@ -148,6 +170,8 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
                 <label htmlFor="prompt-application-target" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">{t("composer.targetLabel")}</label>
                 <input
                   id="prompt-application-target"
+                  ref={targetRef}
+                  autoFocus
                   type="text"
                   required
                   aria-invalid={targetMissing}
@@ -199,7 +223,7 @@ export const PromptCartDrawer: React.FC<PromptCartDrawerProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </dialog>
       )}
     </>
   );

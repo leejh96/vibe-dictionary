@@ -8,6 +8,7 @@
 - [카탈로그 언어와 검색](catalog-language-search.md): 고정 번역 키 관리·누락 자동 검사·웹 언어 전환·MCP 관련도 검색.
 - [프롬프트 품질 기준](prompt-quality.md): 의도한 효과와 상호작용을 재현하기 위한 작성·검증 기준.
 - [서비스 소개](../README.md): 웹 링크와 MCP 빠른 시작.
+- [변경 기록](../CHANGE_LOG.md): 독립적인 웹·MCP 버전별 변경과 각 앱의 미배포 항목, 저장소 관리 기록.
 - [개발 안내](development.md): 저장소 구조, 웹·MCP·공용 카탈로그의 책임과 개발·검증 명령.
 - [MCP 설치·사용 안내](../apps/mcp/README.md): npm 설치·Codex 연결, 기법 검색·프롬프트 조회 방법.
 - [npm 공개 게시 안내](npm-publishing.md): 최초 게시, npm Trusted Publisher 설정과 GitHub 수동 게시 절차.
@@ -21,6 +22,7 @@
 | [122개 프롬프트와 데모 대조](tasks/prompt-demo-alignment/02-research.md) | 기법별 수치·조건을 보정한 판단 근거 |
 | [5개 프롬프트 독립 재현 실험](tasks/prompt-reproduction/02-research.md) | 효과 재현과 외형 일치의 차이, 발견한 문제와 후속 처리 |
 | [SVG·마그네틱 수정](tasks/svg-magnetic-fix/verification.md) | 경로 길이 정규화와 추적 상태 분리의 이유·회귀 검증 |
+| [GitHub 이슈 #9–#17 검증](tasks/github-issues-9-17/02-research.md) | 자동 시연·접근성·검색 수정, 번들 실험 보류와 실환경 검증 한계 |
 
 작업 기록의 기준 커밋·당시 검증 범위·후속 해결 상태를 먼저 읽는다. 과거 결과는 현재 코드의 검증을 대신하지 않는다.
 

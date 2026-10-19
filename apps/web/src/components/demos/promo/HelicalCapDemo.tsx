@@ -1,11 +1,12 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 const GROOVES = Array.from({ length: 16 }, (_, index) => index * Math.PI / 8);
 
 export function HelicalCapDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const id = useId();
   const unwind = Math.min(1, progress / 80);
   const angle = unwind * Math.PI * 4;

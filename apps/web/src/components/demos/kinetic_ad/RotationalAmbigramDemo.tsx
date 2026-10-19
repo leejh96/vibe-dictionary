@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function RotationalAmbigramDemo() {
   const { t } = useLocale();
-  const [turned, setTurned] = useState(false);
+  const [turned, setTurned] = useDemoToggle(false);
 
   return <div className="kinetic-ad-demo">
     <button type="button" className="ka-ambigram-button" aria-label={t('demo.additions.kineticAd.ambigramToggle')} aria-pressed={turned} onClick={() => setTurned(value => !value)}>

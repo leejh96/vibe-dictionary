@@ -1,4 +1,5 @@
-import { useState, type CSSProperties } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { type CSSProperties } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const OVAL = 'M92 48C79.85 48 70 59.64 70 74C70 88.36 79.85 100 92 100C104.15 100 114 88.36 114 74C114 59.64 104.15 48 92 48Z';
@@ -6,7 +7,7 @@ const HEART = 'M92 61C78 43 62 58 71 75C76 85 86 94 92 100C98 94 108 85 113 75C1
 
 export function RebusGlyphMorphDemo() {
   const { t } = useLocale();
-  const [heart, setHeart] = useState(false);
+  const [heart, setHeart] = useDemoToggle(false);
   const contour = heart ? HEART : OVAL;
 
   return <div className="kinetic-ad-demo">

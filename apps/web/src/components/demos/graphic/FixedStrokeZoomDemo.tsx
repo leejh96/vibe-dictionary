@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { ZoomIn, ZoomOut } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function FixedStrokeZoomDemo() {
   const { t } = useLocale();
-  const [zoomed, setZoomed] = useState(false);
+  const [zoomed, setZoomed] = useDemoToggle(false);
   const id = useId();
   const Icon = zoomed ? ZoomOut : ZoomIn;
   return <div className="graphic-demo gd-zoom-demo">

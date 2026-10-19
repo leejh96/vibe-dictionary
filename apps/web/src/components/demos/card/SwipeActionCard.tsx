@@ -1,3 +1,4 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useId, useRef, useState } from 'react';
 import { BookOpen, Bookmark, ChevronLeft } from 'lucide-react';
 import type { PointerEvent } from 'react';
@@ -8,7 +9,7 @@ const clampOffset = (value: number) => Math.max(-REVEAL_WIDTH, Math.min(0, value
 
 export function SwipeActionCardDemo() {
   const { t } = useLocale();
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useDemoNumber(0, -64, 0);
   const [dragging, setDragging] = useState(false);
   const [saved, setSaved] = useState(false);
   const actionId = useId();

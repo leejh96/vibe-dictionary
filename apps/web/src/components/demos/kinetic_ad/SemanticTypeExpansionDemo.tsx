@@ -1,9 +1,10 @@
-import { useState, type CSSProperties } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { type CSSProperties } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function SemanticTypeExpansionDemo() {
   const { t } = useLocale();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useDemoToggle(false);
 
   return <div className="kinetic-ad-demo">
     <button type="button" className="ka-expansion-button" aria-label={t('demo.additions.kineticAd.expansionToggle')} aria-pressed={expanded} onClick={() => setExpanded(value => !value)}>

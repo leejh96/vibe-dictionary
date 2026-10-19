@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
@@ -35,6 +36,7 @@ export function ReorderListDemo() {
     setItems(current => [...current.slice(1), current[0]]);
   };
 
+  useDemoPulse(reorder);
   return <div className="motion-demo">
     <div className="md-sort-group">
       <ul className="md-sort-list" aria-label={t('demo.additions.motion.workSteps')} aria-live="polite">

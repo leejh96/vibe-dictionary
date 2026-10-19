@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DifferenceBlendTypeDemo() {
   const { t } = useLocale();
-  const [right, setRight] = useState(false);
+  const [right, setRight] = useDemoToggle(false);
 
   return <div className="kinetic-ad-demo">
     <button type="button" className="ka-inversion-button" aria-label={t('demo.additions.kineticAd.inversionToggle')} aria-pressed={right} onClick={() => setRight(value => !value)}>

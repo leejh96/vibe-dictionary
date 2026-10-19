@@ -1,3 +1,4 @@
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import { useId, useRef, useState } from 'react';
 import { Bookmark, FileText, Menu, X } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
@@ -6,7 +7,7 @@ const VIEWS = [{ id: 'recent', labelKey: 'demo.additions.motion.recent' as const
 
 export function ReflowPanelDemo() {
   const { t } = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDemoToggle(false);
   const [view, setView] = useState(VIEWS[0]);
   const panelId = useId();
   const trigger = useRef<HTMLButtonElement>(null);

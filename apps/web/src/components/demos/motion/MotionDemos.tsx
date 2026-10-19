@@ -1,3 +1,4 @@
+import { useDemoToggle, useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, Gem, Layers, Maximize2, Minimize2, Palette, Sparkles, Trees, Waves } from 'lucide-react';
@@ -7,7 +8,7 @@ const STEPS = [{ labelKey: 'demo.additions.motion.structure' as const, Icon: Lay
 
 export function DirectionalStepDemo() {
   const { t } = useLocale();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useDemoNumber(0, 0, 2, 1, 'steps');
   return <div className="motion-demo">
     <div className="md-step-group">
       <button type="button" className="md-icon-button" aria-label={t('demo.additions.motion.previousStep')} aria-disabled={step === 0} onClick={() => setStep(current => Math.max(0, current - 1))}><ArrowLeft size={18} aria-hidden="true" /></button>
@@ -23,7 +24,7 @@ export function DirectionalStepDemo() {
 
 export function CrossfadeSceneDemo() {
   const { t } = useLocale();
-  const [forest, setForest] = useState(false);
+  const [forest, setForest] = useDemoToggle(false);
   return <div className="motion-demo">
     <button type="button" className="md-scene-button" aria-label={t('demo.additions.motion.switchScene', { scene: t(forest ? 'demo.additions.motion.forest' : 'demo.additions.motion.waves') })} onClick={() => setForest(value => !value)}>
       {[{ nameKey: 'demo.additions.motion.waves' as const, tone: 'ocean', Icon: Waves, active: !forest }, { nameKey: 'demo.additions.motion.forest' as const, tone: 'forest', Icon: Trees, active: forest }].map(({ nameKey, tone, Icon, active }) => <span key={tone} className={`md-scene-layer ${active ? 'is-active' : ''}`} aria-hidden={!active}><span className={`md-scene-cover md-scene-${tone}`}><Icon size={30} strokeWidth={1.6} aria-hidden="true" /></span><strong>{t(nameKey)}</strong></span>)}
@@ -52,7 +53,7 @@ export function MaskedRiseDemo() {
 
 export function SharedElementExpandDemo() {
   const { t } = useLocale();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useDemoToggle(false);
   const ActionIcon = expanded ? Minimize2 : Maximize2;
   return <div className="motion-demo">
     <button type="button" className="md-shared-card" aria-label={t('demo.additions.motion.toggleOpal')} aria-pressed={expanded} data-expanded={expanded} onClick={() => setExpanded(value => !value)}>
@@ -64,7 +65,7 @@ export function SharedElementExpandDemo() {
 
 export function TransportMorphDemo() {
   const { t } = useLocale();
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useDemoToggle(false);
   return <div className="motion-demo">
     <button type="button" className="md-transport-button" aria-label={t('demo.additions.motion.toggleTransport')} aria-pressed={paused} onClick={() => setPaused(value => !value)}>
       <span className="md-transport-shape" aria-hidden="true"><span className="md-play-piece md-play-left" /><span className="md-play-piece md-play-right" /></span>

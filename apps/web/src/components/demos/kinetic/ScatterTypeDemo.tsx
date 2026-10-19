@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import type { CSSProperties } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
@@ -6,7 +6,7 @@ const POSES = [[30, 38, -22], [70, 86, 13], [104, 34, -12], [140, 86, 8], [176, 
 
 export function ScatterTypeDemo() {
   const { t } = useLocale();
-  const [scattered, setScattered] = useState(false);
+  const [scattered, setScattered] = useDemoToggle(false);
 
   return <div className="kinetic-demo">
     <button type="button" className="kt-scatter-button" aria-label={t('demo.additions.kinetic.scatterToggle')} aria-pressed={scattered} onClick={() => setScattered(value => !value)}>

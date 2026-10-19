@@ -1,9 +1,10 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 export function BeveragePourDemo() {
   const { t } = useLocale();
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useDemoNumber(0, 0, 100, 1);
   const sceneId = useId();
   const glassId = `${sceneId}-glass`;
   const fill = Math.max(0, Math.min(1, (progress - 15) / 70));

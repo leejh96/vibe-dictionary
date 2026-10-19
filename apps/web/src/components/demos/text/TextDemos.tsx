@@ -1,3 +1,4 @@
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import { useId, useState } from 'react';
 import { Minus, Pause, Play, Plus } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
@@ -47,7 +48,7 @@ export function ClampedTextDemo() {
 
 export function OutlineFillTextDemo() {
   const { t } = useLocale();
-  const [filled, setFilled] = useState(false);
+  const [filled, setFilled] = useDemoToggle(false);
   return <div className="text-demo">
     <button type="button" className="td-outline-button" aria-label={t('demo.additions.text.toggleOutlineFill')} aria-pressed={filled} onClick={() => setFilled(value => !value)}>
       <span className="td-outline-word" data-word={t('demo.additions.text.outlineWord')} aria-hidden="true">{t('demo.additions.text.outlineWord')}</span>

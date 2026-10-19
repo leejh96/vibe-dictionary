@@ -1,5 +1,6 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 const LAYERS = [
   { id: 'outer', radius: 44 },
@@ -10,7 +11,7 @@ const DIMPLES = [[-24, -24], [0, -28], [24, -24], [-34, -9], [-12, -8], [12, -8]
 
 export function ProductSectionDemo() {
   const { t } = useLocale();
-  const [depth, setDepth] = useState(-42);
+  const [depth, setDepth] = useDemoNumber(-42, -42, 42, 1);
   const id = useId();
   const sectionX = 72 + depth;
   const halfChord = Math.sqrt(44 ** 2 - depth ** 2);

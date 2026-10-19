@@ -102,6 +102,18 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     }
   });
 
+  await t.test('natural language inflections retrieve the expected techniques over stdio', async () => {
+    for (const [query, id] of [
+      ['a card that flips when clicked', 'card-flip-3d'],
+      ['a banner scrolling continuously', 'infinite-marquee'],
+      ['얼굴만 흐리게 가리는', 'vd-face-blur-mask'],
+    ]) {
+      const output = await call('search_techniques', { query, locale: 'en', limit: 3 });
+      assert.ok(output.items.some((item: { id: string }) => item.id === id), query);
+      assert.ok(output.items.every((item: object) => !('promptSnippet' in item)));
+    }
+  });
+
   await t.test('bilingual ranked search, metadata filters and English prompts work through stdio', async () => {
     const page = await call('search_techniques', { query: '마우스를 올리면 버튼이 자석처럼 따라오는 디자인', locale: 'en', target: 'button', trigger: 'pointer-move', limit: 5 });
     assert.equal(page.items[0].id, 'magnetic-hover');

@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const FACADES = [
 
 export function VerticalTiltDemo() {
   const { t } = useLocale();
-  const [tilt, setTilt] = useState(0);
+  const [tilt, setTilt] = useDemoNumber(0, -10, 25, 1);
   const sceneId = useId();
   const pitch = tilt * Math.PI / 180;
   const horizon = 74 + 140 * Math.tan(pitch);

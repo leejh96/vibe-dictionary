@@ -1,9 +1,10 @@
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
 export function PulleyConstraintDemo() {
   const { t } = useLocale();
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useDemoNumber(0, -24, 24);
   const id = useId();
   const left = 92 - offset;
   const right = 92 + offset;

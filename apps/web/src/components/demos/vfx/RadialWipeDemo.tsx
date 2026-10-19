@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function RadialWipeDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [progress, setProgress] = useState(35);
+  const [progress, setProgress] = useDemoNumber(35, 0, 100, 1);
   const angle = progress / 100 * Math.PI * 2;
   const edgeX = (132 + Math.sin(angle) * 300).toFixed(3);
   const edgeY = (72 - Math.cos(angle) * 300).toFixed(3);
