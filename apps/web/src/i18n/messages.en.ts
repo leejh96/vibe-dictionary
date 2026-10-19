@@ -127,6 +127,8 @@ export const EN_MESSAGES = {
   "demo.hoverClickToSeparateLayers": "Hover / click to separate layers",
   "demo.scene2ClickToOpen": "SCENE #2 (click to open)",
   "demo.scene1ClickToCloseIris": "SCENE #1 (click to close iris)",
+  "demo.closeIrisAperture": "Close iris aperture",
+  "demo.elasticSwitch": "Elastic switch",
   "demo.redCyanSplitAndDigitalNoise": "Red/cyan split and digital noise",
   "demo.moveYourMouseLeftAndRight": "Move your mouse left and right",
   "demo.aSoftBeamShinesFromAbove": "A soft beam shines from above",

@@ -1477,18 +1477,23 @@ const DragSnapSlotDemo: React.FC = () => {
 };
 
 const ElasticToggleSwitchDemo: React.FC = () => {
+  const { t } = useLocale();
   const [on, setOn] = useDemoToggle(true);
   const [stretching, setStretching] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current !== null) clearTimeout(timer.current); }, []);
 
   const toggle = () => {
     setStretching(true);
     setOn(!on);
-    setTimeout(() => setStretching(false), 220);
+    if (timer.current !== null) clearTimeout(timer.current);
+    timer.current = setTimeout(() => { timer.current = null; setStretching(false); }, 220);
   };
 
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
       <button
+        type="button" role="switch" aria-label={t('demo.elasticSwitch')} aria-checked={on}
         onClick={toggle}
         className={`w-16 h-9 rounded-full p-1 transition-colors duration-300 ${
           on ? 'bg-indigo-500' : 'bg-slate-800 border border-slate-700'
@@ -1931,9 +1936,10 @@ const MgIrisCircleWipeDemo: React.FC = () => {
   const { t } = useLocale();
   const [closed, setClosed] = useDemoToggle(false);
   return (
-    <div data-demo-control
+    <button type="button" data-demo-control
+      aria-label={t('demo.closeIrisAperture')} aria-pressed={closed}
       onClick={() => setClosed(!closed)}
-      className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-6"
+      className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-6 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-indigo-500"
     >
       <div className="relative w-52 h-24 rounded-xl overflow-hidden border border-slate-700 bg-slate-950 flex items-center justify-center">
         <span className="text-xs font-bold text-slate-400">{t("demo.scene2ClickToOpen")}</span>
@@ -1947,7 +1953,7 @@ const MgIrisCircleWipeDemo: React.FC = () => {
           <span className="text-xs font-black text-white">{t("demo.scene1ClickToCloseIris")}</span>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -4931,6 +4937,12 @@ const VdGlitchCutReelDemo: React.FC = () => {
   const { t } = useLocale();
   const [idx, setIdx] = useState(0);
   const [glitching, setGlitching] = useState(false);
+  const timers = useRef(new Set<ReturnType<typeof setTimeout>>());
+  const delay = (callback: () => void, milliseconds: number) => {
+    const timer = setTimeout(() => { timers.current.delete(timer); callback(); }, milliseconds);
+    timers.current.add(timer);
+  };
+  useEffect(() => () => { timers.current.forEach(clearTimeout); timers.current.clear(); }, []);
 
   const specs = [
     { tag: 'SCENE 01 // DISPLAY', title: '240Hz OLED', accent: 'text-cyan-300 border-cyan-400/50' },
@@ -4941,10 +4953,10 @@ const VdGlitchCutReelDemo: React.FC = () => {
   useEffect(() => {
     const id = setInterval(() => {
       setGlitching(true);
-      setTimeout(() => {
+      delay(() => {
         setIdx((i) => (i + 1) % specs.length);
       }, 90);
-      setTimeout(() => {
+      delay(() => {
         setGlitching(false);
       }, 220);
     }, 1500);
@@ -4958,7 +4970,7 @@ const VdGlitchCutReelDemo: React.FC = () => {
       onClick={() => {
         setGlitching(true);
         setIdx((i) => (i + 1) % specs.length);
-        setTimeout(() => setGlitching(false), 200);
+        delay(() => setGlitching(false), 200);
       }}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >

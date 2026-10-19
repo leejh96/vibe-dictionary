@@ -165,12 +165,15 @@ test('iris click surface toggles its mask instead of restarting the gallery', t 
   const f = fixture(t);
   f.visible(true);
   act(() => f.tree.update(<DemoAutoplay><InteractiveDemo techniqueId="mg-iris-circle-wipe" /></DemoAutoplay>));
-  const surface = () => f.tree.root.findAllByType('div').find(node => node.props.onClick)!;
+  const surface = () => f.tree.root.findByType('button');
   const mask = () => f.tree.root.findAllByType('div').find(node => node.props.style?.clipPath)!.props.style.clipPath;
   for (const expected of ['circle(0% at 50% 50%)', 'circle(120% at 50% 50%)']) {
     assert.equal(surface().props['data-demo-control'], true);
+    assert.equal(surface().props.type, 'button');
+    assert.equal(surface().props['aria-label'], '아이리스 조리개 닫기');
     f.controlClick(surface(), '[data-demo-control]');
     assert.equal(mask(), expected);
+    assert.equal(surface().props['aria-pressed'], expected.startsWith('circle(0%'));
     f.tick(650);
     assert.equal(mask(), expected);
   }

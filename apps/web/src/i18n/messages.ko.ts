@@ -126,6 +126,8 @@ export const KO_MESSAGES = {
   "demo.hoverClickToSeparateLayers": "마우스 오버 / 클릭 시 입체 층 분리",
   "demo.scene2ClickToOpen": "SCENE #2 (클릭해 열기)",
   "demo.scene1ClickToCloseIris": "SCENE #1 (클릭해 조리개 닫기)",
+  "demo.closeIrisAperture": "아이리스 조리개 닫기",
+  "demo.elasticSwitch": "탄성 스위치",
   "demo.redCyanSplitAndDigitalNoise": "Red·Cyan 채널 분리 및 디지털 노이즈",
   "demo.moveYourMouseLeftAndRight": "마우스를 좌우로 움직여보세요",
   "demo.aSoftBeamShinesFromAbove": "상단에서 쏟아지는 입체 빛기둥",

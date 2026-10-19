@@ -54,6 +54,33 @@ test('ripple and error-shake delays are cancelled when a filtered demo unmounts'
   }
 });
 
+test('toggle and glitch callbacks are cancelled when filtering during their animation', t => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  const pending = new Set<ReturnType<typeof setTimeout>>();
+  const schedule = globalThis.setTimeout, cancel = globalThis.clearTimeout;
+  t.mock.method(globalThis, 'setTimeout', (callback: () => void, delay: number) => {
+    const handle = schedule(() => { pending.delete(handle); callback(); }, delay);
+    pending.add(handle);
+    return handle;
+  });
+  t.mock.method(globalThis, 'clearTimeout', (handle: ReturnType<typeof setTimeout>) => { pending.delete(handle); cancel(handle); });
+  for (const id of ['elastic-toggle-switch', 'vd-glitch-cut-reel']) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<InteractiveDemo techniqueId={id} />); });
+    const action = tree.root.findAll(node => typeof node.type === 'string' && typeof node.props.onClick === 'function')[0];
+    if (id === 'elastic-toggle-switch') {
+      assert.equal(action.props['aria-label'], '탄성 스위치');
+      assert.equal(action.props['aria-checked'], true);
+    }
+    act(() => action.props.onClick());
+    if (id === 'elastic-toggle-switch') assert.equal(action.props['aria-checked'], false);
+    if (id === 'vd-glitch-cut-reel') act(() => t.mock.timers.tick(1500));
+    assert.ok(pending.size > 0, `${id}: filter while delayed work is pending`);
+    act(() => tree.unmount());
+    assert.equal(pending.size, 0, `${id}: no delayed state updates after unmount`);
+  }
+});
+
 test('magnetic tracking stays fast on vertical movement and at the center; only leaving uses spring return', (t) => {
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<InteractiveDemo techniqueId="magnetic-hover" />); });
