@@ -377,7 +377,7 @@ export const TECHNIQUES: TechniqueItem[] = [
     titleEn: 'Scramble / Cipher Text Decode',
     summary: '무작위 기호들이 빠르게 회전하다가 원래 문장으로 맞춰짐',
     promptSnippet:
-      "지정한 텍스트가 처음 표시되거나 마우스 진입·클릭할 때 Scramble Decode를 재생해 줘. 35ms마다 무작위 기호(!<>-_\\\\/[]{}—=+*^?#01)를 갱신하고, 공백은 유지해 줘. frame > index * 2인 문자부터 원문으로 고정해 왼쪽에서 오른쪽으로 해독하고, frame이 전체 글자 수의 2배를 넘으면 타이머를 멈춰 줘. 재실행 전의 타이머는 정리해 줘.",
+      "지정한 텍스트가 처음 표시되거나 클릭할 때 Scramble Decode를 재생해 줘. 35ms마다 무작위 기호(!<>-_\\\\/[]{}—=+*^?#01)를 갱신하고, 공백은 유지해 줘. frame > index * 2인 문자부터 원문으로 고정해 왼쪽에서 오른쪽으로 해독하고, frame이 전체 글자 수의 2배를 넘으면 타이머를 멈춰 줘. 재실행 전의 타이머는 정리해 줘.",
   },
   {
     id: 'gradient-flow-text',

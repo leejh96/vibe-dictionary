@@ -1,3 +1,4 @@
+import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Minus, Plus } from 'lucide-react';
@@ -10,6 +11,7 @@ export function RollingNumberDemo() {
     const value = Math.max(0, Math.min(999, current.value + direction));
     return value === current.value ? current : { value, previous: current.value, direction };
   });
+  useDemoPulse(() => change(number.value >= 200 ? -1 : 1));
   const previous = String(number.previous).padStart(3, '0');
   return <div className="text-demo">
     <div className="td-number-group">

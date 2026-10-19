@@ -26,6 +26,8 @@ import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  'composer.close': 'Close composer',
+  'composer.removeTechnique': 'Remove {title}',
   ...BROADCAST_EN_MESSAGES,
   ...CAMERA_EN_MESSAGES,
   ...CARD_EN_MESSAGES,

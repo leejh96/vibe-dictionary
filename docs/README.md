@@ -22,6 +22,7 @@
 | [122개 프롬프트와 데모 대조](tasks/prompt-demo-alignment/02-research.md) | 기법별 수치·조건을 보정한 판단 근거 |
 | [5개 프롬프트 독립 재현 실험](tasks/prompt-reproduction/02-research.md) | 효과 재현과 외형 일치의 차이, 발견한 문제와 후속 처리 |
 | [SVG·마그네틱 수정](tasks/svg-magnetic-fix/verification.md) | 경로 길이 정규화와 추적 상태 분리의 이유·회귀 검증 |
+| [GitHub 이슈 #9–#17 검증](tasks/github-issues-9-17/02-research.md) | 자동 시연·접근성·검색 수정, 번들 실험 보류와 실환경 검증 한계 |
 
 작업 기록의 기준 커밋·당시 검증 범위·후속 해결 상태를 먼저 읽는다. 과거 결과는 현재 코드의 검증을 대신하지 않는다.
 

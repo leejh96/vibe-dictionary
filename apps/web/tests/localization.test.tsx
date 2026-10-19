@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test, { type TestContext } from 'node:test';
 import React from 'react';
 import { act, create, type ReactTestInstance } from 'react-test-renderer';
-import { TECHNIQUES, getTechniqueText } from '@vibe-dictionary/catalog';
+import { TECHNIQUES, DOMAIN_NAMES, getTechniqueText } from '@vibe-dictionary/catalog';
 import { LocaleProvider, useLocale, LOCALE_STORAGE_KEY } from '../src/i18n/LocaleContext';
 import { translateMessage } from '../src/i18n/messages';
 import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
@@ -10,6 +10,7 @@ import { TechniqueCard } from '../src/components/TechniqueCard';
 import { PromptCartDrawer } from '../src/components/PromptCartDrawer';
 import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { usePromptCart, PROMPT_CART_STORAGE_KEY } from '../src/hooks/usePromptCart';
+import { DemoAutoplay } from '../src/hooks/useDemoAutoplay';
 
 function replace(t: TestContext, key: string, value: unknown) {
   const original = Object.getOwnPropertyDescriptor(globalThis, key);
@@ -62,6 +63,7 @@ test('switching a card language copies the selected original and invalidates a p
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<LocaleProvider><LanguageControl /><TechniqueCard item={item} isSelected={false} onToggleCart={() => {}} /></LocaleProvider>); });
   t.after(() => act(() => tree.unmount()));
+  assert.equal(tree.root.findByType(TechniqueCard).findAllByType('button').length, 3, 'only prompt view, copy and composer actions belong on the card');
   let button = tree.root.findAllByType('button').find(node => text(node) === '프롬프트 복사')!;
   await act(async () => { button.props.onClick(); });
   const finishKorean = finish;
@@ -107,6 +109,48 @@ test('English composer keeps selection order, target scope and blank-target guar
   assert.deepEqual(copied, [preview]);
 });
 
+test('composer domain chips and copied prompts follow language changes across all domains', async t => {
+  replace(t, 'localStorage', storage());
+  const copied: string[] = [];
+  replace(t, 'navigator', { clipboard: { writeText: async (value: string) => { copied.push(value); } } });
+  const cart = (['video', 'style', 'layout', 'motion', 'ui'] as const)
+    .map(domain => TECHNIQUES.find(item => item.domain === domain)!);
+  const target = 'landing-page CTA';
+  const removed: string[] = [];
+  let tree!: ReturnType<typeof create>;
+  act(() => {
+    tree = create(<LocaleProvider initialLocale="ko"><LanguageControl />
+      <PromptCartDrawer cart={cart} contextNote={target} onContextNoteChange={() => {}}
+        storageError={null} isOpen onOpenChange={() => {}} onRemoveItem={id => removed.push(id)} onClearCart={() => {}} />
+    </LocaleProvider>);
+  });
+  t.after(() => act(() => tree.unmount()));
+
+  for (const locale of ['ko', 'en', 'ko'] as const) {
+    act(() => tree.root.findByType('select').props.onChange({ target: { value: locale } }));
+    const chips = tree.root.findAllByType('span').filter(node => /^\[[^\]]+\]$/.test(text(node)));
+    assert.deepEqual(chips.map(text), cart.map(item => `[${DOMAIN_NAMES[locale][item.domain]}]`));
+    assert.deepEqual(tree.root.findAllByType('strong').map(text), cart.map(item => getTechniqueText(item, locale).title));
+    assert.equal(tree.root.findByType('input').props.value, target);
+    const preview = text(tree.root.findByType('pre'));
+    let previousIndex = -1;
+    for (const item of cart) {
+      assert.ok(preview.includes(`[${DOMAIN_NAMES[locale][item.domain]}]`));
+      const index = preview.indexOf(getTechniqueText(item, locale).promptSnippet);
+      assert.ok(index > previousIndex);
+      previousIndex = index;
+    }
+    if (locale === 'en') assert.doesNotMatch(text(tree.root), /[가-힣]/);
+    const button = tree.root.findAllByType('button').find(node => /프롬프트 전체 복사|Copy combined prompt/.test(text(node)))!;
+    await act(async () => { button.props.onClick(); });
+    assert.equal(copied.at(-1), preview);
+  }
+  const firstChip = tree.root.findAllByType('span').find(node => text(node) === '[모션 영상]')!;
+  act(() => firstChip.parent!.findByType('button').props.onClick());
+  assert.deepEqual(removed, [cart[0].id]);
+  assert.equal(copied.length, 3);
+});
+
 test('every demo renders in English through initial, click and timer states', t => {
   replace(t, 'localStorage', storage());
   t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
@@ -133,6 +177,37 @@ test('dynamic demo messages translate placeholders without changing arbitrary us
   assert.equal(translateMessage('en', 'demo.toast.newNotification', { number: 42 }), 'New notification #42');
   assert.equal(translateMessage('en', 'demo.hold.progress', { percent: 55 }), 'Holding... 55%');
   assert.equal(translateMessage('en', 'search.noResults', { query: '랜딩페이지 CTA' }), 'No results for "랜딩페이지 CTA" in this section.');
+});
+
+test('automatic preview states keep every demo in English', t => {
+  replace(t, 'localStorage', storage());
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  const previewFrames = new Map<number, FrameRequestCallback>();
+  let frameId = 0;
+  replace(t, 'window', { setTimeout, clearTimeout, setInterval, clearInterval, matchMedia: () => ({ matches: false }),
+    requestAnimationFrame: (callback: FrameRequestCallback) => { const id = ++frameId; previewFrames.set(id, callback); return id; },
+    cancelAnimationFrame: (id: number) => { previewFrames.delete(id); },
+  });
+  const previewFrame = (timestamp: number) => act(() => {
+    const callbacks = [...previewFrames.values()]; previewFrames.clear();
+    callbacks.forEach(callback => callback(timestamp));
+  });
+  replace(t, 'document', { hidden: false, documentElement: {}, addEventListener() {}, removeEventListener() {} });
+  replace(t, 'requestAnimationFrame', () => 1);
+  replace(t, 'cancelAnimationFrame', () => {});
+  for (const item of TECHNIQUES) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<LocaleProvider initialLocale="en"><DemoAutoplay><InteractiveDemo techniqueId={item.id} /></DemoAutoplay></LocaleProvider>, {
+      createNodeMock: element => element.props.className === 'demo-preview' ? {} : null,
+    }); });
+    try {
+      assert.doesNotMatch(JSON.stringify(tree.toJSON()), /[가-힣]/, item.id);
+      previewFrame(0);
+      previewFrame(4100);
+      act(() => t.mock.timers.tick(4100));
+      assert.doesNotMatch(JSON.stringify(tree.toJSON()), /[가-힣]/, item.id);
+    } finally { act(() => tree.unmount()); }
+  }
 });
 
 

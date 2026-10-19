@@ -1,11 +1,12 @@
-import { useId, useRef, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId, useRef } from 'react';
 import { Info, LockKeyhole } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useOutsidePointerDismiss } from '../../../hooks/useOutsidePointerDismiss';
 
 export function AnchoredPopoverDemo() {
   const { t } = useLocale();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useDemoToggle(true);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const noteId = useId();

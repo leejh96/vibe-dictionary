@@ -1,3 +1,4 @@
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import { useId, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowUpRight, BookOpen, Bookmark, Check, ChevronDown, Flower2, Headphones, Heart, Mail } from 'lucide-react';
@@ -63,7 +64,7 @@ export function ImageZoomCardDemo() {
 
 export function FoldoutCardDemo() {
   const { t } = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDemoToggle(false);
   const contentId = useId();
   return <div className="card-demo cd-fold-demo">
     <button type="button" className="cd-fold-card" aria-label={t(open ? 'demo.additions.card.foldAlbum' : 'demo.additions.card.unfoldAlbum')} aria-expanded={open} aria-controls={contentId} onClick={() => setOpen(value => !value)}>

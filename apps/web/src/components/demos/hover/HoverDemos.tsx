@@ -1,3 +1,4 @@
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
 import { useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Play } from 'lucide-react';
@@ -51,7 +52,7 @@ export function CornerBracketDemo() {
 
 export function MenuIconMorphDemo() {
   const { t } = useLocale();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useDemoToggle(false);
   return <div className="hover-demo">
     <button type="button" className="hd-button hd-icon-morph" aria-label={t('demo.additions.hover.toggleMenuIcon')} aria-pressed={expanded} onClick={() => setExpanded(value => !value)}>
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path className="hd-menu-upper" d="M4 8H20" /><path className="hd-menu-lower" d="M4 16H20" /></svg>
@@ -72,7 +73,7 @@ export function LetterStaggerDemo() {
 
 export function SplitActionDemo() {
   const { t } = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useDemoToggle(false);
   const [format, setFormat] = useState('PNG');
   const root = useRef<HTMLDivElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);

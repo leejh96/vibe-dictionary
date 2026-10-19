@@ -25,6 +25,8 @@ import { TEXT_KO_MESSAGES } from './demos/text.messages';
 import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
+  'composer.close': '조합기 닫기',
+  'composer.removeTechnique': '{title} 제거',
   ...BROADCAST_KO_MESSAGES,
   ...CAMERA_KO_MESSAGES,
   ...CARD_KO_MESSAGES,
