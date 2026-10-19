@@ -63,6 +63,7 @@ import { VariableInertiaDemo } from './physics/VariableInertiaDemo';
 import { PulleyConstraintDemo } from './physics/PulleyConstraintDemo';
 import { WaveSuperpositionDemo } from './physics/WaveSuperpositionDemo';
 import { DiceRoll3DDemo } from './physics/DiceRoll3DDemo';
+import { MarbleBoardDemo } from './physics/MarbleBoardDemo';
 import { SlicedTypeDemo } from './kinetic/SlicedTypeDemo';
 import { ProximityTypeDemo } from './kinetic/ProximityTypeDemo';
 import { CylinderTypeDemo } from './kinetic/CylinderTypeDemo';
@@ -148,6 +149,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <DampedSpringDemo />;
     case 'mg-dice-roll-3d':
       return <DiceRoll3DDemo />;
+    case 'mg-marble-board':
+      return <MarbleBoardDemo />;
     case 'mg-voronoi-cell-field':
       return <VoronoiCellsDemo />;
     case 'mg-occluder-projected-shadow':
