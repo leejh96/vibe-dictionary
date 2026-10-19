@@ -1,6 +1,6 @@
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
 import { useLocale } from '../../../i18n/LocaleContext';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
 
 const SLOTS = [
   { key: 'demo.wheel.slot.gem', color: '#ef4444', icon: '💎' },
@@ -30,12 +30,10 @@ export function LuckyWheel3DDemo() {
     setIsSpinning(true);
     setHasLanded(false);
 
-    // Pick a new slot (bias slightly or random)
+    // Pick a new slot
     const nextSlot = (selectedSlot + Math.floor(Math.random() * 5) + 2) % 8;
 
     // Calculate rotation to place nextSlot at top pointer (0 deg)
-    // Slot angle = nextSlot * 45 deg.
-    // Top pointer is at 0 deg, so we need (rotation + nextSlot * 45) % 360 === 0
     setRotation(prev => {
       const currentNorm = prev % 360;
       const targetNorm = (360 - nextSlot * 45) % 360;
@@ -54,7 +52,7 @@ export function LuckyWheel3DDemo() {
 
       popTimerRef.current = setTimeout(() => {
         setHasLanded(false);
-      }, 1200);
+      }, 1500);
     }, 2400);
   }, [isSpinning, selectedSlot]);
 
@@ -78,83 +76,98 @@ export function LuckyWheel3DDemo() {
     <button
       id={id}
       type="button"
-      className="pd-scene lw-scene-container"
+      className="lw-scene-container"
       aria-label={t('demo.wheel.scene')}
       data-demo-control
       onClick={handleSpin}
       disabled={isSpinning}
     >
-      {/* 3D Table Mat Ambient & Floor Shadow */}
+      {/* 3D Casino Table Mat Ambient Glow & Floor Shadow */}
       <span className="lw-ambient-glow" aria-hidden="true" />
       <span className={`lw-shadow ${isSpinning ? 'lw-shadow-spinning' : ''}`} aria-hidden="true" />
 
       {/* 3D Perspective Roulette Stage */}
       <span className="lw-stage">
-        {/* Top Indicator / Flapper Peg */}
+        {/* Top Indicator / Elastic Flapper Peg */}
         <span className={`lw-pointer ${isSpinning ? 'lw-pointer-ticking' : ''}`} aria-hidden="true">
+          <span className="lw-pointer-bracket" />
           <span className="lw-pointer-pin" />
           <span className="lw-pointer-shadow" />
         </span>
 
-        {/* 3D Wheel Disc Assembly */}
-        <span
-          className="lw-wheel-disc"
-          style={{
-            transform: `rotate(${rotation}deg)`,
-            transition: isSpinning ? 'transform 2.4s cubic-bezier(0.12, 0.86, 0.2, 1)' : 'none',
-          }}
-        >
-          {/* Outer Rim with Gold Studs */}
-          <span className="lw-wheel-rim" aria-hidden="true" />
+        {/* 3D Cylindrical Wheel Turntable Assembly */}
+        <span className="lw-wheel-assembly">
+          {/* 3D Cylindrical Edge/Plinth Depth underneath */}
+          <span className="lw-wheel-depth" aria-hidden="true" />
 
-          {/* SVG 8 Wedges with distinct vibrant casino gradients */}
-          <svg className="lw-wheel-svg" viewBox="0 0 100 100" aria-hidden="true">
-            {SLOTS.map((slot, i) => {
-              const startAngle = (i * 45 - 22.5) * (Math.PI / 180);
-              const endAngle = ((i + 1) * 45 - 22.5) * (Math.PI / 180);
-              const x1 = 50 + 50 * Math.sin(startAngle);
-              const y1 = 50 - 50 * Math.cos(startAngle);
-              const x2 = 50 + 50 * Math.sin(endAngle);
-              const y2 = 50 - 50 * Math.cos(endAngle);
-              const pathD = `M 50 50 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 50 50 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
-
-              return (
-                <path
-                  key={slot.key}
-                  d={pathD}
-                  fill={slot.color}
-                  stroke="#ffffff"
-                  strokeWidth="0.8"
-                  opacity={!isSpinning && i === selectedSlot ? 1 : 0.88}
-                />
-              );
-            })}
-          </svg>
-
-          {/* Slot Icons positioned at radial points */}
-          <span className="lw-slot-icons" aria-hidden="true">
-            {SLOTS.map((slot, i) => {
-              const angle = i * 45;
-              return (
+          {/* Rotating Disc */}
+          <span
+            className="lw-wheel-disc"
+            style={{
+              transform: `rotate(${rotation}deg)`,
+              transition: isSpinning ? 'transform 2.4s cubic-bezier(0.12, 0.86, 0.2, 1)' : 'none',
+            }}
+          >
+            {/* Outer Gold Rim with Studs */}
+            <span className="lw-wheel-rim" aria-hidden="true">
+              {[0, 45, 90, 135, 180, 225, 270, 315].map(deg => (
                 <span
-                  key={slot.key}
-                  className="lw-slot-icon-item"
-                  style={{
-                    transform: `rotate(${angle}deg) translateY(-34px) rotate(${-angle}deg)`,
-                  }}
-                >
-                  {slot.icon}
-                </span>
-              );
-            })}
-          </span>
+                  key={deg}
+                  className="lw-rim-stud"
+                  style={{ transform: `rotate(${deg}deg) translateY(-59px)` }}
+                />
+              ))}
+            </span>
 
-          {/* 3D Raised Center Dome Button */}
-          <span className="lw-center-hub">
-            <span className="lw-center-glow" />
-            <span className="lw-center-cap" aria-hidden="true">
-              <span className="lw-center-text">
-                {isSpinning ? '•••' : '🎯'}
+            {/* SVG 8 Wedges with distinct vibrant casino gradients */}
+            <svg className="lw-wheel-svg" viewBox="0 0 100 100" aria-hidden="true">
+              {SLOTS.map((slot, i) => {
+                const startAngle = (i * 45 - 22.5) * (Math.PI / 180);
+                const endAngle = ((i + 1) * 45 - 22.5) * (Math.PI / 180);
+                const x1 = 50 + 50 * Math.sin(startAngle);
+                const y1 = 50 - 50 * Math.cos(startAngle);
+                const x2 = 50 + 50 * Math.sin(endAngle);
+                const y2 = 50 - 50 * Math.cos(endAngle);
+                const pathD = `M 50 50 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 50 50 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+
+                return (
+                  <path
+                    key={slot.key}
+                    d={pathD}
+                    fill={slot.color}
+                    stroke="#ffffff"
+                    strokeWidth="0.8"
+                    opacity={!isSpinning && i === selectedSlot ? 1 : 0.88}
+                  />
+                );
+              })}
+            </svg>
+
+            {/* Slot Icons positioned at radial points */}
+            <span className="lw-slot-icons" aria-hidden="true">
+              {SLOTS.map((slot, i) => {
+                const angle = i * 45;
+                return (
+                  <span
+                    key={slot.key}
+                    className="lw-slot-icon-item"
+                    style={{
+                      transform: `rotate(${angle}deg) translateY(-37px) rotate(${-angle}deg)`,
+                    }}
+                  >
+                    {slot.icon}
+                  </span>
+                );
+              })}
+            </span>
+
+            {/* 3D Raised Center Dome Button */}
+            <span className="lw-center-hub">
+              <span className="lw-center-glow" />
+              <span className="lw-center-cap" aria-hidden="true">
+                <span className="lw-center-text">
+                  {isSpinning ? '•••' : '🎯'}
+                </span>
               </span>
             </span>
           </span>
