@@ -17,14 +17,17 @@ export function DiceRoll3DDemo() {
   const id = useId();
   const [value, setValue] = useState(6);
   const [isRolling, setIsRolling] = useState(false);
+  const [hasLanded, setHasLanded] = useState(false);
   const [spin, setSpin] = useState(0);
   const rollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const popTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleRoll = useCallback(() => {
     if (isRolling) return;
     setIsRolling(true);
+    setHasLanded(false);
     setSpin(prev => prev + 1);
-    // Pick next value (ensure change if desired, or random 1..6)
+
     setValue(prev => {
       let next = Math.floor(Math.random() * 6) + 1;
       if (next === prev) next = (prev % 6) + 1;
@@ -32,8 +35,12 @@ export function DiceRoll3DDemo() {
     });
 
     if (rollTimerRef.current) clearTimeout(rollTimerRef.current);
+    if (popTimerRef.current) clearTimeout(popTimerRef.current);
+
     rollTimerRef.current = setTimeout(() => {
       setIsRolling(false);
+      setHasLanded(true);
+      popTimerRef.current = setTimeout(() => setHasLanded(false), 300);
     }, 850);
   }, [isRolling]);
 
@@ -42,6 +49,7 @@ export function DiceRoll3DDemo() {
   useEffect(() => {
     return () => {
       if (rollTimerRef.current) clearTimeout(rollTimerRef.current);
+      if (popTimerRef.current) clearTimeout(popTimerRef.current);
     };
   }, []);
 
@@ -59,7 +67,13 @@ export function DiceRoll3DDemo() {
         data-demo-control
         onClick={handleRoll}
       >
-        <div className={`pd-dice-shadow ${isRolling ? 'pd-dice-shadow-rolling' : ''}`} />
+        {/* Subtle arena felt / rolling mat */}
+        <div className="pd-dice-mat" aria-hidden="true" />
+
+        {/* Dynamic height-synchronized contact & ambient shadow */}
+        <div className={`pd-dice-shadow ${isRolling ? 'pd-dice-shadow-rolling' : ''}`} aria-hidden="true" />
+
+        {/* 3D isometric tilting stage with airborne leap animation */}
         <div className={`pd-dice-stage ${isRolling ? 'pd-dice-stage-rolling' : ''}`}>
           <div
             className="pd-dice-cube"
@@ -67,21 +81,24 @@ export function DiceRoll3DDemo() {
               transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
             }}
           >
-            {/* Face 1 */}
+            {/* Face 1 (Crimson Red Pip) */}
             <div className="pd-dice-face pd-face-1" aria-hidden="true">
               <span className="pd-dice-pip pd-dice-pip-red pd-pip-2-2" />
             </div>
+
             {/* Face 2 */}
             <div className="pd-dice-face pd-face-2" aria-hidden="true">
               <span className="pd-dice-pip pd-pip-1-1" />
               <span className="pd-dice-pip pd-pip-3-3" />
             </div>
+
             {/* Face 3 */}
             <div className="pd-dice-face pd-face-3" aria-hidden="true">
               <span className="pd-dice-pip pd-pip-1-1" />
               <span className="pd-dice-pip pd-pip-2-2" />
               <span className="pd-dice-pip pd-pip-3-3" />
             </div>
+
             {/* Face 4 */}
             <div className="pd-dice-face pd-face-4" aria-hidden="true">
               <span className="pd-dice-pip pd-pip-1-1" />
@@ -89,6 +106,7 @@ export function DiceRoll3DDemo() {
               <span className="pd-dice-pip pd-pip-3-1" />
               <span className="pd-dice-pip pd-pip-3-3" />
             </div>
+
             {/* Face 5 */}
             <div className="pd-dice-face pd-face-5" aria-hidden="true">
               <span className="pd-dice-pip pd-pip-1-1" />
@@ -97,6 +115,7 @@ export function DiceRoll3DDemo() {
               <span className="pd-dice-pip pd-pip-3-1" />
               <span className="pd-dice-pip pd-pip-3-3" />
             </div>
+
             {/* Face 6 */}
             <div className="pd-dice-face pd-face-6" aria-hidden="true">
               <span className="pd-dice-pip pd-pip-1-1" />
@@ -109,21 +128,23 @@ export function DiceRoll3DDemo() {
           </div>
         </div>
       </div>
-      <div className="pd-action-controls">
-        <div className="pd-dice-result-badge">
+
+      {/* Control row with result chip and roll button */}
+      <div className="pd-action-controls pd-dice-controls">
+        <div className={`pd-dice-result-badge ${hasLanded ? 'pd-dice-result-pop' : ''}`}>
           <span className="pd-dice-result-text" aria-live="polite">
-            {t('demo.dice.result', { value })}
+            🎲 {t('demo.dice.result', { value })}
           </span>
         </div>
         <button
           type="button"
-          className="pd-action pd-compact-action"
+          className="pd-dice-btn pd-action pd-compact-action"
           aria-label={t('demo.dice.roll')}
           aria-controls={id}
           onClick={handleRoll}
           disabled={isRolling}
         >
-          <Dices size={16} aria-hidden="true" />
+          <Dices size={16} className={isRolling ? 'animate-spin' : ''} aria-hidden="true" />
           {isRolling ? t('demo.dice.rolling') : t('demo.dice.roll')}
         </button>
       </div>
