@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from './demos/InteractiveDemos';
+import { DemoAutoplay } from '../hooks/useDemoAutoplay';
 import { useClipboard } from '../hooks/useClipboard';
 import { useDemoReplay } from '../hooks/useDemoReplay';
 
@@ -68,7 +69,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const demoContainerRef = useRef<HTMLDivElement | null>(null);
-  const replayHandlers = useDemoReplay(demoContainerRef, isInView && !showPrompt, item.id);
+  const { onAutoReplay, ...replayHandlers } = useDemoReplay(demoContainerRef, isInView && !showPrompt, item.id);
 
   useEffect(() => {
     const el = demoContainerRef.current;
@@ -95,6 +96,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
 
   const categoryLabel = locale === 'en' ? CATEGORY_NAMES_EN[item.category] : CATEGORY_LABEL_MAP[item.category];
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
+  const restartOnClick = !['control', 'feedback', 'nav', 'panel', 'scroll', 'grid'].includes(item.category)
+    || ['before-after-slider', 'drag-snap-slot', 'elastic-toggle-switch', 'combo-gauge-pop', 'gooey-menu-fab', 'peek-password-lamp', 'confetti-burst', 'error-shake-tooltip', 'heart-like-burst', 'toast-slide-stack', 'hold-to-confirm-ring', 'otp-pin-focus-bounce'].includes(item.id);
 
   return (
     <article
@@ -144,7 +147,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             {text.promptSnippet}
           </div>
         ) : isInView ? (
-          <InteractiveDemo techniqueId={item.id} />
+          <DemoAutoplay onReplay={onAutoReplay} restartOnClick={restartOnClick}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
         ) : (
           <div
             className={`w-full h-40 ${

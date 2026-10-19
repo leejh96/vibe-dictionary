@@ -54,7 +54,7 @@ export function SearchComboboxDemo() {
         }} />
       <ChevronDown size={18} aria-hidden="true" />
       <ul className="ct-combo-list" id={`${id}-list`} role="listbox" aria-label={t('demo.additions.control.fieldSuggestions')} hidden={!expanded}>
-        {matches.map(field => <li key={field.id} id={`${id}-${field.id}`} role="option" aria-selected={activeField?.id === field.id}
+        {matches.map(field => <li data-demo-control key={field.id} id={`${id}-${field.id}`} role="option" aria-selected={activeField?.id === field.id}
           ref={activeField?.id === field.id ? activeOption : undefined}
           onPointerDown={event => { if (event.button === 0) event.preventDefault(); }} onClick={() => choose(field)}>
           <span>{t(field.labelKey)}</span><Check size={16} aria-hidden="true" />

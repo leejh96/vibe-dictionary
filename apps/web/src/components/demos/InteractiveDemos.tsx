@@ -1,3 +1,4 @@
+import { useDemoNumber, useDemoToggle, useDemoPulse, useDemoSample } from '../../hooks/useDemoAutoplay';
 import { useLocale } from '../../i18n/LocaleContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ADDITIONAL_DEMOS } from './additionalDemos';
@@ -589,8 +590,8 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
 
 const MagneticHoverDemo: React.FC = () => {
   const { t } = useLocale();
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isTracking, setIsTracking] = useState(false);
+  const [offset, setOffset] = useDemoSample({ x: 0, y: 0 }, phase => ({ x: Math.sin(phase * Math.PI * 2) * 35, y: Math.sin(phase * Math.PI * 4) * 16 }), isTracking);
   return (
     <div
       onMouseMove={(e) => {
@@ -642,22 +643,29 @@ const ShimmerSweepDemo: React.FC = () => {
 const RippleClickDemo: React.FC = () => {
   const { t } = useLocale();
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const timers = useRef(new Set<ReturnType<typeof setTimeout>>());
+  useEffect(() => () => { for (const timer of timers.current) clearTimeout(timer); timers.current.clear(); }, []);
+  const addRipple = (x: number, y: number) => {
+    const id = Date.now() + Math.random();
+    setRipples(prev => [...prev, { id, x, y }]);
+    const timer = setTimeout(() => { setRipples(prev => prev.filter(ripple => ripple.id !== id)); timers.current.delete(timer); }, 650);
+    timers.current.add(timer);
+  };
+  useDemoPulse(() => {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (rect) addRipple(rect.width / 2, rect.height / 2);
+  });
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const id = Date.now() + Math.random();
-    setRipples((prev) => [
-      ...prev,
-      { id, x: e.clientX - rect.left, y: e.clientY - rect.top },
-    ]);
-    setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== id));
-    }, 650);
+    addRipple(e.clientX - rect.left, e.clientY - rect.top);
   };
 
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
       <button
+        ref={buttonRef}
         onClick={handleClick}
         className="relative overflow-hidden px-6 py-3 rounded-xl bg-indigo-600 text-white font-bold text-xs shadow-md active:scale-[0.98] transition-transform"
       >
@@ -676,7 +684,7 @@ const RippleClickDemo: React.FC = () => {
 
 const NeonGlowPulseDemo: React.FC = () => {
   const { t } = useLocale();
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useDemoToggle(true);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
       <button
@@ -695,13 +703,14 @@ const NeonGlowPulseDemo: React.FC = () => {
 
 const LiquidSlideFillDemo: React.FC = () => {
   const { t } = useLocale();
-  const [filled, setFilled] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [filled, setFilled] = useDemoToggle(false, isHovering);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
       <button
         onClick={() => setFilled(!filled)}
-        onMouseEnter={() => setFilled(true)}
-        onMouseLeave={() => setFilled(false)}
+        onMouseEnter={() => { setIsHovering(true); setFilled(true); }}
+        onMouseLeave={() => { setIsHovering(false); setFilled(false); }}
         className={`relative overflow-hidden px-6 py-2.5 rounded-xl border border-emerald-400 font-bold text-xs transition-colors duration-300 ${
           filled ? 'text-slate-950' : 'text-emerald-300'
         }`}
@@ -719,12 +728,14 @@ const LiquidSlideFillDemo: React.FC = () => {
 
 const CardFlipDemo: React.FC = () => {
   const { t } = useLocale();
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useDemoToggle(false);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
-      <div
+      <div data-demo-control
         onClick={() => setFlipped(!flipped)}
-        className="w-52 h-28 perspective-1000 cursor-pointer"
+        role="button" tabIndex={0} aria-pressed={flipped} aria-label={t('demo.clickToFlipTheCard')}
+        onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setFlipped(value => !value); } }}
+        className="w-52 h-28 perspective-1000 cursor-pointer focus-visible:outline-2 focus-visible:outline-indigo-400"
       >
         <div
           className={`relative w-full h-full duration-500 preserve-3d transition-transform ${
@@ -747,7 +758,8 @@ const CardFlipDemo: React.FC = () => {
 
 const Tilt3DCardDemo: React.FC = () => {
   const { t } = useLocale();
-  const [rot, setRot] = useState({ x: 0, y: 0, gx: 50, gy: 50 });
+  const [isTracking, setIsTracking] = useState(false);
+  const [rot, setRot] = useDemoSample({ x: 0, y: 0, gx: 50, gy: 50 }, phase => ({ x: Math.sin(phase * Math.PI * 2) * 10, y: Math.sin(phase * Math.PI * 4) * 10, gx: 50 + Math.sin(phase * Math.PI * 4) * 25, gy: 50 + Math.sin(phase * Math.PI * 2) * 25 }), isTracking);
   return (
     <div
       onMouseMove={(e) => {
@@ -756,9 +768,10 @@ const Tilt3DCardDemo: React.FC = () => {
         const py = (e.clientY - rect.top) / rect.height;
         const x = (py - 0.5) * -28;
         const y = (px - 0.5) * 28;
+        setIsTracking(true);
         setRot({ x, y, gx: px * 100, gy: py * 100 });
       }}
-      onMouseLeave={() => setRot({ x: 0, y: 0, gx: 50, gy: 50 })}
+      onMouseLeave={() => { setIsTracking(false); setRot({ x: 0, y: 0, gx: 50, gy: 50 }); }}
       className="w-full h-40 flex items-center justify-center cursor-pointer select-none"
     >
       <div
@@ -797,14 +810,17 @@ const GlassmorphismDemo: React.FC = () => {
 
 const SpotlightBorderCardDemo: React.FC = () => {
   const { t } = useLocale();
-  const [pos, setPos] = useState({ x: 100, y: 45 });
+  const [isTracking, setIsTracking] = useState(false);
+  const [pos, setPos] = useDemoSample({ x: 100, y: 45 }, phase => ({ x: 100 + Math.sin(phase * Math.PI * 2) * 65, y: 45 + Math.sin(phase * Math.PI * 4) * 20 }), isTracking);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
       <div
         onMouseMove={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
+          setIsTracking(true);
           setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
+        onMouseLeave={() => setIsTracking(false)}
         style={{
           background: `radial-gradient(120px circle at ${pos.x}px ${pos.y}px, rgba(129,140,248,0.42), rgba(15,23,42,0.95) 80%)`,
         }}
@@ -824,9 +840,10 @@ const StackedCardCycleDemo: React.FC = () => {
     { id: 2, labelKey: "demo.card2ClickToCycle" as const, color: 'from-emerald-600 to-teal-600' },
     { id: 3, labelKey: "demo.card3ClickToCycle" as const, color: 'from-rose-600 to-orange-500' },
   ]);
+  useDemoPulse(() => setCards(previous => [...previous.slice(1), previous[0]]));
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setCards((prev) => [...prev.slice(1), prev[0]])}
       className="relative w-full h-40 flex items-center justify-center pt-3 cursor-pointer select-none"
     >
@@ -852,7 +869,7 @@ const SpringBounceDemo: React.FC = () => {
   const { t } = useLocale();
   const [popKey, setPopKey] = useState(1);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setPopKey((k) => k + 1)}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
@@ -870,7 +887,7 @@ const StaggeredListDemo: React.FC = () => {
   const { t } = useLocale();
   const [replayKey, setReplayKey] = useState(0);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setReplayKey((k) => k + 1)}
       className="w-full h-40 flex flex-col justify-center px-6 pt-5 cursor-pointer select-none"
     >
@@ -899,10 +916,10 @@ const StaggeredListDemo: React.FC = () => {
 
 const SmoothAccordionDemo: React.FC = () => {
   const { t } = useLocale();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useDemoToggle(true);
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 select-none">
-      <div
+      <div data-demo-control
         onClick={() => setOpen(!open)}
         className="w-full rounded-xl bg-slate-900 border border-slate-700 p-3 cursor-pointer"
       >
@@ -949,6 +966,7 @@ const MorphingStateButtonDemo: React.FC = () => {
     setStatus('loading');
     timerRef.current = setTimeout(() => setStatus('done'), 850);
   };
+  useDemoPulse(trigger);
 
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center select-none">
@@ -1004,9 +1022,8 @@ const TypewriterDemo: React.FC = () => {
   }, [runId, text]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setRunId((r) => r + 1)}
-      onMouseEnter={() => setRunId((r) => r + 1)}
       className="w-full h-40 flex flex-col items-center justify-center px-5 cursor-pointer select-none"
     >
       <div className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-3 font-mono text-xs text-emerald-300">
@@ -1042,9 +1059,8 @@ const ScrambleDecodeDemo: React.FC = () => {
   }, [trigger]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setTrigger((t) => t + 1)}
-      onMouseEnter={() => setTrigger((t) => t + 1)}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
       <span className="font-mono text-sm font-black tracking-widest text-cyan-300 bg-slate-900 border border-cyan-500/30 px-4 py-2 rounded-xl">
@@ -1093,7 +1109,7 @@ const SlotNumberTickerDemo: React.FC = () => {
   }, [target]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setTarget((t) => t + Math.floor(Math.random() * 1200 + 400))}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
@@ -1106,7 +1122,7 @@ const SlotNumberTickerDemo: React.FC = () => {
 
 const MarkerHighlightDrawDemo: React.FC = () => {
   const { t } = useLocale();
-  const [drawn, setDrawn] = useState(false);
+  const [drawn, setDrawn] = useDemoToggle(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -1121,9 +1137,8 @@ const MarkerHighlightDrawDemo: React.FC = () => {
   };
 
   return (
-    <div
+    <div data-demo-control
       onClick={replay}
-      onMouseEnter={replay}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-4"
     >
       <p className="text-xs font-bold text-slate-200">{t("demo.draw")}{' '}
@@ -1166,6 +1181,7 @@ const ConfettiBurstDemo: React.FC = () => {
     setActive(true);
     timerRef.current = setTimeout(() => setActive(false), 900);
   };
+  useDemoPulse(fire);
 
   const particles = [
     { dx: '-70px', dy: '-55px', color: 'bg-amber-400' },
@@ -1217,12 +1233,16 @@ const ConfettiBurstDemo: React.FC = () => {
 
 const ErrorShakeDemo: React.FC = () => {
   const { t } = useLocale();
-  const [shaking, setShaking] = useState(false);
+  const [shaking, setShaking] = useDemoToggle(false);
   const [showTip, setShowTip] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timerRef.current !== null) clearTimeout(timerRef.current); }, []);
 
   const trigger = () => {
+    if (timerRef.current !== null) clearTimeout(timerRef.current);
     setShaking(false);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null;
       setShaking(true);
       setShowTip(true);
     }, 15);
@@ -1233,7 +1253,7 @@ const ErrorShakeDemo: React.FC = () => {
       {showTip && (
         <div className="mb-2 animate-float-bob bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">{t("demo.pleaseCheckTheValue")}</div>
       )}
-      <div
+      <div data-demo-control
         onClick={trigger}
         className={`w-full rounded-xl bg-slate-900 border-2 px-3.5 py-2 flex items-center justify-between cursor-pointer ${
           shaking
@@ -1280,9 +1300,10 @@ const ToastSlideStackDemo: React.FC = () => {
       { id: nextId, number: (nextId % 90) + 10 },
     ]);
   };
+  useDemoPulse(pushToast);
 
   return (
-    <div
+    <div data-demo-control
       onClick={pushToast}
       className="w-full h-40 flex flex-col justify-end pt-9 pb-3 px-4 cursor-pointer select-none"
     >
@@ -1303,7 +1324,7 @@ const ToastSlideStackDemo: React.FC = () => {
 
 const SlidingPillTabsDemo: React.FC = () => {
   const { t } = useLocale();
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useDemoNumber(0, 0, 2, 1, 'steps');
   const tabs = [t("demo.home"), t("demo.trending"), t("demo.settings")];
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 select-none">
@@ -1364,12 +1385,13 @@ const SkeletonShimmerDemo: React.FC = () => {
 const SpotlightFocusDemo: React.FC = () => {
   const { t } = useLocale();
   const [focusIdx, setFocusIdx] = useState(1);
+  useDemoPulse(() => setFocusIdx(value => (value + 1) % 3));
   return (
     <div className="w-full h-40 flex items-center justify-center px-6 pt-5 select-none">
       <div className="w-full space-y-1.5">
         {[t("demo.focus.topMenu"), t("demo.focus.mainContent"), t("demo.focus.bottomInfo")].map(
           (label, i) => (
-            <div
+            <div data-demo-control
               key={i}
               onClick={() => setFocusIdx((i + 1) % 3)}
               className={`cursor-pointer rounded-lg px-3 py-1 text-[11px] font-bold transition-all duration-300 ${
@@ -1389,7 +1411,7 @@ const SpotlightFocusDemo: React.FC = () => {
 
 const BeforeAfterSliderDemo: React.FC = () => {
   const { t } = useLocale();
-  const [pos, setPos] = useState(55);
+  const [pos, setPos] = useDemoNumber(55, 10, 90, 1);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center px-6 select-none">
       <div className="relative w-full h-24 rounded-xl overflow-hidden border border-slate-700">
@@ -1408,6 +1430,7 @@ const BeforeAfterSliderDemo: React.FC = () => {
         </div>
         <input
           type="range"
+          data-demo-scrubber
           min={10}
           max={90}
           value={pos}
@@ -1454,7 +1477,7 @@ const DragSnapSlotDemo: React.FC = () => {
 };
 
 const ElasticToggleSwitchDemo: React.FC = () => {
-  const [on, setOn] = useState(true);
+  const [on, setOn] = useDemoToggle(true);
   const [stretching, setStretching] = useState(false);
 
   const toggle = () => {
@@ -1488,9 +1511,10 @@ const ElasticToggleSwitchDemo: React.FC = () => {
 const ComboGaugeDemo: React.FC = () => {
   const { t } = useLocale();
   const [count, setCount] = useState(3);
+  useDemoPulse(() => setCount(value => value + 1));
   const pct = ((count % 5) + 1) * 20;
   return (
-    <div
+    <div data-demo-control
       onClick={() => setCount((c) => c + 1)}
       className="w-full h-40 flex flex-col items-center justify-center px-6 pt-4 cursor-pointer select-none"
     >
@@ -1531,7 +1555,7 @@ const MgSquashStretchDemo: React.FC = () => {
 const MgAnticipationDemo: React.FC = () => {
   const [runKey, setRunKey] = useState(0);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setRunKey((k) => k + 1)}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none overflow-hidden"
     >
@@ -1557,7 +1581,7 @@ const MgFollowTrailDemo: React.FC = () => {
   const delays = [0, 55, 110, 165];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setRight(!right)}
       className="relative w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
@@ -1603,7 +1627,7 @@ const MgEasingCurvesDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setActive(!active)}
       className="w-full h-40 flex flex-col justify-center px-6 pt-5 gap-2 cursor-pointer select-none"
     >
@@ -1734,7 +1758,7 @@ const Mg3DTextRollerDemo: React.FC = () => {
   }, []);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setIdx((i) => (i + 1) % words.length)}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none"
     >
@@ -1817,9 +1841,9 @@ const MgParallaxDepthDemo: React.FC = () => {
 /* 13. 카메라 랙 포커스 (초점 심도 전환) */
 const MgRackFocusBlurDemo: React.FC = () => {
   const { t } = useLocale();
-  const [focusFront, setFocusFront] = useState(true);
+  const [focusFront, setFocusFront] = useDemoToggle(true);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setFocusFront(!focusFront)}
       className="relative w-full h-40 flex items-center justify-center cursor-pointer select-none px-6 pt-5"
     >
@@ -1866,17 +1890,18 @@ const MgKenBurnsPanDemo: React.FC = () => {
 
 /* 15. 아이소메트릭 레이어 익스플로드 */
 const MgIsometricExplodeDemo: React.FC = () => {
-  const [exploded, setExploded] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const [exploded, setExploded] = useDemoToggle(true, isHovering);
   const layers = [
     { label: 'L1', color: 'bg-slate-800/95 border-slate-500 text-slate-300' },
     { label: 'L2', color: 'bg-indigo-600/85 border-indigo-300 text-white' },
     { label: 'L3', color: 'bg-cyan-400/90 border-white text-slate-950' },
   ];
   return (
-    <div
+    <div data-demo-control
       onClick={() => setExploded(!exploded)}
-      onMouseEnter={() => setExploded(true)}
-      onMouseLeave={() => setExploded(false)}
+      onMouseEnter={() => { setIsHovering(true); setExploded(true); }}
+      onMouseLeave={() => { setIsHovering(false); setExploded(false); }}
       className="w-full h-40 flex flex-col items-center justify-center pt-4 cursor-pointer select-none"
     >
       <div className="relative w-24 h-20 flex items-center justify-center perspective-1000 preserve-3d">
@@ -1904,9 +1929,9 @@ const MgIsometricExplodeDemo: React.FC = () => {
 /* 16. 서큘러 아이리스 와이프 전환 */
 const MgIrisCircleWipeDemo: React.FC = () => {
   const { t } = useLocale();
-  const [closed, setClosed] = useState(false);
+  const [closed, setClosed] = useDemoToggle(false);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setClosed(!closed)}
       className="w-full h-40 flex flex-col items-center justify-center cursor-pointer select-none px-6"
     >
@@ -1996,7 +2021,7 @@ const MgParticleNetworkDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setHoverIdx((h) => (h + 1) % nodes.length)}
       className="relative w-full h-40 flex items-center justify-center cursor-pointer select-none"
     >
@@ -2097,7 +2122,7 @@ const LyBentoGridDemo: React.FC = () => {
   return (
     <div className="w-full h-40 flex items-center justify-center px-5 pt-6 select-none">
       <div className="w-full h-24 grid grid-cols-4 grid-rows-2 gap-1.5">
-        <div
+        <div data-demo-control
           onClick={() => setActiveTile(0)}
           className={`col-span-2 row-span-2 rounded-xl p-2.5 flex flex-col justify-between cursor-pointer border transition-all ${
             activeTile === 0
@@ -2108,7 +2133,7 @@ const LyBentoGridDemo: React.FC = () => {
           <span className="text-[9px] font-mono text-indigo-300">{t("sample.lyBentoGrid.mainTile")}</span>
           <span className="text-xs font-extrabold">{t("sample.lyBentoGrid.bentoHero")}</span>
         </div>
-        <div
+        <div data-demo-control
           onClick={() => setActiveTile(1)}
           className={`col-span-2 row-span-1 rounded-xl px-2.5 py-1 flex items-center justify-between cursor-pointer border transition-all ${
             activeTile === 1
@@ -2119,7 +2144,7 @@ const LyBentoGridDemo: React.FC = () => {
           <span className="text-[10px] font-bold">{t("sample.lyBentoGrid.wideTile")}</span>
           <span className="text-[9px] font-mono text-emerald-300">{t("sample.lyBentoGrid.wideTile")}</span>
         </div>
-        <div
+        <div data-demo-control
           onClick={() => setActiveTile(2)}
           className={`col-span-1 row-span-1 rounded-xl flex items-center justify-center cursor-pointer border text-[10px] font-bold transition-all ${
             activeTile === 2
@@ -2127,7 +2152,7 @@ const LyBentoGridDemo: React.FC = () => {
               : 'bg-slate-900 border-slate-800 text-slate-400'
           }`}
         >{t("sample.lyBentoGrid.smallTile")}</div>
-        <div
+        <div data-demo-control
           onClick={() => setActiveTile(3)}
           className={`col-span-1 row-span-1 rounded-xl flex items-center justify-center cursor-pointer border text-[10px] font-bold transition-all ${
             activeTile === 3
@@ -2143,9 +2168,9 @@ const LyBentoGridDemo: React.FC = () => {
 /* 2. 메이슨리 폭포수 그리드 (Masonry Waterfall) */
 const LyMasonryWaterfallDemo: React.FC = () => {
   const { t } = useLocale();
-  const [shuffled, setShuffled] = useState(false);
+  const [shuffled, setShuffled] = useDemoToggle(false);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setShuffled(!shuffled)}
       className="w-full h-40 flex flex-col items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
@@ -2170,11 +2195,12 @@ const LyMasonryWaterfallDemo: React.FC = () => {
 /* 3. 매거진 비대칭 오버랩 (Asymmetric Editorial) */
 const LyEditorialAsymmetricDemo: React.FC = () => {
   const { t } = useLocale();
-  const [hovered, setHovered] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [hovered, setHovered] = useDemoToggle(false, isHovering);
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <div data-demo-control
+      onMouseEnter={() => { setIsHovering(true); setHovered(true); }}
+      onMouseLeave={() => { setIsHovering(false); setHovered(false); }}
       onClick={() => setHovered(!hovered)}
       className="relative w-full h-40 flex items-center justify-center px-6 pt-4 cursor-pointer select-none"
     >
@@ -2213,7 +2239,7 @@ const LyHoneycombHexDemo: React.FC = () => {
   const renderHex = (item: (typeof hexes)[0]) => {
     const active = selected === item.id;
     return (
-      <div
+      <div data-demo-control
         key={item.id}
         role="button"
         tabIndex={0}
@@ -2299,7 +2325,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
     { title: 'Step 03', color: 'from-rose-500 to-amber-400' },
   ];
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep((s) => (s + 1) % steps.length)}
       className="w-full h-40 flex items-center justify-center px-5 pt-6 cursor-pointer select-none"
     >
@@ -2336,7 +2362,7 @@ const LyFullpageSnapDemo: React.FC = () => {
   const [page, setPage] = useState(0);
   const colors = ['bg-indigo-600/30 border-indigo-400', 'bg-emerald-600/30 border-emerald-400', 'bg-rose-600/30 border-rose-400'];
   return (
-    <div
+    <div data-demo-control
       onClick={() => setPage((p) => (p + 1) % 3)}
       className="w-full h-40 flex items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
@@ -2372,7 +2398,7 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
   const { t } = useLocale();
   const [idx, setIdx] = useState(0);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setIdx((i) => (i + 1) % 4)}
       className="w-full h-40 flex flex-col items-center justify-center px-5 pt-3 cursor-pointer select-none"
     >
@@ -2422,9 +2448,9 @@ const LyHorizontalShowcaseDemo: React.FC = () => {
 /* 8. 언더빌 커튼 리빌 푸터 (Curtain Reveal) */
 const LyCurtainRevealDemo: React.FC = () => {
   const { t } = useLocale();
-  const [lifted, setLifted] = useState(false);
+  const [lifted, setLifted] = useDemoToggle(false);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setLifted(!lifted)}
       className="w-full h-40 flex items-center justify-center px-6 pt-6 cursor-pointer select-none"
     >
@@ -2493,7 +2519,7 @@ const LyCommandPaletteDemo: React.FC = () => {
         </div>
         <div className="p-1 space-y-0.5">
           {cmds.map((cmd, i) => (
-            <div
+            <div data-demo-control
               key={cmd}
               onClick={() => setSelectedIdx(i)}
               className={`px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer flex items-center justify-between transition-colors ${
@@ -2515,10 +2541,10 @@ const LyCommandPaletteDemo: React.FC = () => {
 /* 11. 다이나믹 아일랜드 캡슐 바 (Dynamic Island Capsule) */
 const LyDynamicIslandNavDemo: React.FC = () => {
   const { t } = useLocale();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useDemoToggle(false);
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center pt-4 select-none">
-      <div
+      <div data-demo-control
         onClick={() => setExpanded(!expanded)}
         className={`bg-white dark:bg-black border border-slate-200/90 dark:border-slate-700/80 shadow-lg shadow-indigo-950/5 dark:shadow-2xl cursor-pointer transition-all duration-300 overflow-hidden flex flex-col justify-center ${
           expanded
@@ -2551,7 +2577,7 @@ const LyDynamicIslandNavDemo: React.FC = () => {
 /* 12. 원형 파이 메뉴 (Radial Pie Menu) */
 const LyRadialPieMenuDemo: React.FC = () => {
   const { t } = useLocale();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useDemoToggle(true);
   const items = [
     { icon: '🎨', x: -38, y: -28 },
     { icon: '⚡', x: 38, y: -28 },
@@ -2602,7 +2628,7 @@ const LyBottomSheetDemo: React.FC = () => {
   const { t } = useLocale();
   const [snap, setSnap] = useState<'half' | 'full'>('half');
   return (
-    <div
+    <div data-demo-control
       onClick={() => setSnap(snap === 'half' ? 'full' : 'half')}
       className="w-full h-40 flex items-end justify-center px-8 pt-8 cursor-pointer select-none"
     >
@@ -2666,7 +2692,7 @@ const LyKanbanBoardDemo: React.FC = () => {
   const [col, setCol] = useState<0 | 1 | 2>(1);
   const cols = ['TODO', 'DOING', 'DONE'];
   return (
-    <div
+    <div data-demo-control
       onClick={() => setCol(((col + 1) % 3) as 0 | 1 | 2)}
       className="w-full h-40 flex flex-col items-center justify-center px-5 pt-5 cursor-pointer select-none"
     >
@@ -2697,7 +2723,7 @@ const LyHeatmapGridDemo: React.FC = () => {
     'bg-emerald-300',
   ];
   return (
-    <div
+    <div data-demo-control
       onClick={() => setSeed((s) => s + 1)}
       className="w-full h-40 flex flex-col items-center justify-center pt-4 cursor-pointer select-none"
     >
@@ -2718,7 +2744,7 @@ const LyHeatmapGridDemo: React.FC = () => {
 /* 1. 네오 브루탈리즘 (Neo-Brutalism) */
 const StNeoBrutalismDemo: React.FC = () => {
   const { t } = useLocale();
-  const [pressed, setPressed] = useState(false);
+  const [pressed, setPressed] = useDemoToggle(false);
   return (
     <div className="w-full h-40 flex items-center justify-center bg-amber-300/95 select-none">
       <button
@@ -2786,7 +2812,7 @@ const StMatteFilmGrainDemo: React.FC = () => {
 /* 5. 뉴모피즘 소프트 엠보싱 (Neumorphism Soft UI) */
 const StNeumorphismSoftDemo: React.FC = () => {
   const { t } = useLocale();
-  const [inset, setInset] = useState(false);
+  const [inset, setInset] = useDemoToggle(false);
   return (
     <div className="w-full h-40 flex items-center justify-center bg-slate-800 select-none">
       <button
@@ -2807,10 +2833,10 @@ const StNeumorphismSoftDemo: React.FC = () => {
 /* 6. 클레이모피즘 3D 점토 (Claymorphism 3D) */
 const StClaymorphism3DDemo: React.FC = () => {
   const { t } = useLocale();
-  const [bounce, setBounce] = useState(false);
+  const [bounce, setBounce] = useDemoToggle(false);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
-      <div
+      <div data-demo-control
         onClick={() => setBounce(!bounce)}
         style={{
           boxShadow:
@@ -2827,7 +2853,7 @@ const StClaymorphism3DDemo: React.FC = () => {
 /* 7. 스큐어모피즘 리얼 촉감 스위치 (Tactile Skeuomorphism) */
 const StSkeuomorphismTactileDemo: React.FC = () => {
   const { t } = useLocale();
-  const [on, setOn] = useState(true);
+  const [on, setOn] = useDemoToggle(true);
   return (
     <div className="w-full h-40 flex items-center justify-center select-none">
       <button
@@ -3023,9 +3049,9 @@ const StSwissEditorialGridDemo: React.FC = () => {
 /* 16. 코믹스 팝아트 망점 (Comic Halftone Pop-Art) */
 const StComicHalftonePopDemo: React.FC = () => {
   const { t } = useLocale();
-  const [bang, setBang] = useState(false);
+  const [bang, setBang] = useDemoToggle(false);
   return (
-    <div
+    <div data-demo-control
       onClick={() => setBang(!bang)}
       style={{
         backgroundImage: 'radial-gradient(#f43f5e 1.5px, transparent 1.5px)',
@@ -3062,7 +3088,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
   }, [scene]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setScene((s) => (s + 1) % 3)}
       className="w-full h-40 relative overflow-hidden flex flex-col items-center justify-center pt-5 pb-3 px-5 cursor-pointer select-none bg-linear-to-br from-slate-950 via-indigo-950/60 to-slate-950"
     >
@@ -3118,7 +3144,7 @@ const VdSaasLaunchReelDemo: React.FC = () => {
 /* 2. 3D 디바이스 목업 투어 */
 const VdDevice3DSpinDemo: React.FC = () => {
   const { t } = useLocale();
-  const [front, setFront] = useState(false);
+  const [front, setFront] = useDemoToggle(false);
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -3128,7 +3154,7 @@ const VdDevice3DSpinDemo: React.FC = () => {
   }, [front]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setFront((f) => !f)}
       className="w-full h-40 flex items-center justify-center pt-5 cursor-pointer select-none perspective-1000"
     >
@@ -3171,7 +3197,7 @@ const VdAppWalkthroughZoomDemo: React.FC = () => {
   }, [step]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep((s) => (s + 1) % 3)}
       className="w-full h-40 overflow-hidden flex items-center justify-center pt-5 cursor-pointer select-none"
     >
@@ -3251,7 +3277,7 @@ const VdSplitPromoReelDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStage((s) => (s + 1) % 3)}
       className="w-full h-40 flex items-center justify-center pt-5 px-6 cursor-pointer select-none overflow-hidden"
     >
@@ -3300,7 +3326,7 @@ const VdStompBeatTypoDemo: React.FC = () => {
   const cur = beats[idx];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setIdx((i) => (i + 1) % beats.length)}
       className="w-full h-40 flex items-center justify-center pt-5 px-6 cursor-pointer select-none"
     >
@@ -3333,7 +3359,7 @@ const VdHighlightSwipeRevealDemo: React.FC = () => {
   }, [phase]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setPhase(0)}
       className="w-full h-40 flex flex-col items-center justify-center gap-2 pt-5 cursor-pointer select-none"
     >
@@ -3390,7 +3416,7 @@ const VdCountdownEnergeticIntroDemo: React.FC = () => {
   const isLive = idx === 3;
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setIdx((i) => (i + 1) % steps.length)}
       className="w-full h-40 flex items-center justify-center pt-5 cursor-pointer select-none"
     >
@@ -3428,7 +3454,7 @@ const VdChatStorySequenceDemo: React.FC = () => {
   }, [step]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep((s) => (s + 1) % 3)}
       className="w-full h-40 flex items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
@@ -3464,7 +3490,7 @@ const VdChatStorySequenceDemo: React.FC = () => {
 
 /* 9. 다이내믹 차트 성장 시퀀스 */
 const VdAnimatedBarRaceDemo: React.FC = () => {
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useDemoToggle(true);
   const heights = [28, 42, 58, 76, 100];
 
   useEffect(() => {
@@ -3475,7 +3501,7 @@ const VdAnimatedBarRaceDemo: React.FC = () => {
   }, [active]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setActive((a) => !a)}
       className="w-full h-40 flex flex-col items-center justify-end pb-4 pt-8 px-8 cursor-pointer select-none"
     >
@@ -3559,7 +3585,7 @@ const VdKpiCounterExplosionDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setCycle((c) => c + 1)}
       className="w-full h-40 flex items-center justify-center gap-2 px-4 pt-5 cursor-pointer select-none"
     >
@@ -3603,7 +3629,7 @@ const VdNodeFlowPipelineDemo: React.FC = () => {
     step === 0 || step === 3 ? '12%' : step === 1 ? '48%' : '82%';
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep((s) => (s + 1) % 3)}
       className="w-full h-40 flex items-center justify-center px-6 pt-5 cursor-pointer select-none"
     >
@@ -3641,7 +3667,7 @@ const VdNodeFlowPipelineDemo: React.FC = () => {
 /* 12. 멀티 링 게이지 인포그래픽 (자동 충전 루프 애니메이션 추가) */
 const VdCircularRingDashboardDemo: React.FC = () => {
   const { t } = useLocale();
-  const [filled, setFilled] = useState(true);
+  const [filled, setFilled] = useDemoToggle(true);
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -3651,7 +3677,7 @@ const VdCircularRingDashboardDemo: React.FC = () => {
   }, [filled]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setFilled((f) => !f)}
       className="w-full h-40 flex items-center justify-center gap-4 pt-5 cursor-pointer select-none"
     >
@@ -3725,7 +3751,7 @@ const VdLowerThirdBannerDemo: React.FC = () => {
   }, [visible]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setVisible((v) => !v)}
       className="w-full h-40 flex items-end justify-start pb-5 pl-6 pt-6 cursor-pointer select-none bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950"
     >
@@ -3790,7 +3816,7 @@ const VdDiagonalShutterWipeDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={triggerWipe}
       className={`w-full h-40 relative overflow-hidden flex items-center justify-center pt-5 cursor-pointer select-none transition-colors ${
         sceneB ? 'bg-indigo-950/80' : 'bg-slate-950'
@@ -3839,7 +3865,7 @@ const VdLogoStingerOutroDemo: React.FC = () => {
   }, [stage]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStage(0)}
       className="w-full h-40 relative overflow-hidden flex flex-col items-center justify-center pt-5 cursor-pointer select-none"
     >
@@ -3908,7 +3934,7 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
   };
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setPlaying((p) => !p)}
       className="w-full h-40 flex flex-col items-center justify-center gap-2.5 pt-6 px-6 cursor-pointer select-none"
     >
@@ -3952,7 +3978,7 @@ const VdAudioSpectrumVisualizerDemo: React.FC = () => {
 /* [UI +1] 구이 플로팅 액션 버튼 (Spring Speed-Dial FAB) */
 const GooeyMenuFabDemo: React.FC = () => {
   const { t } = useLocale();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useDemoToggle(true);
   const actions = [
     { id: 'rocket', label: t("demo.launch"), icon: Rocket, dx: -52, dy: -18, color: 'from-indigo-500 to-blue-500' },
     { id: 'sparkles', label: t("demo.aiGeneration"), icon: Sparkles, dx: 0, dy: -48, color: 'from-violet-500 to-fuchsia-500' },
@@ -4010,7 +4036,7 @@ const GooeyMenuFabDemo: React.FC = () => {
 const OtpPinFocusBounceDemo: React.FC = () => {
   const { t } = useLocale();
   const [digits, setDigits] = useState<string[]>(['4', '8', '2', '9', '', '']);
-  const [activeIdx, setActiveIdx] = useState<number>(4);
+  const [activeIdx, setActiveIdx] = useState(4);
   const [bounceIdx, setBounceIdx] = useState<number | null>(null);
   const timersRef = useRef<number[]>([]);
 
@@ -4056,6 +4082,7 @@ const OtpPinFocusBounceDemo: React.FC = () => {
     timersRef.current.push(endTid);
   };
 
+  useDemoPulse(handleAutoFill);
   const isComplete = digits.every((d) => d !== '');
 
   return (
@@ -4128,6 +4155,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
     setProgress(0);
     setHolding(false);
   };
+  useDemoPulse(() => { reset(); setHolding(true); });
 
   return (
     <div className="w-full h-40 flex flex-col items-center justify-center gap-2.5 pt-6 select-none">
@@ -4167,7 +4195,7 @@ const HoldToConfirmRingDemo: React.FC = () => {
 /* [UI +4] 스포트라이트 패스워드 피크 (Flashlight Password Peek) */
 const PeekPasswordLampDemo: React.FC = () => {
   const { t } = useLocale();
-  const [lampOn, setLampOn] = useState(true);
+  const [lampOn, setLampOn] = useDemoToggle(true);
   const secret = 'Vibe#2026!';
 
   return (
@@ -4237,7 +4265,7 @@ const MgRadarSonarSweepDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setFast((f) => !f)}
       className="w-full h-40 flex items-center justify-center pt-5 cursor-pointer select-none"
     >
@@ -4296,7 +4324,7 @@ const MgMorphingGridWaveDemo: React.FC = () => {
   const cols = 6;
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setTick((t) => (t + 1) % 8)}
       className="w-full h-40 flex flex-col items-center justify-center gap-2 pt-5 cursor-pointer select-none"
     >
@@ -4324,7 +4352,7 @@ const MgMorphingGridWaveDemo: React.FC = () => {
 
 /* [그래픽 +3] 프리즘 광선 분산 효과 (Optical Prism Light Dispersion) */
 const MgPrismRainbowRefractionDemo: React.FC = () => {
-  const [wide, setWide] = useState(true);
+  const [wide, setWide] = useDemoToggle(true);
   const spectrum = [
     { color: '#f43f5e', yEnd: 18 },
     { color: '#fbbf24', yEnd: 30 },
@@ -4335,7 +4363,7 @@ const MgPrismRainbowRefractionDemo: React.FC = () => {
   ];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setWide((w) => !w)}
       className="w-full h-40 flex flex-col items-center justify-center pt-5 px-4 cursor-pointer select-none"
     >
@@ -4412,7 +4440,7 @@ const MgGravityNewtonCradleDemo: React.FC = () => {
   }, []);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep((s) => ((s + 1) % 4) as 0 | 1 | 2 | 3)}
       className="w-full h-40 flex flex-col items-center justify-center pt-5 cursor-pointer select-none"
     >
@@ -4526,7 +4554,7 @@ const LyFloatingTocSpyDemo: React.FC = () => {
 /* [레이아웃 +2] 접이식 미니 레일 사이드바 (Collapsible Icon-Rail Sidebar) */
 const LyCollapsibleRailSidebarDemo: React.FC = () => {
   const { t } = useLocale();
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useDemoToggle(true);
   const [activeNav, setActiveNav] = useState(0);
   const navs = [
     { icon: '🏠', label: t("demo.dashboard") },
@@ -4710,7 +4738,7 @@ const LyResizableSplitPaneDemo: React.FC = () => {
         </div>
 
         {/* 중앙 드래그 가터 핸들 */}
-        <div
+        <div data-demo-control
           onPointerDown={() => setDragging(true)}
           onClick={() => setLeftRatio((r) => (r === 45 ? 65 : r === 65 ? 30 : 45))}
           className="w-2 h-full bg-slate-800 hover:bg-indigo-500 active:bg-indigo-400 flex items-center justify-center cursor-col-resize transition-colors shrink-0"
@@ -4735,7 +4763,7 @@ const StHolographicFoilCardDemo: React.FC = () => {
   const [angle, setAngle] = useState(125);
 
   return (
-    <div
+    <div data-demo-control
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const pct = (e.clientX - rect.left) / rect.width;
@@ -4772,11 +4800,11 @@ const StHolographicFoilCardDemo: React.FC = () => {
 /* [스타일 +2] 서멀 영수증 & 바코드 티켓 (Thermal Receipt & Barcode Ticket) */
 const StReceiptThermalMonoDemo: React.FC = () => {
   const { t } = useLocale();
-  const [stamped, setStamped] = useState(true);
+  const [stamped, setStamped] = useDemoToggle(true);
   const bars = [2, 1, 3, 1, 2, 1, 4, 1, 2, 2, 1, 3, 1, 2, 1, 3, 2, 1];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStamped((s) => !s)}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >
@@ -4825,7 +4853,7 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
   const [liked, setLiked] = useState(true);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setLiked((l) => !l)}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >
@@ -4863,10 +4891,10 @@ const StVaporwaveY2kChromeDemo: React.FC = () => {
 /* [스타일 +4] 사이버펑크 하이볼티지 네온 (Cyberpunk High-Voltage Neon UI) */
 const StCyberpunkNeonGlitchDemo: React.FC = () => {
   const { t } = useLocale();
-  const [overdrive, setOverdrive] = useState(true);
+  const [overdrive, setOverdrive] = useDemoToggle(true);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setOverdrive((o) => !o)}
       className="w-full h-40 flex items-center justify-center pt-5 px-5 cursor-pointer select-none"
     >
@@ -4926,7 +4954,7 @@ const VdGlitchCutReelDemo: React.FC = () => {
   const cur = specs[idx];
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => {
         setGlitching(true);
         setIdx((i) => (i + 1) % specs.length);
@@ -4982,7 +5010,7 @@ const VdSlotJackpotHeadlineDemo: React.FC = () => {
   const locked = step >= 3;
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStep(0)}
       className="w-full h-40 flex flex-col items-center justify-center gap-2 pt-5 px-4 cursor-pointer select-none"
     >
@@ -5047,7 +5075,7 @@ const VdFunnelConversionDropDemo: React.FC = () => {
   }, []);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setStage(1)}
       className="w-full h-40 flex flex-col items-center justify-center gap-1.5 pt-5 px-4 cursor-pointer select-none"
     >
@@ -5094,7 +5122,7 @@ const VdBreakingNewsTickerDemo: React.FC = () => {
   }, [headlines.length]);
 
   return (
-    <div
+    <div data-demo-control
       onClick={() => setHeadIdx((h) => (h + 1) % headlines.length)}
       className="w-full h-40 flex items-center justify-center pt-5 px-4 cursor-pointer select-none"
     >

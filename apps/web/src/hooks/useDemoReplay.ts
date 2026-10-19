@@ -1,6 +1,5 @@
-import { useLayoutEffect, useRef, type MouseEvent, type PointerEvent, type RefObject } from 'react';
-
-const CONTROL_SELECTOR = 'button, input, select, textarea, a, summary, [role="button"], [role="slider"], [role="switch"], [contenteditable="true"]';
+import { useLayoutEffect, useRef, type MouseEvent, type RefObject } from 'react';
+import { DEMO_CONTROL_SELECTOR } from './demoControls';
 
 // Keep finished, non-filling CSS animations too: getAnimations() omits them after completion.
 export function useDemoReplay(stageRef: RefObject<HTMLDivElement>, enabled: boolean, techniqueId: string) {
@@ -47,13 +46,11 @@ export function useDemoReplay(stageRef: RefObject<HTMLDivElement>, enabled: bool
   };
 
   return {
+    onAutoReplay: () => { const root = content(); if (root) replay(root); },
     onAnimationStartCapture: collect,
-    onPointerEnter: (event: PointerEvent<HTMLDivElement>) => {
-      if (event.pointerType !== 'touch') replay(event.target);
-    },
     onClick: (event: MouseEvent<HTMLDivElement>) => {
-      // Let the demo's own controls handle toggles, range values, and dedicated replay buttons.
-      if (!(event.target as Element).closest?.(CONTROL_SELECTOR)) replay(event.target);
+      // Let the demo's own controls handle toggles and range values.
+      if (!(event.target as Element).closest?.(DEMO_CONTROL_SELECTOR)) replay(event.target);
     },
   };
 }

@@ -24,6 +24,36 @@ test('demo stages omit appended helper captions while keeping their design conte
   }
 });
 
+test('3D card flip supports Enter and Space with a matching accessible pressed state', t => {
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<InteractiveDemo techniqueId="card-flip-3d" />); });
+  t.after(() => act(() => tree.unmount()));
+  const card = () => tree.root.findByProps({ role: 'button' });
+  assert.equal(card().props.tabIndex, 0);
+  assert.equal(card().props['aria-pressed'], false);
+  let prevented = 0;
+  for (const key of ['Enter', ' ', 'Escape']) {
+    act(() => card().props.onKeyDown({ key, preventDefault() { prevented++; } }));
+    assert.equal(card().props['aria-pressed'], key === 'Enter');
+  }
+  assert.equal(prevented, 2);
+});
+
+test('ripple and error-shake delays are cancelled when a filtered demo unmounts', t => {
+  const pending = new Set<object>();
+  t.mock.method(globalThis, 'setTimeout', () => { const timer = {}; pending.add(timer); return timer; });
+  t.mock.method(globalThis, 'clearTimeout', (timer: object) => { pending.delete(timer); });
+  for (const id of ['ripple-click', 'error-shake-tooltip']) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<InteractiveDemo techniqueId={id} />); });
+    const action = tree.root.findAll(node => typeof node.type === 'string' && typeof node.props.onClick === 'function')[0];
+    act(() => action.props.onClick({ clientX: 20, clientY: 20, currentTarget: { getBoundingClientRect: () => ({ left: 0, top: 0 }) } }));
+    assert.equal(pending.size, 1, id);
+    act(() => tree.unmount());
+    assert.equal(pending.size, 0, id);
+  }
+});
+
 test('magnetic tracking stays fast on vertical movement and at the center; only leaving uses spring return', (t) => {
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<InteractiveDemo techniqueId="magnetic-hover" />); });
