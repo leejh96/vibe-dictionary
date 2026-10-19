@@ -64,6 +64,8 @@ import { PulleyConstraintDemo } from './physics/PulleyConstraintDemo';
 import { WaveSuperpositionDemo } from './physics/WaveSuperpositionDemo';
 import { DiceRoll3DDemo } from './physics/DiceRoll3DDemo';
 import { MarbleBoardDemo } from './physics/MarbleBoardDemo';
+import { TreasureChest3DDemo } from './physics/TreasureChest3DDemo';
+import { LuckyWheel3DDemo } from './physics/LuckyWheel3DDemo';
 import { SlicedTypeDemo } from './kinetic/SlicedTypeDemo';
 import { ProximityTypeDemo } from './kinetic/ProximityTypeDemo';
 import { CylinderTypeDemo } from './kinetic/CylinderTypeDemo';
@@ -151,6 +153,10 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
       return <DiceRoll3DDemo />;
     case 'mg-marble-board':
       return <MarbleBoardDemo />;
+    case 'mg-treasure-chest-3d':
+      return <TreasureChest3DDemo />;
+    case 'mg-lucky-wheel-3d':
+      return <LuckyWheel3DDemo />;
     case 'mg-voronoi-cell-field':
       return <VoronoiCellsDemo />;
     case 'mg-occluder-projected-shadow':
