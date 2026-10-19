@@ -106,12 +106,11 @@ export function LuckyWheel3DDemo() {
           {/* 3D Cylindrical Edge/Plinth Depth underneath */}
           <span className="lw-wheel-depth" aria-hidden="true" />
 
-          {/* Rotating Disc */}
+          {/* Rotating Disc with smooth physics deceleration */}
           <span
             className="lw-wheel-disc"
             style={{
               transform: `rotate(${rotation}deg)`,
-              transition: isSpinning ? 'transform 2.4s cubic-bezier(0.12, 0.86, 0.2, 1)' : 'none',
             }}
           >
             {/* Outer Gold Rim with Studs */}
@@ -167,13 +166,12 @@ export function LuckyWheel3DDemo() {
               })}
             </span>
 
-            {/* 3D Raised Center Dome Button */}
-            <span className="lw-center-hub">
+            {/* 3D Metallic Center Spindle (No useless text button) */}
+            <span className="lw-center-hub" aria-hidden="true">
               <span className="lw-center-glow" />
-              <span className="lw-center-cap" aria-hidden="true">
-                <span className="lw-center-text">
-                  {isSpinning ? '•••' : t('demo.wheel.spinAction')}
-                </span>
+              <span className="lw-center-spindle">
+                <span className="lw-center-bearing" />
+                <span className="lw-center-rivet" />
               </span>
             </span>
           </span>

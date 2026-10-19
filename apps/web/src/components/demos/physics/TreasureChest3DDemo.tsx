@@ -188,6 +188,7 @@ export function TreasureChest3DDemo() {
             <span className="tc-face tc-lid-inner-left" />
             <span className="tc-face tc-lid-inner-right" />
             <span className="tc-face tc-lid-inner-front" />
+            <span className="tc-face tc-lid-inner-back" />
 
             {/* Lid Underside (Velvet lining exposed when open) */}
             <span className="tc-face tc-lid-under">
