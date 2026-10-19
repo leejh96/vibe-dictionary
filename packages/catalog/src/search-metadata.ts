@@ -130,7 +130,7 @@ export const SEARCH_METADATA: Record<string, SearchMetadata> = {
   'mg-prism-rainbow-refraction': m(['shape'], ['click'], '프리즘의 무지개 광선 분산 시연', 'Demonstrate rainbow beam dispersion with an SVG prism'),
   'mg-gravity-newton-cradle': m(['shape'], ['auto', 'click'], '뉴턴의 요람 진자 운동 모양 시연', 'Demonstrate a timed Newton cradle pendulum sequence'),
   'mg-dice-roll-3d': m(['shape', 'card'], ['click'], '3D 주사위 굴리기와 눈금 안착 시연', 'Tumble and roll a 3D dice landing on a random face'),
-  'mg-marble-board': m(['shape', 'card', 'navigation'], ['click'], '모두의 마블 보드게임 주사위와 말 이동 시연', 'Play a mini board game with dual dice, pawn hops, and landmark animations'),
+  'mg-marble-board': m(['shape', 'card', 'navigation'], ['click'], '캐주얼 보드게임 주사위와 말 이동 시연', 'Play a mini board game with dual dice, pawn hops, and landmark animations'),
   'ly-bento-grid': m(['panel', 'card'], ['click'], '대형과 보조 콘텐츠 타일 배치', 'Arrange primary and supporting content tiles in a bento grid'),
   'ly-masonry-waterfall': m(['list', 'card'], ['click'], '높이가 다른 카드의 워터폴 배치', 'Arrange variable-height cards in fixed waterfall columns'),
   'ly-editorial-asymmetric': m(['image', 'card'], ['hover', 'click'], '비주얼과 정보 카드의 편집형 겹침', 'Overlap a large visual and a small editorial card'),

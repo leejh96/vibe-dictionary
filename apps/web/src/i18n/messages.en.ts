@@ -205,7 +205,7 @@ export const EN_MESSAGES = {
   "demo.marble.tile.tax": "Tax",
   "demo.marble.tile.london": "London",
   "demo.marble.tile.tour": "Tour",
-  "demo.marble.scene": "Marble Interactive Board Game Demo",
+  "demo.marble.scene": "Casual Board Game Interactive Demo",
   "demo.hold.progress": "Holding... {percent}%",
   "demo.holdToDeployToProduction": "Hold to deploy to production",
   "demo.clickToTestAgain": "Click to test again",

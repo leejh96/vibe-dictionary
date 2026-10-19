@@ -204,7 +204,7 @@ export const KO_MESSAGES = {
   "demo.marble.tile.tax": "국세청",
   "demo.marble.tile.london": "런던",
   "demo.marble.tile.tour": "세계여행",
-  "demo.marble.scene": "모두의 마블 인터랙티브 보드 게임 시연",
+  "demo.marble.scene": "캐주얼 보드게임 인터랙티브 시연",
   "demo.hold.progress": "길게 누르는 중... {percent}%",
   "demo.holdToDeployToProduction": "길게 눌러 프로덕션 배포",
   "demo.clickToTestAgain": "클릭하면 다시 테스트할 수 있습니다",
