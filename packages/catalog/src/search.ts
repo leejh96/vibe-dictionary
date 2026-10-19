@@ -15,7 +15,9 @@ export const SEARCH_SYNONYMS: readonly (readonly string[])[] = [
   ['drag', 'dragging', '드래그'], ['auto', 'automatic', '자동'], ['static', '정적'],
   ['magnetic', '마그네틱', '자석처럼', '자석'], ['follow', 'following', '따라오는', '따라오게', '따라가는', '따라가게'],
   ['ripple', '리플', '물결', '파동'], ['shimmer', '시머', '광택'], ['glow', '글로우', '발광', '빛나는'],
-  ['neon', '네온'], ['flip', '플립', '뒤집기', '뒤집는', '뒤집어'], ['tilt', '틸트', '기울어지는', '기울어짐', '기울이기'],
+  ['neon', '네온'], ['flip', 'flips', 'flipped', 'flipping', '플립', '뒤집기', '뒤집는', '뒤집어'], ['tilt', '틸트', '기울어지는', '기울어짐', '기울이기'],
+  ['scroll', 'scrolling', 'scrolled', '스크롤'], ['continuous', 'continuously', 'continually', '계속', '끊임없이'],
+  ['blur', 'blurred', 'blurring', '블러', '흐림', '흐리게'], ['face', '얼굴', '얼굴만'],
   ['glass', 'glassmorphism', '글래스모피즘', '글래스', '유리'], ['spring', '스프링', '탄성'],
   ['bounce', '바운스', '통통', '튀는'], ['stagger', 'staggered', '스태거', '순차', '차례대로'],
   ['accordion', '아코디언'], ['loading', '로딩'], ['typewriter', '타이프라이터', '타자기'],
@@ -88,7 +90,6 @@ function rank(item: TechniqueItem, query: string, queryTokens: string[]): Ranked
   const exact = allEntries.find(entry => entry.field !== 'prompt' && entry.value.normalize('NFKC').trim().toLowerCase() === normalizedQuery);
   if (!queryTokens.length && !exact) return null;
   const matchedOn: SearchMatch[] = [];
-  let score = 0;
   const covered = new Set<string>();
   const best = new Map<string, number>();
   for (const entry of allEntries) {
@@ -102,7 +103,7 @@ function rank(item: TechniqueItem, query: string, queryTokens: string[]): Ranked
   }
   // Unknown words count against coverage: an unrelated request with one generic word is not enough.
   if (!exact && covered.size < Math.max(1, Math.ceil(queryTokens.length * 0.6))) return null;
-  score = [...best.values()].reduce((sum, weight) => sum + weight, 0);
+  let score = [...best.values()].reduce((sum, weight) => sum + weight, 0);
   score += queryTokens.length ? Math.round(20 * covered.size / queryTokens.length) : 0;
   if (exact) {
     score += exact.field === 'title' ? 150 : 100;
