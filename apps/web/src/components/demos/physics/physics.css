@@ -1218,6 +1218,84 @@
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
 }
 
+/* Base Inside Walls & Top Rim (Solid enclosure when open) */
+.tc-base-inner-back {
+  width: 96px;
+  height: 36px;
+  transform: rotateY(0deg) translateZ(-27px);
+  background: linear-gradient(180deg, #2e1065 0%, #1e1b4b 45%, #451a03 100%);
+  border-top: 2px solid #f59e0b;
+}
+
+.tc-base-inner-left {
+  width: 56px;
+  height: 36px;
+  left: 20px;
+  transform: rotateY(90deg) translateZ(-47px);
+  background: linear-gradient(180deg, #1e1b4b 0%, #270e01 100%);
+  border-top: 2px solid #d97706;
+}
+
+.tc-base-inner-right {
+  width: 56px;
+  height: 36px;
+  left: 20px;
+  transform: rotateY(-90deg) translateZ(-47px);
+  background: linear-gradient(180deg, #1e1b4b 0%, #270e01 100%);
+  border-top: 2px solid #d97706;
+}
+
+.tc-base-rim {
+  width: 96px;
+  height: 56px;
+  top: -10px;
+  left: 0;
+  transform: rotateX(90deg) translateZ(18px);
+  border: 3px solid #f59e0b;
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+  pointer-events: none;
+}
+
+/* Lid Hollow Inside Walls & Outer Rim Frame */
+.tc-lid-rim {
+  width: 100px;
+  height: 60px;
+  top: -21px;
+  left: 0;
+  transform: rotateX(-90deg) translateZ(-9px);
+  border: 3.5px solid #f59e0b;
+  border-radius: 3px;
+  box-shadow: inset 0 0 4px #78350f, 0 0 6px rgba(245, 158, 11, 0.5);
+  pointer-events: none;
+}
+
+.tc-lid-inner-left {
+  width: 60px;
+  height: 18px;
+  left: 20px;
+  transform: rotateY(90deg) translateZ(-49px);
+  background: linear-gradient(180deg, #2e1065 0%, #1e1b4b 100%);
+  border-bottom: 2px solid #d97706;
+}
+
+.tc-lid-inner-right {
+  width: 60px;
+  height: 18px;
+  left: 20px;
+  transform: rotateY(-90deg) translateZ(-49px);
+  background: linear-gradient(180deg, #2e1065 0%, #1e1b4b 100%);
+  border-bottom: 2px solid #d97706;
+}
+
+.tc-lid-inner-front {
+  width: 100px;
+  height: 18px;
+  transform: rotateY(180deg) translateZ(-29px);
+  background: linear-gradient(180deg, #2e1065 0%, #1e1b4b 100%);
+  border-bottom: 2px solid #f59e0b;
+}
+
 /* Status Chip */
 .tc-status-container {
   position: absolute;

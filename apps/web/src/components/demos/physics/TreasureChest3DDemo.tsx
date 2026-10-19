@@ -128,6 +128,12 @@ export function TreasureChest3DDemo() {
             {/* Bottom Floor */}
             <span className="tc-face tc-base-bottom" />
 
+            {/* Interior Solid Walls (Visible when open looking inside) */}
+            <span className="tc-face tc-base-inner-back" />
+            <span className="tc-face tc-base-inner-left" />
+            <span className="tc-face tc-base-inner-right" />
+            <span className="tc-face tc-base-rim" />
+
             {/* Interior Velvet Cavity with Gold Coins (Visible when open) */}
             <span className={`tc-interior-cavity ${isOpen ? 'tc-interior-open' : ''}`}>
               <span className="tc-interior-velvet" />
@@ -176,6 +182,12 @@ export function TreasureChest3DDemo() {
               <span className="tc-hinge tc-hinge-left" />
               <span className="tc-hinge tc-hinge-right" />
             </span>
+
+            {/* Lid Hollow Inside Walls & Rim Frame */}
+            <span className="tc-face tc-lid-rim" />
+            <span className="tc-face tc-lid-inner-left" />
+            <span className="tc-face tc-lid-inner-right" />
+            <span className="tc-face tc-lid-inner-front" />
 
             {/* Lid Underside (Velvet lining exposed when open) */}
             <span className="tc-face tc-lid-under">
