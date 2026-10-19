@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function PosterizeDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [levels, setLevels] = useState(4);
+  const [levels, setLevels] = useDemoNumber(4, 2, 8, 1, 'steps');
   const table = Array.from({ length: 2 * (levels - 1) }, (_, index) => Math.round(index / 2) / (levels - 1)).join(' ');
   return <div className="vfx-demo">
     <svg id={`${id}-scene`} className="vfx-scene vfx-posterize-scene" viewBox="0 0 264 144" role="img" aria-label={t('demo.additions.vfx.posterize.scene')}>

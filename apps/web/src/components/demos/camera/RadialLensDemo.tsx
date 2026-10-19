@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 type Point = [number, number];
@@ -15,7 +16,7 @@ const BORDER: Point[] = [
 
 export function RadialLensDemo() {
   const { t } = useLocale();
-  const [strength, setStrength] = useState(-60);
+  const [strength, setStrength] = useDemoNumber(-60, -100, 100, 1);
   const sceneId = useId();
   const coefficient = strength * .0022;
   const project = ([x, y]: Point) => {

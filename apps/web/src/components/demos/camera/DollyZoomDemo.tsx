@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function DollyZoomDemo() {
   const { t } = useLocale();
-  const [position, setPosition] = useState(0);
+  const [position, setPosition] = useDemoNumber(0, 0, 100, 1);
   const sceneId = useId();
   const distance = 4 + position * .08;
   const frames = [3, 9, 21, 45].map(depth => {

@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { RotateCcw } from 'lucide-react';
 
 export function DutchRollDemo() {
   const { t } = useLocale();
-  const [roll, setRoll] = useState(0);
+  const [roll, setRoll] = useDemoNumber(0, -25, 25, 1);
   const sceneId = useId();
 
   return (

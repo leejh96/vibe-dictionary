@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 type Point = [number, number, number];
@@ -10,7 +11,7 @@ const FACADES = [
 
 export function LensShiftDemo() {
   const { t } = useLocale();
-  const [shifted, setShifted] = useState(false);
+  const [shifted, setShifted] = useDemoToggle(false);
   const sceneId = useId();
   // Both projections frame world point (0, 4, 8) at (132, 74).
   const pitch = shifted ? 0 : Math.atan(2.6 / 8);

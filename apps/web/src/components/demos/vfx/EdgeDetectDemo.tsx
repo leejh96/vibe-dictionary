@@ -1,10 +1,11 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function EdgeDetectDemo() {
   const { t } = useLocale();
   const id = useId();
-  const [strength, setStrength] = useState(75);
+  const [strength, setStrength] = useDemoNumber(75, 0, 100, 1);
   const blend = strength / 100;
   return <div className="vfx-demo">
     <svg id={`${id}-scene`} className="vfx-scene vfx-edge-scene" viewBox="0 0 264 144" role="img" aria-label={t('demo.additions.vfx.edge.scene')}>

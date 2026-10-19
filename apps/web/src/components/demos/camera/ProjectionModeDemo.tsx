@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 type Point = [number, number, number];
@@ -7,7 +8,7 @@ const PANELS = [{ id: 'far', x: 1.8, z: -2 }, { id: 'near', x: -1.8, z: 2 }];
 
 export function ProjectionModeDemo() {
   const { t } = useLocale();
-  const [orthographic, setOrthographic] = useState(false);
+  const [orthographic, setOrthographic] = useDemoToggle(false);
   const sceneId = useId();
   const elevation = 20 * Math.PI / 180;
   const project = ([x, y, z]: Point) => {

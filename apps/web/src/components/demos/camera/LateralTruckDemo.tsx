@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -6,7 +7,7 @@ type Point = [number, number, number];
 
 export function LateralTruckDemo() {
   const { t } = useLocale();
-  const [position, setPosition] = useState(-30);
+  const [position, setPosition] = useDemoNumber(-30, -30, 30, 1);
   const sceneId = useId();
   const cameraX = position / 10;
   const project = ([x, y, z]: Point) => `${132 + 160 * (x - cameraX) / z},${74 - 160 * (y - 1.4) / z}`;

@@ -1,4 +1,5 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -12,7 +13,7 @@ const GRID = [-6, -4, -2, 0, 2, 4, 6];
 
 export function StationaryPanDemo() {
   const { t } = useLocale();
-  const [pan, setPan] = useState(0);
+  const [pan, setPan] = useDemoNumber(0, -20, 20, 1);
   const sceneId = useId();
   const yaw = pan * Math.PI / 180;
   const pitch = 12 * Math.PI / 180;

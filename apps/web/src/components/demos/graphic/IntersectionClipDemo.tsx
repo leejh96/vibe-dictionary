@@ -1,9 +1,10 @@
-import { useId, useState } from 'react';
+import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useId } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 export function IntersectionClipDemo() {
   const { t } = useLocale();
-  const [overlap, setOverlap] = useState(50);
+  const [overlap, setOverlap] = useDemoNumber(50, 0, 100, 1);
   const id = useId();
   const cx = 168 - overlap * .48;
   return <div className="graphic-demo gd-intersection-demo">
