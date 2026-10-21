@@ -25,6 +25,7 @@
 @import './components/demos/kinetic_ad/kinetic-ad.css';
 @import './components/demos/infographic/infographic.css';
 @import './components/demos/broadcast/broadcast.css';
+@import './components/demos/patterns/patterns.css';
 @import './scrollbars.css';
 
 @custom-variant dark (&:is(.dark *));
@@ -515,10 +516,11 @@ html:not(.dark) .demo-stage:not(.demo-keep-dark) .bg-black .text-indigo-400 {
 }
 
 .demo-preview { width: 100%; min-width: 0; }
+.demo-preview[data-demo-replay-action] button:disabled { pointer-events: none; }
 
-/* Gallery previews show the effect directly, without parameter scrubbers. */
-.demo-preview input[data-demo-scrubber],
-.demo-preview :is(.camera-demo, .vfx-demo, .promo-demo, .broadcast-demo, .kinetic-demo, .shader-demo, .graphic-demo, .physics-demo)
+/* Automatic previews show the effect directly; interactive editors retain their controls. */
+.demo-preview[data-demo-playback="auto"] input[data-demo-scrubber],
+.demo-preview[data-demo-playback="auto"] :is(.camera-demo, .vfx-demo, .promo-demo, .broadcast-demo, .kinetic-demo, .shader-demo, .graphic-demo, .physics-demo)
   :is(label:has(input[type="range"]), [class*="-control"]:has(input[type="range"]), input[type="range"]) {
   display: none;
 }

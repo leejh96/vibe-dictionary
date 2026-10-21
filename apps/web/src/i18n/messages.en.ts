@@ -1,3 +1,4 @@
+import { PATTERNS_EN_MESSAGES } from './demos/patterns.messages';
 import { BROADCAST_EN_MESSAGES } from './demos/broadcast.messages';
 import { CAMERA_EN_MESSAGES } from './demos/camera.messages';
 import { CARD_EN_MESSAGES } from './demos/card.messages';
@@ -26,6 +27,7 @@ import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  ...PATTERNS_EN_MESSAGES,
   'composer.close': 'Close composer',
   'composer.removeTechnique': 'Remove {title}',
   ...BROADCAST_EN_MESSAGES,

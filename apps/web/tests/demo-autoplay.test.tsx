@@ -2,8 +2,11 @@ import assert from 'node:assert/strict';
 import test, { type TestContext } from 'node:test';
 import React from 'react';
 import { act, create } from 'react-test-renderer';
-import { DemoAutoplay, useDemoNumber, useDemoToggle, useDemoPulse } from '../src/hooks/useDemoAutoplay';
+import { DemoAutoplay, useDemoNumber, useDemoToggle, useDemoPulse, useDemoSample } from '../src/hooks/useDemoAutoplay';
 import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
+import { TechniqueCard } from '../src/components/TechniqueCard';
+import { TECHNIQUES } from '@vibe-dictionary/catalog';
+import { DEMO_PLAYBACK, DEMO_PLAYBACK_GROUPS } from '../src/components/demos/demoPlayback';
 
 function fixture(t: TestContext, initiallyReduced = false) {
   t.mock.timers.enable({ apis: ['setInterval', 'setTimeout'] });
@@ -36,7 +39,7 @@ function fixture(t: TestContext, initiallyReduced = false) {
     observe() {}
     disconnect() { this.record.disconnected = true; }
   });
-  const root = {};
+  const root = { contains: () => false };
   let value = 0, discrete = 0, toggle = false, pulses = 0;
   function Probe() {
     [value] = useDemoNumber(0, -1, 1, .1);
@@ -46,9 +49,14 @@ function fixture(t: TestContext, initiallyReduced = false) {
     return null;
   }
   let tree!: ReturnType<typeof create>;
-  act(() => { tree = create(<DemoAutoplay><Probe /></DemoAutoplay>, { createNodeMock: element => element.props.className === 'demo-preview' ? root : null }); });
+  act(() => { tree = create(<DemoAutoplay><Probe /></DemoAutoplay>, { createNodeMock: element => element.props.className === 'demo-preview' || element.props.className?.startsWith('demo-stage ') ? root : null }); });
   t.after(() => { act(() => tree.unmount()); restorers.reverse().forEach(restore => restore()); });
   return { tree, frames, observers,
+    technique(id: string) {
+      act(() => tree.update(<TechniqueCard key={id} item={TECHNIQUES.find(item => item.id === id)!} isSelected={false} onToggleCart={() => {}} />));
+      act(() => observers.filter(observer => !observer.disconnected).forEach(observer => observer.callback([{ isIntersecting: true }])));
+      act(() => observers.filter(observer => !observer.disconnected).forEach(observer => observer.callback([{ isIntersecting: true }])));
+    },
     get value() { return value; }, get discrete() { return discrete; }, get toggle() { return toggle; }, get pulses() { return pulses; },
     visible(visible: boolean) { act(() => observers[0].callback([{ isIntersecting: visible }])); },
     tick(ms: number, frameMs = 16) {
@@ -63,12 +71,14 @@ function fixture(t: TestContext, initiallyReduced = false) {
     click() { act(() => tree.root.findByProps({ className: 'demo-preview' }).props.onClickCapture({ detail: 1, target: { closest: () => null }, preventDefault() {}, stopPropagation() {} })); },
     controlClick(node: { props: { onClick: () => void } }, selector: string) {
       let blocked = false;
-      act(() => tree.root.findByProps({ className: 'demo-preview' }).props.onClickCapture({ detail: 1,
+      act(() => {
+        tree.root.findByProps({ className: 'demo-preview' }).props.onClickCapture({ detail: 1,
         target: { closest: (value: string) => value.includes(selector) ? {} : null },
         preventDefault() { blocked = true; }, stopPropagation() { blocked = true; },
-      }));
+        });
+      });
+      act(() => { if (!blocked) node.props.onClick(); tree.root.findByProps({ className: 'demo-preview' }).props.onClick(); });
       assert.equal(blocked, false, 'gallery must deliver the click to the existing control');
-      act(() => node.props.onClick());
     },
   };
 }
@@ -210,4 +220,169 @@ test('OTP buttons preserve their timed input sequence and digit feedback in the 
   assert.match(selected, /^[1-9]$/);
   f.tick(320);
   assert.equal(buttons()[0].children.join(''), selected);
+});
+
+test('clicking just before an automatic pulse cancels the old run and starts exactly once', t => {
+  const f = fixture(t);
+  let starts = 0, finishes = 0, cleanups = 0;
+  function Replay() {
+    const timer = React.useRef<ReturnType<typeof setTimeout>>();
+    const start = () => { starts++; timer.current = setTimeout(() => finishes++, 600); };
+    useDemoPulse(start);
+    React.useEffect(() => () => { clearTimeout(timer.current); cleanups++; }, []);
+    return <button onClick={start} />;
+  }
+  act(() => f.tree.update(<DemoAutoplay restartOnAction><Replay /></DemoAutoplay>));
+  f.visible(true); f.tick(3990);
+  assert.equal(starts, 1);
+  let blocked = false;
+  act(() => {
+    f.tree.root.findByProps({ className: 'demo-preview' }).props.onClickCapture({ detail: 1,
+      target: { closest: (selector: string) => selector.includes('button') ? {} : null },
+      preventDefault() { blocked = true; }, stopPropagation() {},
+    });
+    if (!blocked) f.tree.root.findByType('button').props.onClick();
+  });
+  assert.equal(starts, 2, 'replacement starts once; the old handler is not also delivered');
+  assert.equal(cleanups, 1);
+  f.tick(20); assert.equal(starts, 2, 'old 4-second deadline cannot fire');
+  f.timers(600); assert.equal(finishes, 1, 'previous delayed result was cancelled');
+  f.tick(3980); assert.equal(starts, 3, 'next automatic action is relative to the click');
+  assert.equal(f.frames.size, 1);
+});
+
+test('real controls rebase the automatic deadline without firing an extra pulse or losing their action', t => {
+  const f = fixture(t);
+  let value = 0, pulses = 0;
+  function Control() {
+    let setValue: React.Dispatch<React.SetStateAction<number>>;
+    [value, setValue] = useDemoNumber(0, 0, 10, 1, 'steps');
+    useDemoPulse(() => pulses++);
+    return <button onClick={() => setValue(current => current - 1)} />;
+  }
+  act(() => f.tree.update(<DemoAutoplay><Control /></DemoAutoplay>));
+  f.visible(true); f.tick(3990);
+  assert.equal(value, 10); assert.equal(pulses, 1);
+  f.controlClick(f.tree.root.findByType('button'), 'button');
+  assert.equal(value, 9, 'functional action uses the currently displayed value');
+  assert.equal(pulses, 1);
+  f.tick(20); assert.equal(pulses, 1);
+  f.tick(3980); assert.equal(pulses, 2);
+});
+
+test('changing callback identity does not rewind CSS animations during a parent render', t => {
+  const f = fixture(t);
+  let replays = 0;
+  act(() => f.tree.update(<DemoAutoplay onReplay={() => replays++}><span /></DemoAutoplay>));
+  f.visible(true); assert.equal(replays, 1);
+  f.tick(1800);
+  act(() => f.tree.update(<DemoAutoplay onReplay={() => replays++}><span /></DemoAutoplay>));
+  assert.equal(replays, 1);
+  f.tick(6200); assert.equal(replays, 2);
+});
+
+test('manual samples start from the displayed sample and are not ignored by autoplay', t => {
+  const f = fixture(t);
+  let displayed = 0;
+  function Sample() {
+    let setValue: React.Dispatch<React.SetStateAction<number>>;
+    [displayed, setValue] = useDemoSample(0, phase => Math.floor(phase * 100));
+    return <button onClick={() => setValue(current => current + 1)} />;
+  }
+  act(() => f.tree.update(<DemoAutoplay><Sample /></DemoAutoplay>));
+  f.visible(true); f.tick(3200); assert.equal(displayed, 40);
+  f.controlClick(f.tree.root.findByType('button'), 'button');
+  assert.equal(displayed, 41);
+  f.tick(3000); assert.equal(displayed, 41);
+  f.tick(1000); assert.equal(displayed, 50);
+});
+
+test('automatic scroll scenes progress without a click or a scrollbar', t => {
+  const f = fixture(t);
+  f.visible(true);
+  for (const id of ['ly-collapsing-scroll-header', 'ly-sticky-scrolltelling', 'ly-fullpage-snap', 'ly-horizontal-showcase', 'ly-curtain-reveal']) {
+    f.technique(id);
+    assert.equal(f.tree.root.findByType(DemoAutoplay).props.playback, 'auto');
+    const before = JSON.stringify(f.tree.toJSON());
+    assert.equal(f.tree.root.findAll(node => node.type === 'input' && node.props.type === 'range').length, 0, id);
+    f.tick(3200);
+    assert.notEqual(JSON.stringify(f.tree.toJSON()), before, `${id}: effect is visible without user input`);
+    f.tick(2400);
+    assert.notEqual(JSON.stringify(f.tree.toJSON()), before, `${id}: the automatic sequence progresses`);
+  }
+});
+
+test('interactive inline editing keeps both unfocused drafts and saved values across multiple cycles', t => {
+  const f = fixture(t);
+  f.technique('inline-edit-field');
+  act(() => f.tree.root.findByProps({ 'aria-label': '프로젝트 이름 편집' }).props.onClick());
+  const input = f.tree.root.findByType('input');
+  act(() => input.props.onChange({ target: { value: '직접 작성한 이름' } }));
+  f.tick(24000);
+  assert.equal(f.tree.root.findByType('input'), input);
+  assert.equal(input.props.value, '직접 작성한 이름');
+  act(() => f.tree.root.findByType('form').props.onSubmit({ preventDefault() {} }));
+  f.tick(24000);
+  assert.equal(f.tree.root.findByProps({ 'aria-label': '프로젝트 이름 편집' }).findByType('strong').children.join(''), '직접 작성한 이름');
+  assert.equal(f.frames.size, 0);
+});
+
+test('every catalog technique has exactly one explicit preview policy', () => {
+  const entries = Object.values(DEMO_PLAYBACK_GROUPS).flat();
+  assert.equal(new Set(entries).size, entries.length, 'no duplicate or conflicting policies');
+  assert.equal(DEMO_PLAYBACK.size, entries.length);
+  assert.deepEqual([...entries].sort(), TECHNIQUES.map(item => item.id).sort());
+});
+
+test('interactive and static previews neither schedule automatic frames nor intercept clicks', t => {
+  const f = fixture(t);
+  for (const playback of ['interactive', 'static'] as const) {
+    let replays = 0, clicks = 0;
+    act(() => f.tree.update(<DemoAutoplay playback={playback} onReplay={() => replays++} restartOnAction><button onClick={() => clicks++} /></DemoAutoplay>));
+    const preview = f.tree.root.findByProps({ className: 'demo-preview' });
+    assert.equal(preview.props.onClickCapture, undefined);
+    assert.equal(preview.props['data-demo-active'], undefined);
+    act(() => f.tree.root.findByType('button').props.onClick());
+    f.tick(24000);
+    assert.equal(clicks, 1); assert.equal(replays, 0); assert.equal(f.frames.size, 0);
+  }
+});
+
+test('interactive cards stay idle until real input, including former automatic state and pulse demos', t => {
+  const f = fixture(t);
+  for (const id of ['zoom-lightbox-gallery', 'selection-bubble-toolbar', 'rich-hover-preview', 'elastic-toggle-switch', 'sliding-pill-tabs', 'smooth-accordion', 'confetti-burst', 'otp-pin-focus-bounce', 'mg-lucky-wheel-3d', 'mg-projection-mode-switch', 'mg-quadratic-bezier-editor', 'ly-stable-scrollbar-gutter']) {
+    f.technique(id);
+    assert.equal(f.tree.root.findByType(DemoAutoplay).props.playback, 'interactive', id);
+    const before = JSON.stringify(f.tree.toJSON());
+    f.tick(24000); f.timers(24000);
+    assert.equal(JSON.stringify(f.tree.toJSON()), before, `${id}: idle state must not change`);
+    assert.equal(f.frames.size, 0, id);
+  }
+});
+
+test('manual toggle and gallery state remain selected after input without common replay', t => {
+  const f = fixture(t);
+  for (const id of ['elastic-toggle-switch', 'card-flip-3d', 'sliding-pill-tabs', 'smooth-accordion', 'zoom-lightbox-gallery']) {
+    f.technique(id);
+    const before = JSON.stringify(f.tree.toJSON());
+    const preview = f.tree.root.findByProps({ className: 'demo-preview' });
+    const targets = preview.findAll(node => typeof node.type === 'string' && typeof node.props.onClick === 'function');
+    const target = id === 'sliding-pill-tabs' ? targets[1] : targets[0];
+    act(() => target.props.onClick());
+    f.timers(300);
+    const after = JSON.stringify(f.tree.toJSON());
+    assert.notEqual(after, before, id);
+    f.tick(24000); f.timers(24000);
+    assert.equal(JSON.stringify(f.tree.toJSON()), after, id);
+  }
+});
+
+test('reduced-motion replay actions still deliver the original manual click', t => {
+  const f = fixture(t, true);
+  let clicks = 0;
+  act(() => f.tree.update(<DemoAutoplay restartOnAction><button onClick={() => clicks++} /></DemoAutoplay>));
+  f.visible(true);
+  f.controlClick(f.tree.root.findByType('button'), 'button');
+  assert.equal(clicks, 1);
+  assert.equal(f.frames.size, 0);
 });
