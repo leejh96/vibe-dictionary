@@ -7,11 +7,12 @@ import { TECHNIQUES, getTechniqueText, searchTechniques } from '@vibe-dictionary
 
 test('lightbox switches images, clamps pan, handles swipe cancellation, and closes through Escape', t => {
   let tree!: ReturnType<typeof create>;
-  let focused = false;
-  act(() => { tree = create(<InteractiveDemo techniqueId="zoom-lightbox-gallery" />, { createNodeMock: element => element.props.className === 'pd-gallery' ? { querySelector: () => ({ focus() { focused = true; } }) } : null }); });
+  const focused: string[] = [];
+  act(() => { tree = create(<InteractiveDemo techniqueId="zoom-lightbox-gallery" />, { createNodeMock: element => element.props.className === 'pd-gallery' ? { querySelector: (selector: string) => ({ focus() { focused.push(selector); } }) } : null }); });
   t.after(() => act(() => tree.unmount()));
   const button = (name: string) => tree.root.findByProps({ 'aria-label': name });
   act(() => button('사막 이미지 열기').props.onClick());
+  assert.deepEqual(focused, ['.pd-gallery-tools button'], 'opening must move focus out of the hidden thumbnails');
   assert.equal(tree.root.findByProps({ className: 'pd-image-name' }).children.join(''), '사막');
   act(() => button('이미지 확대·축소').props.onClick());
   assert.equal(button('이미지 확대·축소').props['aria-pressed'], true);
@@ -32,7 +33,7 @@ test('lightbox switches images, clamps pan, handles swipe cancellation, and clos
   assert.equal(tree.root.findByProps({ className: 'pd-image-name' }).children.join(''), '해안');
   act(() => tree.root.findByProps({ className: 'pd-gallery' }).props.onKeyDown({ key: 'Escape' }));
   assert.equal(tree.root.findAllByProps({ className: 'pd-lightbox' }).length, 0);
-  assert.equal(focused, true);
+  assert.deepEqual(focused, ['.pd-gallery-tools button', '[data-gallery-thumb]']);
 });
 
 test('inline editing trims saved names, rejects blank input, and cancels drafts without changing the saved name', t => {

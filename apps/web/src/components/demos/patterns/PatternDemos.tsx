@@ -22,7 +22,9 @@ export function LightboxGalleryDemo() {
   const gallery = useRef<HTMLDivElement>(null);
   const restoreFocus = useRef(false);
   useLayoutEffect(() => {
-    if (!view.open && restoreFocus.current) {
+    if (view.open) {
+      gallery.current?.querySelector<HTMLButtonElement>('.pd-gallery-tools button')?.focus({ preventScroll: true });
+    } else if (restoreFocus.current) {
       restoreFocus.current = false;
       gallery.current?.querySelector<HTMLButtonElement>('[data-gallery-thumb]')?.focus({ preventScroll: true });
     }
