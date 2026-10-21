@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
 import { InteractiveDemo } from './demos/InteractiveDemos';
+import { DEMO_PLAYBACK } from './demos/demoPlayback';
 import { DemoAutoplay } from '../hooks/useDemoAutoplay';
 import { useClipboard } from '../hooks/useClipboard';
 import { useDemoReplay } from '../hooks/useDemoReplay';
@@ -49,6 +50,20 @@ const DARK_STAGE_IDS = new Set<string>([
   'vd-diagonal-shutter-wipe',
 ]);
 
+// Replay actions restart the component so its previous timers and frames are cleaned up first.
+const REPLAY_ACTION_IDS = new Set([
+  'shimmer-sweep', 'neon-glow-pulse',
+  'split-flap-typography',
+  'ly-sticky-scrolltelling', 'ly-fullpage-snap', 'ly-horizontal-showcase', 'ly-curtain-reveal',
+  'mg-no-slip-rolling-wheel', 'mg-kinetic-friction-slide', 'mg-restitution-bounce-drop',
+  'mg-mass-ratio-elastic-collision', 'mg-gravity-projectile-arc', 'mg-damped-spring-release',
+  'vd-saas-launch-reel', 'vd-device-3d-spin', 'vd-app-walkthrough-zoom', 'vd-split-promo-reel',
+  'vd-glitch-cut-reel', 'vd-stomp-beat-typo', 'vd-highlight-swipe-reveal', 'vd-countdown-energetic-intro',
+  'vd-chat-story-sequence', 'vd-slot-jackpot-headline', 'vd-animated-bar-race', 'vd-kpi-counter-explosion',
+  'vd-node-flow-pipeline', 'vd-circular-ring-dashboard', 'vd-funnel-conversion-drop',
+  'vd-lower-third-banner', 'vd-diagonal-shutter-wipe', 'vd-logo-stinger-outro', 'vd-breaking-news-ticker',
+]);
+
 interface TechniqueCardProps {
   item: TechniqueItem;
   isSelected: boolean;
@@ -69,7 +84,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const demoContainerRef = useRef<HTMLDivElement | null>(null);
-  const { onAutoReplay, ...replayHandlers } = useDemoReplay(demoContainerRef, isInView && !showPrompt, item.id);
+  const playback = DEMO_PLAYBACK.get(item.id) ?? 'interactive';
+  const { onAutoReplay, ...replayHandlers } = useDemoReplay(demoContainerRef, playback === 'auto' && isInView && !showPrompt, item.id);
 
   useEffect(() => {
     const el = demoContainerRef.current;
@@ -96,8 +112,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
 
   const categoryLabel = locale === 'en' ? CATEGORY_NAMES_EN[item.category] : CATEGORY_LABEL_MAP[item.category];
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
-  const restartOnClick = !['control', 'feedback', 'nav', 'panel', 'scroll', 'grid'].includes(item.category)
-    || ['before-after-slider', 'drag-snap-slot', 'elastic-toggle-switch', 'combo-gauge-pop', 'gooey-menu-fab', 'peek-password-lamp', 'confetti-burst', 'error-shake-tooltip', 'heart-like-burst', 'toast-slide-stack', 'hold-to-confirm-ring', 'otp-pin-focus-bounce'].includes(item.id);
+  const restartOnAction = REPLAY_ACTION_IDS.has(item.id);
+  const ownsAnimationStarts = restartOnAction && !['shimmer-sweep', 'neon-glow-pulse'].includes(item.id);
 
   return (
     <article
@@ -147,7 +163,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             {text.promptSnippet}
           </div>
         ) : isInView ? (
-          <DemoAutoplay onReplay={onAutoReplay} restartOnClick={restartOnClick}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
+          <DemoAutoplay playback={playback} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
         ) : (
           <div
             className={`w-full h-40 ${

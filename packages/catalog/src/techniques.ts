@@ -1,3 +1,4 @@
+import { PATTERN_ADDITIONS } from './additions/patterns';
 import { HOVER_ADDITIONS } from './additions/hover';
 import { CARD_ADDITIONS } from './additions/card';
 import { MOTION_ADDITIONS } from './additions/motion';
@@ -147,6 +148,7 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...PATTERN_ADDITIONS,
   ...TACTILE_ADDITIONS,
   ...RETRO_ADDITIONS,
   ...SCIFI_ADDITIONS,

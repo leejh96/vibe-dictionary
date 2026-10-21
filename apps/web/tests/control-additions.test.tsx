@@ -393,10 +393,10 @@ test('value bubble follows the native range value, exposes its percentage and is
   }
 });
 
-test('control category adds exactly ten unique searchable techniques with mapped demos and no helper captions', () => {
+test('control additions including inline editing are searchable and mapped without helper captions', () => {
   const originals = new Set(['before-after-slider', 'drag-snap-slot', 'elastic-toggle-switch', 'combo-gauge-pop', 'gooey-menu-fab', 'otp-pin-focus-bounce', 'peek-password-lamp']);
   const additions = TECHNIQUES.filter(item => item.category === 'control' && !originals.has(item.id));
-  assert.equal(additions.length, 10);
+  assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {
     assert.ok(matchesSearch(item, item.titleKo));

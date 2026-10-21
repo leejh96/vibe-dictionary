@@ -2,6 +2,7 @@ import { useDemoNumber, useDemoToggle, useDemoPulse, useDemoSample } from '../..
 import { useLocale } from '../../i18n/LocaleContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ADDITIONAL_DEMOS } from './additionalDemos';
+import { LightboxGalleryDemo, SelectionToolbarDemo, CollapsingHeaderDemo, HoverPreviewDemo, InlineEditDemo } from './patterns/PatternDemos';
 import { SwipeActionCardDemo } from './card/SwipeActionCard';
 import { ReorderListDemo } from './motion/ReorderListDemo';
 import { ReflowPanelDemo } from './motion/ReflowPanelDemo';
@@ -109,6 +110,11 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
   const Addition = ADDITIONAL_DEMOS.get(techniqueId);
   if (Addition) return <Addition />;
   switch (techniqueId) {
+    case 'zoom-lightbox-gallery': return <LightboxGalleryDemo />;
+    case 'selection-bubble-toolbar': return <SelectionToolbarDemo />;
+    case 'ly-collapsing-scroll-header': return <CollapsingHeaderDemo />;
+    case 'rich-hover-preview': return <HoverPreviewDemo />;
+    case 'inline-edit-field': return <InlineEditDemo />;
     case 'mg-noise-dissolve-type':
       return <DissolveTypeDemo />;
     case 'mg-ripple-reflection-type':
@@ -1245,7 +1251,7 @@ const ConfettiBurstDemo: React.FC = () => {
 
 const ErrorShakeDemo: React.FC = () => {
   const { t } = useLocale();
-  const [shaking, setShaking] = useDemoToggle(false);
+  const [shaking, setShaking] = useState(false);
   const [showTip, setShowTip] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (timerRef.current !== null) clearTimeout(timerRef.current); }, []);
@@ -2336,7 +2342,7 @@ const LyHoneycombHexDemo: React.FC = () => {
 /* 5. 스티키 스크롤텔링 (Sticky Scrolltelling) */
 const LyStickyScrolltellingDemo: React.FC = () => {
   const { t } = useLocale();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useDemoNumber(0, 0, 2, 1, 'steps');
   const steps = [
     { title: 'Step 01', color: 'from-indigo-500 to-cyan-400' },
     { title: 'Step 02', color: 'from-emerald-500 to-teal-400' },
@@ -2377,7 +2383,7 @@ const LyStickyScrolltellingDemo: React.FC = () => {
 /* 6. 풀페이지 스냅 섹션 (Full-Page Scroll Snap) */
 const LyFullpageSnapDemo: React.FC = () => {
   const { t } = useLocale();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useDemoNumber(0, 0, 2, 1, 'steps');
   const colors = ['bg-indigo-600/30 border-indigo-400', 'bg-emerald-600/30 border-emerald-400', 'bg-rose-600/30 border-rose-400'];
   return (
     <div data-demo-control
@@ -2414,7 +2420,7 @@ const LyFullpageSnapDemo: React.FC = () => {
 /* 7. 가로 스크롤 쇼케이스 (Horizontal Scroll Showcase) */
 const LyHorizontalShowcaseDemo: React.FC = () => {
   const { t } = useLocale();
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useDemoNumber(0, 0, 3, 1, 'steps');
   return (
     <div data-demo-control
       onClick={() => setIdx((i) => (i + 1) % 4)}

@@ -28,7 +28,10 @@ const text = (summary: string, vibeTag: string, keywords: string, promptSnippet:
   ({ summary, vibeTag, vibeKeywords: keywords.split('|'), promptSnippet });
 
 // English reference prompts preserve the Korean originals' inputs, timings and demo limitations.
+import { EN_PATTERN_TECHNIQUES } from './additions/patterns';
+
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
+  ...EN_PATTERN_TECHNIQUES,
   ...EN_BROADCAST_TECHNIQUES,
   ...EN_CAMERA_TECHNIQUES,
   ...EN_CARD_TECHNIQUES,

@@ -269,13 +269,14 @@ test('rolling digits carry and borrow, animate only changed places and guard bot
   assert.equal(plus().props['aria-disabled'], true);
 });
 
-test('text category adds exactly ten unique searchable techniques with mapped scenes and no helper captions', () => {
+test('text additions including selection formatting are searchable and mapped without helper captions', () => {
   const originalIds = new Set(['typewriter-streaming', 'scramble-decode-text', 'gradient-flow-text', 'slot-number-ticker', 'marker-highlight-draw']);
   const additions = TECHNIQUES.filter(item => item.category === 'text' && !originalIds.has(item.id));
-  assert.equal(additions.length, 10);
+  assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
-  assert.equal(new Set(additions.map(item => item.promptSnippet)).size, 10);
+  assert.equal(new Set(additions.map(item => item.promptSnippet)).size, 11);
   const contentParagraphs: Record<string, string> = {
+    'selection-bubble-toolbar': 'pd-selection-copy',
     'clamped-read-more-text': 'td-clamp-copy',
     'search-match-highlight': 'td-find-copy',
     'editorial-drop-cap': 'td-dropcap-copy',
