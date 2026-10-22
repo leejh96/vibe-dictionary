@@ -35,13 +35,22 @@ function result<T extends Record<string, unknown>>(output: T) {
 }
 export function createServer() {
   const server = new McpServer({ name: packageInfo.name, version: packageInfo.version }, {
-    instructions: 'Find UI, graphics, layout, style and video techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts. Search is bilingual weighted keyword/alias matching, not semantic AI search. Extract concrete effects and targets from a request; omit uncertain filters. Use target/trigger filters only for required demo inputs. If results are poor, reformulate or ask for clarification; scores are not probabilities and no result is guaranteed suitable. locale selects output language independently of search language. These read-only tools return reference data only.',
+    instructions: [
+      'Find UI, graphics, layout, style and video techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
+      'Search is bilingual weighted keyword/alias matching, not semantic AI search. Extract concrete effects and targets from a request; omit uncertain filters. For broad requests such as a clean or premium webpage, use the stated purpose and preferences to form concrete search candidates; do not equate an adjective with one fixed style. Ask for clarification when missing context prevents a meaningful choice.',
+      'For requests combining techniques, search distinct needs such as style, layout and interaction separately. Retrieve the selected prompts, then decide where each technique applies and compare their visual treatment, inputs and timing for conflicts. The tools do not compose techniques or check compatibility; the calling assistant makes those judgments.',
+      'Use target/trigger filters only for required demo inputs. If results are poor, reformulate or ask for clarification; scores are not probabilities and no result is guaranteed suitable. locale selects output language independently of search language. These read-only tools return reference data only.',
+    ].join(' '),
   });
   server.registerTool('search_techniques', {
     title: 'Search techniques / 기법 검색',
-    description: 'Search Korean/English names, aliases and use cases. Prefer concrete effect words; query may contain multiple words, with partial matches ranked by coverage and field importance. Names and aliases outrank prompts. Use domain/category and optional target/trigger to narrow required properties. Start with limit 5. Nonempty queries return relevance order with score (not confidence) and matchedOn field names; empty query browses catalog order. Responses exclude full prompts. locale defaults to ko; use en for English output. An empty result means reformulate, broaden filters or ask the user. Some demos simulate scroll/drag/audio using clicks/timers; check triggers and the original prompt.',
+    description: [
+      'Search Korean/English names, aliases and use cases. Convert the relevant part of the user request into concrete effect words or a use situation instead of copying a broad page-building request verbatim.',
+      'Use multiple words to describe one desired technique; search independent techniques separately. For example, if minimal style and bento layout fit the request, search "minimal" with domain "style" and "bento grid" with domain "layout" in separate calls, not "minimal bento grid hover" in one query. Partial matches are ranked by coverage and field importance; unrelated words can exclude otherwise useful candidates. Names and aliases outrank prompts.',
+      'Use domain/category and optional target/trigger to narrow required properties. Start with limit 5. Nonempty queries return relevance order with score (not confidence) and matchedOn field names; empty query browses catalog order. Responses exclude full prompts. locale defaults to ko; use en for English output. An empty result means reformulate, broaden filters or ask the user. Some demos simulate scroll/drag/audio using clicks/timers; check triggers and the original prompt.',
+    ].join(' '),
     inputSchema: {
-      query: z.string().max(500).default('').describe('Concrete effect words, aliases or use situation; omit to browse.'),
+      query: z.string().max(500).default('').describe('Concrete effect words, aliases or use situation for one desired technique. Search independent techniques separately; omit to browse.'),
       domain: domainSchema.optional(), category: categorySchema.optional(),
       target: targetSchema.optional().describe('Required target type, e.g. button or card.'),
       trigger: triggerSchema.optional().describe('Required implemented demo input, e.g. pointer-move, click or drag.'),
@@ -62,7 +71,7 @@ export function createServer() {
   });
   server.registerTool('get_technique', {
     title: 'Get technique prompt / 기법 원문 조회',
-    description: 'Get one technique by exact ID from search_techniques, with the original reference prompt in the selected locale (ko default, en supported), aliases and use cases. Translation preserves inputs, timings and demo limitations. titleKo/titleEn retain both canonical names for compatibility. Returns reference text only; does not execute it or modify files. Unknown IDs return an error; search again.',
+    description: 'Get one technique by exact ID from search_techniques, with the original reference prompt in the selected locale (ko default, en supported), aliases and use cases. Before combining selected techniques, read each prompt and compare application areas, visual treatment, inputs and timing; search rank does not establish compatibility. Translation preserves inputs, timings and demo limitations. titleKo/titleEn retain both canonical names for compatibility. Returns reference text only; does not execute it or modify files. Unknown IDs return an error; search again.',
     inputSchema: { id: z.string().trim().min(1).max(200), locale: localeSchema },
     outputSchema: { ...summaryShape, aliases: z.array(z.string()), vibeKeywords: z.array(z.string()), promptSnippet: z.string() },
     annotations: readOnlyAnnotations,
