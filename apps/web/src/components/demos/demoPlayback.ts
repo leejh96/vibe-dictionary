@@ -4,6 +4,8 @@ export type DemoPlayback = 'auto' | 'interactive' | 'static';
 // Keep every catalog ID explicit; the coverage test rejects missing or duplicate entries.
 export const DEMO_PLAYBACK_GROUPS = {
   auto: [
+    'mg-halftone-dot-shading', 'mg-isometric-voxel-landscape', 'mg-ribbon-over-under-weave',
+    'mg-guilloche-curve-engraving', 'mg-gradient-stroke-ribbon',
     // card
     'glassmorphism-card',
     // text
@@ -82,6 +84,8 @@ export const DEMO_PLAYBACK_GROUPS = {
     'shimmer-sweep', 'neon-glow-pulse',
   ],
   interactive: [
+    'billing-cycle-pricing-card', 'faceted-filter-chips', 'bulk-selection-action-bar',
+    'undo-delete-snackbar', 'onboarding-progress-checklist',
     // card
     'zoom-lightbox-gallery', 'rich-hover-preview', 'profile-fanout-card',
     'swipe-action-card', 'folder-peek-card', 'media-action-overlay-card',

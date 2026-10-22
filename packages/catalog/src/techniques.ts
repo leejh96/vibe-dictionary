@@ -1,3 +1,5 @@
+import { GRAPHIC_STUDIO_ADDITIONS } from './additions/graphic-studio';
+import { WORKFLOW_ADDITIONS } from './additions/workflows';
 import { PATTERN_ADDITIONS } from './additions/patterns';
 import { HOVER_ADDITIONS } from './additions/hover';
 import { CARD_ADDITIONS } from './additions/card';
@@ -148,6 +150,8 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...WORKFLOW_ADDITIONS,
+  ...GRAPHIC_STUDIO_ADDITIONS,
   ...PATTERN_ADDITIONS,
   ...TACTILE_ADDITIONS,
   ...RETRO_ADDITIONS,

@@ -11,7 +11,7 @@ import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
 test('card additions including gallery and hover preview are searchable and mapped without helper captions', () => {
   const originalIds = new Set(['card-flip-3d', 'tilt-3d-card', 'glassmorphism-card', 'spotlight-border-card', 'stacked-card-cycle']);
   const additions = TECHNIQUES.filter(item => item.category === 'card' && !originalIds.has(item.id));
-  assert.equal(additions.length, 12);
+  assert.equal(additions.length, 13);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {
     assert.ok(item.promptSnippet.trim());
@@ -19,7 +19,7 @@ test('card additions including gallery and hover preview are searchable and mapp
     let tree!: ReturnType<typeof create>;
     act(() => { tree = create(<InteractiveDemo techniqueId={item.id} />); });
     assert.notEqual(tree.toJSON(), null, `${item.id} must resolve to a demo`);
-    assert.equal(tree.root.findAllByType('p').length, item.id === 'rich-hover-preview' ? 1 : 0);
+    assert.equal(tree.root.findAllByType('p').length, ['rich-hover-preview', 'billing-cycle-pricing-card'].includes(item.id) ? 1 : 0);
     assert.equal(tree.root.findAllByProps({ role: 'status' }).length, 0);
     act(() => tree.unmount());
   }

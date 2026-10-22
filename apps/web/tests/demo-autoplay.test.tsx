@@ -98,6 +98,37 @@ test('autoplay continues across hover and restarts from the initial state only o
   f.tick(8000); assert.equal(f.value, 0); assert.equal(f.toggle, false);
 });
 
+for (const id of ['mg-halftone-dot-shading', 'mg-isometric-voxel-landscape', 'mg-ribbon-over-under-weave', 'mg-guilloche-curve-engraving', 'mg-gradient-stroke-ribbon']) {
+  test(`${id} animates without controls, restarts once and respects reduced motion`, t => {
+    const f = fixture(t);
+    f.technique(id);
+    assert.equal(DEMO_PLAYBACK.get(id), 'auto');
+    const geometry = () => {
+      const svg = f.tree.root.findByProps({ className: 'gs-art' }).findByType('svg');
+      return JSON.stringify({
+        paths: svg.findAllByType('path').map(path => path.props.d),
+        dots: svg.findAllByType('circle').map(dot => dot.props.r),
+        covers: svg.findAllByType('rect').filter(rect => rect.props.height === 23).map(rect => [rect.props.x, rect.props.y]),
+      });
+    };
+    const initial = geometry();
+    f.tick(id.includes('weave') ? 4100 : 2000, 100);
+    assert.notEqual(geometry(), initial);
+    assert.doesNotMatch(geometry(), /NaN|Infinity/);
+    f.click();
+    assert.equal(geometry(), initial);
+    assert.equal(f.frames.size, 1);
+    f.tick(8000, 100);
+    assert.equal(geometry(), initial);
+    f.reduce(true);
+    assert.equal(f.frames.size, 0);
+    f.tick(2000);
+    assert.equal(geometry(), initial);
+    act(() => f.tree.unmount());
+    assert.equal(f.frames.size, 0);
+  });
+}
+
 test('reduced motion, hidden tabs, offscreen cards and unmount release the preview frame', t => {
   const f = fixture(t, true);
   f.visible(true); assert.equal(f.frames.size, 0);

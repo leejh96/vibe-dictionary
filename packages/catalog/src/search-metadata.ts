@@ -1,3 +1,5 @@
+import { GRAPHIC_STUDIO_SEARCH_METADATA } from './search-metadata/additions/graphic-studio';
+import { WORKFLOW_SEARCH_METADATA } from './search-metadata/additions/workflows';
 import { PATTERN_SEARCH_METADATA } from './search-metadata/additions/patterns';
 import { BROADCAST_SEARCH_METADATA } from './search-metadata/additions/broadcast';
 import { CAMERA_SEARCH_METADATA } from './search-metadata/additions/camera';
@@ -43,6 +45,8 @@ const m = (targets: SearchTarget[], triggers: SearchTrigger[], ko: string, en: s
 });
 // Describe the implemented demo, including its actual input, rather than features suggested by a title.
 export const SEARCH_METADATA: Record<string, SearchMetadata> = {
+  ...WORKFLOW_SEARCH_METADATA,
+  ...GRAPHIC_STUDIO_SEARCH_METADATA,
   ...PATTERN_SEARCH_METADATA,
   ...BROADCAST_SEARCH_METADATA,
   ...CAMERA_SEARCH_METADATA,
