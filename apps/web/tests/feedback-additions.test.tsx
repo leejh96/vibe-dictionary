@@ -400,10 +400,10 @@ test('inline validation waits for blur, updates while editing and keeps the erro
   assert.equal(tree.root.findAllByType('input')[0], input);
 });
 
-test('feedback category adds exactly ten unique searchable techniques with mapped scenes without extra demo captions', () => {
+test('feedback additions have unique searchable techniques with mapped scenes without extra demo captions', () => {
   const originalIds = new Set(['confetti-burst', 'error-shake-tooltip', 'heart-like-burst', 'toast-slide-stack', 'hold-to-confirm-ring']);
   const additions = TECHNIQUES.filter(item => item.category === 'feedback' && !originalIds.has(item.id));
-  assert.equal(additions.length, 10);
+  assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {
     assert.ok(matchesSearch(item, item.titleKo));

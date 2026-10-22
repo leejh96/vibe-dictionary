@@ -2,6 +2,8 @@ import { useDemoNumber, useDemoToggle, useDemoPulse, useDemoSample } from '../..
 import { useLocale } from '../../i18n/LocaleContext';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ADDITIONAL_DEMOS } from './additionalDemos';
+import { BillingComparisonDemo, FacetedFilterDemo, BulkActionBarDemo, UndoSnackbarDemo, OnboardingChecklistDemo } from './patterns/WorkflowDemos';
+import { HalftoneShadingDemo, VoxelLandscapeDemo, RibbonWeaveDemo, GuillocheCurveDemo, GradientRibbonDemo } from './graphic/GraphicStudioDemos';
 import { LightboxGalleryDemo, SelectionToolbarDemo, CollapsingHeaderDemo, HoverPreviewDemo, InlineEditDemo } from './patterns/PatternDemos';
 import { SwipeActionCardDemo } from './card/SwipeActionCard';
 import { ReorderListDemo } from './motion/ReorderListDemo';
@@ -110,6 +112,16 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
   const Addition = ADDITIONAL_DEMOS.get(techniqueId);
   if (Addition) return <Addition />;
   switch (techniqueId) {
+    case 'mg-halftone-dot-shading': return <HalftoneShadingDemo />;
+    case 'mg-isometric-voxel-landscape': return <VoxelLandscapeDemo />;
+    case 'mg-ribbon-over-under-weave': return <RibbonWeaveDemo />;
+    case 'mg-guilloche-curve-engraving': return <GuillocheCurveDemo />;
+    case 'mg-gradient-stroke-ribbon': return <GradientRibbonDemo />;
+    case 'billing-cycle-pricing-card': return <BillingComparisonDemo />;
+    case 'faceted-filter-chips': return <FacetedFilterDemo />;
+    case 'bulk-selection-action-bar': return <BulkActionBarDemo />;
+    case 'undo-delete-snackbar': return <UndoSnackbarDemo />;
+    case 'onboarding-progress-checklist': return <OnboardingChecklistDemo />;
     case 'zoom-lightbox-gallery': return <LightboxGalleryDemo />;
     case 'selection-bubble-toolbar': return <SelectionToolbarDemo />;
     case 'ly-collapsing-scroll-header': return <CollapsingHeaderDemo />;

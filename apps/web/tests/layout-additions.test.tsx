@@ -197,7 +197,7 @@ test('content tabs link isolated panels, wrap keyboard focus and leave vertical 
 test('new UI layout techniques have unique searchable metadata, mapped scenes and no helper captions', () => {
   const originals = new Set(['sliding-pill-tabs', 'infinite-marquee', 'skeleton-shimmer', 'spotlight-focus']);
   const additions = TECHNIQUES.filter(item => item.category === 'layout' && !originals.has(item.id));
-  assert.equal(additions.length, 10);
+  assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {
     assert.ok(matchesSearch(item, item.titleKo));
