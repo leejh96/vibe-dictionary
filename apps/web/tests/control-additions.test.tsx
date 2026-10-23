@@ -1,3 +1,4 @@
+import { COLLECTION_IDS } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -395,7 +396,7 @@ test('value bubble follows the native range value, exposes its percentage and is
 
 test('control additions including inline editing are searchable and mapped without helper captions', () => {
   const originals = new Set(['before-after-slider', 'drag-snap-slot', 'elastic-toggle-switch', 'combo-gauge-pop', 'gooey-menu-fab', 'otp-pin-focus-bounce', 'peek-password-lamp']);
-  const additions = TECHNIQUES.filter(item => item.category === 'control' && !originals.has(item.id));
+  const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'control' && !originals.has(item.id));
   assert.equal(additions.length, 12);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {

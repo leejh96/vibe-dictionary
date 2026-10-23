@@ -1,3 +1,4 @@
+import { COLLECTION_IDS } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -402,7 +403,7 @@ test('inline validation waits for blur, updates while editing and keeps the erro
 
 test('feedback additions have unique searchable techniques with mapped scenes without extra demo captions', () => {
   const originalIds = new Set(['confetti-burst', 'error-shake-tooltip', 'heart-like-burst', 'toast-slide-stack', 'hold-to-confirm-ring']);
-  const additions = TECHNIQUES.filter(item => item.category === 'feedback' && !originalIds.has(item.id));
+  const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'feedback' && !originalIds.has(item.id));
   assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {

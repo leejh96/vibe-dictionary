@@ -1,3 +1,8 @@
+import { COLLECTION_UI_EN_MESSAGES } from './demos/collection-ui.messages';
+import { COLLECTION_MOTION_EN_MESSAGES } from './demos/collection-motion.messages';
+import { COLLECTION_LAYOUT_EN_MESSAGES } from './demos/collection-layout.messages';
+import { COLLECTION_STYLE_EN_MESSAGES } from './demos/collection-style.messages';
+import { COLLECTION_VIDEO_EN_MESSAGES } from './demos/collection-video.messages';
 import { SHOWCASE_EN_MESSAGES } from './demos/showcase.messages';
 import { GRAPHIC_STUDIO_EN_MESSAGES } from './demos/graphic-studio.messages';
 import { WORKFLOWS_EN_MESSAGES } from './demos/workflows.messages';
@@ -30,6 +35,11 @@ import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  ...COLLECTION_UI_EN_MESSAGES,
+  ...COLLECTION_MOTION_EN_MESSAGES,
+  ...COLLECTION_LAYOUT_EN_MESSAGES,
+  ...COLLECTION_STYLE_EN_MESSAGES,
+  ...COLLECTION_VIDEO_EN_MESSAGES,
   ...WORKFLOWS_EN_MESSAGES,
   ...SHOWCASE_EN_MESSAGES,
   ...GRAPHIC_STUDIO_EN_MESSAGES,

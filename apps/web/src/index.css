@@ -1,3 +1,4 @@
+@import "./components/demos/collection/collection.css";
 @import 'tailwindcss';
 @import './components/demos/patterns/showcase.css';
 @import './components/demos/patterns/workflow.css';

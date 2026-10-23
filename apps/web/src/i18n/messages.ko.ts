@@ -1,3 +1,8 @@
+import { COLLECTION_UI_KO_MESSAGES } from './demos/collection-ui.messages';
+import { COLLECTION_MOTION_KO_MESSAGES } from './demos/collection-motion.messages';
+import { COLLECTION_LAYOUT_KO_MESSAGES } from './demos/collection-layout.messages';
+import { COLLECTION_STYLE_KO_MESSAGES } from './demos/collection-style.messages';
+import { COLLECTION_VIDEO_KO_MESSAGES } from './demos/collection-video.messages';
 import { SHOWCASE_KO_MESSAGES } from './demos/showcase.messages';
 import { GRAPHIC_STUDIO_KO_MESSAGES } from './demos/graphic-studio.messages';
 import { WORKFLOWS_KO_MESSAGES } from './demos/workflows.messages';
@@ -29,6 +34,11 @@ import { TEXT_KO_MESSAGES } from './demos/text.messages';
 import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
+  ...COLLECTION_UI_KO_MESSAGES,
+  ...COLLECTION_MOTION_KO_MESSAGES,
+  ...COLLECTION_LAYOUT_KO_MESSAGES,
+  ...COLLECTION_STYLE_KO_MESSAGES,
+  ...COLLECTION_VIDEO_KO_MESSAGES,
   ...WORKFLOWS_KO_MESSAGES,
   ...SHOWCASE_KO_MESSAGES,
   ...GRAPHIC_STUDIO_KO_MESSAGES,

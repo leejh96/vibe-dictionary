@@ -1,3 +1,8 @@
+import { UI_COLLECTION_SEARCH } from './search-metadata/additions/collection-ui';
+import { MOTION_COLLECTION_SEARCH } from './search-metadata/additions/collection-motion';
+import { LAYOUT_COLLECTION_SEARCH } from './search-metadata/additions/collection-layout';
+import { STYLE_COLLECTION_SEARCH } from './search-metadata/additions/collection-style';
+import { VIDEO_COLLECTION_SEARCH } from './search-metadata/additions/collection-video';
 import { SHOWCASE_SEARCH_METADATA } from './search-metadata/additions/showcase';
 import { GRAPHIC_STUDIO_SEARCH_METADATA } from './search-metadata/additions/graphic-studio';
 import { WORKFLOW_SEARCH_METADATA } from './search-metadata/additions/workflows';
@@ -46,6 +51,11 @@ const m = (targets: SearchTarget[], triggers: SearchTrigger[], ko: string, en: s
 });
 // Describe the implemented demo, including its actual input, rather than features suggested by a title.
 export const SEARCH_METADATA: Record<string, SearchMetadata> = {
+  ...UI_COLLECTION_SEARCH,
+  ...MOTION_COLLECTION_SEARCH,
+  ...LAYOUT_COLLECTION_SEARCH,
+  ...STYLE_COLLECTION_SEARCH,
+  ...VIDEO_COLLECTION_SEARCH,
   ...WORKFLOW_SEARCH_METADATA,
   ...SHOWCASE_SEARCH_METADATA,
   ...GRAPHIC_STUDIO_SEARCH_METADATA,

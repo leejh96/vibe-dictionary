@@ -1,3 +1,4 @@
+import { COLLECTION_IDS } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -430,7 +431,7 @@ test('new kinetic techniques have unique searchable metadata and their mapped in
     ['mg-sliced-type-assembly', SlicedTypeDemo],
   ]);
   const originals = new Set(['mg-kinetic-wave-text', 'mg-3d-text-roller', 'mg-neon-sign-flicker']);
-  const added = TECHNIQUES.filter(item => item.category === 'kinetic' && !originals.has(item.id));
+  const added = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'kinetic' && !originals.has(item.id));
   assert.deepEqual(added.map(item => item.id).sort(), [...mapped.keys()].sort());
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const id of originals) assert.ok(TECHNIQUES.some(item => item.id === id && item.category === 'kinetic'));

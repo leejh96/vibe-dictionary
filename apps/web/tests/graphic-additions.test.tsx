@@ -1,3 +1,4 @@
+import { COLLECTION_IDS } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -199,7 +200,7 @@ test('cutout masks and gradients keep their references inside each mounted insta
 
 test('new graphic techniques have unique searchable metadata, mapped scenes and no helper captions', () => {
   const originals = new Set(['mg-svg-line-draw', 'mg-liquid-blob-morph', 'mg-gooey-metaball', 'mg-orbit-rotation', 'mg-morphing-grid-wave']);
-  const additions = TECHNIQUES.filter(item => item.category === 'graphic' && !originals.has(item.id) && item.id !== 'mg-lenticular-strip-poster'); // Covered in showcase-demos.
+  const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'graphic' && !originals.has(item.id) && item.id !== 'mg-lenticular-strip-poster'); // Covered in showcase-demos.
   assert.equal(additions.length, 15);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {

@@ -1,3 +1,8 @@
+import { UI_COLLECTION_DEMOS } from './collection/UiCollection';
+import { MOTION_COLLECTION_DEMOS } from './collection/MotionCollection';
+import { LAYOUT_COLLECTION_DEMOS } from './collection/LayoutCollection';
+import { STYLE_COLLECTION_DEMOS } from './collection/StyleCollection';
+import { VIDEO_COLLECTION_DEMOS } from './collection/VideoCollection';
 import type { ComponentType } from 'react';
 import { GRID_ADDITION_DEMOS } from './grid';
 import { NAV_ADDITION_DEMOS } from './nav';
@@ -15,6 +20,11 @@ import { INFOGRAPHIC_ADDITION_DEMOS } from './infographic';
 import { BROADCAST_ADDITION_DEMOS } from './broadcast';
 
 export const ADDITIONAL_DEMOS = new Map<string, ComponentType>([
+  ...Object.entries(UI_COLLECTION_DEMOS),
+  ...Object.entries(MOTION_COLLECTION_DEMOS),
+  ...Object.entries(LAYOUT_COLLECTION_DEMOS),
+  ...Object.entries(STYLE_COLLECTION_DEMOS),
+  ...Object.entries(VIDEO_COLLECTION_DEMOS),
   ...Object.entries(GRID_ADDITION_DEMOS),
   ...Object.entries(NAV_ADDITION_DEMOS),
   ...Object.entries(PANEL_ADDITION_DEMOS),

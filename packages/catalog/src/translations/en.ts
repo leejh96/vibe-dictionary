@@ -1,3 +1,8 @@
+import { EN_UI_COLLECTION } from './additions/collection-ui';
+import { EN_MOTION_COLLECTION } from './additions/collection-motion';
+import { EN_LAYOUT_COLLECTION } from './additions/collection-layout';
+import { EN_STYLE_COLLECTION } from './additions/collection-style';
+import { EN_VIDEO_COLLECTION } from './additions/collection-video';
 import { EN_SHOWCASE_TECHNIQUES } from './additions/showcase';
 import { EN_GRAPHIC_STUDIO_TECHNIQUES } from './additions/graphic-studio';
 import { EN_WORKFLOW_TECHNIQUES } from './additions/workflows';
@@ -34,6 +39,11 @@ const text = (summary: string, vibeTag: string, keywords: string, promptSnippet:
 import { EN_PATTERN_TECHNIQUES } from './additions/patterns';
 
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
+  ...EN_UI_COLLECTION,
+  ...EN_MOTION_COLLECTION,
+  ...EN_LAYOUT_COLLECTION,
+  ...EN_STYLE_COLLECTION,
+  ...EN_VIDEO_COLLECTION,
   ...EN_WORKFLOW_TECHNIQUES,
   ...EN_SHOWCASE_TECHNIQUES,
   ...EN_GRAPHIC_STUDIO_TECHNIQUES,
