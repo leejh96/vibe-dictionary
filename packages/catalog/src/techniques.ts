@@ -1,3 +1,9 @@
+import { UI_COLLECTION_ADDITIONS } from './additions/collection-ui';
+import { MOTION_COLLECTION_ADDITIONS } from './additions/collection-motion';
+import { LAYOUT_COLLECTION_ADDITIONS } from './additions/collection-layout';
+import { STYLE_COLLECTION_ADDITIONS } from './additions/collection-style';
+import { VIDEO_COLLECTION_ADDITIONS } from './additions/collection-video';
+import { SHOWCASE_ADDITIONS } from './additions/showcase';
 import { GRAPHIC_STUDIO_ADDITIONS } from './additions/graphic-studio';
 import { WORKFLOW_ADDITIONS } from './additions/workflows';
 import { PATTERN_ADDITIONS } from './additions/patterns';
@@ -150,7 +156,13 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...UI_COLLECTION_ADDITIONS,
+  ...MOTION_COLLECTION_ADDITIONS,
+  ...LAYOUT_COLLECTION_ADDITIONS,
+  ...STYLE_COLLECTION_ADDITIONS,
+  ...VIDEO_COLLECTION_ADDITIONS,
   ...WORKFLOW_ADDITIONS,
+  ...SHOWCASE_ADDITIONS,
   ...GRAPHIC_STUDIO_ADDITIONS,
   ...PATTERN_ADDITIONS,
   ...TACTILE_ADDITIONS,

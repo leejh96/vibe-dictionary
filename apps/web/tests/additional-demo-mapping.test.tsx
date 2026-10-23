@@ -1,3 +1,4 @@
+import { COLLECTION_REGISTRIES } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -21,7 +22,7 @@ import { INFOGRAPHIC_ADDITION_DEMOS } from '../src/components/demos/infographic'
 import { BROADCAST_ADDITION_DEMOS } from '../src/components/demos/broadcast';
 
 test('category demo registries cannot shadow one another and every registered ID resolves through the app', () => {
-  const registries = [GRID_ADDITION_DEMOS, NAV_ADDITION_DEMOS, PANEL_ADDITION_DEMOS, MODERN_ADDITION_DEMOS,
+  const registries = [...COLLECTION_REGISTRIES, GRID_ADDITION_DEMOS, NAV_ADDITION_DEMOS, PANEL_ADDITION_DEMOS, MODERN_ADDITION_DEMOS,
     CAMERA_ADDITION_DEMOS, VFX_ADDITION_DEMOS, SCROLL_ADDITION_DEMOS,
     TACTILE_ADDITION_DEMOS, RETRO_ADDITION_DEMOS, SCIFI_ADDITION_DEMOS,
     PROMO_ADDITION_DEMOS, KINETIC_AD_ADDITION_DEMOS, INFOGRAPHIC_ADDITION_DEMOS, BROADCAST_ADDITION_DEMOS];

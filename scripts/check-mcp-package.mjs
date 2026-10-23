@@ -21,6 +21,7 @@ function npm(args, cwd = root) {
 
 assert.equal(manifest.name, '@keke1933/vibe-dictionary-mcp');
 assert.equal(manifest.private, undefined);
+assert.deepEqual(Object.keys(manifest.dependencies).sort(), ['@modelcontextprotocol/sdk', 'zod']);
 assert.equal(manifest.license, 'MIT');
 assert.equal(manifest.publishConfig.access, 'public');
 assert.equal(manifest.repository.url, 'git+https://github.com/leejh96/vibe-dictionary.git');
@@ -43,7 +44,7 @@ const isolatedDir = await mkdtemp(join(temporaryRoot, 'vibe-mcp-install-'));
 const client = new Client({ name: 'npm-package-check', version: '1.0.0' });
 let stderr = '';
 try {
-  npm(['install', '--prefix', isolatedDir, '--ignore-scripts', '--no-audit', '--no-fund', '--registry=https://registry.npmjs.org/', tarball]);
+  npm(['install', '--prefix', isolatedDir, '--no-audit', '--no-fund', '--registry=https://registry.npmjs.org/', tarball]);
   const runtimeAudit = JSON.parse(npm(['audit', '--omit=dev', '--json', '--registry=https://registry.npmjs.org/'], isolatedDir));
   assert.equal(runtimeAudit.metadata.vulnerabilities.total, 0);
   const installed = join(isolatedDir, 'node_modules/@keke1933/vibe-dictionary-mcp');

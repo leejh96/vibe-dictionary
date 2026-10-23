@@ -1,3 +1,4 @@
+import { COLLECTION_IDS } from './helpers/collection';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -369,7 +370,7 @@ test('panel additions retain unique searchable metadata and usable demo mapping 
   const expected = new Map([['ly-sortable-data-table', SortableTableDemo], ['ly-selection-property-inspector', PropertyInspectorDemo], ['ly-expandable-data-rows', ExpandableRowsDemo], ['ly-activity-timeline', ActivityTimelineDemo], ['ly-context-code-diff', CodeDiffDemo], ['ly-json-structure-tree', JsonTreeDemo], ['ly-time-grid-agenda', TimeGridAgendaDemo], ['ly-transposable-comparison-matrix', ComparisonMatrixDemo], ['ly-file-list-grid-view', FileViewModeDemo], ['ly-dual-list-transfer', DualListTransferDemo]]);
   const originals = new Set(['ly-bottom-sheet', 'ly-master-detail-split', 'ly-kanban-board', 'ly-heatmap-grid', 'ly-resizable-split-pane']);
   expected.set('bulk-selection-action-bar', BulkActionBarDemo);
-  const additions = TECHNIQUES.filter(item => item.category === 'panel' && !originals.has(item.id));
+  const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'panel' && !originals.has(item.id));
   assert.deepEqual(new Set(additions.map(item => item.id)), new Set(expected.keys()));
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {

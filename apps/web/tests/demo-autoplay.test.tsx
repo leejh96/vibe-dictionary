@@ -7,6 +7,7 @@ import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { TechniqueCard } from '../src/components/TechniqueCard';
 import { TECHNIQUES } from '@vibe-dictionary/catalog';
 import { DEMO_PLAYBACK, DEMO_PLAYBACK_GROUPS } from '../src/components/demos/demoPlayback';
+import { COLLECTION_IDS } from './helpers/collection';
 
 function fixture(t: TestContext, initiallyReduced = false) {
   t.mock.timers.enable({ apis: ['setInterval', 'setTimeout'] });
@@ -97,6 +98,23 @@ test('autoplay continues across hover and restarts from the initial state only o
   assert.equal(f.frames.size, 1);
   f.tick(8000); assert.equal(f.value, 0); assert.equal(f.toggle, false);
 });
+
+for (const id of [...COLLECTION_IDS].filter(id => DEMO_PLAYBACK.get(id) === 'auto' && !['ly-sticky-stacked-cards', 'ly-footer-uncover-scroll'].includes(id))) {
+  test(`${id} changes with the clock, restarts once and stops when hidden`, t => {
+    const f = fixture(t);
+    f.technique(id);
+    const scene = () => JSON.stringify(f.tree.root.findByProps({ className: 'cx-demo' }).findAll(node => typeof node.type === 'string').map(node => ({ type: node.type, props: Object.fromEntries(Object.entries(node.props).filter(([key]) => key !== 'children')), text: node.children.filter(child => typeof child === 'string') }))).replace(/:r[\da-z]+:/gi, ':instance:');
+    const initial = scene();
+    f.tick(2500, 100);
+    assert.notEqual(scene(), initial);
+    assert.doesNotMatch(scene(), /NaN|Infinity/);
+    f.click(); assert.equal(scene(), initial); assert.equal(f.frames.size, 1);
+    f.hide(true); assert.equal(f.frames.size, 0);
+    f.hide(false); assert.equal(f.frames.size, 1);
+    f.reduce(true); assert.equal(f.frames.size, 0); assert.equal(scene(), initial);
+    act(() => f.tree.unmount()); assert.equal(f.frames.size, 0);
+  });
+}
 
 for (const id of ['mg-halftone-dot-shading', 'mg-isometric-voxel-landscape', 'mg-ribbon-over-under-weave', 'mg-guilloche-curve-engraving', 'mg-gradient-stroke-ribbon']) {
   test(`${id} animates without controls, restarts once and respects reduced motion`, t => {

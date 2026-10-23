@@ -1,0 +1,557 @@
+[
+  {
+    "id": "heldout-0-ko",
+    "locale": "ko",
+    "queries": [
+      "원형 채우기",
+      "radial fill"
+    ],
+    "expected": [
+      "hover-radial-ink"
+    ]
+  },
+  {
+    "id": "heldout-0-en",
+    "locale": "en",
+    "queries": [
+      "radial fill"
+    ],
+    "expected": [
+      "hover-radial-ink"
+    ]
+  },
+  {
+    "id": "heldout-1-ko",
+    "locale": "ko",
+    "queries": [
+      "책 카드"
+    ],
+    "expected": [
+      "hinged-book-cover-card"
+    ]
+  },
+  {
+    "id": "heldout-1-en",
+    "locale": "en",
+    "queries": [
+      "book card"
+    ],
+    "expected": [
+      "hinged-book-cover-card"
+    ]
+  },
+  {
+    "id": "heldout-2-ko",
+    "locale": "ko",
+    "queries": [
+      "카드 펼치기",
+      "stack grid"
+    ],
+    "expected": [
+      "stack-to-grid-transition"
+    ]
+  },
+  {
+    "id": "heldout-2-en",
+    "locale": "en",
+    "queries": [
+      "card spread"
+    ],
+    "expected": [
+      "stack-to-grid-transition"
+    ]
+  },
+  {
+    "id": "heldout-3-ko",
+    "locale": "ko",
+    "queries": [
+      "루비 주석"
+    ],
+    "expected": [
+      "ruby-reading-annotation"
+    ]
+  },
+  {
+    "id": "heldout-3-en",
+    "locale": "en",
+    "queries": [
+      "ruby annotation"
+    ],
+    "expected": [
+      "ruby-reading-annotation"
+    ]
+  },
+  {
+    "id": "heldout-4-ko",
+    "locale": "ko",
+    "queries": [
+      "저장 상태"
+    ],
+    "expected": [
+      "dirty-note-save-state"
+    ]
+  },
+  {
+    "id": "heldout-4-en",
+    "locale": "en",
+    "queries": [
+      "unsaved changes"
+    ],
+    "expected": [
+      "dirty-note-save-state"
+    ]
+  },
+  {
+    "id": "heldout-5-ko",
+    "locale": "ko",
+    "queries": [
+      "패널 고정 푸터"
+    ],
+    "expected": [
+      "pinned-panel-action-footer"
+    ]
+  },
+  {
+    "id": "heldout-5-en",
+    "locale": "en",
+    "queries": [
+      "sticky footer",
+      "panel footer"
+    ],
+    "expected": [
+      "pinned-panel-action-footer"
+    ]
+  },
+  {
+    "id": "heldout-6-ko",
+    "locale": "ko",
+    "queries": [
+      "숫자 드래그"
+    ],
+    "expected": [
+      "pointer-numeric-scrubber"
+    ]
+  },
+  {
+    "id": "heldout-6-en",
+    "locale": "en",
+    "queries": [
+      "scrub number"
+    ],
+    "expected": [
+      "pointer-numeric-scrubber"
+    ]
+  },
+  {
+    "id": "heldout-7-ko",
+    "locale": "ko",
+    "queries": [
+      "리사주"
+    ],
+    "expected": [
+      "mg-lissajous-ribbon"
+    ]
+  },
+  {
+    "id": "heldout-7-en",
+    "locale": "en",
+    "queries": [
+      "lissajous"
+    ],
+    "expected": [
+      "mg-lissajous-ribbon"
+    ]
+  },
+  {
+    "id": "heldout-8-ko",
+    "locale": "ko",
+    "queries": [
+      "나뭇잎 그림자"
+    ],
+    "expected": [
+      "mg-dappled-leaf-shadow"
+    ]
+  },
+  {
+    "id": "heldout-8-en",
+    "locale": "en",
+    "queries": [
+      "dappled shadow"
+    ],
+    "expected": [
+      "mg-dappled-leaf-shadow"
+    ]
+  },
+  {
+    "id": "heldout-9-ko",
+    "locale": "ko",
+    "queries": [
+      "현수선"
+    ],
+    "expected": [
+      "mg-hanging-catenary-chain"
+    ]
+  },
+  {
+    "id": "heldout-9-en",
+    "locale": "en",
+    "queries": [
+      "catenary"
+    ],
+    "expected": [
+      "mg-hanging-catenary-chain"
+    ]
+  },
+  {
+    "id": "heldout-10-ko",
+    "locale": "ko",
+    "queries": [
+      "진자 글자"
+    ],
+    "expected": [
+      "mg-pendulum-glyphs"
+    ]
+  },
+  {
+    "id": "heldout-10-en",
+    "locale": "en",
+    "queries": [
+      "pendulum letters"
+    ],
+    "expected": [
+      "mg-pendulum-glyphs"
+    ]
+  },
+  {
+    "id": "heldout-11-ko",
+    "locale": "ko",
+    "queries": [
+      "스플릿 디옵터"
+    ],
+    "expected": [
+      "mg-split-diopter-shot"
+    ]
+  },
+  {
+    "id": "heldout-11-en",
+    "locale": "en",
+    "queries": [
+      "split diopter"
+    ],
+    "expected": [
+      "mg-split-diopter-shot"
+    ]
+  },
+  {
+    "id": "heldout-12-ko",
+    "locale": "ko",
+    "queries": [
+      "필름 번"
+    ],
+    "expected": [
+      "mg-film-burn-flash"
+    ]
+  },
+  {
+    "id": "heldout-12-en",
+    "locale": "en",
+    "queries": [
+      "film burn"
+    ],
+    "expected": [
+      "mg-film-burn-flash"
+    ]
+  },
+  {
+    "id": "heldout-13-ko",
+    "locale": "ko",
+    "queries": [
+      "정당화 갤러리",
+      "justified rows"
+    ],
+    "expected": [
+      "ly-justified-image-rows"
+    ]
+  },
+  {
+    "id": "heldout-13-en",
+    "locale": "en",
+    "queries": [
+      "justified gallery"
+    ],
+    "expected": [
+      "ly-justified-image-rows"
+    ]
+  },
+  {
+    "id": "heldout-14-ko",
+    "locale": "ko",
+    "queries": [
+      "스티키 카드"
+    ],
+    "expected": [
+      "ly-sticky-stacked-cards"
+    ]
+  },
+  {
+    "id": "heldout-14-en",
+    "locale": "en",
+    "queries": [
+      "sticky stack"
+    ],
+    "expected": [
+      "ly-sticky-stacked-cards"
+    ]
+  },
+  {
+    "id": "heldout-15-ko",
+    "locale": "ko",
+    "queries": [
+      "축약 브레드크럼",
+      "브레드크럼"
+    ],
+    "expected": [
+      "ly-collapsed-breadcrumb-path"
+    ]
+  },
+  {
+    "id": "heldout-15-en",
+    "locale": "en",
+    "queries": [
+      "collapsible breadcrumb",
+      "breadcrumb"
+    ],
+    "expected": [
+      "ly-collapsed-breadcrumb-path"
+    ]
+  },
+  {
+    "id": "heldout-16-ko",
+    "locale": "ko",
+    "queries": [
+      "열 표시"
+    ],
+    "expected": [
+      "ly-column-visibility-table"
+    ]
+  },
+  {
+    "id": "heldout-16-en",
+    "locale": "en",
+    "queries": [
+      "column visibility"
+    ],
+    "expected": [
+      "ly-column-visibility-table"
+    ]
+  },
+  {
+    "id": "heldout-17-ko",
+    "locale": "ko",
+    "queries": [
+      "라인 아이콘",
+      "monoline"
+    ],
+    "expected": [
+      "st-monoline-icon-language"
+    ]
+  },
+  {
+    "id": "heldout-17-en",
+    "locale": "en",
+    "queries": [
+      "monoline icons"
+    ],
+    "expected": [
+      "st-monoline-icon-language"
+    ]
+  },
+  {
+    "id": "heldout-18-ko",
+    "locale": "ko",
+    "queries": [
+      "코르크"
+    ],
+    "expected": [
+      "st-cork-granule-surface"
+    ]
+  },
+  {
+    "id": "heldout-18-en",
+    "locale": "en",
+    "queries": [
+      "cork"
+    ],
+    "expected": [
+      "st-cork-granule-surface"
+    ]
+  },
+  {
+    "id": "heldout-19-ko",
+    "locale": "ko",
+    "queries": [
+      "도트 매트릭스"
+    ],
+    "expected": [
+      "st-dot-matrix-tractor-paper"
+    ]
+  },
+  {
+    "id": "heldout-19-en",
+    "locale": "en",
+    "queries": [
+      "dot matrix printer"
+    ],
+    "expected": [
+      "st-dot-matrix-tractor-paper"
+    ]
+  },
+  {
+    "id": "heldout-20-ko",
+    "locale": "ko",
+    "queries": [
+      "와이어프레임 지구본"
+    ],
+    "expected": [
+      "st-wireframe-sphere-grid"
+    ]
+  },
+  {
+    "id": "heldout-20-en",
+    "locale": "en",
+    "queries": [
+      "wireframe globe"
+    ],
+    "expected": [
+      "st-wireframe-sphere-grid"
+    ]
+  },
+  {
+    "id": "heldout-21-ko",
+    "locale": "ko",
+    "queries": [
+      "캔 오프닝"
+    ],
+    "expected": [
+      "vd-pull-tab-can-opening"
+    ]
+  },
+  {
+    "id": "heldout-21-en",
+    "locale": "en",
+    "queries": [
+      "can tab"
+    ],
+    "expected": [
+      "vd-pull-tab-can-opening"
+    ]
+  },
+  {
+    "id": "heldout-22-ko",
+    "locale": "ko",
+    "queries": [
+      "할인 가격"
+    ],
+    "expected": [
+      "vd-price-strike-replacement"
+    ]
+  },
+  {
+    "id": "heldout-22-en",
+    "locale": "en",
+    "queries": [
+      "price strike"
+    ],
+    "expected": [
+      "vd-price-strike-replacement"
+    ]
+  },
+  {
+    "id": "heldout-23-ko",
+    "locale": "ko",
+    "queries": [
+      "불릿 차트"
+    ],
+    "expected": [
+      "vd-bullet-target-comparison"
+    ]
+  },
+  {
+    "id": "heldout-23-en",
+    "locale": "en",
+    "queries": [
+      "bullet chart"
+    ],
+    "expected": [
+      "vd-bullet-target-comparison"
+    ]
+  },
+  {
+    "id": "heldout-24-ko",
+    "locale": "ko",
+    "queries": [
+      "세이프 영역"
+    ],
+    "expected": [
+      "vd-safe-frame-overlay"
+    ]
+  },
+  {
+    "id": "heldout-24-en",
+    "locale": "en",
+    "queries": [
+      "safe area"
+    ],
+    "expected": [
+      "vd-safe-frame-overlay"
+    ]
+  },
+  {
+    "id": "negative-7",
+    "locale": "ko",
+    "queries": [
+      "항공권 예약"
+    ],
+    "expected": []
+  },
+  {
+    "id": "negative-8",
+    "locale": "en",
+    "queries": [
+      "Peru capital"
+    ],
+    "expected": []
+  },
+  {
+    "id": "negative-9",
+    "locale": "ko",
+    "queries": [
+      "계좌 이체"
+    ],
+    "expected": []
+  },
+  {
+    "id": "negative-10",
+    "locale": "en",
+    "queries": [
+      "boil egg"
+    ],
+    "expected": []
+  },
+  {
+    "id": "negative-11",
+    "locale": "ko",
+    "queries": [
+      "여권 유효기간"
+    ],
+    "expected": []
+  },
+  {
+    "id": "negative-12",
+    "locale": "en",
+    "queries": [
+      "laptop battery health"
+    ],
+    "expected": []
+  }
+]

@@ -16,7 +16,7 @@ npm run build
 npm run check:package -- docs/local/npm-release
 ```
 
-마지막 명령은 빌드한 tarball에 실행 파일·README·LICENSE·package.json만 들어가는지 확인하고, 독립된 임시 경로에 설치해 도구 목록·전체 기법·프롬프트를 원본과 대조한다. 소비자 설치 시 새로 결정된 실행 의존성도 npm audit로 검사한다. 성공 시 검증한 tarball 경로를 출력한다. 이 명령은 게시하지 않는다.
+마지막 명령은 tarball에 실행 파일·README·LICENSE·package.json만 들어가는지 확인하고, 독립된 임시 경로에 설치해 도구 목록·전체 기법·한영 프롬프트를 원본과 대조한다. 소비자 설치 시 새로 결정된 실행 의존성도 npm audit로 검사한다. 성공 시 검증한 tarball 경로를 출력한다. 이 명령은 게시하지 않는다.
 
 ## 최초 1회: npm 계정과 패키지 생성
 
