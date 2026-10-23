@@ -10,22 +10,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "링크에 호버하거나 포커스를 주면 작은 풍경 이미지가 떠오르는 링크"
+        "포트폴리오 작업 목록에서 페이지 이동 전에 작품 이미지를 미리 보여주기"
       ],
       "en": [
-        "A small landscape floats above a link on hover or keyboard focus"
+        "Preview portfolio artwork from a project list before opening its page"
       ]
     },
     "aliases": {
       "ko": [
         "이미지 프리뷰 링크",
         "호버 이미지",
-        "프리뷰 링크"
+        "프리뷰 링크",
+        "마우스 사진 미리보기",
+        "링크 썸네일 팝업"
       ],
       "en": [
         "Image Preview Link",
         "hover image",
-        "link preview"
+        "link preview",
+        "image on link hover",
+        "portfolio image preview"
       ]
     }
   },
@@ -38,22 +42,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "물결 밑줄이 글자 쪽으로 올라오며 반응하는 텍스트 버튼"
+        "브랜드 소개 페이지의 텍스트 링크에 가벼운 장식 반응 주기"
       ],
       "en": [
-        "A wavy underline moves closer to its label on hover or focus"
+        "Give editorial navigation links a playful decorative response"
       ]
     },
     "aliases": {
       "ko": [
         "물결 밑줄 근접 호버",
         "웨이브 밑줄",
-        "밑줄 간격"
+        "밑줄 간격",
+        "출렁이는 밑줄",
+        "물결 링크 강조"
       ],
       "en": [
         "Wavy Underline Offset Hover",
         "wavy underline",
-        "underline offset"
+        "underline offset",
+        "wave underline link",
+        "playful link underline"
       ]
     }
   },
@@ -66,22 +74,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "버튼의 두 배경 면이 양옆으로 갈라지며 아래 색이 드러나는 효과"
+        "신청 버튼에 진입할 때 가려진 강조색을 열어 클릭 유도"
       ],
       "en": [
-        "Two button background halves slide apart to expose the underlying color"
+        "Reveal an accent color as visitors approach a signup action"
       ]
     },
     "aliases": {
       "ko": [
         "좌우 커튼 호버 버튼",
         "분할 배경 호버",
-        "커튼 버튼"
+        "커튼 버튼",
+        "양옆으로 열리는 버튼",
+        "커튼처럼 갈라지는 배경"
       ],
       "en": [
         "Split Curtain Hover Button",
         "split hover",
-        "curtain button"
+        "curtain button",
+        "opening curtain button",
+        "split background reveal"
       ]
     }
   },
@@ -94,22 +106,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "작은 창 안에서 대각선 화살표가 올라가고 수평 화살표가 들어오는 버튼"
+        "다음 단계로 이동하는 링크에서 진행 방향을 반복해서 암시"
       ],
       "en": [
-        "A diagonal arrow exits a clipped window as a horizontal arrow enters"
+        "Reinforce forward navigation on a next step link"
       ]
     },
     "aliases": {
       "ko": [
         "화살표 컨베이어 호버",
         "화살표 교체",
-        "아이콘 롤링"
+        "아이콘 롤링",
+        "흘러가는 화살표 버튼",
+        "다음 이동 화살표"
       ],
       "en": [
         "Arrow Conveyor Hover",
         "arrow swap",
-        "rolling arrow"
+        "rolling arrow",
+        "looping arrow button",
+        "forward arrow conveyor"
       ]
     }
   },
@@ -122,22 +138,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "버튼 중앙의 작은 원이 커지며 바탕을 채우는 잉크 효과"
+        "주요 행동 버튼에 중심에서 번지는 색으로 선택 가능성 강조"
       ],
       "en": [
-        "A small circle expands from the button center to flood the background"
+        "Highlight a primary action with an expanding central color fill"
       ]
     },
     "aliases": {
       "ko": [
         "중앙 잉크 확산 호버",
         "잉크 확산",
-        "원형 채움"
+        "원형 채움",
+        "원형으로 채워지는 버튼",
+        "동그란 잉크 버튼"
       ],
       "en": [
         "Radial Ink Spread Hover",
         "ink flood",
-        "radial fill"
+        "radial fill",
+        "circular ink fill",
+        "expanding disc hover"
       ]
     }
   },
@@ -150,22 +170,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "반원 홈과 절취선으로 본문·번호 면을 나눈 입장권 카드"
+        "행사 예약 확인이나 입장권 미리보기를 절취선 있는 티켓으로 구성"
       ],
       "en": [
-        "An admission ticket divided by a perforated seam and semicircular notches"
+        "Present event reservations as tickets with a detachable admission stub"
       ]
     },
     "aliases": {
       "ko": [
         "천공 입장 티켓 카드",
         "입장권",
-        "절취선 티켓"
+        "절취선 티켓",
+        "입장권 절취선",
+        "공연 티켓 디자인"
       ],
       "en": [
         "Perforated Admission Ticket",
         "admission pass",
-        "ticket stub"
+        "ticket stub",
+        "admission ticket stub",
+        "perforated event pass"
       ]
     }
   },
@@ -178,22 +202,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "표지가 왼쪽 책등을 축으로 열려 안쪽 문장이 드러나는 카드"
+        "작품이나 강의 소개의 표지를 열어 숨겨진 설명 공개"
       ],
       "en": [
-        "A cover swings around the left spine to reveal an inner page"
+        "Present a course or publication overview behind an opening cover"
       ]
     },
     "aliases": {
       "ko": [
         "책 표지 힌지 카드",
         "책 표지",
-        "북 커버"
+        "북 커버",
+        "열리는 책 카드",
+        "책등 회전 표지"
       ],
       "en": [
         "Hinged Book Cover Card",
         "book cover",
-        "opening book"
+        "opening book",
+        "opening book card",
+        "hinged cover reveal"
       ]
     }
   },
@@ -206,22 +234,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "겹친 카드 세 장이 아래쪽 축을 중심으로 부채처럼 펼쳐지는 카드 묶음"
+        "작은 영역에 모아 둔 카드 후보를 펼쳐 비교하게 하기"
       ],
       "en": [
-        "Three stacked cards open into a fan around a pivot below their faces"
+        "Expand compact card choices for side by side inspection"
       ]
     },
     "aliases": {
       "ko": [
         "부채꼴 카드 펼치기",
         "카드 부채",
-        "덱 펼침"
+        "덱 펼침",
+        "부채처럼 펼친 카드",
+        "카드 패 펼치기"
       ],
       "en": [
         "Fan Spread Card Deck",
         "fan deck",
-        "spread cards"
+        "spread cards",
+        "fanned playing cards",
+        "spread card hand"
       ]
     }
   },
@@ -234,22 +266,28 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "슬라이더를 움직이면 지그재그 긁힘 경로가 은색 덮개를 지우는 카드"
+        "쿠폰이나 경품 공개 화면에서 덮개가 지워지는 모습을 범위 입력으로 시연"
       ],
       "en": [
-        "A range input extends a zigzag scratch mask through a silver covering"
+        "Preview a scratch off reward reveal using a range control rather than freehand scratching"
       ]
     },
     "aliases": {
       "ko": [
         "스크래치 마스크 리빌 카드",
         "스크래치 카드",
-        "긁기 마스크"
+        "긁기 마스크",
+        "긁는 카드",
+        "복권 스크래치",
+        "은박 지우기"
       ],
       "en": [
         "Scratch Mask Reveal Card",
         "scratch card",
-        "scratch reveal"
+        "scratch reveal",
+        "scratch off card",
+        "lottery reveal",
+        "silver coating erase"
       ]
     }
   },
@@ -262,22 +300,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "제품 위 세 지점을 선택하면 해당 부위 설명이 아래에 나타나는 카드"
+        "제품 사진의 주요 부품을 선택해 기능 설명을 확인하게 하기"
       ],
       "en": [
-        "Three product hotspots reveal the selected part label"
+        "Attach selectable feature explanations to parts of a product image"
       ]
     },
     "aliases": {
       "ko": [
         "제품 핫스폿 카드",
         "제품 주석",
-        "이미지 핫스팟"
+        "이미지 핫스팟",
+        "제품 부위 설명",
+        "클릭 포인트 안내"
       ],
       "en": [
         "Product Hotspot Card",
         "product annotations",
-        "image hotspot"
+        "image hotspot",
+        "product feature markers",
+        "interactive product annotations"
       ]
     }
   },
@@ -290,22 +332,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "중앙 원형 클립을 넓혀 다른 풍경으로 바꾸는 전환"
+        "배경 테마나 사진을 전환할 때 중심에서 새로운 화면 공개"
       ],
       "en": [
-        "A growing circular clip exposes a second landscape"
+        "Introduce a new photo or theme through an expanding circular window"
       ]
     },
     "aliases": {
       "ko": [
         "원형 창 장면 전환",
         "원형 전환",
-        "장면 클립"
+        "장면 클립",
+        "원형으로 바뀌는 화면",
+        "동그란 마스크 전환"
       ],
       "en": [
         "Circular Scene Switch",
         "circle transition",
-        "scene clip"
+        "scene clip",
+        "circle scene reveal",
+        "circular window transition"
       ]
     }
   },
@@ -318,22 +364,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "다섯 타일이 100ms 간격으로 넘어지거나 다시 일어나는 전환"
+        "여러 타일의 상태 변화를 순서가 보이는 넘어짐으로 표현"
       ],
       "en": [
-        "Five tiles tilt sequentially with a 100ms stagger"
+        "Show a sequence of tile state changes through staggered toppling"
       ]
     },
     "aliases": {
       "ko": [
         "도미노 타일 전환",
         "도미노 모션",
-        "순차 쓰러짐"
+        "순차 쓰러짐",
+        "차례로 넘어지는 타일",
+        "도미노 뒤집기"
       ],
       "en": [
         "Domino Tile Transition",
         "domino motion",
-        "staggered fall"
+        "staggered fall",
+        "toppling tile sequence",
+        "domino flip transition"
       ]
     }
   },
@@ -346,22 +396,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "맞물린 점선 경계의 두 패널이 벌어져 안쪽 문구를 드러내는 전환"
+        "티저 화면의 가운데를 벌려 안쪽 메시지를 공개"
       ],
       "en": [
-        "Two panels with dashed inner seams part to reveal a message"
+        "Open the middle of a teaser panel to expose its message"
       ]
     },
     "aliases": {
       "ko": [
         "지퍼 패널 열림",
         "지퍼 리빌",
-        "양쪽 열기"
+        "양쪽 열기",
+        "지퍼처럼 열리는 화면",
+        "좌우 패널 벌리기"
       ],
       "en": [
         "Zipper Panel Opening",
         "zipper reveal",
-        "split opening"
+        "split opening",
+        "unzipping panel",
+        "split seam opening"
       ]
     }
   },
@@ -374,22 +428,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "정면 패널이 90도 돌아가며 옆면 콘텐츠를 보여주는 3D 전환"
+        "동일 공간의 두 콘텐츠 면을 입체 회전으로 교체"
       ],
       "en": [
-        "A panel rotates 90 degrees to reveal its adjacent cube face"
+        "Switch two content views within one space using a cube turn"
       ]
     },
     "aliases": {
       "ko": [
         "큐브 면 패널 전환",
         "큐브 전환",
-        "3D 패널"
+        "3D 패널",
+        "육면체 화면 전환",
+        "옆면으로 돌아가는 패널"
       ],
       "en": [
         "Cube Face Panel Switch",
         "cube transition",
-        "rotating panel"
+        "rotating panel",
+        "cube face transition",
+        "rotating panel side"
       ]
     }
   },
@@ -402,22 +460,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "겹친 네 카드가 2×2 격자로 흩어지고 다시 쌓이는 전환"
+        "모아 보기와 전체 보기 사이에서 카드 배치를 전환"
       ],
       "en": [
-        "Four overlapping cards spread into a two-by-two grid and restack"
+        "Switch a card collection between compact and expanded overview modes"
       ]
     },
     "aliases": {
       "ko": [
         "스택에서 격자로 전환",
         "스택 그리드",
-        "펼침 레이아웃"
+        "펼침 레이아웃",
+        "겹친 카드 격자 펼침",
+        "카드 모음 전체 보기"
       ],
       "en": [
         "Stack to Grid Transition",
         "stack grid",
-        "spread layout"
+        "spread layout",
+        "stacked cards to grid",
+        "expand card overview"
       ]
     }
   },
@@ -430,22 +492,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "너비를 바꾸며 마지막 줄이 짧아지지 않도록 균형을 잡는 제목"
+        "반응형 랜딩 페이지에서 짧은 마지막 줄이 남는 제목을 정돈"
       ],
       "en": [
-        "A width control demonstrates balanced headline wrapping"
+        "Keep responsive landing page headlines visually balanced across line breaks"
       ]
     },
     "aliases": {
       "ko": [
         "균형 잡힌 헤드라인 줄바꿈",
         "균형 줄바꿈",
-        "헤드라인 균형"
+        "헤드라인 균형",
+        "제목 줄 길이 균형",
+        "고아 단어 줄바꿈"
       ],
       "en": [
         "Balanced Headline Wrapping",
         "text wrap balance",
-        "balanced heading"
+        "balanced heading",
+        "balanced text wrapping",
+        "headline orphan prevention"
       ]
     }
   },
@@ -458,22 +524,28 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "큰 본문 글자 위에 작은 발음·뜻 주석을 얹는 타이포"
+        "학습 자료에서 본문 흐름을 유지하면서 발음이나 뜻을 덧붙이기"
       ],
       "en": [
-        "Small reading annotations sit above large base lettering"
+        "Annotate educational text with pronunciation without interrupting the main line"
       ]
     },
     "aliases": {
       "ko": [
         "루비 발음 주석",
         "루비 태그",
-        "발음 표기"
+        "발음 표기",
+        "후리가나 표기",
+        "한자 독음",
+        "글자 위 작은 주석"
       ],
       "en": [
         "Ruby Reading Annotation",
         "ruby annotation",
-        "reading gloss"
+        "reading gloss",
+        "furigana annotation",
+        "pronunciation above characters",
+        "ruby gloss"
       ]
     }
   },
@@ -486,22 +558,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "삭제할 문구와 새 문구를 취소선·물결 밑줄로 대비하는 글자 구성"
+        "문구 검토 화면에서 삭제와 교체 제안을 시각적으로 구분"
       ],
       "en": [
-        "Deleted and revised words are contrasted with a strike and wavy underline"
+        "Distinguish deletion and replacement suggestions in a copy review"
       ]
     },
     "aliases": {
       "ko": [
         "교정 표시 타이포",
         "교정 마크",
-        "삽입 삭제"
+        "삽입 삭제",
+        "교열 표시",
+        "수정 전후 문구"
       ],
       "en": [
         "Proofreading Text Marks",
         "proofreading marks",
-        "insert delete"
+        "insert delete",
+        "copy editing marks",
+        "proofreader corrections"
       ]
     }
   },
@@ -514,22 +590,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "본문의 작은 번호를 누르면 보충 설명이 아래에 펼쳐지는 텍스트"
+        "읽는 위치를 벗어나지 않고 출처나 보충 설명을 확인하게 하기"
       ],
       "en": [
-        "A superscript reference button reveals supplementary text below"
+        "Let readers inspect supporting notes without leaving their reading position"
       ]
     },
     "aliases": {
       "ko": [
         "인라인 각주 펼침",
         "각주",
-        "보충 설명"
+        "보충 설명",
+        "본문 각주 열기",
+        "문장 보충 설명"
       ],
       "en": [
         "Inline Footnote Disclosure",
         "footnote",
-        "supplementary note"
+        "supplementary note",
+        "expandable footnote",
+        "inline reference disclosure"
       ]
     }
   },
@@ -542,22 +622,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "세로 제목과 작은 캡션, 컬러 아치를 나란히 배치한 편집 스타일"
+        "전시나 문화 행사 소개에 세로 제목과 여백을 활용"
       ],
       "en": [
-        "A vertical headline and small caption sit beside a colored arch"
+        "Use vertical headings and whitespace for an exhibition announcement"
       ]
     },
     "aliases": {
       "ko": [
         "세로쓰기 에디토리얼",
         "세로 타이포",
-        "세로쓰기"
+        "세로쓰기",
+        "세로 제목 편집",
+        "수직 글쓰기 포스터"
       ],
       "en": [
         "Vertical Editorial Typography",
         "vertical type",
-        "vertical writing"
+        "vertical writing",
+        "vertical writing poster",
+        "vertical editorial heading"
       ]
     }
   },
@@ -570,22 +654,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "샘플 비밀번호의 길이·숫자·대문자 조건을 실시간 표시"
+        "가입 양식에서 입력한 비밀번호가 어떤 조건을 만족하는지 안내"
       ],
       "en": [
-        "Live checks show whether a sample password meets length, digit and uppercase conditions"
+        "Explain which password requirements are met while completing a signup form"
       ]
     },
     "aliases": {
       "ko": [
         "비밀번호 조건 체크리스트",
         "암호 조건",
-        "비밀번호 체크"
+        "비밀번호 체크",
+        "암호 규칙 검사",
+        "비밀번호 요구사항 표시"
       ],
       "en": [
         "Password Rule Checklist",
         "password requirements",
-        "password checklist"
+        "password checklist",
+        "password requirements checklist",
+        "password validation hints"
       ]
     }
   },
@@ -599,22 +687,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "입력 내용과 마지막 저장본을 비교해 미저장 상태와 버튼을 표시"
+        "메모 편집 도중 저장 필요 여부와 저장 완료 상태를 구분"
       ],
       "en": [
-        "The current text is compared with a local saved snapshot to show dirty state"
+        "Distinguish pending edits from saved content in a note editor"
       ]
     },
     "aliases": {
       "ko": [
         "노트 변경·저장 상태",
         "변경 감지",
-        "저장 상태"
+        "저장 상태",
+        "미저장 변경 표시",
+        "저장 필요 상태"
       ],
       "en": [
         "Dirty Note Save State",
         "dirty state",
-        "save status"
+        "save status",
+        "unsaved changes indicator",
+        "dirty editor state"
       ]
     }
   },
@@ -627,22 +719,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "버튼을 누를 때마다 다섯 진행 조각 중 하나를 채우는 시연"
+        "작업을 작은 단계로 나누어 완료된 조각을 명확히 표시"
       ],
       "en": [
-        "A button fills one of five progress chunks at a time"
+        "Communicate discrete completed units within a staged task"
       ]
     },
     "aliases": {
       "ko": [
         "청크 단위 진행 피드백",
         "분할 진행률",
-        "청크 진행"
+        "청크 진행",
+        "조각 진행률",
+        "단계별 처리 표시"
       ],
       "en": [
         "Chunked Progress Feedback",
         "chunk progress",
-        "segmented progress"
+        "segmented progress",
+        "segmented task progress",
+        "chunk completion feedback"
       ]
     }
   },
@@ -655,22 +751,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "세 반응 중 하나를 선택하거나 같은 버튼으로 해제하는 입력"
+        "콘텐츠에 하나의 감정 반응을 남기거나 선택을 취소하게 하기"
       ],
       "en": [
-        "Choose one of three reactions or toggle the selected reaction off"
+        "Allow one content reaction to be selected or cleared"
       ]
     },
     "aliases": {
       "ko": [
         "토글 반응 선택기",
         "반응 버튼",
-        "리액션 선택"
+        "리액션 선택",
+        "반응 선택 취소",
+        "감정 리액션 버튼"
       ],
       "en": [
         "Toggle Reaction Picker",
         "reaction buttons",
-        "reaction picker"
+        "reaction picker",
+        "single reaction toggle",
+        "clear selected reaction"
       ]
     }
   },
@@ -683,22 +783,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "상태 토글에 따라 온라인·오프라인 안내 색과 문구가 바뀌는 배너"
+        "온라인과 오프라인에 따른 안내 문구의 차이를 화면에서 시연"
       ],
       "en": [
-        "A local toggle changes the online/offline banner color and message"
+        "Prototype online and offline status messaging without monitoring a network"
       ]
     },
     "aliases": {
       "ko": [
         "연결 상태 배너 시연",
         "오프라인 배너",
-        "연결 안내"
+        "연결 안내",
+        "오프라인 안내 시연",
+        "연결 끊김 배너 목업"
       ],
       "en": [
         "Simulated Connectivity Banner",
         "offline banner",
-        "connection status"
+        "connection status",
+        "offline banner prototype",
+        "simulated connection notice"
       ]
     }
   },
@@ -711,22 +815,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "겹친 세 아바타 옆의 +2 버튼으로 나머지 참여자를 펼치는 구성"
+        "참여자가 많을 때 일부 아바타와 추가 인원 수로 공간 절약"
       ],
       "en": [
-        "Overlapping avatars use a +2 disclosure for additional participants"
+        "Summarize many participants with overlapping avatars and an overflow count"
       ]
     },
     "aliases": {
       "ko": [
         "아바타 오버플로 묶음",
         "아바타 그룹",
-        "참여자 더보기"
+        "참여자 더보기",
+        "참여자 더 보기",
+        "겹친 프로필 묶음"
       ],
       "en": [
         "Avatar Overflow Cluster",
         "avatar group",
-        "participant overflow"
+        "participant overflow",
+        "participant avatar overflow",
+        "avatar group more button"
       ]
     }
   },
@@ -739,22 +847,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "연속 메시지의 간격과 말풍선 모서리로 발신자 그룹을 구분"
+        "메신저에서 같은 사람이 연속으로 보낸 내용을 묶어 읽기 쉽게 구성"
       ],
       "en": [
-        "Bubble corners and spacing distinguish consecutive messages and their sender"
+        "Make consecutive messages from one sender easier to scan"
       ]
     },
     "aliases": {
       "ko": [
         "발신자별 대화 묶음",
         "메시지 그룹",
-        "채팅 말풍선"
+        "채팅 말풍선",
+        "연속 채팅 묶음",
+        "발신자별 말풍선"
       ],
       "en": [
         "Grouped Chat Bubbles",
         "message grouping",
-        "chat bubbles"
+        "chat bubbles",
+        "consecutive message grouping",
+        "sender grouped bubbles"
       ]
     }
   },
@@ -767,22 +879,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "세 단계 중 선택한 지점까지 연결선과 체크가 채워지는 단계 UI"
+        "주문이나 신청 절차에서 현재 단계와 완료 구간을 함께 안내"
       ],
       "en": [
-        "A connecting rail and checks fill up to the selected milestone"
+        "Show completed milestones and the active step in an application flow"
       ]
     },
     "aliases": {
       "ko": [
         "수평 마일스톤 레일",
         "단계 레일",
-        "마일스톤 단계"
+        "마일스톤 단계",
+        "가로 단계 안내",
+        "진행 단계 연결선"
       ],
       "en": [
         "Horizontal Milestone Rail",
         "milestone rail",
-        "step progress"
+        "step progress",
+        "horizontal step milestones",
+        "connected progress steps"
       ]
     }
   },
@@ -795,22 +911,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "이전·다음 달 자리와 선택일을 대비하는 7열 월간 배치"
+        "월간 일정 화면의 날짜 위치와 선택일 강조 방식 제시"
       ],
       "en": [
-        "A seven-column month layout contrasts empty boundary cells and a highlighted day"
+        "Prototype a monthly scheduling view with a clearly highlighted date"
       ]
     },
     "aliases": {
       "ko": [
         "월간 캘린더 그리드",
         "달력 배치",
-        "월간 그리드"
+        "월간 그리드",
+        "달력 날짜 배치",
+        "월간 날짜 격자"
       ],
       "en": [
         "Static Month Calendar Grid",
         "calendar layout",
-        "month grid"
+        "month grid",
+        "month date layout",
+        "monthly calendar mockup"
       ]
     }
   },
@@ -823,22 +943,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "목록만 스크롤되고 하단 작업 버튼은 항상 남는 패널"
+        "선택 목록이 길어져도 확인과 취소 행동을 접근 가능한 위치에 유지"
       ],
       "en": [
-        "Only the list scrolls while the bottom action remains visible"
+        "Keep commit and cancel actions accessible within a long selection panel"
       ]
     },
     "aliases": {
       "ko": [
         "패널 고정 작업 푸터",
         "고정 푸터",
-        "패널 액션"
+        "패널 액션",
+        "고정 확인 버튼",
+        "목록 하단 액션 유지"
       ],
       "en": [
         "Pinned Panel Action Footer",
         "pinned footer",
-        "panel actions"
+        "panel actions",
+        "persistent panel actions",
+        "fixed action footer"
       ]
     }
   },
@@ -851,22 +975,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "범위 슬라이더가 원형 노브의 표시선과 숫자를 함께 바꾸는 컨트롤"
+        "설정값을 슬라이더와 원형 계기판으로 동시에 확인"
       ],
       "en": [
-        "A range input updates the rotary knob indicator and numeric value"
+        "Show a setting through both a range input and a rotary indicator"
       ]
     },
     "aliases": {
       "ko": [
         "범위 입력 연결 로터리 다이얼",
         "로터리 노브",
-        "다이얼 입력"
+        "다이얼 입력",
+        "노브 슬라이더 연동",
+        "회전 눈금 컨트롤"
       ],
       "en": [
         "Range Linked Rotary Dial",
         "rotary knob",
-        "dial input"
+        "dial input",
+        "range linked knob",
+        "rotary value indicator"
       ]
     }
   },
@@ -880,22 +1008,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "세 감정 중 한 가지만 선택하는 네이티브 라디오 묶음"
+        "만족도 조사에서 세 가지 감정 중 하나를 고르게 하기"
       ],
       "en": [
-        "A native radio group allows exactly one of three sentiments"
+        "Collect one of three sentiment choices in a short feedback form"
       ]
     },
     "aliases": {
       "ko": [
         "감정 라디오 세그먼트",
         "감정 선택",
-        "라디오 세그먼트"
+        "라디오 세그먼트",
+        "만족도 감정 선택",
+        "세 가지 라디오 감정"
       ],
       "en": [
         "Sentiment Radio Segments",
         "sentiment choice",
-        "radio segments"
+        "radio segments",
+        "sentiment radio group",
+        "three choice satisfaction"
       ]
     }
   },
@@ -908,22 +1040,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "분 단위 프리셋을 선택하면 시·분 표시가 함께 갱신되는 입력"
+        "예약이나 타이머 설정에서 자주 쓰는 시간 길이를 빠르게 선택"
       ],
       "en": [
-        "Selecting a duration preset updates the hour-and-minute display"
+        "Offer common durations when configuring a timer or booking"
       ]
     },
     "aliases": {
       "ko": [
         "시간 길이 프리셋 선택",
         "지속시간",
-        "시간 프리셋"
+        "시간 프리셋",
+        "타이머 길이 선택",
+        "시간 프리셋 메뉴"
       ],
       "en": [
         "Duration Preset Select",
         "duration input",
-        "time preset"
+        "time preset",
+        "timer duration presets",
+        "duration dropdown"
       ]
     }
   },
@@ -937,22 +1073,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "패드 클릭이나 두 범위 입력으로 점의 가로·세로 위치를 조절"
+        "위치 설정에서 가로와 세로 좌표를 한 화면에서 조절"
       ],
       "en": [
-        "Click the pad or use two range inputs to set a point on both axes"
+        "Adjust horizontal and vertical placement in a two dimensional control"
       ]
     },
     "aliases": {
       "ko": [
         "두 축 좌표 패드",
         "좌표 입력",
-        "XY 패드"
+        "XY 패드",
+        "엑스 와이 조절",
+        "이차원 위치 패드"
       ],
       "en": [
         "Two Axis Coordinate Pad",
         "coordinate input",
-        "XY pad"
+        "XY pad",
+        "xy position control",
+        "two dimensional control pad"
       ]
     }
   },
@@ -966,22 +1106,26 @@ export const UI_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "숫자를 좌우로 끌거나 방향키로 값을 조절하는 입력"
+        "디자인 편집기에서 숫자 입력창을 열지 않고 수치를 미세 조정"
       ],
       "en": [
-        "Drag a number horizontally or use arrow keys to adjust it"
+        "Fine tune numeric properties directly in a design inspector"
       ]
     },
     "aliases": {
       "ko": [
         "드래그 숫자 스크러버",
         "숫자 드래그",
-        "스크럽 입력"
+        "스크럽 입력",
+        "숫자 끌어 조절",
+        "드래그 수치 변경"
       ],
       "en": [
         "Pointer Numeric Scrubber",
         "numeric drag",
-        "scrub input"
+        "scrub input",
+        "scrub numeric value",
+        "draggable number field"
       ]
     }
   }

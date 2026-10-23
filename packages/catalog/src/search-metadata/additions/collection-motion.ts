@@ -11,22 +11,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "작은 원의 궤적처럼 반복 교차하는 선 문양"
+        "기하학적인 선 장식으로 포스터나 배경에 반복 리듬 추가"
       ],
       "en": [
-        "A looping curve repeatedly crosses itself like a spirograph trace"
+        "Add repeating geometric line ornament to a poster or background"
       ]
     },
     "aliases": {
       "ko": [
         "스피로그래프 내접 곡선",
         "스피로그래프",
-        "내접 트로코이드"
+        "내접 트로코이드",
+        "스피로그래프 꽃무늬",
+        "내접 원 궤적"
       ],
       "en": [
         "Spirograph Hypotrochoid",
         "spirograph",
-        "hypotrochoid"
+        "hypotrochoid",
+        "spirograph flower curve",
+        "rolling circle trace"
       ]
     }
   },
@@ -40,22 +44,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "3:2 주파수 곡선의 위상차를 바꿔 매듭 모양을 변형"
+        "신호의 위상 차이를 매듭처럼 변하는 선으로 시각화"
       ],
       "en": [
-        "A 3:2 curve changes its knot shape as its phase shifts"
+        "Visualize phase differences as a changing ribbon knot"
       ]
     },
     "aliases": {
       "ko": [
         "리사주 곡선 리본",
         "리사주",
-        "위상 곡선"
+        "위상 곡선",
+        "리사주 매듭",
+        "진동 곡선 리본"
       ],
       "en": [
         "Lissajous Curve Ribbon",
         "lissajous",
-        "phase curve"
+        "phase curve",
+        "lissajous knot",
+        "oscillation ribbon curve"
       ]
     }
   },
@@ -69,22 +77,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "중심이 조금씩 어긋난 원들이 한쪽으로 밀집하는 광학 포스터"
+        "중심이 밀려 보이는 원형 패턴으로 광학적 긴장감 만들기"
       ],
       "en": [
-        "Offset circles gather toward one side of an optical poster"
+        "Create optical tension with progressively offset circular rings"
       ]
     },
     "aliases": {
       "ko": [
         "편심 동심원 포스터",
         "편심 원",
-        "옵티컬 링"
+        "옵티컬 링",
+        "치우친 동심원",
+        "중심 어긋난 원 패턴"
       ],
       "en": [
         "Eccentric Ring Poster",
         "eccentric circles",
-        "optical rings"
+        "optical rings",
+        "offset concentric rings",
+        "eccentric circle pattern"
       ]
     }
   },
@@ -98,22 +110,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "움직이는 중심점을 공유하는 여섯 삼각 면이 색 조각을 재구성"
+        "브랜드 배경을 움직이는 삼각 색면으로 구성"
       ],
       "en": [
-        "Six colored triangles share a moving center vertex"
+        "Build a brand backdrop from shifting triangular color facets"
       ]
     },
     "aliases": {
       "ko": [
         "삼각 컬러 메쉬",
         "삼각 메쉬",
-        "컬러 삼각형"
+        "컬러 삼각형",
+        "삼각 색면 배경",
+        "움직이는 삼각 분할"
       ],
       "en": [
         "Triangulated Color Mesh",
         "triangle mesh",
-        "colored facets"
+        "colored facets",
+        "triangular color facets",
+        "animated triangulation"
       ]
     }
   },
@@ -127,22 +143,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "큰 원 안에 작은 원을 중첩해 꽃처럼 반복되는 문양"
+        "반복되는 원 구조로 꽃 모양의 로고 주변 장식 만들기"
       ],
       "en": [
-        "Nested circles form a repeated flower-like pattern"
+        "Decorate a logo with nested circular floral geometry"
       ]
     },
     "aliases": {
       "ko": [
         "재귀 원형 블룸",
         "재귀 원",
-        "원형 꽃 패턴"
+        "원형 꽃 패턴",
+        "원형 프랙탈 꽃",
+        "중첩 원 문양"
       ],
       "en": [
         "Recursive Circle Bloom",
         "nested circles",
-        "circle bloom"
+        "circle bloom",
+        "nested circle flower",
+        "recursive circular ornament"
       ]
     }
   },
@@ -156,22 +176,28 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "교차하는 밝은 곡선을 흔들어 물속 집광 무늬를 모사"
+        "수영장이나 수중 분위기의 배경에 흔들리는 집광 무늬 추가"
       ],
       "en": [
-        "Wavering intersecting bright curves approximate underwater caustics"
+        "Suggest a pool or underwater setting with shifting concentrated light patterns"
       ]
     },
     "aliases": {
       "ko": [
         "물빛 집광 띠",
         "물빛",
-        "카우스틱"
+        "카우스틱",
+        "수면 빛무늬",
+        "수중 반사광",
+        "물결 집광"
       ],
       "en": [
         "Caustic Light Bands",
         "caustic light",
-        "underwater light"
+        "underwater light",
+        "water caustics",
+        "underwater light pattern",
+        "pool reflections"
       ]
     }
   },
@@ -185,22 +211,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "흐린 잎 그림자가 따뜻한 종이 위에서 천천히 흔들리는 배경"
+        "문구류나 자연 제품의 배경에 나무 아래 햇살 분위기 추가"
       ],
       "en": [
-        "Soft leaf shadows sway across a warm paper-like surface"
+        "Give stationery or natural products a sunlit woodland atmosphere"
       ]
     },
     "aliases": {
       "ko": [
         "나뭇잎 얼룩 그림자",
         "잎 그림자",
-        "햇빛 그림자"
+        "햇빛 그림자",
+        "잎사귀 햇빛 그림자",
+        "나무 아래 얼룩 그림자"
       ],
       "en": [
         "Dappled Leaf Shadow",
         "leaf shadow",
-        "dappled light"
+        "dappled light",
+        "dappled sunlight",
+        "leaf shadow on paper"
       ]
     }
   },
@@ -214,22 +244,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "위상이 다른 사인 곡선을 겹쳐 컬러 등고선 흐름을 만드는 배경"
+        "추상 기술 영상의 배경에 유기적인 컬러 흐름 구성"
       ],
       "en": [
-        "Phase-shifted sine curves form a colorful flowing contour field"
+        "Create an organic colored backdrop for an abstract technology sequence"
       ]
     },
     "aliases": {
       "ko": [
         "플라스마 등고선 흐름",
         "플라스마 라인",
-        "등고선 배경"
+        "등고선 배경",
+        "흐르는 등고선",
+        "플라스마 컬러 선"
       ],
       "en": [
         "Plasma Contour Field",
         "plasma lines",
-        "contour backdrop"
+        "contour backdrop",
+        "flowing contour lines",
+        "plasma color field"
       ]
     }
   },
@@ -243,22 +277,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "같은 간격의 두 선 격자가 어긋나며 큰 간섭 무늬를 만드는 배경"
+        "회전하는 선의 중첩으로 모아레 같은 시각 패턴 시연"
       ],
       "en": [
-        "Two equal line grids rotate out of alignment to create broad interference patterns"
+        "Demonstrate moire like patterns from overlapping rotated line grids"
       ]
     },
     "aliases": {
       "ko": [
         "회전 격자 간섭",
         "격자 간섭",
-        "회전 모아레"
+        "회전 모아레",
+        "모아레 격자",
+        "선 겹침 간섭"
       ],
       "en": [
         "Rotating Lattice Interference",
         "lattice interference",
-        "rotating moire"
+        "rotating moire",
+        "moire line grids",
+        "rotating interference pattern"
       ]
     }
   },
@@ -272,22 +310,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "중심에서 퍼지는 별 궤적이 속도감 있는 공간을 만드는 배경"
+        "우주 이동이나 고속 진입 장면에 중심에서 뻗는 별 궤적 사용"
       ],
       "en": [
-        "Radial star streaks expand away from a central vanishing point"
+        "Convey space travel through star streaks radiating from a central vanishing point"
       ]
     },
     "aliases": {
       "ko": [
         "방사형 별 터널",
         "스타 터널",
-        "워프 배경"
+        "워프 배경",
+        "우주 워프 터널",
+        "별빛 질주"
       ],
       "en": [
         "Radial Star Tunnel",
         "star tunnel",
-        "warp backdrop"
+        "warp backdrop",
+        "space warp tunnel",
+        "hyperspace star streaks"
       ]
     }
   },
@@ -301,22 +343,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "두 진자의 진폭이 번갈아 커지는 교환 운동을 근사한 시연"
+        "진자 사이에서 진폭이 옮겨가는 맥놀이 원리를 도식으로 설명"
       ],
       "en": [
-        "Two pendulums approximate alternating amplitude exchange"
+        "Illustrate amplitude exchange between coupled pendulums with a timed approximation"
       ]
     },
     "aliases": {
       "ko": [
         "연결 진자 맥놀이 시연",
         "연결 진자",
-        "맥놀이"
+        "맥놀이",
+        "진자 에너지 교환",
+        "두 진자 맥놀이"
       ],
       "en": [
         "Coupled Pendulum Beat",
         "coupled pendulum",
-        "beating"
+        "beating",
+        "pendulum beat exchange",
+        "coupled oscillator beat"
       ]
     }
   },
@@ -330,22 +376,27 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "16개·8개 톱니바퀴가 반대 방향으로 1:2 회전하는 시연"
+        "서로 다른 크기의 기어가 연결될 때 회전비가 달라지는 원리 설명"
       ],
       "en": [
-        "Sixteen- and eight-tooth gears counter-rotate at a one-to-two ratio"
+        "Explain the speed ratio of connected gears with different tooth counts"
       ]
     },
     "aliases": {
       "ko": [
         "기어비 맞물림 회전",
         "기어비",
-        "톱니 회전"
+        "톱니 회전",
+        "톱니바퀴 회전",
+        "맞물린 기어",
+        "기어 속도비"
       ],
       "en": [
         "Meshing Gear Ratio Rotation",
         "gear ratio",
-        "meshing gears"
+        "meshing gears",
+        "gear rotation ratio",
+        "cogwheel animation"
       ]
     }
   },
@@ -359,22 +410,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "양끝이 고정된 체인이 곡률 변화에 따라 처지는 모양을 표시"
+        "걸린 체인이나 케이블의 처짐 곡선을 시각 자료로 표현"
       ],
       "en": [
-        "A chain between fixed supports changes its catenary sag"
+        "Illustrate the sagging curve of a suspended chain or cable"
       ]
     },
     "aliases": {
       "ko": [
         "현수선 체인 처짐",
         "현수선",
-        "체인 처짐"
+        "체인 처짐",
+        "늘어진 쇠사슬",
+        "매달린 케이블 곡선"
       ],
       "en": [
         "Hanging Catenary Chain",
         "catenary",
-        "chain sag"
+        "chain sag",
+        "sagging chain",
+        "suspended cable curve"
       ]
     }
   },
@@ -388,22 +443,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "물체의 잠긴 비율과 수면 위치를 함께 보여주는 부력 도식"
+        "수면에 뜬 물체의 잠김 비율을 교육용 도식으로 보여주기"
       ],
       "en": [
-        "A block changes its submerged fraction relative to a fixed waterline"
+        "Explain submerged volume with a floating object diagram"
       ]
     },
     "aliases": {
       "ko": [
         "부력 잠김 비율 시연",
         "부력",
-        "잠김 비율"
+        "잠김 비율",
+        "물에 뜬 물체",
+        "잠긴 부피 도식"
       ],
       "en": [
         "Buoyancy Submersion Ratio",
         "buoyancy",
-        "submersion ratio"
+        "submersion ratio",
+        "floating object diagram",
+        "submerged volume illustration"
       ]
     }
   },
@@ -417,22 +476,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "평균 근점각에 따라 타원 위 속도가 달라지는 공전 시연"
+        "타원 궤도에서 위치에 따라 속도가 달라지는 공전 설명"
       ],
       "en": [
-        "An orbiting point changes speed along an ellipse as mean anomaly advances"
+        "Illustrate changing orbital speed along an ellipse"
       ]
     },
     "aliases": {
       "ko": [
         "케플러 타원 궤도",
         "타원 공전",
-        "케플러 방정식"
+        "케플러 방정식",
+        "타원 공전 속도",
+        "행성 궤도 운동"
       ],
       "en": [
         "Kepler Elliptic Orbit",
         "elliptic orbit",
-        "Kepler equation"
+        "Kepler equation",
+        "elliptical orbital speed",
+        "Kepler planet motion"
       ]
     }
   },
@@ -446,22 +509,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "글자 면들이 번갈아 반대 방향으로 접히는 종이 타이포"
+        "종이를 접은 듯한 제목으로 전시 타이틀에 입체감 추가"
       ],
       "en": [
-        "Letter panels fold in alternating directions like an accordion"
+        "Give exhibition titles dimension through alternating paper folds"
       ]
     },
     "aliases": {
       "ko": [
         "접이식 아코디언 타이포",
         "접힌 글자",
-        "아코디언 타이포"
+        "아코디언 타이포",
+        "종이 접힌 글자",
+        "접었다 펴는 타이포"
       ],
       "en": [
         "Folded Accordion Typography",
         "folded letters",
-        "accordion typography"
+        "accordion typography",
+        "folded paper lettering",
+        "accordion folding text"
       ]
     }
   },
@@ -475,22 +542,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "여섯 글자가 방사형으로 배치되어 바람개비처럼 회전"
+        "짧은 문구를 회전 장식으로 배치해 리듬감 있는 제목 구성"
       ],
       "en": [
-        "Six glyphs rotate together in a radial pinwheel"
+        "Arrange a short message as a rotating typographic ornament"
       ]
     },
     "aliases": {
       "ko": [
         "글자 바람개비",
         "글자 회전",
-        "방사 타이포"
+        "방사 타이포",
+        "바람개비 글자 회전",
+        "방사형 글자 장식"
       ],
       "en": [
         "Pinwheel Glyphs",
         "glyph pinwheel",
-        "radial type"
+        "radial type",
+        "pinwheel lettering",
+        "radial rotating glyphs"
       ]
     }
   },
@@ -504,22 +575,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "줄에 달린 다섯 글자가 시간차를 두고 좌우로 흔들리는 타이포"
+        "매달린 간판처럼 글자가 흔들리는 장난스러운 타이틀 만들기"
       ],
       "en": [
-        "Five suspended letters swing with staggered phases"
+        "Create a playful title resembling individually suspended sign letters"
       ]
     },
     "aliases": {
       "ko": [
         "매달린 진자 글자",
         "진자 글자",
-        "매달린 타이포"
+        "매달린 타이포",
+        "진자 글씨",
+        "줄에 매단 글자"
       ],
       "en": [
         "Hanging Pendulum Glyphs",
         "pendulum letters",
-        "hanging type"
+        "hanging type",
+        "swinging hanging letters",
+        "pendulum typography"
       ]
     }
   },
@@ -533,22 +608,27 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "단어 중심을 유지하며 자간이 벌어지고 밑줄도 함께 늘어나는 타이포"
+        "강조할 단어의 글자 간격을 호흡하듯 늘였다 줄이기"
       ],
       "en": [
-        "A word expands around its center while its underline stretches"
+        "Emphasize a word with breathing spacing and a coordinated underline"
       ]
     },
     "aliases": {
       "ko": [
         "탄성 자간 타이포",
         "자간 애니메이션",
-        "늘어나는 단어"
+        "늘어나는 단어",
+        "탄성 글자 간격",
+        "늘어나는 자간"
       ],
       "en": [
         "Elastic Tracking Typography",
         "tracking animation",
-        "stretching word"
+        "stretching word",
+        "elastic letter spacing",
+        "breathing tracking",
+        "stretching word spacing"
       ]
     }
   },
@@ -562,22 +642,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "크기가 다른 글자 윤곽을 겹쳐 깊이 있는 터널을 만드는 효과"
+        "반복된 글자 윤곽으로 음악이나 공연 타이틀에 깊이감 만들기"
       ],
       "en": [
-        "Layered outline words at different scales create a typographic tunnel"
+        "Create depth in a performance title through repeated outline lettering"
       ]
     },
     "aliases": {
       "ko": [
         "윤곽 타이포 터널",
         "타이포 터널",
-        "윤곽 반복"
+        "윤곽 반복",
+        "글자 윤곽 깊이",
+        "타이포 터널 원근"
       ],
       "en": [
         "Outline Type Tunnel",
         "type tunnel",
-        "outline repetition"
+        "outline repetition",
+        "outline text depth",
+        "typographic tunnel perspective"
       ]
     }
   },
@@ -591,22 +675,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "앞쪽 물체와 뒤쪽 물체를 선명하게 두고 주변을 흐리는 이중 초점 구도"
+        "전경과 배경의 두 피사체를 동시에 강조하는 영화 구도 시연"
       ],
       "en": [
-        "Foreground and distant objects remain sharp while the surrounding scene blurs"
+        "Demonstrate a cinematic composition emphasizing near and far subjects together"
       ]
     },
     "aliases": {
       "ko": [
         "스플릿 디옵터 구도",
         "이중 초점",
-        "스플릿 디옵터"
+        "스플릿 디옵터",
+        "이중 초점 장면",
+        "전후경 동시 초점"
       ],
       "en": [
         "Split Diopter Composition",
         "dual focus",
-        "split diopter"
+        "split diopter",
+        "dual focus composition",
+        "near and far focus"
       ]
     }
   },
@@ -620,22 +708,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "전경과 배경의 이동량을 달리해 위로 올라가는 카메라 느낌을 표현"
+        "장면 도입에서 위로 상승하며 공간이 펼쳐지는 카메라 느낌 구성"
       ],
       "en": [
-        "Different foreground and background offsets suggest a rising crane shot"
+        "Suggest a rising camera that gradually reveals the setting"
       ]
     },
     "aliases": {
       "ko": [
         "크레인 상승 구도 이동",
         "크레인 샷",
-        "상승 카메라"
+        "상승 카메라",
+        "상승 카메라 시연",
+        "크레인 샷 움직임"
       ],
       "en": [
         "Crane Rise Composition",
         "crane shot",
-        "rising camera"
+        "rising camera",
+        "rising crane camera",
+        "upward scene reveal"
       ]
     }
   },
@@ -649,22 +741,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "작은 이동·회전을 섞어 손으로 든 카메라의 흔들림을 표현"
+        "정적인 장면에 손으로 촬영한 듯한 작은 흔들림 추가"
       ],
       "en": [
-        "Small translations and rotations suggest a handheld camera"
+        "Give a static scene subtle handheld filming movement"
       ]
     },
     "aliases": {
       "ko": [
         "핸드헬드 미세 흔들림",
         "핸드헬드",
-        "카메라 흔들림"
+        "카메라 흔들림",
+        "손떨림 촬영 효과",
+        "미세 카메라 흔들림"
       ],
       "en": [
         "Handheld Camera Drift",
         "handheld",
-        "camera shake"
+        "camera shake",
+        "handheld camera shake",
+        "subtle filming drift"
       ]
     }
   },
@@ -678,22 +774,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "짧은 구간에서 빠르게 옆 장면으로 이동하며 수평 블러가 강해지는 전환"
+        "빠른 시선 이동처럼 두 장면을 수평 블러로 연결"
       ],
       "en": [
-        "A brief fast move to the adjacent scene gains horizontal blur"
+        "Connect two shots with a fast sideways camera sweep"
       ]
     },
     "aliases": {
       "ko": [
         "휩 팬 장면 이동",
         "휩 팬",
-        "빠른 패닝"
+        "빠른 패닝",
+        "빠른 패닝 전환",
+        "수평 휙 이동"
       ],
       "en": [
         "Whip Pan Scene Move",
         "whip pan",
-        "fast pan"
+        "fast pan",
+        "whip pan transition",
+        "fast horizontal pan"
       ]
     }
   },
@@ -707,22 +807,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "창틀이 빠르게 커지고 풍경은 조금만 확대되어 창문을 통과하는 느낌"
+        "창밖 풍경으로 진입하는 몰입감 있는 도입 장면 구성"
       ],
       "en": [
-        "A rapidly expanding window frame and slowly growing landscape suggest moving through a window"
+        "Create an immersive opening that appears to travel through a window"
       ]
     },
     "aliases": {
       "ko": [
         "창문 통과 돌리",
         "창틀 통과",
-        "돌리 인"
+        "돌리 인",
+        "창문 카메라 이동",
+        "창틀 통과 줌"
       ],
       "en": [
         "Window Dolly Through",
         "through window",
-        "dolly in"
+        "dolly in",
+        "camera through window",
+        "window dolly movement"
       ]
     }
   },
@@ -736,22 +840,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "같은 풍경을 큰 사각 픽셀로 다시 그려 해상도가 변하는 효과"
+        "화면 해상도가 달라지는 듯한 픽셀 전환 표현"
       ],
       "en": [
-        "The same procedural landscape is redrawn in larger square pixels"
+        "Suggest a changing image resolution through a pixel mosaic transition"
       ]
     },
     "aliases": {
       "ko": [
         "픽셀 모자이크 전환",
         "픽셀화",
-        "모자이크"
+        "모자이크",
+        "모자이크 해상도 전환",
+        "큰 픽셀 풍경"
       ],
       "en": [
         "Pixel Mosaic Transition",
         "pixelation",
-        "mosaic"
+        "mosaic",
+        "pixel resolution transition",
+        "mosaic image change"
       ]
     }
   },
@@ -765,22 +873,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "풍경을 여덟 가로 띠로 나눠 각각 좌우로 어긋나게 하는 효과"
+        "화면 신호가 어긋나는 듯한 수평 띠 왜곡 추가"
       ],
       "en": [
-        "Eight horizontal slices of a scene shift independently sideways"
+        "Simulate a disrupted display signal using horizontally displaced bands"
       ]
     },
     "aliases": {
       "ko": [
         "스캔라인 수평 변위",
         "스캔라인 변위",
-        "슬라이스 글리치"
+        "슬라이스 글리치",
+        "가로 줄 화면 왜곡",
+        "띠별 좌우 변위"
       ],
       "en": [
         "Scanline Horizontal Displacement",
         "scanline displacement",
-        "slice glitch"
+        "slice glitch",
+        "horizontal band distortion",
+        "scanline image shift"
       ]
     }
   },
@@ -794,22 +906,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "불규칙 위치의 원형 마스크가 커지고 합쳐지며 풍경을 드러내는 전환"
+        "일러스트를 잉크가 번지는 듯한 경계로 서서히 공개"
       ],
       "en": [
-        "Growing circular mask lobes merge to reveal a landscape"
+        "Reveal an illustration through spreading irregular ink shaped masks"
       ]
     },
     "aliases": {
       "ko": [
         "잉크 번짐 마스크 리빌",
         "잉크 리빌",
-        "번짐 마스크"
+        "번짐 마스크",
+        "먹물 번짐 공개",
+        "잉크 마스크 전환"
       ],
       "en": [
         "Ink Blot Mask Reveal",
         "ink reveal",
-        "blot mask"
+        "blot mask",
+        "spreading ink reveal",
+        "ink blot mask"
       ]
     }
   },
@@ -823,22 +939,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "주황·빨강의 밝은 번짐이 풍경을 가로질러 지나가는 필름 효과"
+        "장면에 아날로그 필름 누광과 따뜻한 번짐 추가"
       ],
       "en": [
-        "A warm orange-red light bloom sweeps across a landscape"
+        "Add warm analog film light leaks to a scene"
       ]
     },
     "aliases": {
       "ko": [
         "필름 번 라이트 플래시",
         "필름 번",
-        "라이트 리크"
+        "라이트 리크",
+        "필름 누광",
+        "빛샘 플래시"
       ],
       "en": [
         "Film Burn Light Flash",
         "film burn",
-        "light leak"
+        "light leak",
+        "film light leak",
+        "warm film burn"
       ]
     }
   },
@@ -852,22 +972,26 @@ export const MOTION_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "움직이는 구체의 이전 위치를 여러 겹 표시하는 컬러 잔상"
+        "움직임의 경로를 여러 색의 잔상으로 강조"
       ],
       "en": [
-        "Colored echoes show sampled earlier positions of a moving orb"
+        "Emphasize a movement path through layered colored afterimages"
       ]
     },
     "aliases": {
       "ko": [
         "다중 노출 에코 잔상",
         "다중 노출",
-        "에코 잔상"
+        "에코 잔상",
+        "겹친 노출 잔상",
+        "컬러 에코 트레일"
       ],
       "en": [
         "Multiple Exposure Echo",
         "multiple exposure",
-        "echo trail"
+        "echo trail",
+        "multiple exposure trail",
+        "colored afterimage echo"
       ]
     }
   }

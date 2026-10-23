@@ -11,7 +11,9 @@
 
 두 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 이름·요약·태그·사용 상황·프롬프트를 선택 언어로 반환하며, 호환성을 위해 `titleKo`·`titleEn`은 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 프롬프트를 받을 수 있다.
 
-검색은 한영 이름·별칭·효과 키워드·사용 상황·요약·프롬프트를 대상으로 한다. 대소문자를 구분하지 않으며, 동의어를 연결하고 이름·별칭·사용 상황을 본문보다 우선한다. 모든 단어의 일치를 요구하지 않고 검색어 충족 비율로 후보를 좁힌다. `마그네틱`, `mouse tilt card`, `클릭한 곳에서 물결 퍼지는 버튼`처럼 구체적인 효과와 대상을 사용한다. 의미를 추론하는 AI 검색은 아니므로 모호한 문장은 핵심 단어로 바꾸고, 상위 후보의 요약·사용 상황을 비교한다.
+검색은 한영 이름·별칭·효과 키워드·사용 상황·요약·프롬프트를 대상으로 한다. 대소문자를 구분하지 않으며, 동의어를 연결하고 이름·별칭·사용 상황을 본문보다 우선한다. 모든 단어의 일치를 요구하지 않고 검색어 충족 비율로 후보를 좁힌다.
+
+자연어 요청은 호출하는 AI가 해석한다. AI가 한 효과를 나타내는 짧은 한영 검색어를 생성 → MCP가 키워드로 후보 조회 → AI가 요약·사용 상황을 비교하고 필요하면 동의어·다른 언어·수식어를 줄인 표현으로 재검색 → 선택한 ID의 프롬프트를 조회한다. 예를 들어 “글을 고친 뒤 아직 저장하지 않았다는 표시”는 `저장 상태` 또는 `unsaved changes`로 검색한다. 필수 조건은 유지하고 불필요한 필터만 넓히며, 검색어나 필터를 바꾸면 `offset: 0`부터 조회한다. 순위가 높아도 요구에 맞지 않으면 선택하지 않는다.
 
 도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `video`(모션 영상)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
 
@@ -19,14 +21,14 @@
 
 `total`은 전체 일치 개수다. 기본 페이지 크기는 20, 최대 50이며 처음 후보를 좁힐 때는 `limit: 5`를 권장한다. `nextOffset`을 다음 요청의 `offset`으로 보내 이어서 조회한다. `nextOffset: null`이면 마지막 페이지다. 잘못된 입력과 존재하지 않는 상세 ID는 MCP 오류 결과를 반환한다.
 
-검색 결과에는 프롬프트 전문을 넣지 않는다. 선택한 ID를 `get_technique`로 조회하면 웹과 같은 언어의 원문을 받는다. MCP는 조합·클립보드·파일 수정·UI 생성·외부 API 호출을 수행하지 않는다.
+검색 결과에는 프롬프트 전문을 넣지 않는다. 선택한 ID를 `get_technique`로 조회하면 웹과 같은 언어의 원문을 받는다. MCP는 조합·클립보드·프로젝트 파일 수정·UI 생성을 수행하지 않는다. 외부 API 호출·모델 다운로드·추론·벡터 인덱스가 필요 없다. MCP는 전달받은 검색어로 로컬 카탈로그를 조회하며 검색어 생성은 연결한 AI 클라이언트가 담당한다.
 
 ### English usage
 
-Search with concrete effect words or a use case, compare a few summaries, then retrieve only the selected prompt:
+The calling AI converts a natural-language request into short keywords for one effect. For a button that follows the mouse, search "magnetic button", compare candidate summaries and use cases, then retrieve only the selected prompt:
 
 ```json
-{"query":"a button that follows the mouse cursor","target":"button","trigger":"pointer-move","locale":"en","limit":5}
+{"query":"magnetic button","target":"button","trigger":"pointer-move","locale":"en","limit":5}
 ```
 
 Then call `get_technique`:
@@ -36,6 +38,8 @@ Then call `get_technique`:
 ```
 
 Search matches both Korean and English regardless of output locale. Scores indicate relative ranking, not confidence. Unknown or unsuitable results require reformulating the query or clarifying the request. Tools return reference text only and never modify your project.
+
+If candidates are empty or unsuitable, retry a synonym, the other language or fewer modifiers. Broaden only optional filters and restart at offset zero when changing the query or filters. The MCP runs keyword search locally and requires no embedding model, vector index or API key.
 
 These capabilities describe the current source. An installed, pinned npm version does not automatically pick up local source changes. For local verification, build the repository and register `node <repository>/apps/mcp/dist/index.js` with your MCP client, then restart that server.
 
@@ -99,7 +103,7 @@ command = "cmd"
 args = ["/d", "/c", "npx", "-y", "--registry=https://registry.npmjs.org/", "@keke1933/vibe-dictionary-mcp@0.1.2"]
 ```
 
-다른 MCP 클라이언트도 `stdio` 전송 방식으로 위 `command`와 `args`를 등록하면 된다. 클라이언트마다 설정 형식은 다르다.
+다른 MCP 클라이언트도 `stdio` 전송 방식으로 위 `command`·`args`를 등록하면 된다. 클라이언트마다 설정 형식은 다르다.
 
 ### 선택 사항: npm 전역 설치 후 연결
 

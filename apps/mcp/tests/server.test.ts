@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, rmdir } from 'node:fs/promises';
+import { mkdtemp, readFile, rmdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -157,5 +157,22 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     const recovered = await call('get_technique', { id: ' magnetic-hover ' });
     assert.equal(recovered.id, 'magnetic-hover');
     assert.equal(stderr, '');
+  });
+
+  await t.test('frozen assistant keywords preserve bilingual candidates and reject unrelated queries', async () => {
+    // Replays previously selected keywords; this tests retrieval, not fresh AI reasoning.
+    const cases: Array<{ id: string; locale: string; queries: string[]; expected: string[] }> = JSON.parse(
+      await readFile(new URL('./fixtures/assistant-keywords.json', import.meta.url), 'utf8'));
+    for (const sample of cases) {
+      const candidates = new Set<string>();
+      for (const query of sample.queries) {
+        const output = await call('search_techniques', { query, locale: sample.locale, limit: 5 });
+        for (const item of output.items) {
+          candidates.add(item.id);
+        }
+      }
+      if (sample.expected.length === 0) assert.equal(candidates.size, 0, sample.id);
+      for (const id of sample.expected) assert.ok(candidates.has(id), sample.id + ': ' + id);
+    }
   });
 });

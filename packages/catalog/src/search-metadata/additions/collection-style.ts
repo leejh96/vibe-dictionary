@@ -10,22 +10,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "원·삼각형·직사각형과 원색을 대비하는 기하학 포스터"
+        "문화 행사 포스터에 원색과 기본 도형의 강한 대비 적용"
       ],
       "en": [
-        "Primary colors and basic geometric forms create a bold poster"
+        "Style a cultural poster with primary colors and basic geometric shapes"
       ]
     },
     "aliases": {
       "ko": [
         "바우하우스 원색 구성",
         "바우하우스",
-        "원색 기하학"
+        "원색 기하학",
+        "원색 기하학 포스터",
+        "바우하우스 도형"
       ],
       "en": [
         "Bauhaus Primary Composition",
         "Bauhaus",
-        "primary geometry"
+        "primary geometry",
+        "primary geometric poster",
+        "Bauhaus shapes"
       ]
     }
   },
@@ -38,22 +42,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "큰 검정 단어와 작은 메타 문구로 강한 크기 대비를 만드는 편집 스타일"
+        "브랜드 메시지 하나를 큰 흑백 글자로 강하게 전달"
       ],
       "en": [
-        "A large black word contrasts with small editorial metadata"
+        "Focus a brand statement through oversized black and white typography"
       ]
     },
     "aliases": {
       "ko": [
         "초대형 모노크롬 타이포",
         "대형 타이포",
-        "모노크롬 편집"
+        "모노크롬 편집",
+        "거대한 흑백 제목",
+        "초대형 검정 글씨"
       ],
       "en": [
         "Oversized Monochrome Typography",
         "oversized type",
-        "monochrome editorial"
+        "monochrome editorial",
+        "oversized black white headline",
+        "monochrome statement type"
       ]
     }
   },
@@ -66,22 +74,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "부드러운 컬러 번짐 위에 세리프 제목을 놓는 편집 스타일"
+        "차분한 에디토리얼 표지에 부드러운 빛 번짐 추가"
       ],
       "en": [
-        "A serif headline rests on a soft radial color field"
+        "Give a calm editorial cover a soft diffused color glow"
       ]
     },
     "aliases": {
       "ko": [
         "래디얼 그라데이션 에디토리얼",
         "그라데이션 편집",
-        "소프트 브랜딩"
+        "소프트 브랜딩",
+        "번지는 색 편집 디자인",
+        "세리프 컬러 헤일로"
       ],
       "en": [
         "Radial Gradient Editorial",
         "gradient editorial",
-        "soft branding"
+        "soft branding",
+        "soft color halo editorial",
+        "serif gradient cover"
       ]
     }
   },
@@ -94,22 +106,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "동일한 선 두께와 둥근 끝으로 서로 다른 아이콘을 통일"
+        "서비스 전반의 아이콘을 일관된 선 스타일로 맞추기"
       ],
       "en": [
-        "Different icons share one stroke weight and rounded endings"
+        "Unify icons across a service through consistent stroke treatment"
       ]
     },
     "aliases": {
       "ko": [
         "모노라인 아이콘 언어",
         "모노라인",
-        "선 아이콘"
+        "선 아이콘",
+        "동일 선 두께 아이콘",
+        "둥근 선 아이콘 세트"
       ],
       "en": [
         "Monoline Icon Language",
         "monoline",
-        "outline icons"
+        "outline icons",
+        "consistent stroke icon set",
+        "rounded line icons"
       ]
     }
   },
@@ -122,22 +138,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "그라데이션 구체 안에 노이즈를 제한해 인쇄 질감을 만드는 일러스트"
+        "인쇄 포스터에 노이즈가 있는 입체 구체 일러스트 사용"
       ],
       "en": [
-        "Noise clipped inside shaded spheres creates a printed illustration texture"
+        "Create printed poster illustrations with grain shaded dimensional spheres"
       ]
     },
     "aliases": {
       "ko": [
         "그레인 음영 구체",
         "노이즈 구체",
-        "그레인 음영"
+        "그레인 음영",
+        "노이즈 구체 음영",
+        "인쇄 질감 공"
       ],
       "en": [
         "Grain Shaded Spheres",
         "grain spheres",
-        "noisy shading"
+        "noisy shading",
+        "grainy shaded sphere",
+        "printed sphere illustration"
       ]
     }
   },
@@ -150,22 +170,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "불규칙한 갈색 조각의 반복으로 코르크 보드 질감을 표현"
+        "메모 보드나 소재 소개 화면에 코르크 질감 적용"
       ],
       "en": [
-        "Repeating irregular brown flecks suggest a corkboard surface"
+        "Give a memo board or material sample a cork surface"
       ]
     },
     "aliases": {
       "ko": [
         "코르크 입자 표면",
         "코르크",
-        "보드 질감"
+        "보드 질감",
+        "코르크 보드 재질",
+        "갈색 입자 질감"
       ],
       "en": [
         "Cork Granule Surface",
         "cork",
-        "corkboard texture"
+        "corkboard texture",
+        "cork board texture",
+        "brown granule surface"
       ]
     }
   },
@@ -178,22 +202,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "사선 직조 바탕과 두 줄 봉제선으로 청바지 주머니를 표현"
+        "패션 제품 카드에 청바지 직조와 봉제 디테일 적용"
       ],
       "en": [
-        "Diagonal twill and double stitching form a denim pocket"
+        "Style a fashion product card with denim weave and seam details"
       ]
     },
     "aliases": {
       "ko": [
         "데님 이중 스티치",
         "데님",
-        "봉제선"
+        "봉제선",
+        "청바지 봉제선",
+        "데님 주머니 재질"
       ],
       "en": [
         "Denim Double Stitch",
         "denim",
-        "double stitching"
+        "double stitching",
+        "denim pocket texture",
+        "double stitched jeans"
       ]
     }
   },
@@ -207,22 +235,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "빛의 방향에 따라 밝은 띠가 이동하는 짙은 벨벳 표면"
+        "고급 소재 소개에 벨벳의 결 방향에 따른 빛 변화 시연"
       ],
       "en": [
-        "A bright directional band shifts across a dark velvet-like surface"
+        "Demonstrate directional pile sheen for a luxury fabric presentation"
       ]
     },
     "aliases": {
       "ko": [
         "벨벳 방향성 광택",
         "벨벳",
-        "방향성 광택"
+        "방향성 광택",
+        "벨벳 결 광택",
+        "짙은 직물 반사"
       ],
       "en": [
         "Directional Velvet Sheen",
         "velvet",
-        "directional sheen"
+        "directional sheen",
+        "velvet pile sheen",
+        "directional fabric reflection"
       ]
     }
   },
@@ -235,22 +267,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "작은 볼록 돌기가 반복되는 어두운 고무 그립 표면"
+        "도구나 스포츠 제품 화면에 미끄럼 방지 고무 질감 적용"
       ],
       "en": [
-        "Repeated raised dots form a dark rubber grip surface"
+        "Suggest a nonslip rubber surface for equipment or sports product visuals"
       ]
     },
     "aliases": {
       "ko": [
         "러버 도트 그립",
         "고무 돌기",
-        "그립 표면"
+        "그립 표면",
+        "고무 돌기 패턴",
+        "미끄럼 방지 질감"
       ],
       "en": [
         "Rubber Dot Grip",
         "rubber bumps",
-        "grip texture"
+        "grip texture",
+        "nonslip rubber texture",
+        "raised rubber dots"
       ]
     }
   },
@@ -263,22 +299,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "같은 종이색의 원형 문양을 밝고 어두운 그림자로 솟아 보이게 표현"
+        "초대장이나 인증서에 잉크 없이 눌러 만든 종이 문양 표현"
       ],
       "en": [
-        "A circular seal rises from matching paper colors through paired shadows"
+        "Add a blind embossed seal to an invitation or certificate design"
       ]
     },
     "aliases": {
       "ko": [
         "엠보싱 종이 씰",
         "종이 엠보싱",
-        "블라인드 씰"
+        "블라인드 씰",
+        "종이 양각 도장",
+        "무색 엠보싱 문양"
       ],
       "en": [
         "Embossed Paper Seal",
         "paper emboss",
-        "blind seal"
+        "blind seal",
+        "blind embossed seal",
+        "raised paper emblem"
       ]
     }
   },
@@ -291,22 +331,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "종이에 눌러 찍힌 듯한 잉크 글자와 활판 인쇄 위계"
+        "문구류 소개에서 종이에 눌린 잉크의 인쇄 감각 표현"
       ],
       "en": [
-        "Ink-colored serif letters appear pressed into paper"
+        "Convey pressed ink impressions in a stationery presentation"
       ]
     },
     "aliases": {
       "ko": [
         "레터프레스 잉크 인상",
         "활판 인쇄",
-        "레터프레스"
+        "레터프레스",
+        "활판 인쇄 눌림",
+        "종이에 찍힌 잉크"
       ],
       "en": [
         "Letterpress Ink Imprint",
         "letterpress",
-        "ink imprint"
+        "ink imprint",
+        "pressed ink letterpress",
+        "debossed printed type"
       ]
     }
   },
@@ -319,22 +363,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "굵은 제호 아래 좁은 본문 단을 배치한 신문 스타일"
+        "뉴스레터나 회고 페이지를 고전 신문처럼 편집"
       ],
       "en": [
-        "A bold masthead tops narrow columns of newspaper-like text"
+        "Give a newsletter or retrospective a traditional newspaper composition"
       ]
     },
     "aliases": {
       "ko": [
         "신문 다단 편집",
         "신문 스타일",
-        "다단 본문"
+        "다단 본문",
+        "신문 본문 단",
+        "뉴스페이퍼 편집"
       ],
       "en": [
         "Newspaper Column Layout",
         "newspaper style",
-        "column text"
+        "column text",
+        "newspaper editorial columns",
+        "classic news layout"
       ]
     }
   },
@@ -347,22 +395,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "가느다란 방사선과 끝의 원으로 원자 시대 장식 문양을 표현"
+        "복고 포스터에 원자 시대의 방사형 장식 추가"
       ],
       "en": [
-        "Thin radial spokes and terminal dots form an atomic-age ornament"
+        "Decorate a retro poster with atomic era radial ornaments"
       ]
     },
     "aliases": {
       "ko": [
         "미드센추리 아토믹 문양",
         "아토믹 디자인",
-        "미드센추리"
+        "미드센추리",
+        "원자 시대 별무늬",
+        "미드센추리 방사 장식"
       ],
       "en": [
         "Midcentury Atomic Starburst",
         "atomic design style",
-        "midcentury ornament"
+        "midcentury ornament",
+        "atomic age starburst",
+        "midcentury radial ornament"
       ]
     }
   },
@@ -375,22 +427,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "양쪽 급지 구멍과 점으로 채운 글자가 있는 프린터 출력 스타일"
+        "로그나 기록물을 옛 전산 출력물처럼 제시"
       ],
       "en": [
-        "Feed holes and dot-filled lettering evoke continuous printer paper"
+        "Present records or logs as vintage continuous printer output"
       ]
     },
     "aliases": {
       "ko": [
         "도트매트릭스 연속 용지",
         "도트 프린터",
-        "연속 용지"
+        "연속 용지",
+        "연속 용지 프린터",
+        "급지 구멍 종이"
       ],
       "en": [
         "Dot Matrix Tractor Paper",
         "dot matrix",
-        "tractor paper"
+        "tractor paper",
+        "tractor feed printout",
+        "continuous dot matrix paper"
       ]
     }
   },
@@ -403,22 +459,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "톱니 가장자리의 풍경 우표에 원형 소인이 겹친 레트로 구성"
+        "여행 기록이나 소장품 카드에 우표와 소인 표현 적용"
       ],
       "en": [
-        "A landscape stamp with perforated edges is overlaid by a circular postmark"
+        "Frame a travel memory or collectible as a postmarked stamp"
       ]
     },
     "aliases": {
       "ko": [
         "천공 우표와 소인",
         "우표",
-        "소인"
+        "소인",
+        "우편 소인 우표",
+        "톱니 우표 테두리"
       ],
       "en": [
         "Perforated Postage Stamp",
         "postage stamp",
-        "postmark"
+        "postmark",
+        "postmarked postage stamp",
+        "perforated stamp border"
       ]
     }
   },
@@ -432,22 +492,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "격자 위 녹색 신호선을 여러 두께로 겹쳐 형광 발광을 표현"
+        "계측 장비 분위기의 화면에 녹색 신호선 연출"
       ],
       "en": [
-        "Layered green signal traces glow over an oscilloscope grid"
+        "Suggest laboratory instrumentation with a glowing green signal trace"
       ]
     },
     "aliases": {
       "ko": [
         "오실로스코프 형광 궤적",
         "오실로스코프",
-        "형광 신호"
+        "형광 신호",
+        "형광 파형 계측기",
+        "녹색 오실로스코프"
       ],
       "en": [
         "Oscilloscope Phosphor Trace",
         "oscilloscope",
-        "phosphor trace"
+        "phosphor trace",
+        "green phosphor waveform",
+        "oscilloscope signal trace"
       ]
     }
   },
@@ -461,22 +525,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "타원 경선과 위선으로 회전하는 구의 윤곽을 모사"
+        "기술 소개에 선으로만 구성된 구형 공간감 추가"
       ],
       "en": [
-        "Ellipse meridians and parallels approximate a rotating wireframe sphere"
+        "Add a technical spatial motif using a line only spherical form"
       ]
     },
     "aliases": {
       "ko": [
         "와이어프레임 구 격자",
         "와이어 구체",
-        "구 격자"
+        "구 격자",
+        "선으로 된 지구본",
+        "구형 위도 경도"
       ],
       "en": [
         "Wireframe Sphere Grid",
         "wireframe sphere",
-        "sphere grid"
+        "sphere grid",
+        "wire globe",
+        "latitude longitude sphere"
       ]
     }
   },
@@ -490,22 +558,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "가상의 지문 곡선 위로 밝은 스캔선이 지나가는 인터페이스"
+        "인증 화면의 지문 스캔 연출을 실제 인식 없이 시연"
       ],
       "en": [
-        "A bright scan line crosses a fictional fingerprint pattern"
+        "Prototype biometric scanning visuals without performing fingerprint recognition"
       ]
     },
     "aliases": {
       "ko": [
         "지문 스캔 인터페이스",
         "지문 스캔",
-        "바이오메트릭 UI"
+        "바이오메트릭 UI",
+        "지문 인식 화면 시연",
+        "지문 스캐너"
       ],
       "en": [
         "Fingerprint Scan Interface",
         "fingerprint scan",
-        "biometric interface"
+        "biometric interface",
+        "fingerprint scanner",
+        "biometric scan mockup"
       ]
     }
   },
@@ -518,22 +590,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "좌표 격자와 가상의 별 연결선을 겹친 기술 도면형 별지도"
+        "우주 테마 화면에 좌표와 별 연결선이 있는 지도 표현"
       ],
       "en": [
-        "A coordinate grid and fictional connected stars form a technical atlas"
+        "Style a space themed interface as a coordinate based star atlas"
       ]
     },
     "aliases": {
       "ko": [
         "별자리 아틀라스",
         "별지도",
-        "별자리 도면"
+        "별자리 도면",
+        "별 지도 좌표",
+        "성도 별자리 도면"
       ],
       "en": [
         "Constellation Star Atlas",
         "star atlas",
-        "constellation diagram"
+        "constellation diagram",
+        "coordinate star map",
+        "constellation atlas diagram"
       ]
     }
   },
@@ -547,22 +623,26 @@ export const STYLE_COLLECTION_SEARCH: Record<string, SearchMetadata> = {
     ],
     "useCases": {
       "ko": [
-        "육각 셀을 차례로 강조해 스캔하는 듯한 기술 인터페이스"
+        "기술 대시보드에 육각 셀을 순서대로 강조하는 스캔 연출"
       ],
       "en": [
-        "Hexagonal cells light up in sequence like a technical status scan"
+        "Add a sequential hexagonal scanning motif to a technical dashboard"
       ]
     },
     "aliases": {
       "ko": [
         "육각 상태 격자",
         "육각 HUD",
-        "상태 격자"
+        "상태 격자",
+        "육각 셀 스캔",
+        "벌집 상태 표시"
       ],
       "en": [
         "Hex Status Lattice",
         "hex HUD",
-        "status lattice"
+        "status lattice",
+        "hexagonal scanning cells",
+        "hex status display"
       ]
     }
   }
