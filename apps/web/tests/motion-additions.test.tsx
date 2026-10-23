@@ -138,7 +138,7 @@ test('shared element expansion preserves the cover and toggles both directions',
 test('added motion techniques have searchable prompts, mapped demos and no helper captions', () => {
   const originalIds = new Set(['spring-bounce-modal', 'staggered-list', 'smooth-accordion', 'morphing-state-button', 'floating-levitation']);
   const additions = TECHNIQUES.filter(item => item.category === 'motion' && !originalIds.has(item.id));
-  assert.equal(additions.length, 10);
+  assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
   for (const item of additions) {
     assert.ok(item.promptSnippet.trim());

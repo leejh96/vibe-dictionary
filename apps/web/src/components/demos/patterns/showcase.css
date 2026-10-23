@@ -1,0 +1,34 @@
+.sc-demo { width: 100%; padding: 44px 12px 12px; display: grid; justify-items: center; }
+.sc-art { width: min(100%, 280px); height: 150px; border-radius: 14px; overflow: hidden; display: block; }
+.sc-glass { position: relative; isolation: isolate; background: #172438; }
+.sc-glass-orb { position: absolute; width: 140px; height: 140px; left: calc(50% - 70px); top: 4px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #fff9b5, #fd9c69 38%, #e85487 65%, #6f47c4); }
+.sc-glass-type { position: absolute; inset: 40px 0 auto; text-align: center; font: 900 48px/1 system-ui, sans-serif; letter-spacing: -.06em; color: white; }
+.sc-flutes { position: absolute; inset: 0; backdrop-filter: blur(2px); background: repeating-linear-gradient(90deg, #ffffff22 0, #ffffff02 5px, #090d343b 9px, #ffffff66 11px, #ffffff08 12px); }
+.sc-glass-caption { position: absolute; left: 16px; bottom: 14px; color: #fff; font: 600 9px/1.4 system-ui, sans-serif; letter-spacing: .18em; }
+.sc-polaroid-stage { display: grid; place-items: center; background: #ebe3d9; }
+.dark .sc-polaroid-stage { background: #283040; }
+.sc-photo { width: 164px; padding: 7px 7px 9px; background: #fffdf2; box-shadow: 0 7px 15px #0003; color: #594a46; text-align: center; }
+.sc-photo-image { position: relative; overflow: hidden; background: #252e34; }
+.sc-photo-image svg { width: 100%; display: block; }
+.sc-photo-cover { position: absolute; inset: 0; background: #252e34; }
+.sc-photo > span { display: block; padding-top: 8px; font: 11px/1.2 cursive; }
+.sc-sticker-stage { display: grid; place-items: center; background: radial-gradient(#a5b4c4 1px, transparent 1px) 0 0 / 12px 12px, #edf0f6; }
+.dark .sc-sticker-stage { background-color: #273244; }
+.sc-sticker { position: relative; width: 144px; height: 100px; padding: 0; border: 0; border-radius: 18px; background: transparent; cursor: pointer; transform: rotate(-8deg); filter: drop-shadow(3px 7px 3px #0003); }
+.sc-sticker-face { position: absolute; inset: 0; border: 5px solid white; border-radius: 18px; background: #d9f56f; color: #252e25; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font: 900 18px/1 system-ui, sans-serif; clip-path: polygon(0 0,100% 0,100% 90%,93% 100%,0 100%); transition: clip-path 280ms ease; }
+.sc-sticker-face > span { font-size: 42px; }
+.sc-sticker-fold { position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background: linear-gradient(135deg, #e7e9c5, #fffef2 65%, #c7cba8); clip-path: polygon(0 0,100% 0,0 100%); border-radius: 4px 0 0; transition: width 280ms ease, height 280ms ease; }
+.sc-sticker:hover .sc-sticker-face, .sc-sticker:focus-visible .sc-sticker-face, .sc-sticker[data-peeled='true'] .sc-sticker-face { clip-path: polygon(0 0,100% 0,100% 58%,71% 100%,0 100%); }
+.sc-sticker:hover .sc-sticker-fold, .sc-sticker:focus-visible .sc-sticker-fold, .sc-sticker[data-peeled='true'] .sc-sticker-fold { width: 42px; height: 42px; }
+.sc-sticker:focus-visible { outline: 3px solid #6366f1; outline-offset: 6px; }
+.sc-gallery { display: flex; gap: 5px; padding: 3px; background: #e2e8f0; }
+.dark .sc-gallery { background: #334155; }
+.sc-gallery-panel { position: relative; flex-basis: 0; min-width: 0; border: 0; padding: 0; overflow: hidden; border-radius: 10px; cursor: pointer; transition: flex-grow 450ms cubic-bezier(.22,1,.36,1); }
+.sc-landscape-0 { background: linear-gradient(#d9a8e0, #fac6a1); --hill: #55528a; }
+.sc-landscape-1 { background: linear-gradient(#f8d08d, #e18e61); --hill: #a94f3b; }
+.sc-landscape-2 { background: linear-gradient(#92d5de, #457ba8); --hill: #164d68; }
+.sc-gallery-sun { position: absolute; width: 34px; height: 34px; border-radius: 50%; background: #fff3bd; left: calc(50% - 17px); top: 22px; }
+.sc-gallery-hill { position: absolute; width: 180px; height: 130px; left: calc(50% - 100px); top: 67px; background: var(--hill); border-radius: 45% 70% 0 0; transform: rotate(-20deg); }
+.sc-gallery-label { position: absolute; left: 10px; bottom: 12px; color: white; font: 700 12px/1 system-ui, sans-serif; white-space: nowrap; transition: opacity 200ms ease; }
+.sc-gallery-panel:focus-visible { outline: 3px solid #fff; outline-offset: -5px; }
+@media (prefers-reduced-motion: reduce) { .sc-demo *, .sc-demo *::before, .sc-demo *::after { transition: none !important; } }

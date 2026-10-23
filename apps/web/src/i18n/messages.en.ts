@@ -1,3 +1,4 @@
+import { SHOWCASE_EN_MESSAGES } from './demos/showcase.messages';
 import { GRAPHIC_STUDIO_EN_MESSAGES } from './demos/graphic-studio.messages';
 import { WORKFLOWS_EN_MESSAGES } from './demos/workflows.messages';
 import { PATTERNS_EN_MESSAGES } from './demos/patterns.messages';
@@ -30,6 +31,7 @@ import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
   ...WORKFLOWS_EN_MESSAGES,
+  ...SHOWCASE_EN_MESSAGES,
   ...GRAPHIC_STUDIO_EN_MESSAGES,
   ...PATTERNS_EN_MESSAGES,
   'composer.close': 'Close composer',

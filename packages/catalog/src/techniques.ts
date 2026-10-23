@@ -1,3 +1,4 @@
+import { SHOWCASE_ADDITIONS } from './additions/showcase';
 import { GRAPHIC_STUDIO_ADDITIONS } from './additions/graphic-studio';
 import { WORKFLOW_ADDITIONS } from './additions/workflows';
 import { PATTERN_ADDITIONS } from './additions/patterns';
@@ -151,6 +152,7 @@ export interface TechniqueItem {
 
 export const TECHNIQUES: TechniqueItem[] = [
   ...WORKFLOW_ADDITIONS,
+  ...SHOWCASE_ADDITIONS,
   ...GRAPHIC_STUDIO_ADDITIONS,
   ...PATTERN_ADDITIONS,
   ...TACTILE_ADDITIONS,

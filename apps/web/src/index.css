@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './components/demos/patterns/showcase.css';
 @import './components/demos/patterns/workflow.css';
 @import './components/demos/graphic/graphic-studio.css';
 @import './components/TechniqueCard.css';

@@ -281,7 +281,7 @@ test('intrinsic grid changes actual container width while preserving order, cont
 
 test('grid additions have unique searchable catalog entries and exact demo mappings', t => {
   const originals = new Set(['ly-bento-grid', 'ly-masonry-waterfall', 'ly-editorial-asymmetric', 'ly-honeycomb-hex']);
-  const additions = TECHNIQUES.filter(item => item.category === 'grid' && !originals.has(item.id));
+  const additions = TECHNIQUES.filter(item => item.category === 'grid' && !originals.has(item.id) && item.id !== 'accordion-image-gallery'); // Covered in showcase-demos.
   assert.deepEqual(additions.map(item => item.id).sort(), Object.keys(GRID_ADDITION_DEMOS).sort());
   for (const item of additions) {
     assert.equal(item.domain, 'layout');

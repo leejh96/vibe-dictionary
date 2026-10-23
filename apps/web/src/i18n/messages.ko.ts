@@ -1,3 +1,4 @@
+import { SHOWCASE_KO_MESSAGES } from './demos/showcase.messages';
 import { GRAPHIC_STUDIO_KO_MESSAGES } from './demos/graphic-studio.messages';
 import { WORKFLOWS_KO_MESSAGES } from './demos/workflows.messages';
 import { PATTERNS_KO_MESSAGES } from './demos/patterns.messages';
@@ -29,6 +30,7 @@ import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
   ...WORKFLOWS_KO_MESSAGES,
+  ...SHOWCASE_KO_MESSAGES,
   ...GRAPHIC_STUDIO_KO_MESSAGES,
   ...PATTERNS_KO_MESSAGES,
   'composer.close': '조합기 닫기',

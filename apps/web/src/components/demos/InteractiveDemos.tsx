@@ -104,6 +104,8 @@ import {
   Rocket,
 } from 'lucide-react';
 
+import { LenticularPosterDemo, FlutedGlassDemo, PolaroidDevelopDemo, StickerPeelDemo, AccordionGalleryDemo } from './patterns/ShowcaseDemos';
+
 interface DemoProps {
   techniqueId: string;
 }
@@ -112,6 +114,11 @@ export const InteractiveDemo: React.FC<DemoProps> = ({ techniqueId }) => {
   const Addition = ADDITIONAL_DEMOS.get(techniqueId);
   if (Addition) return <Addition />;
   switch (techniqueId) {
+    case 'mg-lenticular-strip-poster': return <LenticularPosterDemo />;
+    case 'st-fluted-glass-panel': return <FlutedGlassDemo />;
+    case 'polaroid-photo-develop': return <PolaroidDevelopDemo />;
+    case 'sticker-corner-peel': return <StickerPeelDemo />;
+    case 'accordion-image-gallery': return <AccordionGalleryDemo />;
     case 'mg-halftone-dot-shading': return <HalftoneShadingDemo />;
     case 'mg-isometric-voxel-landscape': return <VoxelLandscapeDemo />;
     case 'mg-ribbon-over-under-weave': return <RibbonWeaveDemo />;

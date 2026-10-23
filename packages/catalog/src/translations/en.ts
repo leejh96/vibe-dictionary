@@ -1,3 +1,4 @@
+import { EN_SHOWCASE_TECHNIQUES } from './additions/showcase';
 import { EN_GRAPHIC_STUDIO_TECHNIQUES } from './additions/graphic-studio';
 import { EN_WORKFLOW_TECHNIQUES } from './additions/workflows';
 import { EN_BROADCAST_TECHNIQUES } from './additions/broadcast';
@@ -34,6 +35,7 @@ import { EN_PATTERN_TECHNIQUES } from './additions/patterns';
 
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
   ...EN_WORKFLOW_TECHNIQUES,
+  ...EN_SHOWCASE_TECHNIQUES,
   ...EN_GRAPHIC_STUDIO_TECHNIQUES,
   ...EN_PATTERN_TECHNIQUES,
   ...EN_BROADCAST_TECHNIQUES,
