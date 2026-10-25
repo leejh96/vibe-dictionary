@@ -1,4 +1,5 @@
 import { useLocale } from '../../../i18n/LocaleContext';
+import { useDemoAutoplayRunning } from '../../../hooks/useDemoAutoplay';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
 
@@ -8,21 +9,23 @@ export function PendulumPeriodDemo() {
   const { t } = useLocale();
   const [length, setLength] = useState(64);
   const [playing, setPlaying] = useState(true);
+  const autoRunning = useDemoAutoplayRunning();
   const pendulum = useRef<SVGGElement>(null);
   const motion = useRef<Animation | null>(null);
   const id = useId();
 
-  useLayoutEffect(() => {
-    const node = pendulum.current;
-    if (!node || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || typeof node.animate !== 'function') return;
-    const animation = node.animate(SWING, { duration: 2 * Math.PI * Math.sqrt(length / 500) * 1000, iterations: Infinity, easing: 'linear', fill: 'both' });
-    motion.current = animation;
-    return () => { animation.cancel(); motion.current = null; };
+  useLayoutEffect(() => () => {
+    motion.current?.cancel();
+    motion.current = null;
   }, [length]);
 
   useLayoutEffect(() => {
-    if (playing) motion.current?.play(); else motion.current?.pause();
-  }, [playing, length]);
+    const node = pendulum.current;
+    if (autoRunning && !motion.current && typeof node?.animate === 'function') {
+      motion.current = node.animate(SWING, { duration: 2 * Math.PI * Math.sqrt(length / 500) * 1000, iterations: Infinity, easing: 'linear', fill: 'both' });
+    }
+    if (playing && autoRunning) motion.current?.play(); else motion.current?.pause();
+  }, [playing, autoRunning, length]);
 
   return <div className="physics-demo">
     <div className="pd-scene">

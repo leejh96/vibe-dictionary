@@ -35,6 +35,7 @@ const DARK_STAGE_IDS = new Set<string>([
   'st-linear-dark-minimal',
   'st-matte-film-grain',
   'st-neumorphism-soft',
+  'st-skeuomorphism-tactile',
   'st-8bit-pixel-retro',
   'st-crt-scanline-terminal',
   'st-synthwave-sunset-grid',
@@ -52,7 +53,7 @@ const DARK_STAGE_IDS = new Set<string>([
 
 // Replay actions restart the component so its previous timers and frames are cleaned up first.
 const REPLAY_ACTION_IDS = new Set([
-  'shimmer-sweep', 'neon-glow-pulse',
+  'shimmer-sweep',
   'split-flap-typography',
   'ly-sticky-scrolltelling', 'ly-fullpage-snap', 'ly-horizontal-showcase', 'ly-curtain-reveal',
   'mg-no-slip-rolling-wheel', 'mg-kinetic-friction-slide', 'mg-restitution-bounce-drop',
@@ -62,6 +63,29 @@ const REPLAY_ACTION_IDS = new Set([
   'vd-chat-story-sequence', 'vd-slot-jackpot-headline', 'vd-animated-bar-race', 'vd-kpi-counter-explosion',
   'vd-node-flow-pipeline', 'vd-circular-ring-dashboard', 'vd-funnel-conversion-drop',
   'vd-lower-third-banner', 'vd-diagonal-shutter-wipe', 'vd-logo-stinger-outro', 'vd-breaking-news-ticker',
+]);
+
+const CSS_LOOP_ONLY_IDS = new Set([
+  'circular-path-text',
+  'circular-sweep-spinner',
+  'dot-wave-waiting-bubble',
+  'floating-levitation',
+  'glassmorphism-card',
+  'gradient-flow-text',
+  'indeterminate-linear-loader',
+  'infinite-marquee',
+  'mg-aurora-mesh',
+  'mg-god-ray-beam',
+  'mg-gooey-metaball',
+  'mg-liquid-blob-morph',
+  'mg-orbit-rotation',
+  'neon-glow-pulse',
+  'skeleton-shimmer',
+  'st-liquid-acrylic',
+  'st-scifi-hud-chamfer',
+  'stable-skeleton-content',
+  'svg-stroke-lettering',
+  'word-mask-headline',
 ]);
 
 interface TechniqueCardProps {
@@ -113,7 +137,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   const categoryLabel = locale === 'en' ? CATEGORY_NAMES_EN[item.category] : CATEGORY_LABEL_MAP[item.category];
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
   const restartOnAction = REPLAY_ACTION_IDS.has(item.id);
-  const ownsAnimationStarts = restartOnAction && !['shimmer-sweep', 'neon-glow-pulse'].includes(item.id);
+  const ownsAnimationStarts = restartOnAction && item.id !== 'shimmer-sweep';
+  const enableClock = !CSS_LOOP_ONLY_IDS.has(item.id);
 
   return (
     <article
@@ -163,7 +188,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             {text.promptSnippet}
           </div>
         ) : isInView ? (
-          <DemoAutoplay playback={playback} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
+          <DemoAutoplay playback={playback} clock={enableClock} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
         ) : (
           <div
             className={`w-full h-40 ${

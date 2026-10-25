@@ -5,12 +5,14 @@ import type { DemoPlayback } from '../components/demos/demoPlayback';
 const DemoPhase = createContext<number | null>(null);
 const DemoStep = createContext<number | null>(null);
 const DemoInput = createContext<{ current: number } | null>(null);
+const DemoRunning = createContext<boolean | null>(null);
 const CYCLE_MS = 8000;
 
 interface DemoAutoplayProps {
   children: ReactNode;
   playback?: DemoPlayback;
-  onReplay?: () => void;
+  onReplay?: (isCycleTick?: boolean) => void;
+  clock?: boolean;
   restartOnClick?: boolean;
   restartOnAction?: boolean;
 }
@@ -21,7 +23,7 @@ export function DemoAutoplay({ playback = 'auto', ...props }: DemoAutoplayProps)
 }
 
 // Only automatic previews supply a clock; interactive demos keep their own state and controls.
-function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOnAction = false }: DemoAutoplayProps) {
+function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOnAction = false, clock: enableClock = true }: DemoAutoplayProps) {
   const [elapsed, setElapsed] = useState(0);
   const clock = useRef<{ elapsed: number; last: number | null }>({ elapsed: 0, last: null });
   const phase = (elapsed % CYCLE_MS) / CYCLE_MS;
@@ -76,10 +78,10 @@ function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOn
   useEffect(() => {
     const previous = lastReplay.current;
     lastReplay.current = { inputRun, run };
-    if (running && (previous.inputRun === inputRun || previous.run !== run)) replayRef.current?.();
+    if (running && (previous.inputRun === inputRun || previous.run !== run)) replayRef.current?.(previous.run === run && cycle > 0);
   }, [cycle, running, run, inputRun]);
   useEffect(() => {
-    if (!running) return;
+    if (!running || !enableClock) return;
     let frame: number;
     const advance = (timestamp: number) => {
       const current = clock.current;
@@ -90,8 +92,8 @@ function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOn
     };
     frame = window.requestAnimationFrame(advance);
     return () => { window.cancelAnimationFrame(frame); clock.current.last = null; };
-  }, [running]);
-  return <DemoInput.Provider value={inputVersion}><DemoPhase.Provider value={playing ? phase : null}><DemoStep.Provider value={playing ? inputRun * 2 + Math.floor(phase * 2) : null}>
+  }, [running, enableClock]);
+  return <DemoRunning.Provider value={running}><DemoInput.Provider value={inputVersion}><DemoPhase.Provider value={playing ? phase : null}><DemoStep.Provider value={playing ? inputRun * 2 + Math.floor(phase * 2) : null}>
     <div ref={setRoot} className="demo-preview" data-demo-playback="auto" data-demo-replay-action={playing && restartOnAction || undefined} data-demo-active={running && phase >= .25 && phase < .75 ? 'true' : undefined}
       onPointerUpCapture={event => { if ((event.target as Element).closest('[data-demo-input]')) inputVersion.current += 1; }}
       onPointerUp={input}
@@ -111,7 +113,33 @@ function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOn
       }}>
       <Fragment key={run}>{children}</Fragment>
     </div>
-  </DemoStep.Provider></DemoPhase.Provider></DemoInput.Provider>;
+  </DemoStep.Provider></DemoPhase.Provider></DemoInput.Provider></DemoRunning.Provider>;
+}
+
+export function useDemoAutoplayRunning() {
+  const context = useContext(DemoRunning);
+  const [allowed, setAllowed] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const reduced = Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+    const hidden = typeof document !== 'undefined' ? Boolean(document.hidden) : false;
+    return !reduced && !hidden;
+  });
+  useEffect(() => {
+    if (context !== null || typeof window === 'undefined') return;
+    const media = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const update = () => {
+      const hidden = typeof document !== 'undefined' ? Boolean(document.hidden) : false;
+      setAllowed(!media?.matches && !hidden);
+    };
+    update();
+    media?.addEventListener?.('change', update);
+    if (typeof document !== 'undefined') document.addEventListener?.('visibilitychange', update);
+    return () => {
+      media?.removeEventListener?.('change', update);
+      if (typeof document !== 'undefined') document.removeEventListener?.('visibilitychange', update);
+    };
+  }, [context]);
+  return context ?? allowed;
 }
 
 export function useDemoNumber(initial: number, min: number, max: number, step = 1, mode: 'continuous' | 'steps' = 'continuous') {

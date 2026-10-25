@@ -58,7 +58,7 @@
 .cx-hotspot output { position:absolute; bottom:3px; left:0; right:0; text-align:center; font-size:11px; background:#182139; color:white; padding:4px; border-radius:6px; }
 .cx-cube { width:110px; height:110px; position:relative; transform-style:preserve-3d; transition:transform .7s; }
 .cx-cube-face { position:absolute; inset:0; display:grid; place-items:center; font-size:38px; font-weight:900; color:#302347; background:#c4b5fd; backface-visibility:hidden; }
-.cx-scroll-window { height:140px; overflow:auto; overscroll-behavior:contain; scrollbar-width:thin; border:1px solid #8b7cbf44; border-radius:8px; position:relative; }
+.cx-scroll-window { height:140px; overflow:hidden; overscroll-behavior:contain; scrollbar-width:thin; border:1px solid #8b7cbf44; border-radius:8px; position:relative; }
 .cx-chat { max-width:80%; padding:6px 10px; border-radius:12px 12px 12px 2px; background:#8b5cf624; }
 .cx-chat[data-own='true'] { margin-left:auto; border-radius:12px 12px 2px 12px; background:#7c3aed; color:white; }
 .cx-calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center; }

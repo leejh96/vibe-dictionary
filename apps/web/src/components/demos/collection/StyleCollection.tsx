@@ -17,7 +17,7 @@ export function RadialGradientEditorial() {
 }
 export function MonolineIconSet() {
   const { t }=useLocale();
-  return <Stage label={t('demo.collection.monolineIcons')}><Art><g fill="none" stroke="#7c5ba5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><g transform="translate(20 30)"><rect x="0" y="10" width="65" height="65" rx="14"/><path d="M15 10V0h35v10M18 37h29M18 47h20"/></g><g transform="translate(108 30)"><path d="M0 40 32 8 64 40M10 30v50h44V30M24 80V55h16v25"/></g><g transform="translate(200 40)"><circle cx="28" cy="28" r="27"/><path d="m48 48 18 18M28 13v30M13 28h30"/></g></g></Art></Stage>;
+  return <Stage label={t('demo.collection.monolineIcons')}><Art><g fill="none" stroke="#9d7be8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><g transform="translate(20 30)"><rect x="0" y="10" width="65" height="65" rx="14"/><path d="M15 10V0h35v10M18 37h29M18 47h20"/></g><g transform="translate(108 30)"><path d="M0 40 32 8 64 40M10 30v50h44V30M24 80V55h16v25"/></g><g transform="translate(200 40)"><circle cx="28" cy="28" r="27"/><path d="m48 48 18 18M28 13v30M13 28h30"/></g></g></Art></Stage>;
 }
 export function GrainSphereStudy() {
   const { t }=useLocale(); const id=useId();
@@ -51,7 +51,7 @@ export function LetterpressPoster() {
 }
 export function NewspaperColumns() {
   const { t }=useLocale();
-  return <Stage label={t('demo.collection.newspaper')} style={{ background:'#eae4d5',color:'#383530' }}><h4 style={{ font:'900 29px Georgia,serif',borderBottom:'3px double #383530',margin:'0 0 8px',textAlign:'center' }}>{t('demo.collection.dailyWord')}</h4><div style={{ columnCount:3,columnGap:10,columnRule:'1px solid #aaa18f',font:'10px/1.45 Georgia,serif',textAlign:'justify' }}>{t('demo.collection.newspaperCopy')}</div></Stage>;
+  return <Stage label={t('demo.collection.newspaper')} style={{ background:'#eae4d5',color:'#383530' }}><h4 style={{ font:'900 29px Georgia,serif',borderBottom:'3px double #383530',margin:'0 0 8px',textAlign:'center' }}>{t('demo.collection.dailyWord')}</h4><div style={{ columnCount:3,columnWidth:68,columnGap:10,columnRule:'1px solid #aaa18f',font:'10px/1.45 Georgia,serif',textAlign:'justify',hyphens:'auto' }}>{t('demo.collection.newspaperCopy')}</div></Stage>;
 }
 export function AtomicMidcentury() {
   const { t }=useLocale();
@@ -82,9 +82,10 @@ export function ConstellationAtlas() {
   const { t }=useLocale(); const id=useId(); const stars=[[65,55],[105,32],[147,68],[190,42],[221,102],[174,130],[122,108],[65,55]];
   return <Stage label={t('demo.collection.starAtlas')} className="cx-night"><Art><defs><pattern id={id} width="28" height="28" patternUnits="userSpaceOnUse"><path d="M0 0H28M0 0V28" stroke="#8b9fb6" opacity=".12"/></pattern></defs><rect width="280" height="160" fill={`url(#${id})`}/><ellipse cx="140" cy="80" rx="110" ry="65" fill="none" stroke="#8b9fb6" opacity=".35"/><polyline points={stars.map(p=>p.join(',')).join(' ')} fill="none" stroke="#a8c9e8" strokeWidth="1"/>{stars.slice(0,-1).map(([x,y],i)=><g key={i}><circle cx={x} cy={y} r={i%2?2:4} fill="#f3dfab"/><circle cx={x} cy={y} r="9" fill="none" stroke="#f3dfab" opacity=".2"/></g>)}<text x="14" y="150" fill="#9db7cf" fontSize="9">{t('demo.collection.atlasLabel')}</text></Art></Stage>;
 }
+const HEX_LATTICE_CELLS=Array.from({length:15},(_,i)=>{const x=47+i%5*45+(Math.floor(i/5)%2)*22,y=38+Math.floor(i/5)*39;return {x,y,points:Array.from({length:6},(_,j)=>`${x+24*Math.cos(j*Math.PI/3+Math.PI/6)},${y+24*Math.sin(j*Math.PI/3+Math.PI/6)}`).join(' ')};});
 export function HexStatusLattice() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1); const active=Math.min(14,Math.floor(p*15));
-  return <Stage label={t('demo.collection.hexLattice')} className="cx-night"><Art>{Array.from({length:15},(_,i)=>{const x=47+i%5*45+(Math.floor(i/5)%2)*22,y=38+Math.floor(i/5)*39;return <g key={i}><polygon points={Array.from({length:6},(_,j)=>`${x+24*Math.cos(j*Math.PI/3+Math.PI/6)},${y+24*Math.sin(j*Math.PI/3+Math.PI/6)}`).join(' ')} fill={i===active?'#67e8f933':'none'} stroke={i===active?'#bef264':'#467d8b'} strokeWidth={i===active?2:1}/><circle cx={x} cy={y} r={i===active?5:2} fill={i===active?'#bef264':'#467d8b'}/></g>;})}</Art></Stage>;
+  return <Stage label={t('demo.collection.hexLattice')} className="cx-night"><Art>{HEX_LATTICE_CELLS.map(({x,y,points},i)=><g key={i}><polygon points={points} fill={i===active?'#67e8f933':'none'} stroke={i===active?'#bef264':'#467d8b'} strokeWidth={i===active?2:1}/><circle cx={x} cy={y} r={i===active?5:2} fill={i===active?'#bef264':'#467d8b'}/></g>)}</Art></Stage>;
 }
 
 export const STYLE_COLLECTION_DEMOS = {

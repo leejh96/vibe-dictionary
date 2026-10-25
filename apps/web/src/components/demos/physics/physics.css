@@ -281,14 +281,14 @@
 /* =====================================================================
  * MODOO MARBLE MINI BOARD GAME (mg-marble-board)
  * ===================================================================== */
-.mb-board-container {
+.mb-board-container { min-height: 11.5rem;
   width: 100%;
   height: 10rem;
   position: relative;
   background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 80%), #f8fafc;
   border: 0;
   border-radius: 0.75rem;
-  padding: 5px;
+  padding: 34px 5px 5px;
   box-sizing: border-box;
   cursor: pointer;
   user-select: none;
@@ -297,7 +297,7 @@
   color: inherit;
   transition: background 0.3s ease;
 }
-.dark .mb-board-container {
+.dark .mb-board-container { min-height: 11.5rem;
   background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 80%), #0f172a;
 }
 .mb-board-container:focus-visible {

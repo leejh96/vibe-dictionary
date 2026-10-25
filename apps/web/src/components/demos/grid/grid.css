@@ -1,7 +1,8 @@
 .grid-demo { --gr-accent: #4338ca; --gr-surface: #fff; --gr-border: #c7d2fe; --gr-tint: #eef2ff; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 10rem; padding: 2.75rem 1rem .75rem; color: var(--gr-accent); }
 .dark .grid-demo { --gr-accent: #a5b4fc; --gr-surface: #1e293b; --gr-border: #475569; --gr-tint: #312e81; }
 .gr-intrinsic-demo, .gr-subgrid-demo, .gr-dense-demo, .gr-context-demo, .gr-area-demo, .gr-bleed-demo, .gr-gallery-demo, .gr-span-demo, .gr-label-demo, .gr-baseline-demo { flex-direction: column; gap: .5rem; }
-.gr-intrinsic-scene, .gr-context-scene, .gr-bleed-scene, .gr-gallery-scene, .gr-span-scene, .gr-label-scene, .gr-baseline-scene { display: flex; align-items: center; justify-content: center; width: 264px; max-width: 100%; height: 144px; }
+.gr-intrinsic-scene, .gr-bleed-scene, .gr-gallery-scene, .gr-span-scene, .gr-label-scene, .gr-baseline-scene { display: flex; align-items: center; justify-content: center; width: 264px; max-width: 100%; height: 144px; }
+.gr-context-scene { display: flex; align-items: center; justify-content: center; width: 264px; max-width: 100%; min-height: 144px; }
 .gr-intrinsic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .gr-intrinsic-grid > li { display: grid; place-items: center; min-width: 0; height: 44px; border: 1px solid var(--gr-border); border-radius: .625rem; background: var(--gr-surface); box-shadow: 0 3px 8px #0f172a0a; }
 .gr-intrinsic-grid > li:nth-child(2) { background: var(--gr-tint); }
@@ -10,10 +11,10 @@
 .gr-width-control input:focus-visible, .gr-width-control select:focus-visible, .gr-alignment-control input:focus-visible, .gr-packing-control input:focus-visible, .gr-navigation-control input:focus-visible { outline: 2px solid var(--gr-accent); outline-offset: 2px; }
 .dark .gr-width-control input, .dark .gr-width-control select, .dark .gr-alignment-control input, .dark .gr-packing-control input, .dark .gr-navigation-control input { color-scheme: dark; }
 .gr-subgrid-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); gap: 8px; width: 264px; max-width: 100%; min-width: 0; }
-.gr-subgrid-card { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-row: span 3; min-width: 0; padding: 10px; border: 1px solid var(--gr-border); border-radius: .75rem; background: var(--gr-surface); }
+.gr-subgrid-card { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; grid-row: span 3; min-width: 0; padding: 9px; border: 1px solid var(--gr-border); border-radius: .75rem; background: var(--gr-surface); }
 .gr-subgrid-cards[data-aligned="false"] .gr-subgrid-card { grid-template-rows: repeat(3, auto); }
 .gr-subgrid-card h4, .gr-subgrid-card p { margin: 0; overflow-wrap: anywhere; }
-.gr-subgrid-card h4 { font-size: .8125rem; line-height: 1.4; font-weight: 750; }
+.gr-subgrid-card h4 { font-size: .8125rem; line-height: 1.4; font-weight: 750; word-break: keep-all; }
 .gr-subgrid-card p { color: #475569; font-size: .75rem; line-height: 1.5; }
 .dark .gr-subgrid-card p { color: #cbd5e1; }
 .gr-document-tag { justify-self: start; align-self: start; padding: 2px 6px; border-radius: .375rem; background: var(--gr-tint); font-size: .6875rem; line-height: 1.5; }

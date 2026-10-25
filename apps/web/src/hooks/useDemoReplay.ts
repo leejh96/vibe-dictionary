@@ -28,7 +28,7 @@ export function useDemoReplay(stageRef: RefObject<HTMLDivElement>, enabled: bool
     return () => animations.current.clear();
   }, [enabled, techniqueId]);
 
-  const replay = (target: EventTarget) => {
+  const replay = (target: EventTarget, skipInfinite = false) => {
     const root = content();
     if (!root?.contains(target as Node) || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
     collect();
@@ -40,13 +40,16 @@ export function useDemoReplay(stageRef: RefObject<HTMLDivElement>, enabled: bool
       const index = names.indexOf(animation.animationName);
       const states = style.animationPlayState.split(',').map(state => state.trim());
       if (animation.playState === 'paused' || index < 0 || states[index % states.length] === 'paused') continue;
+      const iterations = style.animationIterationCount?.split(',').map(count => count.trim()) ?? [];
+      const isInfinite = effect.getComputedTiming?.().iterations === Infinity || effect.getTiming?.().iterations === Infinity || iterations[index % iterations.length] === 'infinite';
+      if (skipInfinite && isInfinite) continue;
       // Seeking a CSS animation restarts it without play(), which would override later CSS pauses.
       animation.currentTime = 0;
     }
   };
 
   return {
-    onAutoReplay: () => { const root = content(); if (root) replay(root); },
+    onAutoReplay: (isCycleTick = false) => { const root = content(); if (root) replay(root, isCycleTick); },
     onAnimationStartCapture: collect,
     onClick: (event: MouseEvent<HTMLDivElement>) => {
       // Let the demo's own controls handle toggles and range values.

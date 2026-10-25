@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId, useMemo } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { Art, Landscape, Stage, palette } from './shared';
@@ -87,11 +87,11 @@ export function PendulumGlyphs() {
 }
 export function ElasticTracking() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1);
-  return <Stage label={t('demo.collection.elasticTracking')}><Art>{[...t('demo.collection.trackWord')].map((letter,i)=><text key={i} x={140+(i-2)*(30+p*18)} y={92+Math.sin(p*Math.PI+i*.7)*5} textAnchor="middle" fontSize="36" fontWeight="900" fill="#7852a6">{letter}</text>)}<path d={`M${70-30*p} 112H${210+30*p}`} stroke="#fb7185" strokeWidth="3" /></Art></Stage>;
+  return <Stage label={t('demo.collection.elasticTracking')}><Art>{[...t('demo.collection.trackWord')].map((letter,i)=><text key={i} x={140+(i-2)*(30+p*18)} y={92+Math.sin(p*Math.PI+i*.7)*5} textAnchor="middle" fontSize="36" fontWeight="900" fill="#a78bfa">{letter}</text>)}<path d={`M${70-30*p} 112H${210+30*p}`} stroke="#fb7185" strokeWidth="3" /></Art></Stage>;
 }
 export function TypeTunnel() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1);
-  return <Stage label={t('demo.collection.typeTunnel')} className="cx-night"><Art>{Array.from({length:7},(_,i)=>{const s=.22+i*.17+p*.12;return <text key={i} x="0" y="15" textAnchor="middle" fontSize="48" fontWeight="900" fill="none" stroke={palette[i%5]} strokeWidth=".9" opacity={.2+i*.1} transform={`translate(140 80) scale(${s})`}>{t('demo.collection.echoWord')}</text>;})}</Art></Stage>;
+  return <Stage label={t('demo.collection.typeTunnel')} className="cx-night"><Art>{Array.from({length:7},(_,i)=>{const s=.22+i*.17+p*.12;return <text key={i} x="0" y="15" textAnchor="middle" fontSize="48" fontWeight="900" fill="none" stroke={palette[i%5]} strokeWidth={.7+i*.22} opacity={.14+i*.14} transform={`translate(140 80) scale(${s})`}>{t('demo.collection.echoWord')}</text>;})}</Art></Stage>;
 }
 
 export function SplitDiopterShot() {
@@ -100,7 +100,7 @@ export function SplitDiopterShot() {
 }
 export function CraneArcShot() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1);
-  return <Stage label={t('demo.collection.craneArc')} className="cx-night"><Art><g transform={`translate(${p*-20} ${p*28}) scale(${1+p*.18})`}><Landscape /></g><g transform={`translate(${p*-65} ${p*45})`}><rect x="5" y="25" width="34" height="140" fill="#282842" /><path d="M0 90H280" stroke="#fff" opacity=".12" /></g><path d="M210 26Q242 30 250 60" stroke="#fff" opacity=".6" fill="none" /></Art></Stage>;
+  return <Stage label={t('demo.collection.craneArc')} className="cx-night"><Art><g transform={`translate(${p*-20} ${p*28}) scale(${1+p*.18})`}><rect x="-20" y="-45" width="320" height="50" fill="#fbcba7" /><Landscape /></g><g transform={`translate(${p*-65} ${p*45})`}><rect x="5" y="25" width="34" height="140" fill="#282842" /><path d="M0 90H280" stroke="#fff" opacity=".12" /></g><path d="M210 26Q242 30 250 60" stroke="#fff" opacity=".6" fill="none" /></Art></Stage>;
 }
 export function HandheldDrift() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1); const x=Math.sin(p*19)*3+Math.sin(p*37)*1.5,y=Math.cos(p*13)*2;
@@ -112,12 +112,12 @@ export function WhipPanShot() {
 }
 export function WindowDollyThrough() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1);
-  return <Stage label={t('demo.collection.windowDolly')} className="cx-night"><Art><g transform={`translate(140 80) scale(${1+p*.12}) translate(-140 -80)`}><Landscape variant={1} /></g><g transform={`translate(140 80) scale(${1+p*2}) translate(-140 -80)`} fill="#22263d"><rect width="280" height="20"/><rect y="140" width="280" height="20"/><rect width="55" height="160"/><rect x="225" width="55" height="160"/><rect x="136" width="8" height="160"/><rect y="76" width="280" height="8"/></g></Art></Stage>;
+  return <Stage label={t('demo.collection.windowDolly')} className="cx-night"><Art><g transform={`translate(140 80) scale(${1+p*.12}) translate(-140 -80)`}><Landscape variant={1} /></g><g transform={`translate(140 80) scale(${1+p*2}) translate(-140 -80)`} fill="#22263d"><rect width="280" height="20"/><rect y="140" width="280" height="20"/><rect width="55" height="160"/><rect x="225" width="55" height="160"/><rect x={136-p*110} width="8" height="160"/><rect x={136+p*110} width="8" height="160"/><rect y={76-p*65} width="280" height="8"/><rect y={76+p*65} width="280" height="8"/></g></Art></Stage>;
 }
 
 export function PixelMosaicTransition() {
-  const { t }=useLocale(); const [p]=useDemoNumber(0,0,1); const size=8+Math.round(p*8)*4;
-  return <Stage label={t('demo.collection.pixelMosaic')}><Art>{Array.from({length:Math.ceil(160/size)},(_,y)=>Array.from({length:Math.ceil(280/size)},(_,x)=>{const cx=(x+.5)*size,cy=(y+.5)*size;const color=(cx-205)**2+(cy-40)**2<24**2?'#fff3b0':cy>130?'#eaa879':cy>140-Math.max(0,75-Math.abs(cx-90))?'#784957':'#fbcba7';return <rect key={`${x}-${y}`} x={x*size} y={y*size} width={size+.2} height={size+.2} fill={color} />;}))}</Art></Stage>;
+  const { t }=useLocale(); const [p]=useDemoNumber(0,0,1); const size=8+Math.round(p*8)*4; const rects=useMemo(()=>Array.from({length:Math.ceil(160/size)},(_,y)=>Array.from({length:Math.ceil(280/size)},(_,x)=>{const cx=(x+.5)*size,cy=(y+.5)*size;const color=(cx-205)**2+(cy-40)**2<24**2?'#fff3b0':cy>130?'#eaa879':cy>140-Math.max(0,75-Math.abs(cx-90))?'#784957':'#fbcba7';return <rect key={`${x}-${y}`} x={x*size} y={y*size} width={size+.2} height={size+.2} fill={color} />;})),[size]);
+  return <Stage label={t('demo.collection.pixelMosaic')}><Art>{rects}</Art></Stage>;
 }
 export function ScanlineDisplacement() {
   const { t }=useLocale(); const [p]=useDemoNumber(0,0,1); const id=useId();

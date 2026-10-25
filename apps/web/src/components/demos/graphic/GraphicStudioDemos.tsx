@@ -1,4 +1,4 @@
-import { useId, type ReactNode } from 'react';
+import { useId, useMemo, type ReactNode } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 import { useDemoNumber, useDemoToggle } from '../../../hooks/useDemoAutoplay';
 
@@ -69,11 +69,11 @@ export function GuillocheCurveDemo() {
   const { t } = useLocale();
   const [lobes] = useDemoNumber(9, 5, 14, 1, 'steps');
   const id = useId();
-  const points = Array.from({ length: 1441 }, (_, i) => {
+  const points = useMemo(() => Array.from({ length: 1441 }, (_, i) => {
     const angle = i / 1440 * Math.PI * 2;
     const radius = 41 + 16 * Math.cos(lobes * angle);
     return `${i ? 'L' : 'M'}${(130 + radius * 1.8 * Math.cos(angle)).toFixed(2)} ${(66 + radius * Math.sin(angle)).toFixed(2)}`;
-  }).join(' ') + ' Z';
+  }).join(' ') + ' Z', [lobes]);
   return <Studio>
     <svg viewBox="0 0 260 132" role="img" aria-label={t('demo.studio.guillocheImage')}>
       <defs><linearGradient id={id}><stop stopColor="#0891b2" /><stop offset="1" stopColor="#a855f7" /></linearGradient></defs>

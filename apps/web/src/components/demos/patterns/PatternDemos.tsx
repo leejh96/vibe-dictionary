@@ -139,8 +139,8 @@ export function HoverPreviewDemo() {
   const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const pointerOpen = useRef(false);
-  return <div className="pattern-demo"><div className="pd-hover-surface" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
-    <p>{t('demo.patterns.authorLead')} <button type="button" className="pd-person-link" aria-expanded={open} onPointerDown={() => { pointerOpen.current = open; }} onFocus={() => setOpen(true)} onKeyDown={event => { if (event.key === 'Escape') setOpen(false); }} onClick={event => setOpen(event.detail === 0 ? !open : !pointerOpen.current)}>{t('demo.patterns.author')}</button></p>
+  return <div className="pattern-demo"><div className="pd-hover-surface" onMouseLeave={() => setOpen(false)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
+    <p>{t('demo.patterns.authorLead')} <button type="button" className="pd-person-link" aria-expanded={open} onMouseEnter={() => setOpen(true)} onPointerDown={() => { pointerOpen.current = open; }} onFocus={() => setOpen(true)} onKeyDown={event => { if (event.key === 'Escape') setOpen(false); }} onClick={event => setOpen(event.detail === 0 ? !open : !pointerOpen.current)}>{t('demo.patterns.author')}</button></p>
     <div className="pd-profile-preview" hidden={!open}>
       <div className="pd-profile-banner" /><span className="pd-avatar" aria-hidden="true" />
       <div><strong>{t('demo.patterns.author')}</strong><span>{t('demo.patterns.authorRole')}</span></div>
@@ -153,15 +153,23 @@ export function InlineEditDemo() {
   const { t } = useLocale();
   const [saved, setSaved] = useState<string | null>(null);
   const [view, setView] = useState({ editing: false, draft: '', done: false });
+  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const focusReady = useRef(false);
+  useLayoutEffect(() => {
+    if (!focusReady.current) return;
+    if (view.editing) inputRef.current?.focus({ preventScroll: true });
+    else triggerRef.current?.focus({ preventScroll: true });
+  }, [view.editing]);
   const original = saved ?? t('demo.patterns.originalTitle');
-  const commit = () => { if (view.draft.trim()) { setSaved(view.draft.trim()); setView(current => ({ ...current, editing: false, done: true })); } };
+  const commit = () => { if (view.draft.trim()) { focusReady.current = true; setSaved(view.draft.trim()); setView(current => ({ ...current, editing: false, done: true })); } };
   return <div className="pattern-demo"><div className="pd-edit-card">
     <span className="pd-edit-label">{t('demo.patterns.projectName')}</span>
     {view.editing ? <form className="pd-edit-form" onSubmit={event => { event.preventDefault(); commit(); }}>
-      <input aria-label={t('demo.patterns.projectName')} value={view.draft} onChange={event => setView(current => ({ ...current, draft: event.target.value }))} onKeyDown={event => { if (event.key === 'Escape') setView(current => ({ ...current, editing: false, done: false })); }} />
+      <input ref={inputRef} aria-label={t('demo.patterns.projectName')} value={view.draft} onChange={event => setView(current => ({ ...current, draft: event.target.value }))} onKeyDown={event => { if (event.key === 'Escape') { focusReady.current = true; setView(current => ({ ...current, editing: false, done: false })); } }} />
       <button type="submit" aria-label={t('demo.patterns.save')} disabled={!view.draft.trim()}><Check size={16} /></button>
-      <button type="button" aria-label={t('demo.patterns.cancel')} onClick={() => setView(current => ({ ...current, editing: false, done: false }))}><X size={16} /></button>
-    </form> : <button type="button" className="pd-edit-value" aria-label={t('demo.patterns.edit')} onClick={() => setView({ editing: true, draft: original, done: false })}><strong>{original}</strong>{view.done ? <Check size={15} className="pd-saved" /> : <Pencil size={15} />}</button>}
+      <button type="button" aria-label={t('demo.patterns.cancel')} onClick={() => { focusReady.current = true; setView(current => ({ ...current, editing: false, done: false })); }}><X size={16} /></button>
+    </form> : <button ref={triggerRef} type="button" className="pd-edit-value" aria-label={t('demo.patterns.edit')} onClick={() => { focusReady.current = true; setView({ editing: true, draft: original, done: false }); }}><strong>{original}</strong>{view.done ? <Check size={15} className="pd-saved" /> : <Pencil size={15} />}</button>}
     <span className="pd-edit-rule" aria-hidden="true" />
   </div></div>;
 }
