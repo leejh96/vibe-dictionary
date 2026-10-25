@@ -228,7 +228,7 @@ test('blend lights toggle only their own compositing state while preserving thei
 });
 
 test('new background techniques have unique searchable metadata, mapped scenes and no helper captions', () => {
-  const originals = new Set(['mg-aurora-mesh', 'mg-particle-network', 'mg-dot-matrix-grid', 'mg-god-ray-beam', 'mg-radar-sonar-sweep']);
+  const originals = new Set(['mg-aurora-mesh', 'mg-particle-network', 'mg-dot-matrix-grid', 'mg-god-ray-beam', 'mg-radar-sonar-sweep', 'mg-black-hole-accretion-disk']); // Signature addition covered in showcase-demos.
   const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'shader' && !originals.has(item.id));
   assert.equal(additions.length, 10);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);

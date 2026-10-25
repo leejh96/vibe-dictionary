@@ -119,9 +119,9 @@ test('InteractiveDemo renders 3D Treasure Chest and handles open/close and local
     );
   });
 
-  assert.equal(tree.root.findAllByType(TreasureChest3DDemo).length, 1);
+  assert.equal(tree.root.findAllByType(TreasureChest3DDemo).length, 1); assert.equal(tree.root.findByType('button').props['aria-label'], '보물상자 열기 (클릭)'); assert.equal(tree.root.findByType('button').props['aria-pressed'], false);
   const button = tree.root.findByType('button');
-  assert.equal(button.props['aria-label'], '3D 보물상자 루팅 연출 시연');
+  assert.equal(typeof button.props['aria-label'], 'string');
 
   // Verify internal elements
   assert.equal(tree.root.findAll(n => n.props.className?.includes('tc-chest')).length, 1);
@@ -141,14 +141,14 @@ test('InteractiveDemo renders 3D Treasure Chest and handles open/close and local
     setLocale('en');
   });
 
-  assert.equal(button.props['aria-label'], '3D Treasure Chest Loot Demo');
+  assert.equal(button.props['aria-label'], 'Close Chest'); assert.equal(button.props['aria-pressed'], true); act(() => { setLocale('ko'); }); assert.equal(button.props['aria-label'], '상자 닫기'); act(() => { setLocale('en'); });
   assert.doesNotMatch(JSON.stringify(tree.toJSON()), /[가-힣]/u, 'English view must not leak Korean copy');
 
   // Switch back to Korean
   act(() => {
     setLocale('ko');
   });
-  assert.equal(button.props['aria-label'], '3D 보물상자 루팅 연출 시연');
+  assert.equal(typeof button.props['aria-label'], 'string');
 
   act(() => tree.unmount());
 });

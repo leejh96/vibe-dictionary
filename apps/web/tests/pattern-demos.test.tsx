@@ -112,7 +112,7 @@ test('hover preview stays open while focus moves inside and supports touch toggl
   act(() => button().props.onPointerDown());
   act(() => button().props.onClick({ detail: 1 }));
   assert.equal(button().props['aria-expanded'], false);
-  act(() => surface().props.onMouseEnter());
+  assert.equal(surface().props.onMouseEnter, undefined); act(() => button().props.onMouseEnter());
   act(() => button().props.onKeyDown({ key: 'Escape' }));
   assert.equal(button().props['aria-expanded'], false);
 });

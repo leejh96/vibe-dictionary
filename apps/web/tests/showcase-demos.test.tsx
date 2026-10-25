@@ -7,9 +7,21 @@ import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
 
 const ids = ['mg-lenticular-strip-poster', 'st-fluted-glass-panel', 'polaroid-photo-develop', 'sticker-corner-peel', 'accordion-image-gallery'];
+const signatureIds = [
+  'envelope-invitation-reveal',
+  'cylinder-card-carousel',
+  'liquid-wave-progress-orb',
+  'mg-glass-shatter-transition',
+  'mg-black-hole-accretion-disk',
+  'mg-infinite-zoom-frames',
+  'mg-ink-wash-enso-stroke',
+  'st-mother-of-pearl-inlay',
+  'st-thermal-imaging-view',
+  'vd-crt-power-off',
+];
 
 test('new designs can be found by Korean and English names with complete prompts', () => {
-  for (const id of ids) {
+  for (const id of [...ids, ...signatureIds]) {
     const item = TECHNIQUES.find(item => item.id === id)!;
     assert.ok(item);
     for (const locale of ['ko', 'en'] as const) {
@@ -17,6 +29,20 @@ test('new designs can be found by Korean and English names with complete prompts
       assert.equal(searchTechniques({ query: localized.title })[0]?.item.id, id);
       assert.ok(localized.promptSnippet.length > 300);
     }
+  }
+});
+
+test('signature additions render mapped scenes without helper captions and isolate SVG ids', () => {
+  assert.equal(signatureIds.length, 10);
+  for (const id of signatureIds) {
+    let tree!: ReturnType<typeof create>;
+    act(() => { tree = create(<><InteractiveDemo techniqueId={id} /><InteractiveDemo techniqueId={id} /></>); });
+    assert.notEqual(tree.toJSON(), null, `${id} must resolve to a demo`);
+    assert.equal(tree.root.findAllByType('p').length, 0);
+    assert.equal(tree.root.findAllByType('h3').length, 0);
+    const svgIds = tree.root.findAll(node => typeof node.type === 'string' && typeof node.props.id === 'string').map(node => node.props.id);
+    assert.equal(svgIds.length, new Set(svgIds).size, `${id} must isolate element ids across instances`);
+    act(() => tree.unmount());
   }
 });
 

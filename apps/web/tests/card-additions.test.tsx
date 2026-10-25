@@ -10,7 +10,7 @@ import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
 
 test('card additions including gallery and hover preview are searchable and mapped without helper captions', () => {
-  const originalIds = new Set(['card-flip-3d', 'tilt-3d-card', 'glassmorphism-card', 'spotlight-border-card', 'stacked-card-cycle']);
+  const originalIds = new Set(['card-flip-3d', 'tilt-3d-card', 'glassmorphism-card', 'spotlight-border-card', 'stacked-card-cycle', 'envelope-invitation-reveal', 'cylinder-card-carousel']); // Signature additions covered in showcase-demos.
   const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'card' && !originalIds.has(item.id));
   assert.equal(additions.length, 13);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);
