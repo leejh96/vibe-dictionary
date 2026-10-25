@@ -179,7 +179,7 @@ export const STYLE_COLLECTION_ADDITIONS: TechniqueItem[] = [
       "신문 스타일",
       "다단 본문"
     ],
-    "promptSnippet": "지정 영역에 신문 다단 편집 기법을 구현해 줘. 회백색 종이 위 29px 세리프 제호와 이중 구분선을 놓아 줘. 본문은 column-count 3·column-gap 10px·가는 column-rule을 적용하고 10px 세리프 글자를 justify 정렬해 줘. 한영 샘플 기사 문장은 사전 키로 관리해 줘. 자동 재생이나 입력 동작이 없는 정적 구성으로 만들어 줘. 최대 300px 반응형 영역 안에 구성하고 접근성 이름, 한국어·영어 문구, 라이트·다크 테마를 지원해 줘. 외부 이미지·서버·실제 데이터 연동 없이 로컬 SVG·CSS·상태로 표현하는 데모야."
+    "promptSnippet": "지정 영역에 신문 다단 편집 기법을 구현해 줘. 회백색 종이 위 29px 세리프 제호와 이중 구분선을 놓아 줘. 본문은 column-count 3·column-width 68px·column-gap 10px·가는 column-rule을 적용하고 10px 세리프 글자를 justify 정렬해 줘. 한영 샘플 기사 문장은 사전 키로 관리해 줘. 자동 재생이나 입력 동작이 없는 정적 구성으로 만들어 줘. 최대 300px 반응형 영역 안에 구성하고 접근성 이름, 한국어·영어 문구, 라이트·다크 테마를 지원해 줘. 외부 이미지·서버·실제 데이터 연동 없이 로컬 SVG·CSS·상태로 표현하는 데모야."
   },
   {
     "id": "st-midcentury-atomic-starburst",

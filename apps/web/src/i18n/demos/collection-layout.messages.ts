@@ -50,7 +50,7 @@ export const COLLECTION_LAYOUT_KO_MESSAGES = {
   "demo.collection.categoryValue": "그룹 {number}: {value}",
   "demo.collection.totalValue": "합계 {value}",
   "demo.collection.windowStart": "시작",
-  "demo.collection.windowRange": "{start}~{end} 구간"
+  "demo.collection.windowRange": "{start}~{end} 구간 ({values})"
 } as const;
 
 export const COLLECTION_LAYOUT_EN_MESSAGES = {
@@ -105,5 +105,5 @@ export const COLLECTION_LAYOUT_EN_MESSAGES = {
   "demo.collection.categoryValue": "Group {number}: {value}",
   "demo.collection.totalValue": "Total {value}",
   "demo.collection.windowStart": "Start",
-  "demo.collection.windowRange": "Window {start}–{end}"
+  "demo.collection.windowRange": "Window {start}–{end} ({values})"
 } as const;
