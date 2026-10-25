@@ -9,17 +9,24 @@ const useSvgId = () => `sg${useId().replace(/:/g, '')}`;
 
 export function EnvelopeInviteDemo() {
   const { t } = useLocale();
+  const pocketGradientId = useSvgId();
   const [open, setOpen] = useState(false);
   return <div className="sg-demo"><div className="sg-art sg-envelope-stage">
     <button type="button" className="sg-envelope" data-open={open} aria-pressed={open} aria-label={t('demo.signature.envelope')}
       onClick={() => setOpen(value => !value)}>
       <span className="sg-env-back" aria-hidden="true" />
+      <span className="sg-env-flap sg-env-flap-back" aria-hidden="true" />
       <span className="sg-env-letter" aria-hidden="true">
         <span className="sg-env-title">{t('demo.signature.inviteTitle')}</span>
         <span className="sg-env-date">{t('demo.signature.inviteDate')}</span>
       </span>
-      <span className="sg-env-pocket" aria-hidden="true" />
-      <span className="sg-env-flap" aria-hidden="true" />
+      <svg className="sg-env-pocket" viewBox="0 0 150 92" aria-hidden="true">
+        <defs><linearGradient id={pocketGradientId} x1="35%" y1="0%" x2="65%" y2="100%">
+          <stop stopColor="#c2304f" /><stop offset="1" stopColor="#a3203f" />
+        </linearGradient></defs>
+        <path d="M0 0 75 47.84 150 0 V88 Q150 92 146 92 H4 Q0 92 0 88 Z" fill={`url(#${pocketGradientId})`} />
+      </svg>
+      <span className="sg-env-flap sg-env-flap-front" aria-hidden="true" />
       <span className="sg-env-seal" aria-hidden="true" />
     </button>
   </div></div>;
