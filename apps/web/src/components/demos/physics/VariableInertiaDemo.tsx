@@ -1,4 +1,5 @@
 import { useLocale } from '../../../i18n/LocaleContext';
+import { useDemoAutoplayRunning } from '../../../hooks/useDemoAutoplay';
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
 
@@ -9,25 +10,24 @@ export function VariableInertiaDemo() {
   const { t } = useLocale();
   const [radius, setRadius] = useState(INITIAL_RADIUS);
   const [playing, setPlaying] = useState(true);
+  const autoRunning = useDemoAutoplayRunning();
   const rotor = useRef<SVGGElement>(null);
   const motion = useRef<Animation | null>(null);
   const id = useId();
 
-  useLayoutEffect(() => {
-    const node = rotor.current;
-    if (!node || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || typeof node.animate !== 'function') return;
-    const animation = node.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: 4000, iterations: Infinity, easing: 'linear' });
-    motion.current = animation;
-    return () => { animation.cancel(); motion.current = null; };
+  useLayoutEffect(() => () => {
+    motion.current?.cancel();
+    motion.current = null;
   }, []);
 
   useLayoutEffect(() => {
+    const node = rotor.current;
+    if (autoRunning && !motion.current && typeof node?.animate === 'function') {
+      motion.current = node.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: 4000, iterations: Infinity, easing: 'linear' });
+    }
     motion.current?.updatePlaybackRate((CORE_INERTIA + 2 * INITIAL_RADIUS ** 2) / (CORE_INERTIA + 2 * radius ** 2));
-  }, [radius]);
-
-  useLayoutEffect(() => {
-    if (playing) motion.current?.play(); else motion.current?.pause();
-  }, [playing]);
+    if (playing && autoRunning) motion.current?.play(); else motion.current?.pause();
+  }, [playing, autoRunning, radius]);
 
   return <div className="physics-demo">
     <div className="pd-scene">

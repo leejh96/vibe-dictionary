@@ -27,7 +27,7 @@ export function RollingWheelDemo() {
 
   return <div className="physics-demo">
     <div className="pd-scene">
-      <svg id={id} className="pd-svg" viewBox="0 0 264 144" preserveAspectRatio="none" role="img" aria-label={t('demo.additions.physics.rollingScene')}>
+      <svg id={id} className="pd-svg" viewBox="0 0 264 144" preserveAspectRatio="xMidYMid meet" role="img" aria-label={t('demo.additions.physics.rollingScene')}>
         <path className="pd-rail" d="M20 112H244" />
         <g ref={travel} className="pd-rolling-travel" style={{ transform: `translateX(${roll ? DISTANCE : 0}px)` }}>
           <g transform={`translate(48 ${112 - radius})`}>

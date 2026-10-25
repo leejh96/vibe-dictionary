@@ -85,9 +85,9 @@
 .ka-landscape-button { border-color: #c6d0b8; background: #f5f0df; color: #173f38; }
 .ka-landscape-button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .ka-landscape-word { font-family: system-ui, sans-serif; font-size: 76px; font-weight: 900; letter-spacing: -.045em; }
-.ka-landscape-sky { fill: #38676d; }
+.ka-landscape-sky { fill: #4a8790; }
 .ka-landscape-sun { fill: #e6bc70; }
-.ka-landscape-far { fill: #34584c; }
+.ka-landscape-far { fill: #2c5246; }
 .ka-landscape-near { fill: #173f38; }
 .ka-landscape-outline { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linejoin: round; }
 .ka-landscape-pan { transform: translateX(-74px); animation: ka-landscape-pan 3s ease-in-out both; }

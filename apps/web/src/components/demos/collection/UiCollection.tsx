@@ -41,7 +41,7 @@ export function ScratchCard() {
 }
 export function ProductHotspots() {
   const { t } = useLocale(); const [selected,setSelected] = useState(0); const labels=['demo.collection.cap','demo.collection.label','demo.collection.body'] as const;
-  return <Stage label={t('demo.collection.productHotspots')}><div className="cx-hotspot"><Art><Product /></Art>{[[54,18],[65,64],[37,88]].map(([x,y],i)=><button key={i} type="button" style={{ left:`${x}%`,top:y }} aria-label={t(labels[i])} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{i+1}</button>)}<output>{t(labels[selected])}</output></div></Stage>;
+  return <Stage label={t('demo.collection.productHotspots')}><div className="cx-hotspot"><Art><Product /><g stroke="#7c3aed" strokeWidth="1.5" strokeDasharray="3 2" fill="#7c3aed"><path d="M151 30 140 34M182 76 140 93M104 100 122 124"/><circle cx="140" cy="34" r="2.5"/><circle cx="140" cy="93" r="2.5"/><circle cx="122" cy="124" r="2.5"/></g></Art>{[[54,18],[65,64],[37,88]].map(([x,y],i)=><button key={i} type="button" style={{ left:`${x}%`,top:y }} aria-label={t(labels[i])} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{i+1}</button>)}<output>{t(labels[selected])}</output></div></Stage>;
 }
 
 export function CircleSceneSwitch() {

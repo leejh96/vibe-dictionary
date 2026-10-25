@@ -119,7 +119,7 @@ export const EN_STYLE_COLLECTION: Record<string, TechniqueTranslation> = {
       "newspaper style",
       "column text"
     ],
-    "promptSnippet": "Build Newspaper Column Layout in the specified area. Place a 29px serif masthead and double rule on off-white paper. Set body text to three columns with 10px gaps, thin column rules, 10px serif type and justified alignment. Localize the sample article through message keys. Keep this a static composition with no autoplay or input behavior. Fit the composition into a responsive area up to 300px wide, with an accessible name, Korean and English copy, and light and dark themes. This is a local SVG/CSS/state demonstration without external images, servers or live data."
+    "promptSnippet": "Build Newspaper Column Layout in the specified area. Place a 29px serif masthead and double rule on off-white paper. Set body text to up to three columns with 68px column-width, 10px gaps, thin column rules, 10px serif type and justified alignment. Localize the sample article through message keys. Keep this a static composition with no autoplay or input behavior. Fit the composition into a responsive area up to 300px wide, with an accessible name, Korean and English copy, and light and dark themes. This is a local SVG/CSS/state demonstration without external images, servers or live data."
   },
   "st-midcentury-atomic-starburst": {
     "summary": "Thin radial spokes and terminal dots form an atomic-age ornament",

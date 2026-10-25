@@ -4,17 +4,10 @@ import test from 'node:test';
 import ts from 'typescript';
 import { readdirSync } from 'node:fs';
 import { TECHNIQUES } from '@vibe-dictionary/catalog';
-import { ADDITIONAL_DEMOS } from '../src/components/demos/additionalDemos';
+import { DEMO_REGISTRY } from '../src/components/demos/demoRegistry';
 
-test('catalog IDs resolve exactly once across legacy switch and category registries', () => {
-  const source = ts.createSourceFile('InteractiveDemos.tsx', readFileSync(new URL('../src/components/demos/InteractiveDemos.tsx', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-  const ids: string[] = [...ADDITIONAL_DEMOS.keys()];
-  function visit(node: ts.Node) {
-    if (ts.isCaseClause(node) && ts.isStringLiteral(node.expression)) ids.push(node.expression.text);
-    ts.forEachChild(node, visit);
-  }
-  visit(source);
-  assert.equal(new Set(ids).size, ids.length, 'a registry must not shadow a switch case');
+test('the shared demo registry covers every catalog ID and dark stage exception', () => {
+  const ids = [...DEMO_REGISTRY.keys()];
   assert.deepEqual([...ids].sort(), TECHNIQUES.map(item => item.id).sort(), 'missing or stale demo mapping');
 
   const card = ts.createSourceFile('TechniqueCard.tsx', readFileSync(new URL('../src/components/TechniqueCard.tsx', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

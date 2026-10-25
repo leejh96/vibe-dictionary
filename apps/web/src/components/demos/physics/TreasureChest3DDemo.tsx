@@ -35,7 +35,8 @@ export function TreasureChest3DDemo() {
       id={id}
       type="button"
       className="tc-scene-container"
-      aria-label={t('demo.chest.scene')}
+      aria-label={t(isOpen ? 'demo.chest.close' : 'demo.chest.open')}
+      aria-pressed={isOpen}
       data-demo-control
       onClick={handleToggle}
     >
@@ -200,7 +201,7 @@ export function TreasureChest3DDemo() {
       </span>
 
       {/* Floating Interactive Status Badge */}
-      <span className="tc-status-container">
+      <span className="tc-status-container" aria-live="polite">
         <span className={`tc-status-chip ${isOpen ? 'tc-status-chip-open' : ''}`}>
           {isOpening
             ? t('demo.chest.opening')

@@ -1,3 +1,4 @@
+import { BASE_DEMOS } from './base';
 import { UI_COLLECTION_DEMOS } from './collection/UiCollection';
 import { MOTION_COLLECTION_DEMOS } from './collection/MotionCollection';
 import { LAYOUT_COLLECTION_DEMOS } from './collection/LayoutCollection';
@@ -19,7 +20,7 @@ import { KINETIC_AD_ADDITION_DEMOS } from './kinetic_ad';
 import { INFOGRAPHIC_ADDITION_DEMOS } from './infographic';
 import { BROADCAST_ADDITION_DEMOS } from './broadcast';
 
-export const ADDITIONAL_DEMOS = new Map<string, ComponentType>([
+export const DEMO_REGISTRY = new Map<string, ComponentType>([
   ...Object.entries(UI_COLLECTION_DEMOS),
   ...Object.entries(MOTION_COLLECTION_DEMOS),
   ...Object.entries(LAYOUT_COLLECTION_DEMOS),
@@ -39,4 +40,5 @@ export const ADDITIONAL_DEMOS = new Map<string, ComponentType>([
   ...Object.entries(KINETIC_AD_ADDITION_DEMOS),
   ...Object.entries(INFOGRAPHIC_ADDITION_DEMOS),
   ...Object.entries(BROADCAST_ADDITION_DEMOS),
+  ...Object.entries(BASE_DEMOS),
 ]);

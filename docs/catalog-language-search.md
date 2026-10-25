@@ -4,11 +4,13 @@
 
 ## 언어별 데이터
 
-- `techniques.ts`: 안정된 기법 ID·분류·한영 이름과 한국어 원문. 기존 ID와 저장 형식은 유지한다.
-- `translations/en.ts`: ID별 영어 요약·효과 태그·검색 키워드·프롬프트. 타이밍·수치·입력·반복·종료·복귀와 시연의 한계를 한국어와 맞춘다.
+- `techniques.ts`: 기법 타입·분류와 import한 기법 배열의 조합. ID·한영 이름·한국어 원문은 `additions/base.ts`와 묶음별 모듈에서 관리한다. 기존 ID와 저장 형식은 유지한다.
+- `translations/en.ts`: `translations/additions/`의 ID별 영어 요약·효과 태그·검색 키워드·프롬프트를 import해 합친다. 기본 기법은 `base.ts`에서 관리하며 타이밍·수치·입력·반복·종료·복귀와 시연의 한계를 한국어와 맞춘다.
 - `localization.ts`: `Locale`, 언어별 분류명, `getTechniqueText(item, locale)`. 기본 언어는 `ko`다.
-- `apps/web/src/i18n/messages.ko.ts`: `actions.copyPrompt` 같은 고정 메시지 키와 한국어 문구. 키에서 `MessageKey` 타입을 만든다.
-- `messages.en.ts`: 동일한 키의 영어 문구. `satisfies Record<MessageKey, string>`으로 키 누락·오타·추가를 타입 검사한다.
+- `translations/classification.en.ts`: 영어 도메인·카테고리 이름. `localization.ts`의 `DOMAIN_NAMES`는 한국어와 영어 원문 모듈을 import해 연결한다.
+- `apps/web/src/i18n/base.messages.ts`, `demos/*.messages.ts`: 기본 문구와 기법 묶음별 한영 문구를 고정 키로 관리한다.
+- `messages.ko.ts`: 한국어 사전을 import해 합치고 키에서 `MessageKey` 타입을 만든다.
+- `messages.en.ts`: 영어 사전을 import해 합친다. `satisfies Record<MessageKey, string>`으로 키 누락·오타·추가를 타입 검사한다.
 - `messages.ts`: `translateMessage(locale, key, params)`와 키별 필수 자리표시자 타입. 미등록 키·필수 인자 누락은 원문으로 숨기지 않고 오류로 처리한다.
 - `LocaleContext.tsx`: `LocaleProvider`와 `useLocale().t`로 화면의 언어를 연결한다. 분류명·기법 데이터는 공용 카탈로그의 안정된 ID로 조회한다.
 
@@ -16,7 +18,7 @@
 
 영어 기법 번역이 없을 때 조회 함수는 한국어 원문으로 돌아가지만, 전체 ID의 영어 번역·검색 메타데이터가 있어야 하는 회귀 테스트가 이를 배포 전에 검출한다. 새 기법을 추가할 때 번역을 미완료로 남기지 않는다.
 
-확장 기법은 카테고리별로 `translations/additions/<category>.ts`와 `search-metadata/additions/<category>.ts`에서 관리하고 각각의 상위 파일에서 합친다. 웹 데모 문구도 `apps/web/src/i18n/demos/<category>.messages.ts`에 한영 쌍으로 두고 공통 사전에 합친다. 이 파일들은 번역 데이터로만 소스 문구 검사에서 제외하며, 합쳐진 사전의 키·빈 값·자리표시자·영어 내 한국어 검사는 그대로 적용한다. 메시지 키의 카테고리 구간은 `kineticAd`처럼 영문 camelCase를 사용한다.
+확장 기법은 카테고리별로 `translations/additions/<category>.ts`와 `search-metadata/additions/<category>.ts`에서 관리하고 각각의 상위 파일에서 합친다. 기본 기법도 각 폴더의 `base.ts`에서 관리하며 상위 조합 파일에 개별 항목을 작성하지 않는다. 웹 데모 문구는 `apps/web/src/i18n/demos/<category>.messages.ts`, 기본 UI·기존 데모 문구는 `i18n/base.messages.ts`에 한영 쌍으로 둔다. 이 파일들은 번역 데이터로만 소스 문구 검사에서 제외하며, 합쳐진 사전의 키·빈 값·자리표시자·영어 내 한국어 검사는 그대로 적용한다. 메시지 키의 카테고리 구간은 `kineticAd`처럼 영문 camelCase를 사용한다.
 
 ## 웹·데모 문구 수정 방법
 
@@ -27,11 +29,11 @@
 3. 컴포넌트에서 `const { t } = useLocale()` 후 고정 키를 호출한다.
 
 ```ts
-// messages.ko.ts
+// base.messages.ts의 BASE_KO_MESSAGES
 'actions.copyPrompt': '프롬프트 복사',
 'search.noResults': '현재 영역에 "{query}" 검색 결과가 없습니다.',
 
-// messages.en.ts
+// base.messages.ts의 BASE_EN_MESSAGES
 'actions.copyPrompt': 'Copy prompt',
 'search.noResults': 'No results for "{query}" in this section.',
 ```
@@ -64,7 +66,7 @@
 
 ## 검색 메타데이터
 
-`search-metadata.ts`에서 기법별 정보를 관리한다.
+`search-metadata/additions/base.ts`와 묶음별 모듈에서 기법별 정보를 관리하고, `search-metadata.ts`는 타입·분류와 import한 목록의 조합·조회를 담당한다.
 
 | 필드 | 의미 |
 | --- | --- |
