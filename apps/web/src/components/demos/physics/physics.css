@@ -300,6 +300,7 @@
 .dark .mb-board-container { min-height: 11.5rem;
   background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 80%), #0f172a;
 }
+.mb-board-container:disabled { cursor: not-allowed; }
 .mb-board-container:focus-visible {
   outline: 2px solid #6366f1;
   outline-offset: -2px;
@@ -1394,6 +1395,7 @@
 .dark .lw-scene-container {
   background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 75%);
 }
+.lw-scene-container:disabled { cursor: not-allowed; }
 .lw-scene-container:focus-visible {
   outline: 2px solid #8b5cf6;
   outline-offset: -2px;

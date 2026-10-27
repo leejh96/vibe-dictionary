@@ -3,6 +3,7 @@ import * as z from 'zod/v4';
 import {
   TECHNIQUES, DOMAIN_CATEGORIES, DOMAIN_NAMES, TARGETS, TRIGGERS,
   searchTechniques, getTechniqueText, getSearchMetadata, type TechniqueItem, type Locale,
+  DOMAIN_KNOWLEDGE, rankDomainKnowledge,
 } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
@@ -20,6 +21,7 @@ const summaryShape = {
   triggers: z.array(triggerSchema), useCases: z.array(z.string()),
 };
 const readOnlyAnnotations = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
+const knowledgeSummaryShape = { id: z.string(), locale: z.enum(['ko', 'en']), domain: z.string(), title: z.string(), summary: z.string() };
 function summarize(item: TechniqueItem, locale: Locale) {
   const text = getTechniqueText(item, locale);
   const metadata = getSearchMetadata(item);
@@ -37,6 +39,7 @@ export function createServer() {
   const server = new McpServer({ name: packageInfo.name, version: packageInfo.version }, {
     instructions: [
       'Find UI, graphics, layout, style and video techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
+      'Before choosing designs for an education or community service, use search_domain_knowledge with a short domain or workflow phrase such as "LMS", "late submission", "회원 전용" or "신고 처리". Compare summaries, useCases and matchedOn fields, then call get_domain_knowledge by a returned ID for concepts, workflows, pitfalls, open decisions, sources, related technique IDs and a reference prompt. Search supports bilingual aliases and ranked keyword matching, not semantic AI. If no entry fits, retry fewer terms or a synonym, or browse with an empty query. Workflows and examples are design references, not established policies. Do not assume answers to the open questions. Related designs do not implement the domain rules.',
       'The calling assistant interprets the user request and generates short Korean or English search phrases for one effect at a time. The MCP performs bilingual weighted keyword/alias matching and runs no AI model. Extract concrete effects and targets; omit uncertain filters. For broad requests such as a clean or premium webpage, use the stated purpose and preferences; do not equate an adjective with one fixed style. Ask for clarification when missing context prevents a meaningful choice.',
       'For requests combining techniques, search distinct needs such as style, layout and interaction separately. Retrieve the selected prompts, then decide where each technique applies and compare their visual treatment, inputs and timing for conflicts. The tools do not compose techniques or check compatibility; the calling assistant makes those judgments.',
       'Use target/trigger filters only for required demo inputs. Compare summaries and useCases against the original request. If candidates are missing or unsuitable, retry a synonym, the other language or fewer modifiers, and remove only filters that are not required. Reset offset to zero when changing the query or filters. Do not select an unrelated result merely because it ranks first; clarify if useful candidates still cannot be found. Scores are not probabilities. locale selects output language independently of search language. These read-only tools return reference data only.',
@@ -82,6 +85,45 @@ export function createServer() {
       : '기법 ID를 찾을 수 없습니다. search_techniques로 유효한 ID를 확인해 주세요.' }] };
     const text = getTechniqueText(item, locale);
     return result({ ...summarize(item, locale), aliases: getSearchMetadata(item).aliases[locale], vibeKeywords: text.vibeKeywords, promptSnippet: text.promptSnippet });
+  });
+  server.registerTool('search_domain_knowledge', {
+    title: 'Search domain knowledge / 도메인 지식 검색',
+    description: 'Search Korean and English domain knowledge by domain, title, aliases, keywords, use cases, concepts, workflows, pitfalls and decision questions. Rewrite the user request into a short service or workflow phrase, e.g. "LMS", "재시도", "회원 전용" or "신고 처리". Bilingual normalization and weighted term coverage rank results; this is not semantic search. Nonempty queries return score (not confidence), matchedOn field names and useCases; empty queries browse catalog order. Results exclude full prompts. If results do not fit, retry fewer terms or synonyms and reset offset. Use get_domain_knowledge with a returned ID for the full reference.',
+    inputSchema: {
+      query: z.string().max(500).default('').describe('Short Korean/English domain, service or workflow phrase; omit to browse. Search independent needs separately.'), locale: localeSchema,
+      limit: z.number().int().min(1).max(50).default(20),
+      offset: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).default(0),
+    },
+    outputSchema: { total: z.number().int(), offset: z.number().int(), nextOffset: z.number().int().nullable(), items: z.array(z.object({
+      ...knowledgeSummaryShape, useCases: z.array(z.string()), score: z.number(),
+      matchedOn: z.array(z.enum(['domain', 'title', 'alias', 'keyword', 'useCase', 'summary', 'concept', 'workflow', 'pitfall', 'question', 'example'])),
+    })) },
+    annotations: readOnlyAnnotations,
+  }, async ({ query, locale, limit, offset }) => {
+    const matches = rankDomainKnowledge(query);
+    const items = matches.slice(offset, offset + limit).map(({ item, score, matchedOn }) => ({
+      id: item.id, locale, domain: item.text[locale].domain, title: item.text[locale].title, summary: item.text[locale].summary,
+      useCases: item.useCases[locale], score, matchedOn: matchedOn.map(match => match.field),
+    }));
+    return result({ total: matches.length, offset, nextOffset: offset + items.length < matches.length ? offset + items.length : null, items });
+  });
+  server.registerTool('get_domain_knowledge', {
+    title: 'Get domain knowledge / 도메인 지식 조회',
+    description: 'Retrieve a domain knowledge entry by exact ID. Workflows and examples are design references; questions are decisions for the user, not established rules. Pitfalls highlight situations to consider. Related technique IDs refer to design demos and do not implement the domain behavior. The reference prompt and sources are returned unchanged in the requested language.',
+    inputSchema: { id: z.string().trim().min(1).max(200), locale: localeSchema },
+    outputSchema: {
+      ...knowledgeSummaryShape, overview: z.string(), concepts: z.array(z.object({ name: z.string(), description: z.string() })),
+      workflow: z.array(z.object({ name: z.string(), description: z.string() })), pitfalls: z.array(z.object({ name: z.string(), description: z.string() })),
+      questions: z.array(z.string()), example: z.string(), relatedDesigns: z.array(z.object({ id: z.string(), reason: z.string() })),
+      promptSnippet: z.string(), sources: z.array(z.object({ title: z.string(), url: z.string() })),
+    },
+    annotations: readOnlyAnnotations,
+  }, async ({ id, locale }) => {
+    const item = DOMAIN_KNOWLEDGE.find(candidate => candidate.id === id);
+    if (!item) return { isError: true, content: [{ type: 'text' as const, text: locale === 'en'
+      ? 'Domain knowledge ID not found. Use search_domain_knowledge to find a valid ID.'
+      : '도메인 지식 ID를 찾을 수 없습니다. search_domain_knowledge로 유효한 ID를 확인해 주세요.' }] };
+    return result({ id: item.id, locale, ...item.text[locale], sources: item.sources });
   });
   return server;
 }

@@ -1,5 +1,5 @@
 import { useLocale } from './i18n/LocaleContext';
-import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import {
   Wand2,
   Layers,
@@ -27,6 +27,8 @@ import { FilterBar } from './components/FilterBar';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
+import { DictionaryNavigation, type DictionarySection } from './components/DictionaryNavigation';
+import { DomainKnowledgeView } from './components/DomainKnowledgeView';
 import { usePromptCart } from './hooks/usePromptCart';
 
 const THEME_STORAGE_KEY = 'vibe-dictionary-theme';
@@ -109,14 +111,33 @@ export default function App() {
   };
 
   const [activeDomain, setActiveDomain] = useState<DomainType>('ui');
+  const [dictionarySection, setDictionarySection] = useState<DictionarySection>('design');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'all'>('all');
   const { cart, setCart, contextNote, setContextNote, storageError } = usePromptCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const showComposer = dictionarySection === 'design';
 
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(true);
   const gridRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const [headerHeight, setHeaderHeight] = useState<number>();
+
+  useLayoutEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const updateHeight = () => setHeaderHeight(header.getBoundingClientRect().height);
+    updateHeight();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateHeight);
+    observer?.observe(header);
+    window.addEventListener('resize', updateHeight);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [dictionarySection]);
 
   const counts = useMemo(
     () => ({
@@ -131,10 +152,26 @@ export default function App() {
 
   /* 바이브 코딩 사전 로고 클릭 시 홈(초기 상태 + 최상단 스크롤)으로 이동 */
   const handleGoHome = () => {
+    setDictionarySection('design');
     setActiveDomain('ui');
     setSelectedCategory('all');
     setSearchQuery('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleDictionarySectionChange = (section: DictionarySection) => {
+    if (section === dictionarySection) return;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setIsCartOpen(false);
+    setDictionarySection(section);
+  };
+
+  const handleViewRelatedTechnique = (item: TechniqueItem) => {
+    setActiveDomain(item.domain);
+    setSelectedCategory('all');
+    setSearchQuery(getTechniqueText(item, locale).title);
+    setDictionarySection('design');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleDomainSwitch = (domain: DomainType) => {
@@ -205,7 +242,14 @@ export default function App() {
       window.removeEventListener('scroll', updateScrollState);
       window.removeEventListener('resize', updateScrollState);
     };
-  }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory, cart.length]);
+  }, [updateScrollState, filteredTechniques.length, activeDomain, selectedCategory, cart.length, dictionarySection]);
+
+  useEffect(() => {
+    if (!mainRef.current || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(updateScrollState);
+    observer.observe(mainRef.current);
+    return () => observer.disconnect();
+  }, [updateScrollState]);
 
   const lastTargetYRef = useRef(0);
   const lastStepTimeRef = useRef(0);
@@ -367,8 +411,9 @@ export default function App() {
   ];
 
   /* 5대 대분류 도메인 탭 렌더러 (데스크탑 및 모바일/태블릿 반응형 공유) */
-  const renderDomainTabs = (className?: string) => (
+  const renderDomainTabs = (className?: string, hidden = false) => (
     <div
+      aria-hidden={hidden || undefined}
       className={`items-center bg-indigo-50/80 dark:bg-slate-900 p-1 rounded-xl border border-indigo-100 dark:border-slate-800 transition-colors ${className}`}
     >
       {domainTabs.map((tab) => {
@@ -402,7 +447,7 @@ export default function App() {
   );
 
   return (
-    <div className={`relative min-h-screen bg-linear-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ${cart.length > 0 ? 'pb-36 sm:pb-20' : 'pb-20'} transition-colors duration-200 overflow-x-hidden`}>
+    <div className={`relative min-h-screen bg-linear-to-b from-indigo-50/70 via-slate-50 to-sky-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ${showComposer && cart.length > 0 ? 'pb-36 sm:pb-20' : 'pb-20'} transition-colors duration-200 overflow-x-clip`}>
       {/* 라이트 모드 전용 상단 파스텔 오로라 앰비언트 조명 */}
       <div
         className="pointer-events-none fixed inset-x-0 top-0 h-80 overflow-hidden z-0 dark:hidden"
@@ -414,7 +459,7 @@ export default function App() {
       </div>
 
       {/* 상단 헤더 + 5대 대분류 도메인 스위처 */}
-      <header className="border-b border-indigo-100/90 dark:border-slate-900 bg-white/85 dark:bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md shadow-xs shadow-indigo-500/4 dark:shadow-none transition-colors duration-200">
+      <header ref={headerRef} className="border-b border-indigo-100/90 dark:border-slate-900 bg-white/85 dark:bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md shadow-xs shadow-indigo-500/4 dark:shadow-none transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5">
           {/* 로고·분류 탐색과 우측 언어/조합기 도구 영역 */}
           <div className="flex items-center justify-between gap-2 sm:gap-3">
@@ -431,13 +476,12 @@ export default function App() {
             </button>
 
             {/* [데스크탑 전용 (xl 이상)]: 5대 대분류 탭 (단일 행 중앙/우측 배치) */}
-            {renderDomainTabs('hidden xl:flex shrink-0')}
+            {renderDomainTabs(`hidden xl:flex shrink-0 ${dictionarySection === 'knowledge' ? 'invisible' : ''}`, dictionarySection === 'knowledge')}
 
             <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-3">
               <LanguageSwitcher />
 
-              {/* 프롬프트 조합기 열기 버튼 (우측 상단 항시 고정, 절대 다음 줄로 밀리지 않음) */}
-              <button
+              {showComposer && <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
                 aria-label={t("composer.triggerLabel", { count: cart.length })}
@@ -449,17 +493,19 @@ export default function App() {
                 <span className="min-w-4 px-1 py-0.5 rounded-md bg-white/20 text-center text-white text-[10px] font-mono font-extrabold">
                   {cart.length}
                 </span>
-              </button>
+              </button>}
             </div>
           </div>
 
-          {/* [모바일/태블릿 전용 (xl 미만)]: 5대 대분류 탭 독립 가로 스크롤 행 */}
-          {renderDomainTabs('flex xl:hidden overflow-x-auto mt-2 scrollbar-none')}
         </div>
       </header>
 
       {/* 메인 갤러리 */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-5 space-y-5">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-5 flex flex-col lg:flex-row gap-5">
+        <DictionaryNavigation selected={dictionarySection} onSelect={handleDictionarySectionChange} headerHeight={headerHeight} />
+        <main ref={mainRef} className="min-w-0 flex-1 space-y-5">
+        {dictionarySection === 'design' && <>
+        {renderDomainTabs('flex xl:hidden overflow-x-auto scrollbar-none')}
         <FilterBar
           activeDomain={activeDomain}
           searchQuery={searchQuery}
@@ -518,12 +564,15 @@ export default function App() {
             ))}
           </div>
         )}
-      </main>
+        </>}
+        {dictionarySection === 'knowledge' && <DomainKnowledgeView onViewTechnique={handleViewRelatedTechnique} />}
+        </main>
+      </div>
 
       {/* 좁은 화면에서는 카드 조작을 가리지 않도록 낮은 가로형 도구 모음 사용 */}
       <div
         className={`fixed right-5 max-[300px]:right-1 z-40 flex flex-row sm:flex-col items-center gap-2.5 transition-all duration-300 w-auto sm:w-12 ${
-          cart.length > 0 ? 'bottom-20' : 'bottom-5'
+          showComposer && cart.length > 0 ? 'bottom-20' : 'bottom-5'
         }`}
       >
         {/* 1. 독립 테마 전환 알약 버튼 (카드를 보면서 즉각적인 비주얼 무드 비교) */}
@@ -625,7 +674,7 @@ export default function App() {
         </div>
       </div>
 
-      <PromptCartDrawer
+      {showComposer && <PromptCartDrawer
         cart={cart}
         contextNote={contextNote}
         onContextNoteChange={setContextNote}
@@ -634,7 +683,7 @@ export default function App() {
         onOpenChange={setIsCartOpen}
         onRemoveItem={(id) => setCart((prev) => prev.filter((i) => i.id !== id))}
         onClearCart={() => setCart([])}
-      />
+      />}
     </div>
   );
 }

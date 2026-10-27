@@ -1,6 +1,7 @@
 import { TECHNIQUES, type TechniqueItem, type DomainType, type CategoryType } from './techniques';
 import { getTechniqueText } from './localization';
 import { getSearchMetadata, type SearchTarget, type SearchTrigger } from './search-metadata';
+import { createSearchTokenizer, normalizeSearchText, rankSearchEntries } from './search-ranking';
 
 // Bilingual equivalences describe one concept each. Targets and triggers stay separate metadata.
 export const SEARCH_SYNONYMS: readonly (readonly string[])[] = [
@@ -43,18 +44,7 @@ export const SEARCH_SYNONYMS: readonly (readonly string[])[] = [
   ['countdown', '카운트다운'], ['funnel', '퍼널'], ['lower-third', 'lower third', '로어써드'],
   ['spectrum', '스펙트럼'], ['ticker', '티커', '뉴스띠'],
 ];
-const stopWords = new Set('a an the to of in on at with for and or i my want please make create implement design effect this that me it is as can you add show using 디자인 효과 구현 구현해 구현해줘 만들어 만들어줘 해줘 주세요 줘 이 가 은 는 을 를 에 에서 으로 처럼 때 하면 되게 하게 살짝'.split(' '));
-const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-// Replace all aliases in a single pass: a canonical term can never be replaced again by a later group.
-const aliases = SEARCH_SYNONYMS.flatMap((group) => group.map(alias => ({ alias: alias.normalize('NFKC').toLowerCase(), canonical: group[0] })))
-  .sort((a, b) => b.alias.length - a.alias.length);
-const aliasMap = new Map(aliases.map(({ alias, canonical }) => [alias, canonical]));
-const aliasPattern = new RegExp(aliases.map(({ alias }) => /[a-z]/.test(alias)
-  ? `(?<![a-z0-9])${escapeRegex(alias)}(?![a-z0-9])` : escapeRegex(alias)).join('|'), 'gu');
-function tokens(text: string): string[] {
-  const canonical = text.normalize('NFKC').toLowerCase().replace(aliasPattern, match => ` ${aliasMap.get(match)!} `);
-  return [...new Set(canonical.split(/[^\p{L}\p{N}.%-]+/u).map(token => token.replace(/^(?:을|를|이|가|은|는)$/, '')).filter(token => token && !stopWords.has(token)))];
-}
+const tokens = createSearchTokenizer(SEARCH_SYNONYMS);
 export type MatchField = 'title' | 'alias' | 'keyword' | 'useCase' | 'target' | 'trigger' | 'summary' | 'prompt';
 export interface SearchMatch { field: MatchField; value: string; }
 export interface RankedTechnique { item: TechniqueItem; score: number; matchedOn: SearchMatch[]; }
@@ -85,31 +75,11 @@ function entries(item: TechniqueItem): Entry[] {
 }
 function rank(item: TechniqueItem, query: string, queryTokens: string[]): RankedTechnique | null {
   if (!query.trim()) return { item, score: 0, matchedOn: [] };
-  const normalizedQuery = query.normalize('NFKC').trim().toLowerCase();
+  const normalizedQuery = normalizeSearchText(query);
   const allEntries = entries(item);
-  const exact = allEntries.find(entry => entry.field !== 'prompt' && entry.value.normalize('NFKC').trim().toLowerCase() === normalizedQuery);
-  if (!queryTokens.length && !exact) return null;
-  const matchedOn: SearchMatch[] = [];
-  const covered = new Set<string>();
-  const best = new Map<string, number>();
-  for (const entry of allEntries) {
-    const matched = queryTokens.filter(token => entry.tokens.has(token));
-    if (!matched.length) continue;
-    for (const token of matched) {
-      covered.add(token);
-      best.set(token, Math.max(best.get(token) ?? 0, weights[entry.field]));
-    }
-    if (!matchedOn.some(match => match.field === entry.field)) matchedOn.push({ field: entry.field, value: entry.value });
-  }
-  // Unknown words count against coverage: an unrelated request with one generic word is not enough.
-  if (!exact && covered.size < Math.max(1, Math.ceil(queryTokens.length * 0.6))) return null;
-  let score = [...best.values()].reduce((sum, weight) => sum + weight, 0);
-  score += queryTokens.length ? Math.round(20 * covered.size / queryTokens.length) : 0;
-  if (exact) {
-    score += exact.field === 'title' ? 150 : 100;
-    if (!matchedOn.some(match => match.field === exact.field)) matchedOn.unshift({ field: exact.field, value: exact.value });
-  }
-  return { item, score, matchedOn: matchedOn.slice(0, 4) };
+  const exact = allEntries.find(entry => entry.field !== 'prompt' && normalizeSearchText(entry.value) === normalizedQuery);
+  const result = rankSearchEntries(allEntries, queryTokens, weights, exact, exact?.field === 'title' ? 150 : 100);
+  return result ? { item, ...result } : null;
 }
 export function searchTechniques(options: SearchOptions = {}): RankedTechnique[] {
   const query = options.query ?? '';

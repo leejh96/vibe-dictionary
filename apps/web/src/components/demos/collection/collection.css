@@ -63,7 +63,7 @@
 .cx-chat[data-own='true'] { margin-left:auto; border-radius:12px 12px 2px 12px; background:#7c3aed; color:white; }
 .cx-calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center; }
 .cx-calendar span { padding:4px 0; border-radius:5px; }
-.cx-pad { position:relative; height:112px; border:1px solid #8b5cf6; border-radius:10px; background:linear-gradient(#8b5cf61a 1px,transparent 1px) 0 0 / 20px 20px,linear-gradient(90deg,#8b5cf61a 1px,transparent 1px) 0 0 / 20px 20px; touch-action:none; }
+.cx-pad { position:relative; height:112px; border:1px solid #8b5cf6; border-radius:10px; background:linear-gradient(#8b5cf61a 1px,transparent 1px) 0 0 / 20px 20px,linear-gradient(90deg,#8b5cf61a 1px,transparent 1px) 0 0 / 20px 20px; cursor:crosshair; touch-action:none; }
 .cx-pad i { position:absolute; width:18px; height:18px; margin:-9px; border-radius:50%; background:#7c3aed; box-shadow:0 0 0 6px #8b5cf633; pointer-events:none; }
 .cx-password { width:100%; border:1px solid #8b7cbf55; border-radius:7px; padding:7px; }
 .cx-radio-group { display:flex; justify-content:center; gap:6px; }

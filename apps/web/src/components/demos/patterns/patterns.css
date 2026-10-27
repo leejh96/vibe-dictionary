@@ -14,6 +14,7 @@
 .pd-lightbox { position: absolute; inset: 0; border-radius: 10px; overflow: hidden; background: #0f172a; animation: pd-zoom-open 380ms cubic-bezier(.2,.8,.2,1); }
 .pd-lightbox-art { height: 110px; overflow: hidden; touch-action: pan-y; }
 .pd-lightbox-art.is-zoomed { cursor: grab; touch-action: none; }
+.pd-lightbox-art.is-zoomed.is-dragging { cursor: grabbing; }
 .pd-lightbox-art > div { height: 100%; transition: transform 350ms ease; }
 .pd-lightbox-art.is-dragging > div { transition: none; }
 .pd-lightbox-art svg { width: 100%; height: 100%; }

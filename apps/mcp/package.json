@@ -1,6 +1,6 @@
 {
   "name": "@keke1933/vibe-dictionary-mcp",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "license": "MIT",
   "author": "leejh96",
   "description": "Read-only local MCP for searching Vibe Dictionary techniques and retrieving implementation prompts",

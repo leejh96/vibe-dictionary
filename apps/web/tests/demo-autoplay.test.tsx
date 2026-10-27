@@ -391,10 +391,22 @@ test('interactive and static previews neither schedule automatic frames nor inte
     const preview = f.tree.root.findByProps({ className: 'demo-preview' });
     assert.equal(preview.props.onClickCapture, undefined);
     assert.equal(preview.props['data-demo-active'], undefined);
+    assert.equal(preview.props['data-demo-click-replay'], undefined);
     act(() => f.tree.root.findByType('button').props.onClick());
     f.tick(24000);
     assert.equal(clicks, 1); assert.equal(replays, 0); assert.equal(f.frames.size, 0);
   }
+});
+
+test('click-to-replay indication follows whether automatic preview clicks restart', t => {
+  const f = fixture(t);
+  assert.equal(f.tree.root.findByProps({ className: 'demo-preview' }).props['data-demo-click-replay'], true);
+  act(() => f.tree.update(<DemoAutoplay restartOnClick={false}><span /></DemoAutoplay>));
+  const preview = f.tree.root.findByProps({ className: 'demo-preview' });
+  assert.equal(preview.props['data-demo-click-replay'], undefined);
+  let intercepted = false;
+  act(() => preview.props.onClickCapture({ detail: 1, target: { closest: () => null }, preventDefault() { intercepted = true; }, stopPropagation() { intercepted = true; } }));
+  assert.equal(intercepted, false);
 });
 
 test('interactive cards stay idle until real input, including former automatic state and pulse demos', t => {

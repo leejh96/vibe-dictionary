@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES, searchTechniques, getTechniqueText } from '@vibe-dictionary/catalog';
+import { TECHNIQUES, searchTechniques, getTechniqueText, DOMAIN_KNOWLEDGE, searchDomainKnowledge } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const entry = fileURLToPath(new URL('../dist/index.js', import.meta.url));
@@ -41,7 +41,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
   await t.test('initialization, tool discovery and annotations', async () => {
     assert.deepEqual(client.getServerVersion(), { name: packageInfo.name, version: packageInfo.version });
     const { tools } = await client.listTools();
-    assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_technique', 'search_techniques']);
+    assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_technique', 'search_domain_knowledge', 'search_techniques']);
     for (const tool of tools) {
       assert.ok(tool.inputSchema);
       assert.ok(tool.outputSchema);
@@ -52,6 +52,63 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     const capabilities = client.getServerCapabilities()!;
     assert.equal(capabilities.resources, undefined);
     assert.equal(capabilities.prompts, undefined);
+  });
+
+  await t.test('domain knowledge search and localized detail preserve sources and open questions', async () => {
+    for (const item of DOMAIN_KNOWLEDGE) {
+      for (const query of [item.text.ko.domain, item.text.en.domain]) {
+        const output = await call('search_domain_knowledge', { query, locale: 'en' });
+        assert.equal(output.items[0].id, item.id);
+        assert.equal(output.items[0].title, item.text.en.title);
+        assert.ok(!('promptSnippet' in output.items[0]));
+        assert.ok(!('workflow' in output.items[0]));
+      }
+      for (const locale of ['ko', 'en'] as const) {
+        const detail = await call('get_domain_knowledge', { id: item.id, locale });
+        assert.deepEqual(detail, { id: item.id, locale, ...item.text[locale], sources: item.sources });
+        assert.ok(detail.relatedDesigns.every((related: { id: string }) => TECHNIQUES.some(technique => technique.id === related.id)));
+      }
+    }
+    assert.equal((await call('search_domain_knowledge', { query: 'no-match-123' })).total, 0);
+    const first = await call('search_domain_knowledge', { limit: 1 });
+    assert.equal(first.nextOffset, 1);
+    const second = await call('search_domain_knowledge', { limit: 1, offset: first.nextOffset });
+    assert.equal(second.items[0].id, DOMAIN_KNOWLEDGE[1].id);
+    assert.equal(second.nextOffset, null);
+    assert.equal((await client.callTool({ name: 'get_domain_knowledge', arguments: { id: 'missing' } })).isError, true);
+    assert.equal((await client.callTool({ name: 'search_domain_knowledge', arguments: { limit: 51 } })).isError, true);
+    assert.equal((await call('search_domain_knowledge')).total, DOMAIN_KNOWLEDGE.length);
+  });
+
+  await t.test('domain search ranks aliases and workflows identically to the web search and explains matches', async () => {
+    for (const locale of ['ko', 'en'] as const) {
+      for (const [query, expectedId] of [
+        ['LMS', 'coding-lesson-objectives-and-practice'],
+        ['퀴즈', 'coding-lesson-objectives-and-practice'],
+        ['재시도', 'coding-lesson-objectives-and-practice'],
+        ['지각 제출', 'coding-lesson-objectives-and-practice'],
+        ['회원전용', 'community-post-visibility-and-moderation'],
+        ['신고 처리', 'community-post-visibility-and-moderation'],
+        ['private group', 'community-post-visibility-and-moderation'],
+        ['커뮤니티를 만들고 싶어', 'community-post-visibility-and-moderation'],
+      ]) {
+        const output = await call('search_domain_knowledge', { query, locale });
+        assert.equal(output.items[0].id, expectedId, query);
+        assert.deepEqual(output.items.map((item: { id: string }) => item.id), searchDomainKnowledge(query).map(item => item.id));
+        assert.ok(output.items[0].score > 0);
+        assert.ok(output.items[0].matchedOn.length > 0);
+        assert.deepEqual(output.items[0].useCases, DOMAIN_KNOWLEDGE.find(item => item.id === expectedId)!.useCases[locale]);
+        assert.ok(!('promptSnippet' in output.items[0]));
+      }
+    }
+    const drafts = await call('search_domain_knowledge', { query: '초안', limit: 1 });
+    assert.equal(drafts.total, 2);
+    assert.equal(drafts.items[0].id, 'coding-lesson-objectives-and-practice');
+    const next = await call('search_domain_knowledge', { query: '초안', limit: 1, offset: drafts.nextOffset });
+    assert.equal(next.items[0].id, 'community-post-visibility-and-moderation');
+    for (const query of ['교육 신고', '교육 암호화폐 자동매매', 'postage', '???']) {
+      assert.equal((await call('search_domain_knowledge', { query })).total, 0, query);
+    }
   });
 
   await t.test('default browsing is bounded and excludes full prompts', async () => {
