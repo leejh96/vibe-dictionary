@@ -6,7 +6,7 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES, getTechniqueText } from '../packages/catalog/src/index.ts';
+import { TECHNIQUES, getTechniqueText, DOMAIN_KNOWLEDGE } from '../packages/catalog/src/index.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(await readFile(join(root, 'apps/mcp/package.json'), 'utf8'));
@@ -57,7 +57,17 @@ try {
   await client.connect(transport);
   assert.deepEqual(client.getServerVersion(), { name: manifest.name, version: manifest.version });
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_technique', 'search_techniques']);
+  assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_technique', 'search_domain_knowledge', 'search_techniques']);
+  for (const item of DOMAIN_KNOWLEDGE) {
+    const knowledge = await client.callTool({ name: 'search_domain_knowledge', arguments: { query: item.text.ko.domain, locale: 'en' } });
+    assert.notEqual(knowledge.isError, true);
+    assert.equal(knowledge.structuredContent.items[0].id, item.id);
+    for (const locale of ['ko', 'en']) {
+      const detail = await client.callTool({ name: 'get_domain_knowledge', arguments: { id: item.id, locale } });
+      assert.notEqual(detail.isError, true);
+      assert.deepEqual(detail.structuredContent, { id: item.id, locale, ...item.text[locale], sources: item.sources });
+    }
+  }
   const ids = [];
   let offset = 0;
   do {

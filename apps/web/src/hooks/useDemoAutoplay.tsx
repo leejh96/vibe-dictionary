@@ -94,7 +94,7 @@ function AutomaticPreview({ children, onReplay, restartOnClick = true, restartOn
     return () => { window.cancelAnimationFrame(frame); clock.current.last = null; };
   }, [running, enableClock]);
   return <DemoRunning.Provider value={running}><DemoInput.Provider value={inputVersion}><DemoPhase.Provider value={playing ? phase : null}><DemoStep.Provider value={playing ? inputRun * 2 + Math.floor(phase * 2) : null}>
-    <div ref={setRoot} className="demo-preview" data-demo-playback="auto" data-demo-replay-action={playing && restartOnAction || undefined} data-demo-active={running && phase >= .25 && phase < .75 ? 'true' : undefined}
+    <div ref={setRoot} className="demo-preview" data-demo-playback="auto" data-demo-click-replay={restartOnClick || undefined} data-demo-replay-action={playing && restartOnAction || undefined} data-demo-active={running && phase >= .25 && phase < .75 ? 'true' : undefined}
       onPointerUpCapture={event => { if ((event.target as Element).closest('[data-demo-input]')) inputVersion.current += 1; }}
       onPointerUp={input}
       onChangeCapture={() => { inputVersion.current += 1; }} onChange={input} onClick={input}

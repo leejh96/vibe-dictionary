@@ -16,6 +16,14 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+
+  :where(button:not(:disabled):not([aria-disabled='true']), select:not(:disabled), input:not(:disabled):is([type='button'], [type='submit'], [type='reset'], [type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file']), summary, label:has(input:not(:disabled):is([type='checkbox'], [type='radio']))) {
+    cursor: pointer;
+  }
+
+  :where(button:disabled, select:disabled, input:disabled:is([type='button'], [type='submit'], [type='reset'], [type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file'])) {
+    cursor: not-allowed;
+  }
 }
 
 @utility perspective-1000 {
@@ -486,6 +494,7 @@ html:not(.dark) .demo-stage:not(.demo-keep-dark) .bg-black .text-indigo-400 {
 }
 
 .demo-preview { width: 100%; min-width: 0; }
+.demo-preview[data-demo-click-replay] { cursor: pointer; }
 .demo-preview[data-demo-replay-action] button:disabled { pointer-events: none; }
 
 /* Automatic previews show the effect directly; interactive editors retain their controls. */

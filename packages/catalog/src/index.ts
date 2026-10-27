@@ -1,5 +1,7 @@
 export * from './techniques';
 export * from './localization';
 export * from './search-metadata';
+export * from './domain-knowledge';
+export * from './domain-knowledge-search';
 export { searchTechniques, matchesSearch, SEARCH_SYNONYMS } from './search';
 export type { SearchOptions, SearchMatch, RankedTechnique } from './search';
