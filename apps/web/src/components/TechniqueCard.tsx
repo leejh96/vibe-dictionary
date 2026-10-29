@@ -2,9 +2,8 @@ import { useLocale } from '../i18n/LocaleContext';
 import React, { useEffect, useRef, useState } from 'react';
 import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
 import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
-import { InteractiveDemo } from './demos/InteractiveDemos';
+import { LazyInteractiveDemo } from './demos/LazyInteractiveDemo';
 import { DEMO_PLAYBACK } from './demos/demoPlayback';
-import { DemoAutoplay } from '../hooks/useDemoAutoplay';
 import { useClipboard } from '../hooks/useClipboard';
 import { useDemoReplay } from '../hooks/useDemoReplay';
 
@@ -188,7 +187,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
             {text.promptSnippet}
           </div>
         ) : isInView ? (
-          <DemoAutoplay playback={playback} clock={enableClock} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction}><InteractiveDemo techniqueId={item.id} /></DemoAutoplay>
+          <LazyInteractiveDemo key={item.id} techniqueId={item.id} playback={playback} clock={enableClock} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction} />
         ) : (
           <div
             className={`w-full h-40 ${

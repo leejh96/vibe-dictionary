@@ -5,6 +5,7 @@ import { act, create } from 'react-test-renderer';
 import { DemoAutoplay, useDemoNumber, useDemoToggle, useDemoPulse, useDemoSample } from '../src/hooks/useDemoAutoplay';
 import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { TechniqueCard } from '../src/components/TechniqueCard';
+import { DEMO_LOADERS } from '../src/components/demos/demoLoaders';
 import { TECHNIQUES } from '@vibe-dictionary/catalog';
 import { DEMO_PLAYBACK, DEMO_PLAYBACK_GROUPS } from '../src/components/demos/demoPlayback';
 import { COLLECTION_IDS } from './helpers/collection';
@@ -53,9 +54,12 @@ function fixture(t: TestContext, initiallyReduced = false) {
   act(() => { tree = create(<DemoAutoplay><Probe /></DemoAutoplay>, { createNodeMock: element => element.props.className === 'demo-preview' || element.props.className?.startsWith('demo-stage ') ? root : null }); });
   t.after(() => { act(() => tree.unmount()); restorers.reverse().forEach(restore => restore()); });
   return { tree, frames, observers,
-    technique(id: string) {
+    async technique(id: string) {
       act(() => tree.update(<TechniqueCard key={id} item={TECHNIQUES.find(item => item.id === id)!} isSelected={false} onToggleCart={() => {}} />));
-      act(() => observers.filter(observer => !observer.disconnected).forEach(observer => observer.callback([{ isIntersecting: true }])));
+      await act(async () => {
+        observers.filter(observer => !observer.disconnected).forEach(observer => observer.callback([{ isIntersecting: true }]));
+        await DEMO_LOADERS.get(id)!();
+      });
       act(() => observers.filter(observer => !observer.disconnected).forEach(observer => observer.callback([{ isIntersecting: true }])));
     },
     get value() { return value; }, get discrete() { return discrete; }, get toggle() { return toggle; }, get pulses() { return pulses; },
@@ -100,9 +104,9 @@ test('autoplay continues across hover and restarts from the initial state only o
 });
 
 for (const id of [...COLLECTION_IDS].filter(id => DEMO_PLAYBACK.get(id) === 'auto' && !['ly-sticky-stacked-cards', 'ly-footer-uncover-scroll'].includes(id))) {
-  test(`${id} changes with the clock, restarts once and stops when hidden`, t => {
+  test(`${id} changes with the clock, restarts once and stops when hidden`, async t => {
     const f = fixture(t);
-    f.technique(id);
+    await f.technique(id);
     const scene = () => JSON.stringify(f.tree.root.findByProps({ className: 'cx-demo' }).findAll(node => typeof node.type === 'string').map(node => ({ type: node.type, props: Object.fromEntries(Object.entries(node.props).filter(([key]) => key !== 'children')), text: node.children.filter(child => typeof child === 'string') }))).replace(/:r[\da-z]+:/gi, ':instance:');
     const initial = scene();
     f.tick(2500, 100);
@@ -117,9 +121,9 @@ for (const id of [...COLLECTION_IDS].filter(id => DEMO_PLAYBACK.get(id) === 'aut
 }
 
 for (const id of ['mg-halftone-dot-shading', 'mg-isometric-voxel-landscape', 'mg-ribbon-over-under-weave', 'mg-guilloche-curve-engraving', 'mg-gradient-stroke-ribbon']) {
-  test(`${id} animates without controls, restarts once and respects reduced motion`, t => {
+  test(`${id} animates without controls, restarts once and respects reduced motion`, async t => {
     const f = fixture(t);
-    f.technique(id);
+    await f.technique(id);
     assert.equal(DEMO_PLAYBACK.get(id), 'auto');
     const geometry = () => {
       const svg = f.tree.root.findByProps({ className: 'gs-art' }).findByType('svg');
@@ -346,11 +350,11 @@ test('manual samples start from the displayed sample and are not ignored by auto
   f.tick(1000); assert.equal(displayed, 50);
 });
 
-test('automatic scroll scenes progress without a click or a scrollbar', t => {
+test('automatic scroll scenes progress without a click or a scrollbar', async t => {
   const f = fixture(t);
   f.visible(true);
   for (const id of ['ly-collapsing-scroll-header', 'ly-sticky-scrolltelling', 'ly-fullpage-snap', 'ly-horizontal-showcase', 'ly-curtain-reveal']) {
-    f.technique(id);
+    await f.technique(id);
     assert.equal(f.tree.root.findByType(DemoAutoplay).props.playback, 'auto');
     const before = JSON.stringify(f.tree.toJSON());
     assert.equal(f.tree.root.findAll(node => node.type === 'input' && node.props.type === 'range').length, 0, id);
@@ -361,9 +365,9 @@ test('automatic scroll scenes progress without a click or a scrollbar', t => {
   }
 });
 
-test('interactive inline editing keeps both unfocused drafts and saved values across multiple cycles', t => {
+test('interactive inline editing keeps both unfocused drafts and saved values across multiple cycles', async t => {
   const f = fixture(t);
-  f.technique('inline-edit-field');
+  await f.technique('inline-edit-field');
   act(() => f.tree.root.findByProps({ 'aria-label': '프로젝트 이름 편집' }).props.onClick());
   const input = f.tree.root.findByType('input');
   act(() => input.props.onChange({ target: { value: '직접 작성한 이름' } }));
@@ -409,10 +413,10 @@ test('click-to-replay indication follows whether automatic preview clicks restar
   assert.equal(intercepted, false);
 });
 
-test('interactive cards stay idle until real input, including former automatic state and pulse demos', t => {
+test('interactive cards stay idle until real input, including former automatic state and pulse demos', async t => {
   const f = fixture(t);
   for (const id of ['zoom-lightbox-gallery', 'selection-bubble-toolbar', 'rich-hover-preview', 'elastic-toggle-switch', 'sliding-pill-tabs', 'smooth-accordion', 'confetti-burst', 'otp-pin-focus-bounce', 'mg-lucky-wheel-3d', 'mg-projection-mode-switch', 'mg-quadratic-bezier-editor', 'ly-stable-scrollbar-gutter']) {
-    f.technique(id);
+    await f.technique(id);
     assert.equal(f.tree.root.findByType(DemoAutoplay).props.playback, 'interactive', id);
     const before = JSON.stringify(f.tree.toJSON());
     f.tick(24000); f.timers(24000);
@@ -421,10 +425,10 @@ test('interactive cards stay idle until real input, including former automatic s
   }
 });
 
-test('manual toggle and gallery state remain selected after input without common replay', t => {
+test('manual toggle and gallery state remain selected after input without common replay', async t => {
   const f = fixture(t);
   for (const id of ['elastic-toggle-switch', 'card-flip-3d', 'sliding-pill-tabs', 'smooth-accordion', 'zoom-lightbox-gallery']) {
-    f.technique(id);
+    await f.technique(id);
     const before = JSON.stringify(f.tree.toJSON());
     const preview = f.tree.root.findByProps({ className: 'demo-preview' });
     const targets = preview.findAll(node => typeof node.type === 'string' && typeof node.props.onClick === 'function');
