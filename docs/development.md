@@ -94,7 +94,7 @@ MCP의 npm 이름은 `@keke1933/vibe-dictionary-mcp`다. 패키지 검증과 공
 
 `localization.ts`의 언어별 도메인 이름도 원문 모듈을 import해 연결한다. 한국어 이름은 `techniques.ts`의 분류를 재사용하고 영어 도메인·카테고리 이름은 `translations/classification.en.ts`에서 관리한다.
 
-데모 진입점 `apps/web/src/components/demos/InteractiveDemos.tsx`는 `demoRegistry.ts`에서 기법 ID를 조회해 렌더링한다. 기존 기본 데모 구현은 `demos/base/BaseDemos.tsx`, 해당 ID와 컴포넌트의 연결은 `base/index.ts`에 둔다. 확장 데모는 기존 카테고리·기법 묶음별 폴더와 등록 목록을 사용한다. `demoRegistry.ts`는 이 목록을 import해 합치므로 개별 구현이나 switch를 두지 않는다. 새 카테고리는 실제 첫 데모와 함께 목록을 등록하고 빈 목록만 미리 연결하지 않는다. 전용 CSS는 `src/index.css`에서 가져온다. 데이터 변경 시 두 앱을 검증하고, 프롬프트와 데모가 같은 효과를 설명하는지 확인한다.
+카드는 화면 근처에 들어온 데모의 묶음만 `demoLoaders.ts`를 통해 비동기로 불러온다. 로딩 중에는 안내를 표시하고 실패하면 페이지 새로고침을 제공한다. 기존 기본 데모 구현은 `demos/base/BaseDemos.tsx`, 해당 ID와 컴포넌트의 연결은 `base/index.ts`에 둔다. 확장 데모는 기존 카테고리·기법 묶음별 폴더와 등록 목록을 사용한다. `demoRegistry.ts`와 `InteractiveDemos.tsx`는 등록과 개별 동작의 테스트에 사용한다. 새 데모는 해당 등록 목록과 `demoLoaders.ts`의 같은 묶음에 ID를 함께 추가한다. `lazy-demo.test.tsx`는 두 목록의 전체 ID와 컴포넌트 일치를 검사한다. 새 카테고리는 실제 첫 데모와 함께 목록을 등록하고 빈 목록만 미리 연결하지 않는다. 전용 CSS는 `src/index.css`에서 가져온다. 데이터 변경 시 두 앱을 검증하고, 프롬프트와 데모가 같은 효과를 설명하는지 확인한다.
 
 `src/index.css`는 Tailwind와 각 스타일시트를 기존 순서대로 import한다. 다크 변형·공통 유틸리티·기본 데모 키프레임·테마와 모션 규칙은 `src/base.css`에서 관리한다. 공통 규칙은 마지막에 import해 기존 우선순위를 유지한다. 같은 역할의 목록 조합과 항목 정의는 분리하되, ESLint의 기본 규칙 덮어쓰기나 테스트의 입력·기대값처럼 한 책임을 수행하는 구성은 함께 둔다.
 
@@ -108,7 +108,7 @@ MCP의 npm 이름은 `@keke1933/vibe-dictionary-mcp`다. 패키지 검증과 공
 
 내부 버튼·입력 등 기존 컨트롤의 동작을 공통 클릭 재시작보다 우선한다. `div`·`span` 등의 자체 클릭 영역에는 `data-demo-control`을 붙여 `DemoAutoplay`와 `useDemoReplay` 양쪽에서 제외한다. 숫자·토글 setter는 현재 표시값을 기준으로 사용자 변경을 적용하고 자동 재생은 그 값에서 이어간다. 공통 시계나 다른 상태를 초기화하지 않는다. OTP 자동 시연은 기존 입력 순서 재생 핸들러를 재사용한다.
 
-새 데모는 카테고리 폴더의 ID 등록 목록에 추가하고 `demoRegistry.ts`에서 연결한다. 같은 ID를 여러 목록에 추가하지 않는다. `demo-registration.test.tsx`는 전체 카탈로그와 공통 등록 목록의 ID 일치 및 어두운 배경 예외의 유효성을 검사한다. 매핑 테스트는 목록 간 덮어쓰기, 전체 데모의 공통 진입점 렌더링과 알 수 없는 ID의 빈 결과를 검사한다.
+새 데모는 카테고리 폴더의 ID 등록 목록과 지연 로딩 목록에 추가하고 `demoRegistry.ts`에서 연결한다. 같은 ID를 여러 목록에 추가하지 않는다. `demo-registration.test.tsx`는 전체 카탈로그와 공통 등록 목록의 ID 일치 및 어두운 배경 예외의 유효성을 검사한다. 매핑 테스트는 목록 간 덮어쓰기, 전체 데모의 공통 진입점 렌더링과 알 수 없는 ID의 빈 결과를 검사한다.
 
 ESLint 10·typescript-eslint 8의 flat config를 사용한다. 추천 정적 오류 규칙을 적용하되 이름·타입 검사는 TypeScript에 맡기며 스타일·미사용 변수의 일괄 정리는 도입하지 않는다. PR 및 Pages CI는 `npm run lint` 실패를 차단한다. 브라우저 E2E 도입은 별도 브라우저 설치·CI 실행 비용이 있으므로 현재 도입하지 않았으며, 실제 브라우저의 키보드·클립보드·반응형 검증을 자동 컴포넌트 테스트와 구분해 기록한다.
 

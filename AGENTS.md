@@ -36,8 +36,9 @@
 | `apps/mcp/` | 로컬 MCP 실행 파일·스키마·연결 테스트·사용 안내 |
 | `apps/web/src/components/FilterBar.tsx` | 카테고리·검색·추천 키워드 UI |
 | `apps/web/src/components/TechniqueCard.tsx` | 카드, 개별 복사, 조합기 선택, 화면 근처 데모 마운트, 데모 배경 예외 |
-| `apps/web/src/components/demos/InteractiveDemos.tsx` | 공통 등록 목록에서 기법 ID를 조회해 렌더링 |
-| `apps/web/src/components/demos/demoRegistry.ts` | 기본·카테고리·기법 묶음별 등록 목록을 합치는 단일 연결 경로 |
+| `apps/web/src/components/demos/LazyInteractiveDemo.tsx` | 화면 근처 데모 묶음의 로딩·실패 안내와 렌더링 |
+| `apps/web/src/components/demos/demoLoaders.ts` | 기법 ID별 데모 묶음 지연 로딩 연결 |
+| `apps/web/src/components/demos/InteractiveDemos.tsx`, `demoRegistry.ts` | 묶음별 등록을 합쳐 개별 데모 동작과 매핑을 검증하는 테스트 진입점 |
 | `apps/web/src/components/demos/base/` | 기존 기본 데모의 구현(`BaseDemos.tsx`)과 import한 컴포넌트의 ID 등록(`index.ts`) |
 | `apps/web/src/components/PromptCartDrawer.tsx` | 공통 적용 대상 입력, 조합 프롬프트 생성·미리보기·복사 |
 | `apps/web/src/hooks/usePromptCart.ts` | 선택 기법과 공통 적용 대상의 저장·복원 |
@@ -57,7 +58,7 @@
 ### 기법 데이터와 데모
 
 - 개별 기법 데이터는 `packages/catalog/src/additions/`의 모듈에서 관리한다. `techniques.ts`의 `TECHNIQUES` 배열에는 import한 배열만 합치며 기법 객체를 직접 추가하지 않는다. 구조를 정리할 때 기법 ID·순서·원문을 보존한다.
-- 영어 번역·검색 메타데이터·한영 UI 사전도 개별 항목은 데이터 모듈에 두고 상위 파일은 import한 목록만 합친다. 데모 구현은 별도 컴포넌트 파일에 두고 ID 목록을 `demoRegistry.ts`에서 합친다. `InteractiveDemo`에는 개별 구현이나 별도 switch를 추가하지 않는다.
+- 영어 번역·검색 메타데이터·한영 UI 사전도 개별 항목은 데이터 모듈에 두고 상위 파일은 import한 목록만 합친다. 데모 구현은 별도 컴포넌트 파일에 두고 ID 목록을 `demoRegistry.ts`에서 합친다. 웹의 `demoLoaders.ts`에도 같은 묶음의 ID를 추가하고 지연 로딩 연결 일치 테스트를 통과시킨다. `InteractiveDemo`에는 개별 구현이나 별도 switch를 추가하지 않는다.
 - 같은 역할의 목록을 합치는 파일에는 개별 항목 정의를 섞지 않는다. 언어별 분류명은 원문 모듈에서 가져오고, CSS 진입점은 import만 관리한다. 설정의 기본값 덮어쓰기, 컴포넌트의 아이콘·속성 조합과 테스트의 입력·기대값은 해당 책임 안에서 함께 관리한다.
 - 기법을 추가하거나 바꿀 때 데이터, `InteractiveDemo`의 ID 매핑, 관련 CSS와 `promptSnippet`을 함께 대조한다. ID 중복이나 데모 연결 누락을 남기지 않는다.
 - 프롬프트는 실제 데모의 입력 동작, 초기 상태, 타이밍, 반복·종료 조건과 시각 효과를 설명해야 한다. 데모에 없는 기능이나 실제 API·오디오·물리 엔진 연동을 있다고 쓰지 않는다.

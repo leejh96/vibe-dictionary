@@ -81,20 +81,11 @@ import { DirectionalStepDemo, CrossfadeSceneDemo, BlurFocusRevealDemo, MaskedRis
 import { SelectableCardDemo, ProductSwatchDemo, LiftShadowCardDemo, FoldoutCardDemo, ImageZoomCardDemo, ExpandableDetailCardDemo, MediaActionCardDemo, FolderPeekCardDemo, ProfileFanCardDemo } from '../card/CardDemos';
 import { SplitActionDemo, IconExpandDemo, OutlineTraceDemo, RollingLabelDemo, DepthPressDemo, UnderlineTravelDemo, CornerBracketDemo, MenuIconMorphDemo, BorderBeamDemo, LetterStaggerDemo } from '../hover/HoverDemos';
 import { LenticularPosterDemo, FlutedGlassDemo, PolaroidDevelopDemo, StickerPeelDemo, AccordionGalleryDemo } from '../patterns/ShowcaseDemos';
-import { EnvelopeInviteDemo, CylinderCarouselDemo, LiquidProgressDemo, GlassShatterDemo, BlackHoleDemo, InfiniteZoomDemo, InkEnsoDemo, PearlInlayDemo, ThermalViewDemo, CrtPowerOffDemo } from '../patterns/SignatureDemos';
+import { SIGNATURE_DEMOS } from './signature';
 import { MagneticHoverDemo, ShimmerSweepDemo, RippleClickDemo, NeonGlowPulseDemo, LiquidSlideFillDemo, CardFlipDemo, Tilt3DCardDemo, GlassmorphismDemo, SpotlightBorderCardDemo, StackedCardCycleDemo, SpringBounceDemo, StaggeredListDemo, SmoothAccordionDemo, MorphingStateButtonDemo, FloatingLevitationDemo, TypewriterDemo, ScrambleDecodeDemo, GradientFlowTextDemo, SlotNumberTickerDemo, MarkerHighlightDrawDemo, ConfettiBurstDemo, ErrorShakeDemo, HeartLikeBurstDemo, ToastSlideStackDemo, SlidingPillTabsDemo, InfiniteMarqueeDemo, SkeletonShimmerDemo, SpotlightFocusDemo, BeforeAfterSliderDemo, DragSnapSlotDemo, ElasticToggleSwitchDemo, ComboGaugeDemo, MgSquashStretchDemo, MgAnticipationDemo, MgFollowTrailDemo, MgEasingCurvesDemo, MgSvgLineDrawDemo, MgLiquidBlobMorphDemo, MgGooeyMetaballDemo, MgOrbitRotationDemo, MgKineticWaveTextDemo, Mg3DTextRollerDemo, MgNeonSignFlickerDemo, MgParallaxDepthDemo, MgRackFocusBlurDemo, MgKenBurnsPanDemo, MgIsometricExplodeDemo, MgIrisCircleWipeDemo, MgRgbChromaticGlitchDemo, MgSpeedLinesStreakDemo, MgAuroraMeshDemo, MgParticleNetworkDemo, MgDotMatrixGridDemo, MgGodRayBeamDemo, LyBentoGridDemo, LyMasonryWaterfallDemo, LyEditorialAsymmetricDemo, LyHoneycombHexDemo, LyStickyScrolltellingDemo, LyFullpageSnapDemo, LyHorizontalShowcaseDemo, LyCurtainRevealDemo, LyMacosDockDemo, LyCommandPaletteDemo, LyDynamicIslandNavDemo, LyRadialPieMenuDemo, LyBottomSheetDemo, LyMasterDetailSplitDemo, LyKanbanBoardDemo, LyHeatmapGridDemo, StNeoBrutalismDemo, StLiquidAcrylicDemo, StLinearDarkMinimalDemo, StMatteFilmGrainDemo, StNeumorphismSoftDemo, StClaymorphism3DDemo, StSkeuomorphismTactileDemo, StPaperCutoutLayerDemo, St8BitPixelRetroDemo, StWin95RetroOsDemo, StCrtScanlineTerminalDemo, StSynthwaveSunsetGridDemo, StScifiHudChamferDemo, StArchitectBlueprintDemo, StSwissEditorialGridDemo, StComicHalftonePopDemo, VdSaasLaunchReelDemo, VdDevice3DSpinDemo, VdAppWalkthroughZoomDemo, VdSplitPromoReelDemo, VdStompBeatTypoDemo, VdHighlightSwipeRevealDemo, VdCountdownEnergeticIntroDemo, VdChatStorySequenceDemo, VdAnimatedBarRaceDemo, VdKpiCounterExplosionDemo, VdNodeFlowPipelineDemo, VdCircularRingDashboardDemo, VdLowerThirdBannerDemo, VdDiagonalShutterWipeDemo, VdLogoStingerOutroDemo, VdAudioSpectrumVisualizerDemo, GooeyMenuFabDemo, OtpPinFocusBounceDemo, HoldToConfirmRingDemo, PeekPasswordLampDemo, MgRadarSonarSweepDemo, MgMorphingGridWaveDemo, MgPrismRainbowRefractionDemo, MgGravityNewtonCradleDemo, LyFloatingTocSpyDemo, LyCollapsibleRailSidebarDemo, LyBreadcrumbFolderDrillDemo, LyResizableSplitPaneDemo, StHolographicFoilCardDemo, StReceiptThermalMonoDemo, StVaporwaveY2kChromeDemo, StCyberpunkNeonGlitchDemo, VdGlitchCutReelDemo, VdSlotJackpotHeadlineDemo, VdFunnelConversionDropDemo, VdBreakingNewsTickerDemo } from './BaseDemos';
 
 export const BASE_DEMOS: Record<string, ComponentType> = {
-  'envelope-invitation-reveal': EnvelopeInviteDemo,
-  'cylinder-card-carousel': CylinderCarouselDemo,
-  'liquid-wave-progress-orb': LiquidProgressDemo,
-  'mg-glass-shatter-transition': GlassShatterDemo,
-  'mg-black-hole-accretion-disk': BlackHoleDemo,
-  'mg-infinite-zoom-frames': InfiniteZoomDemo,
-  'mg-ink-wash-enso-stroke': InkEnsoDemo,
-  'st-mother-of-pearl-inlay': PearlInlayDemo,
-  'st-thermal-imaging-view': ThermalViewDemo,
-  'vd-crt-power-off': CrtPowerOffDemo,
+  ...SIGNATURE_DEMOS,
   'mg-lenticular-strip-poster': LenticularPosterDemo,
   'st-fluted-glass-panel': FlutedGlassDemo,
   'polaroid-photo-develop': PolaroidDevelopDemo,
