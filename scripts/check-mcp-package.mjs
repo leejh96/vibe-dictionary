@@ -59,7 +59,7 @@ try {
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_technique', 'search_domain_knowledge', 'search_techniques']);
   for (const item of DOMAIN_KNOWLEDGE) {
-    const knowledge = await client.callTool({ name: 'search_domain_knowledge', arguments: { query: item.text.ko.domain, locale: 'en' } });
+    const knowledge = await client.callTool({ name: 'search_domain_knowledge', arguments: { query: item.text.ko.title, locale: 'en' } });
     assert.notEqual(knowledge.isError, true);
     assert.equal(knowledge.structuredContent.items[0].id, item.id);
     for (const locale of ['ko', 'en']) {

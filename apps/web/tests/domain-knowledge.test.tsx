@@ -33,12 +33,18 @@ test('knowledge search, detail, localization and related design selection', () =
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<LocaleProvider initialLocale="ko"><LanguageControl /><DomainKnowledgeView onViewTechnique={item => selected.push(item.id)} /></LocaleProvider>); });
   const search = () => tree.root.findByType('input');
+  const filterGroup = () => tree.root.findByProps({ role: 'group' });
+  assert.equal(filterGroup().findAllByType('button').length, 21);
+  act(() => filterGroup().findAllByType('button').find(button => text(button).startsWith('교육'))!.props.onClick());
+  assert.equal(tree.root.findAllByType('article').length, 5);
+  act(() => filterGroup().findAllByType('button')[0].props.onClick());
+  assert.equal(tree.root.findAllByType('article').length, 100);
   act(() => search().props.onChange({ target: { value: 'education' } }));
   assert.ok(text(tree.root).includes(DOMAIN_KNOWLEDGE[0].text.ko.title));
   act(() => search().props.onChange({ target: { value: 'unknown' } }));
   assert.ok(text(tree.root).includes('검색 결과가 없습니다.'));
   for (const [index, item] of DOMAIN_KNOWLEDGE.entries()) {
-    act(() => search().props.onChange({ target: { value: item.text.en.domain } }));
+    act(() => search().props.onChange({ target: { value: item.id } }));
     act(() => tree.root.findAllByType('button').find(button => /내용 살펴보기|View details/.test(text(button)))!.props.onClick());
     if (index === 0) {
       assert.ok(text(tree.root).includes(item.text.ko.questions[0]));
@@ -65,10 +71,22 @@ test('domain list finds service aliases and workflow phrases in either display l
     let tree!: ReturnType<typeof create>;
     act(() => { tree = create(<LocaleProvider initialLocale={locale}><DomainKnowledgeView onViewTechnique={() => {}} /></LocaleProvider>); });
     try {
-      for (const [query, domain] of [['LMS', '교육'], ['지각 제출', '교육'], ['회원전용', '커뮤니티'], ['report review', '커뮤니티']]) {
+      for (const [query, id] of [
+        ['LMS', 'coding-lesson-objectives-and-practice'], ['지각 제출', 'coding-lesson-objectives-and-practice'],
+        ['회원전용', 'community-post-visibility-and-moderation'], ['report review', 'community-post-visibility-and-moderation'],
+        ['장바구니', 'commerce-order-inventory-and-refund'], ['타임슬롯', 'booking-slot-capacity-and-cancellation'],
+        ['정기결제', 'subscription-plan-entitlement-and-billing'], ['칸반', 'workspace-task-assignment-and-status'],
+        ['헬프데스크', 'support-ticket-routing-and-resolution'], ['소셜로그인', 'account-auth-recovery-and-deletion'],
+        ['알림센터', 'notification-channels-preferences-and-read-state'], ['슬러그', 'cms-publishing-schedule-and-versioning'],
+        ['인코딩', 'file-upload-processing-and-access-control'], ['에스크로', 'marketplace-escrow-settlement-and-dispute'],
+        ['얼리버드', 'event-registration-ticket-and-checkin'], ['평가표', 'recruiting-pipeline-evaluation-and-notice'],
+        ['결측치', 'analytics-metric-aggregation-and-export'], ['RBAC', 'security-rbac-role-assignment-and-least-privilege'],
+        ['합포장', 'logistics-warehouse-picking-packing-and-split-shipment'], ['복식 원장', 'fintech-wallet-ledger-idempotency-and-hold'],
+        ['사전 문진표', 'healthcare-clinic-intake-triage-and-queue'], ['조건부 분기', 'automation-form-branching-validation-and-partial-save'],
+      ]) {
         act(() => tree.root.findByType('input').props.onChange({ target: { value: query } }));
-        const expected = DOMAIN_KNOWLEDGE.find(item => item.text.ko.domain === domain)!;
-        assert.deepEqual(tree.root.findAllByType('h2').map(text), [expected.text[locale].title], query);
+        const expected = DOMAIN_KNOWLEDGE.find(item => item.id === id)!;
+        assert.equal(tree.root.findAllByType('h2').map(text)[0], expected.text[locale].title, query);
       }
       act(() => tree.root.findByType('input').props.onChange({ target: { value: '교육 암호화폐 자동매매' } }));
       assert.equal(tree.root.findAllByType('article').length, 0);
@@ -91,7 +109,7 @@ test('reference prompt copy reports clipboard success and failure', async t => {
       let tree!: ReturnType<typeof create>;
       act(() => { tree = create(<LocaleProvider initialLocale={locale}><DomainKnowledgeView onViewTechnique={() => {}} /></LocaleProvider>); });
       try {
-        act(() => tree.root.findByType('input').props.onChange({ target: { value: item.text.en.domain } }));
+        act(() => tree.root.findByType('input').props.onChange({ target: { value: item.id } }));
         act(() => tree.root.findAllByType('button').find(button => /내용 살펴보기|View details/.test(text(button)))!.props.onClick());
         rejectCopy = false;
         await act(async () => { await tree.root.findAllByType('button').find(button => /^(프롬프트 복사|Copy prompt)$/.test(text(button)))!.props.onClick(); });
