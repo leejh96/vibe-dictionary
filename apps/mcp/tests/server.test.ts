@@ -56,7 +56,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
 
   await t.test('domain knowledge search and localized detail preserve sources and open questions', async () => {
     for (const item of DOMAIN_KNOWLEDGE) {
-      for (const query of [item.text.ko.domain, item.text.en.domain]) {
+      for (const query of [item.text.ko.title, item.text.en.title]) {
         const output = await call('search_domain_knowledge', { query, locale: 'en' });
         assert.equal(output.items[0].id, item.id);
         assert.equal(output.items[0].title, item.text.en.title);
@@ -74,7 +74,10 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     assert.equal(first.nextOffset, 1);
     const second = await call('search_domain_knowledge', { limit: 1, offset: first.nextOffset });
     assert.equal(second.items[0].id, DOMAIN_KNOWLEDGE[1].id);
-    assert.equal(second.nextOffset, null);
+    assert.equal(second.nextOffset, 2);
+    const last = await call('search_domain_knowledge', { limit: 1, offset: DOMAIN_KNOWLEDGE.length - 1 });
+    assert.equal(last.items[0].id, DOMAIN_KNOWLEDGE.at(-1)!.id);
+    assert.equal(last.nextOffset, null);
     assert.equal((await client.callTool({ name: 'get_domain_knowledge', arguments: { id: 'missing' } })).isError, true);
     assert.equal((await client.callTool({ name: 'search_domain_knowledge', arguments: { limit: 51 } })).isError, true);
     assert.equal((await call('search_domain_knowledge')).total, DOMAIN_KNOWLEDGE.length);
@@ -91,10 +94,30 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
         ['신고 처리', 'community-post-visibility-and-moderation'],
         ['private group', 'community-post-visibility-and-moderation'],
         ['커뮤니티를 만들고 싶어', 'community-post-visibility-and-moderation'],
+        ['부분 환불', 'commerce-order-inventory-and-refund'],
+        ['타임슬롯', 'booking-slot-capacity-and-cancellation'],
+        ['정기결제', 'subscription-plan-entitlement-and-billing'],
+        ['칸반', 'workspace-task-assignment-and-status'],
+        ['헬프데스크', 'support-ticket-routing-and-resolution'],
+        ['소셜로그인', 'account-auth-recovery-and-deletion'],
+        ['알림센터', 'notification-channels-preferences-and-read-state'],
+        ['슬러그', 'cms-publishing-schedule-and-versioning'],
+        ['인코딩', 'file-upload-processing-and-access-control'],
+        ['에스크로', 'marketplace-escrow-settlement-and-dispute'],
+        ['얼리버드', 'event-registration-ticket-and-checkin'],
+        ['평가표', 'recruiting-pipeline-evaluation-and-notice'],
+        ['결측치', 'analytics-metric-aggregation-and-export'],
+        ['RBAC', 'security-rbac-role-assignment-and-least-privilege'],
+        ['합포장', 'logistics-warehouse-picking-packing-and-split-shipment'],
+        ['복식 원장', 'fintech-wallet-ledger-idempotency-and-hold'],
+        ['사전 문진표', 'healthcare-clinic-intake-triage-and-queue'],
+        ['조건부 분기', 'automation-form-branching-validation-and-partial-save'],
       ]) {
         const output = await call('search_domain_knowledge', { query, locale });
+        const expected = searchDomainKnowledge(query);
+        assert.equal(output.total, expected.length, query);
         assert.equal(output.items[0].id, expectedId, query);
-        assert.deepEqual(output.items.map((item: { id: string }) => item.id), searchDomainKnowledge(query).map(item => item.id));
+        assert.deepEqual(output.items.map((item: { id: string }) => item.id), expected.slice(0, 20).map(item => item.id));
         assert.ok(output.items[0].score > 0);
         assert.ok(output.items[0].matchedOn.length > 0);
         assert.deepEqual(output.items[0].useCases, DOMAIN_KNOWLEDGE.find(item => item.id === expectedId)!.useCases[locale]);
