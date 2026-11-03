@@ -1,6 +1,6 @@
 import { DOMAIN_KNOWLEDGE, type DomainKnowledge } from './domain-knowledge';
 import { KNOWLEDGE_SYNONYMS, KNOWLEDGE_STOP_WORDS } from './domain-knowledge/search-vocabulary';
-import { createSearchTokenizer, normalizeSearchText, rankSearchEntries, type SearchTextEntry } from './search-ranking';
+import { createSearchEntries, createSearchTokenizer, normalizeSearchText, rankSearchEntries, type SearchTextEntry } from './search-ranking';
 
 export type KnowledgeMatchField = 'domain' | 'title' | 'alias' | 'keyword' | 'useCase' | 'summary' | 'concept' | 'workflow' | 'pitfall' | 'question' | 'example';
 export interface RankedDomainKnowledge {
@@ -29,7 +29,7 @@ function entries(item: DomainKnowledge): SearchTextEntry<KnowledgeMatchField>[] 
         .flatMap(point => [point.name, point.description]))] as [KnowledgeMatchField, string[]]),
     ['question', texts.flatMap(text => text.questions)], ['example', texts.map(text => text.example)],
   ];
-  const result = fields.flatMap(([field, values]) => values.map(value => ({ field, value, tokens: new Set(tokens(value)) })));
+  const result = createSearchEntries(fields, tokens);
   index.set(item, result);
   return result;
 }
@@ -41,7 +41,7 @@ export function rankDomainKnowledge(query = ''): RankedDomainKnowledge[] {
   const results: RankedDomainKnowledge[] = [];
   for (const item of DOMAIN_KNOWLEDGE) {
     const allEntries = entries(item);
-    const exact = allEntries.find(entry => normalizeSearchText(entry.value) === normalizedQuery);
+    const exact = allEntries.find(entry => entry.normalizedValue === normalizedQuery);
     const result = rankSearchEntries(allEntries, queryTokens, weights, exact, exact?.field === 'domain' || exact?.field === 'title' ? 150 : 100);
     if (result) results.push({ item, ...result });
   }

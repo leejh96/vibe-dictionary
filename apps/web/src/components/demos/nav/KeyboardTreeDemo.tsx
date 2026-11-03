@@ -1,7 +1,5 @@
 import { useLocale } from '../../../i18n/LocaleContext';
-
-import { useId, useRef, useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { ChevronRight, FileText, Folder } from 'lucide-react';
 
 const NODES = [

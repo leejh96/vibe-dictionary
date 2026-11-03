@@ -22,7 +22,17 @@ export function createSearchTokenizer(synonyms: readonly (readonly string[])[], 
 export interface SearchTextEntry<Field extends string> {
   field: Field;
   value: string;
+  normalizedValue: string;
   tokens: Set<string>;
+}
+
+export function createSearchEntries<Field extends string>(
+  fields: readonly [Field, readonly string[]][],
+  tokenize: (value: string) => string[],
+): SearchTextEntry<Field>[] {
+  return fields.flatMap(([field, values]) => values.map(value => ({
+    field, value, normalizedValue: normalizeSearchText(value), tokens: new Set(tokenize(value)),
+  })));
 }
 
 export function rankSearchEntries<Field extends string>(

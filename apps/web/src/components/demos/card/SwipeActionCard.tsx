@@ -1,7 +1,6 @@
 import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
-import { useId, useRef, useState } from 'react';
+import { useId, useRef, useState, type PointerEvent } from 'react';
 import { BookOpen, Bookmark, ChevronLeft } from 'lucide-react';
-import type { PointerEvent } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const REVEAL_WIDTH = 64;

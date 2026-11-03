@@ -1,6 +1,5 @@
 import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
-import { useId, useState } from 'react';
-import type { CSSProperties } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import { ArrowUpRight, BookOpen, Bookmark, Check, ChevronDown, Flower2, Headphones, Heart, Mail } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 

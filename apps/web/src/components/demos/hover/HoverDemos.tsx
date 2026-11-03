@@ -1,6 +1,5 @@
 import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
-import { useId, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
+import { useId, useRef, useState, type ReactNode } from 'react';
 import { ArrowRight, ArrowUpRight, Check, ChevronDown, Play } from 'lucide-react';
 import { useOutsidePointerDismiss } from '../../../hooks/useOutsidePointerDismiss';
 import { useLocale } from '../../../i18n/LocaleContext';

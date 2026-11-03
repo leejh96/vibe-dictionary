@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import type { PointerEvent } from 'react';
+import { useRef, useState, type PointerEvent } from 'react';
 import { useLocale } from '../../../i18n/LocaleContext';
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, Math.round(value)));

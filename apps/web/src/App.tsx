@@ -28,7 +28,7 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
 import { DictionaryNavigation, type DictionarySection } from './components/DictionaryNavigation';
-import { DomainKnowledgeView } from './components/DomainKnowledgeView';
+import { LazyDomainKnowledgeView } from './components/LazyDomainKnowledgeView';
 import { usePromptCart } from './hooks/usePromptCart';
 
 const THEME_STORAGE_KEY = 'vibe-dictionary-theme';
@@ -565,7 +565,7 @@ export default function App() {
           </div>
         )}
         </>}
-        {dictionarySection === 'knowledge' && <DomainKnowledgeView onViewTechnique={handleViewRelatedTechnique} />}
+        {dictionarySection === 'knowledge' && <LazyDomainKnowledgeView onViewTechnique={handleViewRelatedTechnique} />}
         </main>
       </div>
 
