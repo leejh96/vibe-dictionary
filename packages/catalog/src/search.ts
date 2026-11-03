@@ -1,7 +1,7 @@
 import { TECHNIQUES, type TechniqueItem, type DomainType, type CategoryType } from './techniques';
 import { getTechniqueText } from './localization';
 import { getSearchMetadata, type SearchTarget, type SearchTrigger } from './search-metadata';
-import { createSearchTokenizer, normalizeSearchText, rankSearchEntries } from './search-ranking';
+import { createSearchEntries, createSearchTokenizer, normalizeSearchText, rankSearchEntries, type SearchTextEntry } from './search-ranking';
 
 // Bilingual equivalences describe one concept each. Targets and triggers stay separate metadata.
 export const SEARCH_SYNONYMS: readonly (readonly string[])[] = [
@@ -56,7 +56,7 @@ export interface SearchOptions {
   trigger?: SearchTrigger;
 }
 const weights: Record<MatchField, number> = { title: 30, alias: 28, keyword: 20, useCase: 18, target: 8, trigger: 6, summary: 12, prompt: 1 };
-type Entry = SearchMatch & { tokens: Set<string> };
+type Entry = SearchTextEntry<MatchField>;
 const index = new Map<TechniqueItem, Entry[]>();
 function entries(item: TechniqueItem): Entry[] {
   const cached = index.get(item);
@@ -69,7 +69,7 @@ function entries(item: TechniqueItem): Entry[] {
     ['useCase', [...meta.useCases.ko, ...meta.useCases.en]], ['target', meta.targets], ['trigger', meta.triggers],
     ['summary', [item.summary, en.summary]], ['prompt', [item.promptSnippet, en.promptSnippet]],
   ];
-  const result = fields.flatMap(([field, values]) => values.map(value => ({ field, value, tokens: new Set(tokens(value)) })));
+  const result = createSearchEntries(fields, tokens);
   index.set(item, result);
   return result;
 }
@@ -77,7 +77,7 @@ function rank(item: TechniqueItem, query: string, queryTokens: string[]): Ranked
   if (!query.trim()) return { item, score: 0, matchedOn: [] };
   const normalizedQuery = normalizeSearchText(query);
   const allEntries = entries(item);
-  const exact = allEntries.find(entry => entry.field !== 'prompt' && normalizeSearchText(entry.value) === normalizedQuery);
+  const exact = allEntries.find(entry => entry.field !== 'prompt' && entry.normalizedValue === normalizedQuery);
   const result = rankSearchEntries(allEntries, queryTokens, weights, exact, exact?.field === 'title' ? 150 : 100);
   return result ? { item, ...result } : null;
 }

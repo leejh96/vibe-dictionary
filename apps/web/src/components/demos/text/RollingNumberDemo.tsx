@@ -1,6 +1,5 @@
 import { useDemoPulse } from '../../../hooks/useDemoAutoplay';
-import { useState } from 'react';
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 

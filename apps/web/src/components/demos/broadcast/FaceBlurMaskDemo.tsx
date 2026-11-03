@@ -1,5 +1,4 @@
-import { useDemoToggle } from '../../../hooks/useDemoAutoplay';
-import { useDemoNumber } from '../../../hooks/useDemoAutoplay';
+import { useDemoToggle, useDemoNumber } from '../../../hooks/useDemoAutoplay';
 import { useId } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';

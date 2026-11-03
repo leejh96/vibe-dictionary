@@ -1,6 +1,5 @@
 import { useDemoToggle, useDemoNumber } from '../../../hooks/useDemoAutoplay';
-import { useState } from 'react';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, Gem, Layers, Maximize2, Minimize2, Palette, Sparkles, Trees, Waves } from 'lucide-react';
 import { useLocale } from '../../../i18n/LocaleContext';
 

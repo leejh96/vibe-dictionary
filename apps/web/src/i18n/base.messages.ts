@@ -3,6 +3,8 @@ export const BASE_KO_MESSAGES = {
   'dictionary.design': '디자인·인터랙션',
   'dictionary.knowledge': '도메인 지식',
   'knowledge.heading': '도메인 지식',
+  'knowledge.loading': '도메인 지식을 불러오는 중입니다.',
+  'knowledge.loadError': '도메인 지식을 불러오지 못했습니다. 페이지를 새로고침해 주세요.',
   'knowledge.intro': '서비스를 만들기 전에 알아둘 개념, 흐름과 결정할 규칙을 살펴보세요.',
   'knowledge.search': '도메인 지식 검색',
   'knowledge.searchPlaceholder': '분야나 주제 검색 (예: 교육, 커뮤니티, 공개 범위)',
@@ -447,6 +449,8 @@ export const BASE_KO_MESSAGES = {
 } as const;
 
 export const BASE_EN_MESSAGES = {
+  'knowledge.loading': 'Loading domain knowledge.',
+  'knowledge.loadError': 'Could not load domain knowledge. Please reload the page.',
   'dictionary.navigation': 'Choose a dictionary',
   'dictionary.design': 'Design & interaction',
   'dictionary.knowledge': 'Domain knowledge',

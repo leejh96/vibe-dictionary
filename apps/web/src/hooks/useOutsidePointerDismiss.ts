@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import type { RefObject } from 'react';
+import { useEffect, type RefObject } from 'react';
+
 
 export function useOutsidePointerDismiss<T extends HTMLElement>(open: boolean, root: RefObject<T>, onDismiss: () => void) {
   useEffect(() => {

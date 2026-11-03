@@ -39,7 +39,10 @@
 | `apps/web/src/components/demos/LazyInteractiveDemo.tsx` | 화면 근처 데모 묶음의 로딩·실패 안내와 렌더링 |
 | `apps/web/src/components/demos/demoLoaders.ts` | 기법 ID별 데모 묶음 지연 로딩 연결 |
 | `apps/web/src/components/demos/InteractiveDemos.tsx`, `demoRegistry.ts` | 묶음별 등록을 합쳐 개별 데모 동작과 매핑을 검증하는 테스트 진입점 |
-| `apps/web/src/components/demos/base/` | 기존 기본 데모의 구현(`BaseDemos.tsx`)과 import한 컴포넌트의 ID 등록(`index.ts`) |
+| `apps/web/src/components/demos/base/` | 영역별 기본 데모 구현(`UiDemos.tsx`, `GraphicDemos.tsx`, `LayoutDemos.tsx`, `StyleDemos.tsx`, `VideoDemos.tsx`)과 import한 컴포넌트의 ID 등록(`index.ts`) |
+| `apps/web/src/components/LazyDomainKnowledgeView.tsx` | 도메인 지식 화면의 지연 로딩·로딩 안내·실패 복구 |
+| `apps/web/src/components/DomainKnowledgeView.tsx`, `knowledge/` | 도메인 지식의 선택 상태·목록과 분리한 상세·필터 UI |
+| `apps/web/src/hooks/useDomainKnowledgeSearch.ts` | 검색어별 결과 재사용·도메인별 개수 집계·표시 언어 연결 |
 | `apps/web/src/components/PromptCartDrawer.tsx` | 공통 적용 대상 입력, 조합 프롬프트 생성·미리보기·복사 |
 | `apps/web/src/hooks/usePromptCart.ts` | 선택 기법과 공통 적용 대상의 저장·복원 |
 | `apps/web/src/hooks/useClipboard.ts` | 비동기 복사 결과와 오류 상태 |
