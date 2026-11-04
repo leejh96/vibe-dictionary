@@ -81,6 +81,7 @@ import { DirectionalStepDemo, CrossfadeSceneDemo, BlurFocusRevealDemo, MaskedRis
 import { SelectableCardDemo, ProductSwatchDemo, LiftShadowCardDemo, FoldoutCardDemo, ImageZoomCardDemo, ExpandableDetailCardDemo, MediaActionCardDemo, FolderPeekCardDemo, ProfileFanCardDemo } from '../card/CardDemos';
 import { SplitActionDemo, IconExpandDemo, OutlineTraceDemo, RollingLabelDemo, DepthPressDemo, UnderlineTravelDemo, CornerBracketDemo, MenuIconMorphDemo, BorderBeamDemo, LetterStaggerDemo } from '../hover/HoverDemos';
 import { LenticularPosterDemo, FlutedGlassDemo, PolaroidDevelopDemo, StickerPeelDemo, AccordionGalleryDemo } from '../patterns/ShowcaseDemos';
+import { STARTER_PACK_DEMOS } from './starter-pack';
 import { SIGNATURE_DEMOS } from './signature';
 import { MagneticHoverDemo, ShimmerSweepDemo, RippleClickDemo, NeonGlowPulseDemo, LiquidSlideFillDemo, CardFlipDemo, Tilt3DCardDemo, GlassmorphismDemo, SpotlightBorderCardDemo, StackedCardCycleDemo, SpringBounceDemo, StaggeredListDemo, SmoothAccordionDemo, MorphingStateButtonDemo, FloatingLevitationDemo, TypewriterDemo, ScrambleDecodeDemo, GradientFlowTextDemo, SlotNumberTickerDemo, MarkerHighlightDrawDemo, ConfettiBurstDemo, ErrorShakeDemo, HeartLikeBurstDemo, ToastSlideStackDemo, SlidingPillTabsDemo, InfiniteMarqueeDemo, SkeletonShimmerDemo, SpotlightFocusDemo, BeforeAfterSliderDemo, DragSnapSlotDemo, ElasticToggleSwitchDemo, ComboGaugeDemo, GooeyMenuFabDemo, OtpPinFocusBounceDemo, HoldToConfirmRingDemo, PeekPasswordLampDemo } from './UiDemos';
 import { MgSquashStretchDemo, MgAnticipationDemo, MgFollowTrailDemo, MgEasingCurvesDemo, MgSvgLineDrawDemo, MgLiquidBlobMorphDemo, MgGooeyMetaballDemo, MgOrbitRotationDemo, MgKineticWaveTextDemo, Mg3DTextRollerDemo, MgNeonSignFlickerDemo, MgParallaxDepthDemo, MgRackFocusBlurDemo, MgKenBurnsPanDemo, MgIsometricExplodeDemo, MgIrisCircleWipeDemo, MgRgbChromaticGlitchDemo, MgSpeedLinesStreakDemo, MgAuroraMeshDemo, MgParticleNetworkDemo, MgDotMatrixGridDemo, MgGodRayBeamDemo, MgRadarSonarSweepDemo, MgMorphingGridWaveDemo, MgPrismRainbowRefractionDemo, MgGravityNewtonCradleDemo } from './GraphicDemos';
@@ -89,6 +90,7 @@ import { StNeoBrutalismDemo, StLiquidAcrylicDemo, StLinearDarkMinimalDemo, StMat
 import { VdSaasLaunchReelDemo, VdDevice3DSpinDemo, VdAppWalkthroughZoomDemo, VdSplitPromoReelDemo, VdStompBeatTypoDemo, VdHighlightSwipeRevealDemo, VdCountdownEnergeticIntroDemo, VdChatStorySequenceDemo, VdAnimatedBarRaceDemo, VdKpiCounterExplosionDemo, VdNodeFlowPipelineDemo, VdCircularRingDashboardDemo, VdLowerThirdBannerDemo, VdDiagonalShutterWipeDemo, VdLogoStingerOutroDemo, VdAudioSpectrumVisualizerDemo, VdGlitchCutReelDemo, VdSlotJackpotHeadlineDemo, VdFunnelConversionDropDemo, VdBreakingNewsTickerDemo } from './VideoDemos';
 
 export const BASE_DEMOS: Record<string, ComponentType> = {
+  ...STARTER_PACK_DEMOS,
   ...SIGNATURE_DEMOS,
   'mg-lenticular-strip-poster': LenticularPosterDemo,
   'st-fluted-glass-panel': FlutedGlassDemo,

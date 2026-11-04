@@ -132,7 +132,7 @@ test('added hover techniques are searchable and have unique ids and prompts', ()
 });
 
 test('hover category adds exactly ten techniques with a rendered demo and searchable prompt metadata', () => {
-  const originalIds = new Set(['magnetic-hover', 'shimmer-sweep', 'ripple-click', 'neon-glow-pulse', 'liquid-slide-fill']);
+  const originalIds = new Set(['magnetic-hover', 'shimmer-sweep', 'ripple-click', 'neon-glow-pulse', 'liquid-slide-fill', 'ui-interactive-kbd-key']);
   const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'hover' && !originalIds.has(item.id) && item.id !== 'sticker-corner-peel'); // Covered in showcase-demos.
   assert.equal(additions.length, 10);
   for (const item of additions) {

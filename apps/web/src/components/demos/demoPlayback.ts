@@ -4,6 +4,8 @@ export type DemoPlayback = 'auto' | 'interactive' | 'static';
 // Keep every catalog ID explicit; the coverage test rejects missing or duplicate entries.
 export const DEMO_PLAYBACK_GROUPS = {
   auto: [
+    // Starter pack additions.
+    'mg-ambient-aurora-blob',
     // Signature designs.
     'liquid-wave-progress-orb', 'mg-glass-shatter-transition', 'mg-black-hole-accretion-disk',
     'mg-infinite-zoom-frames', 'mg-ink-wash-enso-stroke', 'st-mother-of-pearl-inlay',
@@ -149,6 +151,10 @@ export const DEMO_PLAYBACK_GROUPS = {
     'shimmer-sweep', 'neon-glow-pulse',
   ],
   interactive: [
+    // Starter pack additions.
+    'ui-ai-streaming-pulse', 'ui-particle-burst-heart', 'lay-bottom-sheet-modal',
+    'ui-swipe-to-confirm', 'ui-cli-command-switcher', 'ui-interactive-kbd-key', 'ui-tear-off-coupon-card',
+    'ui-file-dropzone-uploader', 'ui-liquid-segmented-control', 'ui-3d-interactive-bank-card', 'ui-voice-note-waveform',
     // Signature designs.
     'envelope-invitation-reveal', 'cylinder-card-carousel',
     // Collection expansion: five per category.

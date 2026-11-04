@@ -7,6 +7,23 @@ export type DemoLoader = () => Promise<DemoGroup>;
 export const DEMO_GROUPS: Array<{ ids: string[]; load: DemoLoader }> = [
   {
     ids: [
+      'ui-ai-streaming-pulse',
+      'ui-particle-burst-heart',
+      'mg-ambient-aurora-blob',
+      'lay-bottom-sheet-modal',
+      'ui-swipe-to-confirm',
+      'ui-cli-command-switcher',
+      'ui-interactive-kbd-key',
+      'ui-tear-off-coupon-card',
+      'ui-file-dropzone-uploader',
+      'ui-liquid-segmented-control',
+      'ui-3d-interactive-bank-card',
+      'ui-voice-note-waveform',
+    ],
+    load: () => import('./base/starter-pack').then(module => module.STARTER_PACK_DEMOS),
+  },
+  {
+    ids: [
       'envelope-invitation-reveal',
       'cylinder-card-carousel',
       'liquid-wave-progress-orb',
