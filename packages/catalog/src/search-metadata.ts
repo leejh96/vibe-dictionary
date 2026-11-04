@@ -1,4 +1,5 @@
 import { BASE_SEARCH_METADATA } from './search-metadata/additions/base';
+import { STARTER_PACK_SEARCH_METADATA } from './search-metadata/additions/starter-pack';
 import { SIGNATURE_SEARCH_METADATA } from './search-metadata/additions/signature';
 import { UI_COLLECTION_SEARCH } from './search-metadata/additions/collection-ui';
 import { MOTION_COLLECTION_SEARCH } from './search-metadata/additions/collection-motion';
@@ -49,6 +50,7 @@ export interface SearchMetadata {
 }
 // Describe the implemented demo, including its actual input, rather than features suggested by a title.
 export const SEARCH_METADATA: Record<string, SearchMetadata> = {
+  ...STARTER_PACK_SEARCH_METADATA,
   ...SIGNATURE_SEARCH_METADATA,
   ...UI_COLLECTION_SEARCH,
   ...MOTION_COLLECTION_SEARCH,

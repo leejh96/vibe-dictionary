@@ -1,4 +1,5 @@
 import { BASE_ADDITIONS } from './additions/base';
+import { STARTER_PACK_ADDITIONS } from './additions/starter-pack';
 import { SIGNATURE_ADDITIONS } from './additions/signature';
 import { UI_COLLECTION_ADDITIONS } from './additions/collection-ui';
 import { MOTION_COLLECTION_ADDITIONS } from './additions/collection-motion';
@@ -158,6 +159,7 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...STARTER_PACK_ADDITIONS,
   ...SIGNATURE_ADDITIONS,
   ...UI_COLLECTION_ADDITIONS,
   ...MOTION_COLLECTION_ADDITIONS,

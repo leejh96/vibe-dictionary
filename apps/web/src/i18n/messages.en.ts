@@ -1,4 +1,5 @@
 import { BASE_EN_MESSAGES } from './base.messages';
+import { STARTER_PACK_EN_MESSAGES } from './demos/starter-pack.messages';
 import { SIGNATURE_EN_MESSAGES } from './demos/signature.messages';
 import { COLLECTION_UI_EN_MESSAGES } from './demos/collection-ui.messages';
 import { COLLECTION_MOTION_EN_MESSAGES } from './demos/collection-motion.messages';
@@ -37,6 +38,7 @@ import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  ...STARTER_PACK_EN_MESSAGES,
   ...SIGNATURE_EN_MESSAGES,
   ...COLLECTION_UI_EN_MESSAGES,
   ...COLLECTION_MOTION_EN_MESSAGES,

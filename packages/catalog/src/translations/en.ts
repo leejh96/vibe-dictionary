@@ -1,4 +1,5 @@
 import { EN_BASE_TECHNIQUES } from './additions/base';
+import { EN_STARTER_PACK_TECHNIQUES } from './additions/starter-pack';
 import { EN_SIGNATURE_TECHNIQUES } from './additions/signature';
 import { EN_UI_COLLECTION } from './additions/collection-ui';
 import { EN_MOTION_COLLECTION } from './additions/collection-motion';
@@ -38,6 +39,7 @@ import type { TechniqueTranslation } from '../localization';
 import { EN_PATTERN_TECHNIQUES } from './additions/patterns';
 
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
+  ...EN_STARTER_PACK_TECHNIQUES,
   ...EN_SIGNATURE_TECHNIQUES,
   ...EN_UI_COLLECTION,
   ...EN_MOTION_COLLECTION,

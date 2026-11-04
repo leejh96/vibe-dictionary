@@ -271,7 +271,7 @@ test('rolling digits carry and borrow, animate only changed places and guard bot
 });
 
 test('text additions including selection formatting are searchable and mapped without helper captions', () => {
-  const originalIds = new Set(['typewriter-streaming', 'scramble-decode-text', 'gradient-flow-text', 'slot-number-ticker', 'marker-highlight-draw']);
+  const originalIds = new Set(['typewriter-streaming', 'scramble-decode-text', 'gradient-flow-text', 'slot-number-ticker', 'marker-highlight-draw', 'ui-ai-streaming-pulse']);
   const additions = TECHNIQUES.filter(item => !COLLECTION_IDS.has(item.id) && item.category === 'text' && !originalIds.has(item.id));
   assert.equal(additions.length, 11);
   assert.equal(new Set(TECHNIQUES.map(item => item.id)).size, TECHNIQUES.length);

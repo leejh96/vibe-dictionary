@@ -1,4 +1,5 @@
 import { BASE_KO_MESSAGES } from './base.messages';
+import { STARTER_PACK_KO_MESSAGES } from './demos/starter-pack.messages';
 import { SIGNATURE_KO_MESSAGES } from './demos/signature.messages';
 import { COLLECTION_UI_KO_MESSAGES } from './demos/collection-ui.messages';
 import { COLLECTION_MOTION_KO_MESSAGES } from './demos/collection-motion.messages';
@@ -36,6 +37,7 @@ import { TEXT_KO_MESSAGES } from './demos/text.messages';
 import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
+  ...STARTER_PACK_KO_MESSAGES,
   ...SIGNATURE_KO_MESSAGES,
   ...COLLECTION_UI_KO_MESSAGES,
   ...COLLECTION_MOTION_KO_MESSAGES,
