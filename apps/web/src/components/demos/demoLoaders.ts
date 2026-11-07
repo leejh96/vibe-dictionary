@@ -703,6 +703,61 @@ export const DEMO_GROUPS: Array<{ ids: string[]; load: DemoLoader }> = [
     ],
     load: () => import('./pixelart/PixelEffectsDemos').then(module => module.PIXEL_EFFECTS_DEMOS),
   },
+  {
+    ids: [
+      'px-blacksmith-hammer-strike',
+      'px-jump-arc-poses',
+      'px-dragon-wing-stroke',
+      'px-slime-squash-stretch',
+      'px-modular-robot-loadout',
+      'px-directional-archer-draw',
+    ],
+    load: () => import('./pixelart/PixelSpritesExpansionDemos').then(module => module.PIXEL_SPRITES_EXPANSION_DEMOS),
+  },
+  {
+    ids: [
+      'px-snow-village-accumulation',
+      'px-aurora-tundra-bands',
+      'px-underwater-ruin-caustics',
+      'px-windmill-wheat-breeze',
+      'px-lava-channel-flow',
+      'px-forest-canopy-shafts',
+    ],
+    load: () => import('./pixelart/PixelEnvironmentsExpansionDemos').then(module => module.PIXEL_ENVIRONMENTS_EXPANSION_DEMOS),
+  },
+  {
+    ids: [
+      'px-dual-grid-shore-corners',
+      'px-wang-edge-color-tiles',
+      'px-seeded-brick-variants',
+      'px-nine-slice-pixel-frame',
+      'px-conveyor-elbow-orientation',
+      'px-one-way-platform-collision',
+    ],
+    load: () => import('./pixelart/PixelTilesExpansionDemos').then(module => module.PIXEL_TILES_EXPANSION_DEMOS),
+  },
+  {
+    ids: [
+      'px-quest-tracker-states',
+      'px-radial-spell-hotbar-cooldown',
+      'px-turn-order-timeline',
+      'px-branching-dialogue-choices',
+      'px-equipment-stat-comparison',
+      'px-collectible-badge-grid',
+    ],
+    load: () => import('./pixelart/PixelGameUiExpansionDemos').then(module => module.PIXEL_GAME_UI_EXPANSION_DEMOS),
+  },
+  {
+    ids: [
+      'px-teleport-dissolve-reform',
+      'px-stepped-lightning-chain',
+      'px-directional-crt-glitch',
+      'px-ground-shockwave-rings',
+      'px-ice-freeze-thaw-spread',
+      'px-pixel-portal-swirl',
+    ],
+    load: () => import('./pixelart/PixelEffectsExpansionDemos').then(module => module.PIXEL_EFFECTS_EXPANSION_DEMOS),
+  },
 ];
 
 export const DEMO_LOADERS = new Map<string, DemoLoader>(

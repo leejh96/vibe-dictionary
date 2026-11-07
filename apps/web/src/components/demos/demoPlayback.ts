@@ -292,6 +292,16 @@ export const DEMO_PLAYBACK_GROUPS = {
     'px-autotile-terrain-bitmask', 'px-dither-gradient-ramp', 'px-seamless-pattern-repeat', 'px-palette-swap-texture',
     'px-hud-health-shield-bar', 'px-inventory-grid-selector', 'px-rpg-dialog-typewriter', 'px-minimap-radar',
     'px-integer-grid-explosion', 'px-slash-afterimage-trail', 'px-sparkle-gemstone-shine', 'px-mosaic-pixel-wipe-transition',
+    'px-blacksmith-hammer-strike', 'px-jump-arc-poses', 'px-dragon-wing-stroke', 'px-slime-squash-stretch',
+    'px-modular-robot-loadout', 'px-directional-archer-draw',
+    'px-snow-village-accumulation', 'px-aurora-tundra-bands', 'px-underwater-ruin-caustics', 'px-windmill-wheat-breeze',
+    'px-lava-channel-flow', 'px-forest-canopy-shafts',
+    'px-dual-grid-shore-corners', 'px-wang-edge-color-tiles', 'px-seeded-brick-variants', 'px-nine-slice-pixel-frame',
+    'px-conveyor-elbow-orientation', 'px-one-way-platform-collision',
+    'px-quest-tracker-states', 'px-radial-spell-hotbar-cooldown', 'px-turn-order-timeline', 'px-branching-dialogue-choices',
+    'px-equipment-stat-comparison', 'px-collectible-badge-grid',
+    'px-teleport-dissolve-reform', 'px-stepped-lightning-chain', 'px-directional-crt-glitch', 'px-ground-shockwave-rings',
+    'px-ice-freeze-thaw-spread', 'px-pixel-portal-swirl',
   ],
   static: [
     // Collection expansion: five per category.
