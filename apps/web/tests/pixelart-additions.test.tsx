@@ -7,19 +7,19 @@ import { InteractiveDemo } from '../src/components/demos/InteractiveDemos';
 import { PIXELART_DEMOS } from '../src/components/demos/pixelart';
 import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
 
-test('pixel art catalog registers exactly 20 techniques evenly divided across 5 categories', () => {
+test('pixel art catalog registers exactly 50 techniques evenly divided across 5 categories', () => {
   const pixelTechniques = TECHNIQUES.filter((item) => item.domain === 'pixelart');
-  assert.equal(pixelTechniques.length, 20);
+  assert.equal(pixelTechniques.length, 50);
 
   const categories = ['sprites', 'environments', 'tiles', 'game_ui', 'effects'] as const;
   for (const cat of categories) {
     const items = pixelTechniques.filter((item) => item.category === cat);
-    assert.equal(items.length, 4, `category ${cat} must have exactly 4 techniques`);
+    assert.equal(items.length, 10, `category ${cat} must have exactly 10 techniques`);
   }
 
-  // All 20 IDs must be present in PIXELART_DEMOS including px-minimap-radar
+  // All 50 IDs must be present in PIXELART_DEMOS including px-minimap-radar
   const demoIds = Object.keys(PIXELART_DEMOS);
-  assert.equal(demoIds.length, 20);
+  assert.equal(demoIds.length, 50);
   assert.ok(demoIds.includes('px-minimap-radar'), 'px-minimap-radar must be registered');
   assert.ok(!demoIds.includes('px-minimap-radar-radar'), 'px-minimap-radar-radar must not exist');
   assert.deepEqual(pixelTechniques.map((item) => item.id).sort(), demoIds.sort());
@@ -49,7 +49,7 @@ test('pixel art demos render via InteractiveDemo and switch languages cleanly', 
 
   const imgSvgs = tree.root.findAllByType('svg').filter(svg => svg.props.role === 'img');
   const groupSvgs = tree.root.findAllByType('svg').filter(svg => svg.props.role === 'group');
-  assert.equal(imgSvgs.length, 17, 'Non-interactive pixel art SVGs must expose role=img');
+  assert.equal(imgSvgs.length, 47, 'Non-interactive pixel art SVGs must expose role=img');
   assert.equal(groupSvgs.length, 2, 'Interactive SVGs (autotile & inventory) must expose accessible role=group');
   const svgs = [...imgSvgs, ...groupSvgs];
   const dialogSpeaker = tree.root.findByProps({ className: 'px-dialog-speaker' });
@@ -569,6 +569,622 @@ test('interactive pixel art controls update actual states, visuals and accessibi
       assert.equal(buttons[2].props['aria-pressed'], false);
       assert.equal(buttons[3].props['aria-pressed'], false);
       act(() => tree.unmount());
+    }
+  }
+});
+
+test('pixel art expansion demos enforce time-bounded lifecycles, unique SVG masks/clips, and interactive state updates', () => {
+  // 1. Instance-unique SVG mask & clipPath isolation across multiple mounted instances
+  {
+    let tree!: ReturnType<typeof create>;
+    act(() => {
+      tree = create(
+        <LocaleProvider initialLocale="ko">
+          <InteractiveDemo techniqueId="px-teleport-dissolve-reform" />
+          <InteractiveDemo techniqueId="px-teleport-dissolve-reform" />
+          <InteractiveDemo techniqueId="px-radial-spell-hotbar-cooldown" />
+          <InteractiveDemo techniqueId="px-radial-spell-hotbar-cooldown" />
+          <InteractiveDemo techniqueId="px-directional-crt-glitch" />
+          <InteractiveDemo techniqueId="px-directional-crt-glitch" />
+        </LocaleProvider>
+      );
+    });
+
+    const maskIds = tree.root.findAllByType('mask').map((m) => m.props.id as string);
+    assert.equal(maskIds.length, 4, 'Two teleport instances must create 4 mask elements');
+    assert.equal(new Set(maskIds).size, 4, 'Every teleport mask ID must be instance-unique');
+
+    const clipIds = tree.root.findAllByType('clipPath').map((c) => c.props.id as string);
+    assert.equal(new Set(clipIds).size, clipIds.length, 'Every hotbar and CRT glitch clipPath ID must be instance-unique');
+    act(() => tree.unmount());
+  }
+
+  // 2. Time-bounded one-shot animations (teleport 0->8, shockwave 0->6, portal 0->8, radial cooldown 100->0, ice freeze/thaw)
+  {
+    const origSetInterval = globalThis.setInterval;
+    const origClearInterval = globalThis.clearInterval;
+    const activeTimers = new Map<number, () => void>();
+    let nextTimerId = 1;
+
+    globalThis.setInterval = ((cb: () => void) => {
+      const id = nextTimerId++;
+      activeTimers.set(id, cb);
+      return id as unknown as ReturnType<typeof setInterval>;
+    }) as typeof setInterval;
+    globalThis.clearInterval = ((id: ReturnType<typeof setInterval>) => {
+      activeTimers.delete(id as unknown as number);
+    }) as typeof clearInterval;
+
+    try {
+      // Teleport dissolve/reform: trigger warp runs 0 -> 8 and stops
+      let tpTree!: ReturnType<typeof create>;
+      act(() => {
+        tpTree = create(
+          <LocaleProvider initialLocale="ko">
+            <InteractiveDemo techniqueId="px-teleport-dissolve-reform" />
+          </LocaleProvider>
+        );
+      });
+      assert.equal(activeTimers.size, 0, 'Teleport starts idle at phase 3');
+      const tpTriggerBtn = tpTree.root.findAllByType('button')[0]!;
+      act(() => tpTriggerBtn.props.onClick());
+      assert.equal(activeTimers.size, 1, 'Warp trigger starts exactly one timer');
+      // Rapid replay does not leak overlapping timers
+      act(() => tpTriggerBtn.props.onClick());
+      assert.equal(activeTimers.size, 1, 'Rapid replay preserves single active timer');
+
+      for (let step = 0; step < 10; step++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      const tpSlider = tpTree.root.findByType('input');
+      assert.equal(tpSlider.props.value, 8, 'Teleport stops at terminal phase 8');
+      assert.equal(activeTimers.size, 0, 'Teleport timer cleans up automatically at terminal phase 8');
+      act(() => tpTree.unmount());
+
+      // Portal swirl: lifecycle runs 0 -> 8 and stops
+      let portalTree!: ReturnType<typeof create>;
+      act(() => {
+        portalTree = create(
+          <LocaleProvider initialLocale="ko">
+            <InteractiveDemo techniqueId="px-pixel-portal-swirl" />
+          </LocaleProvider>
+        );
+      });
+      const portalBtn = portalTree.root.findAllByType('button')[0]!;
+      act(() => portalBtn.props.onClick());
+      for (let step = 0; step < 10; step++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      assert.equal(portalTree.root.findByType('input').props.value, 8, 'Portal stops at collapsed stage 8');
+      assert.equal(activeTimers.size, 0, 'Portal timer stops at stage 8');
+      act(() => portalTree.unmount());
+
+      // Radial hotbar cooldown: cast sweep runs 100 -> 0 and stops
+      let hotbarTree!: ReturnType<typeof create>;
+      act(() => {
+        hotbarTree = create(
+          <LocaleProvider initialLocale="ko">
+            <InteractiveDemo techniqueId="px-radial-spell-hotbar-cooldown" />
+          </LocaleProvider>
+        );
+      });
+      const castBtn = hotbarTree.root.findAllByType('button')[0]!;
+      act(() => castBtn.props.onClick());
+      assert.equal(hotbarTree.root.findByType('input').props.value, 100);
+      for (let step = 0; step < 12; step++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      assert.equal(hotbarTree.root.findByType('input').props.value, 0, 'Cooldown sweep stops at 0%');
+      assert.equal(activeTimers.size, 0, 'Cooldown timer cleans up at 0%');
+      act(() => hotbarTree.unmount());
+
+      // Ice freeze/thaw spread: freeze advances to 5 and stops, thaw recedes to 0 and stops
+      let iceTree!: ReturnType<typeof create>;
+      act(() => {
+        iceTree = create(
+          <LocaleProvider initialLocale="ko">
+            <InteractiveDemo techniqueId="px-ice-freeze-thaw-spread" />
+          </LocaleProvider>
+        );
+      });
+      const [freezeBtn, thawBtn] = iceTree.root.findAllByType('button');
+      act(() => freezeBtn!.props.onClick());
+      for (let step = 0; step < 5; step++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      assert.equal(iceTree.root.findByType('input').props.value, 5, 'Freeze spread reaches radius 5 and stops');
+      assert.equal(activeTimers.size, 0);
+
+      act(() => thawBtn!.props.onClick());
+      for (let step = 0; step < 6; step++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      assert.equal(iceTree.root.findByType('input').props.value, 0, 'Thaw sweep recedes to radius 0 and stops');
+      assert.equal(activeTimers.size, 0);
+      act(() => iceTree.unmount());
+    } finally {
+      globalThis.setInterval = origSetInterval;
+      globalThis.clearInterval = origClearInterval;
+    }
+  }
+
+  // 3. Interactive controls in sprites, tiles, and game_ui expansion demos
+  {
+    let tree!: ReturnType<typeof create>;
+    act(() => {
+      tree = create(
+        <LocaleProvider initialLocale="ko">
+          <InteractiveDemo techniqueId="px-quest-tracker-states" />
+        </LocaleProvider>
+      );
+    });
+    const questButtons = tree.root.findAllByType('button');
+    // Initially 2/3 objectives complete ([true, true, false])
+    assert.equal(questButtons[0]!.props['aria-pressed'], true);
+    assert.equal(questButtons[1]!.props['aria-pressed'], true);
+    assert.equal(questButtons[2]!.props['aria-pressed'], false);
+
+    // Complete 3rd objective -> 3/3 QUEST CLEAR!
+    act(() => questButtons[2]!.props.onClick());
+    assert.equal(questButtons[2]!.props['aria-pressed'], true);
+    const texts = tree.root.findAllByType('text').map((n) => n.children.join(''));
+    assert.ok(texts.includes('3/3'), 'Quest header must update to 3/3');
+    assert.ok(texts.includes('QUEST CLEAR!'), 'Quest reward banner must unlock on 3/3');
+
+    // Reset button restores 2/3 state
+    act(() => questButtons[4]!.props.onClick());
+    assert.equal(questButtons[2]!.props['aria-pressed'], false);
+    act(() => tree.unmount());
+  }
+
+  // 4. Layout contract: all 22 sliders in the 30 expansion demos are wrapped inside <label class="px-slider-label">
+  //    and active buttons use px-btn-active (never legacy px-btn--active)
+  {
+    const expansionIds = [
+      'px-blacksmith-hammer-strike',
+      'px-jump-arc-poses',
+      'px-dragon-wing-stroke',
+      'px-slime-squash-stretch',
+      'px-modular-robot-loadout',
+      'px-directional-archer-draw',
+      'px-snow-village-accumulation',
+      'px-aurora-tundra-bands',
+      'px-underwater-ruin-caustics',
+      'px-windmill-wheat-breeze',
+      'px-lava-channel-flow',
+      'px-forest-canopy-shafts',
+      'px-dual-grid-shore-corners',
+      'px-wang-edge-color-tiles',
+      'px-seeded-brick-variants',
+      'px-nine-slice-pixel-frame',
+      'px-conveyor-elbow-orientation',
+      'px-one-way-platform-collision',
+      'px-quest-tracker-states',
+      'px-radial-spell-hotbar-cooldown',
+      'px-turn-order-timeline',
+      'px-branching-dialogue-choices',
+      'px-equipment-stat-comparison',
+      'px-collectible-badge-grid',
+      'px-teleport-dissolve-reform',
+      'px-stepped-lightning-chain',
+      'px-directional-crt-glitch',
+      'px-ground-shockwave-rings',
+      'px-ice-freeze-thaw-spread',
+      'px-pixel-portal-swirl',
+    ] as const;
+
+    let sliderCount = 0;
+    for (const id of expansionIds) {
+      let tree!: ReturnType<typeof create>;
+      act(() => {
+        tree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId={id} />
+          </LocaleProvider>
+        );
+      });
+
+      const buttons = tree.root.findAllByType('button');
+      for (const btn of buttons) {
+        const cls = String(btn.props.className ?? '');
+        assert.ok(!cls.includes('px-btn--active'), `${id} button must not use legacy px-btn--active`);
+      }
+
+      const inputs = tree.root.findAllByType('input');
+      for (const input of inputs) {
+        sliderCount++;
+        const parent = input.parent;
+        assert.ok(
+          parent && parent.type === 'label' && String(parent.props.className ?? '').includes('px-slider-label'),
+          `${id} slider input must be wrapped directly inside <label className="px-slider-label">`
+        );
+        const nameSpan = parent.findAll(
+          (n) => n.type === 'span' && String(n.props.className ?? '').includes('px-slider-name')
+        );
+        const valSpan = parent.findAll(
+          (n) => n.type === 'span' && String(n.props.className ?? '').includes('px-slider-val')
+        );
+        assert.equal(nameSpan.length, 1, `${id} slider label must include .px-slider-name`);
+        assert.equal(valSpan.length, 1, `${id} slider label must include .px-slider-val`);
+      }
+
+      act(() => tree.unmount());
+    }
+    assert.equal(sliderCount, 22, 'The 30 pixelart expansion demos must contain 22 sliders in total');
+  }
+
+  // 5. Observable behavior regressions (Windmill, Snow, Aurora, Archer, Shore, Bricks, Hotbar, Turn Order, Badges, Teleport, Ice, Portal)
+  {
+    const origSetInterval = globalThis.setInterval;
+    const origClearInterval = globalThis.clearInterval;
+    const activeTimers = new Map<number, () => void>();
+    let nextTimerId = 100;
+
+    globalThis.setInterval = ((cb: () => void) => {
+      const id = nextTimerId++;
+      activeTimers.set(id, cb);
+      return id as unknown as ReturnType<typeof setInterval>;
+    }) as typeof setInterval;
+    globalThis.clearInterval = ((id: ReturnType<typeof setInterval>) => {
+      activeTimers.delete(id as unknown as number);
+    }) as typeof clearInterval;
+
+    try {
+      // 5a. Windmill rotates at default wind=2 across 4 blade phases and stops timer at wind=0
+      let wmTree!: ReturnType<typeof create>;
+      act(() => {
+        wmTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-windmill-wheat-breeze" />
+          </LocaleProvider>
+        );
+      });
+      const getBladePhase = () =>
+        Number(
+          wmTree.root.find((n) => n.type === 'g' && n.props['data-blade-phase'] !== undefined).props[
+            'data-blade-phase'
+          ]
+        );
+      assert.equal(getBladePhase(), 0, 'Windmill starts at blade phase 0');
+      assert.equal(activeTimers.size, 1, 'Windmill runs timer at default wind=2');
+      act(() => {
+        for (const cb of [...activeTimers.values()]) cb();
+      });
+      assert.equal(getBladePhase(), 1, 'Windmill advances to blade phase 1 on tick at wind=2');
+      const wmSlider = wmTree.root.findByType('input');
+      act(() => wmSlider.props.onChange({ target: { value: '0' } }));
+      assert.equal(activeTimers.size, 0, 'Windmill stops interval timer when wind=0');
+      act(() => wmTree.unmount());
+
+      // 5b. Snow pauses timer when snowLevel=0 and batches flakes into a single path
+      let snowTree!: ReturnType<typeof create>;
+      act(() => {
+        snowTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-snow-village-accumulation" />
+          </LocaleProvider>
+        );
+      });
+      const flakePaths = snowTree.root.findAll((n) => n.type === 'path' && n.props['data-snow-count'] === 24);
+      assert.equal(flakePaths.length, 1, 'Snowflakes are batched into a single <path> with 24 flakes at level 2');
+      assert.equal(activeTimers.size, 1, 'Snow timer runs at initial snowLevel=2');
+      const snowSlider = snowTree.root.findByType('input');
+      act(() => snowSlider.props.onChange({ target: { value: '0' } }));
+      assert.equal(activeTimers.size, 0, 'Snow timer pauses when snowLevel=0');
+      act(() => snowTree.unmount());
+
+      // 5c. Archer visibly changes nocked arrow geometry across +45°, 0°, and -30°
+      let archerTree!: ReturnType<typeof create>;
+      act(() => {
+        archerTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-directional-archer-draw" />
+          </LocaleProvider>
+        );
+      });
+      const archerBtns = archerTree.root.findAllByType('button');
+      const getNockedArrowSignature = () => {
+        const g = archerTree.root.find((n) => n.type === 'g' && n.props['data-nocked-arrow'] !== undefined);
+        return JSON.stringify(g.findAllByType('rect').map((r) => [r.props.x, r.props.y, r.props.width, r.props.height]));
+      };
+      const sig0 = getNockedArrowSignature();
+      act(() => archerBtns[0]!.props.onClick()); // +45°
+      const sig45 = getNockedArrowSignature();
+      act(() => archerBtns[2]!.props.onClick()); // -30°
+      const sigNeg30 = getNockedArrowSignature();
+      assert.notEqual(sig0, sig45, 'Nocked arrow geometry must change between 0° and +45°');
+      assert.notEqual(sig0, sigNeg30, 'Nocked arrow geometry must change between 0° and -30°');
+      assert.notEqual(sig45, sigNeg30, 'Nocked arrow geometry must change between +45° and -30°');
+      act(() => archerTree.unmount());
+
+      // 5d. Dual-grid shore has zero yellow sand seams on all-land (mask 15) and renders saddle bridge on mask 5/10
+      let shoreTree!: ReturnType<typeof create>;
+      act(() => {
+        shoreTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-dual-grid-shore-corners" />
+          </LocaleProvider>
+        );
+      });
+      const mask15Tiles = shoreTree.root.findAll((n) => n.type === 'g' && n.props['data-shore-mask'] === 15);
+      assert.ok(mask15Tiles.length > 0, 'Bay preset must include all-land (mask 15) tiles');
+      for (const tile of mask15Tiles) {
+        const sandRects = tile.findAll((n) => n.type === 'rect' && n.props.fill === '#fde047');
+        assert.equal(sandRects.length, 0, 'All-land dual-grid tile (mask 15) must have zero yellow sand seams');
+      }
+      const shoreBtns = shoreTree.root.findAllByType('button');
+      act(() => shoreBtns[1]!.props.onClick()); // Saddle preset
+      const saddleTiles = shoreTree.root.findAll(
+        (n) => n.type === 'g' && (n.props['data-shore-mask'] === 5 || n.props['data-shore-mask'] === 10)
+      );
+      assert.ok(saddleTiles.length > 0, 'Saddle preset must render diagonal saddle mask tiles');
+      act(() => shoreTree.unmount());
+
+      // 5e. Seeded brick variants visibly change spatial distribution across seeds 1, 2, and 3
+      let brickTree!: ReturnType<typeof create>;
+      act(() => {
+        brickTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-seeded-brick-variants" />
+          </LocaleProvider>
+        );
+      });
+      const brickBtns = brickTree.root.findAllByType('button');
+      const getBrickSignature = () =>
+        brickTree.root
+          .findAll((n) => n.type === 'g' && n.props['data-brick-variant'] !== undefined)
+          .map((n) => n.props['data-brick-variant'])
+          .join(',');
+      const seed1Sig = getBrickSignature();
+      act(() => brickBtns[1]!.props.onClick()); // Seed #2
+      const seed2Sig = getBrickSignature();
+      act(() => brickBtns[2]!.props.onClick()); // Seed #3
+      const seed3Sig = getBrickSignature();
+      assert.notEqual(seed1Sig, seed2Sig, 'Seed 1 and Seed 2 must produce distinct brick variant layouts');
+      assert.notEqual(seed2Sig, seed3Sig, 'Seed 2 and Seed 3 must produce distinct brick variant layouts');
+      act(() => brickBtns[0]!.props.onClick()); // Back to Seed #1
+      assert.equal(getBrickSignature(), seed1Sig, 'Identical seed and density must reproduce identical brick layout');
+      act(() => brickTree.unmount());
+
+      // 5f. Hotbar preserves per-slot cooldown & independent scheduler progression across repeated recasts on another slot
+      let hbTree!: ReturnType<typeof create>;
+      act(() => {
+        hbTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-radial-spell-hotbar-cooldown" />
+          </LocaleProvider>
+        );
+      });
+      const glyphs = hbTree.root
+        .findAll((n) => n.type === 'g' && n.props['data-spell-glyph'] !== undefined)
+        .map((n) => n.props['data-spell-glyph']);
+      assert.deepEqual(glyphs, ['fireball', 'frost-lance', 'arcane-nova', 'thunder-strike']);
+      const [hbCastBtn, hbSlotBtn] = hbTree.root.findAllByType('button');
+      const hbSlider = hbTree.root.findByType('input');
+      const getSlotCooldown = (key: string) =>
+        hbTree.root.find((n) => n.type === 'g' && n.props['data-slot-key'] === key).props['data-slot-cooldown'];
+      // Initially slot W (index 1) is 60%
+      assert.equal(hbSlider.props.value, 60);
+      // Start cast on W -> W=100% and running
+      act(() => hbCastBtn!.props.onClick());
+      assert.equal(hbSlider.props.value, 100);
+      assert.equal(activeTimers.size, 1, 'Hotbar must use a single shared interval timer');
+      const initialTimerKey = [...activeTimers.keys()][0];
+      // Switch to slot E (index 2) -> slider shows E's 30% cooldown while W continues ticking
+      act(() => hbSlotBtn!.props.onClick());
+      assert.equal(hbSlider.props.value, 30, 'Switching to slot E must show E cooldown (30%), not migrate W cooldown');
+      // Repeatedly cast E (9 clicks) with intervening simulated ticks: E restarts to 100% while W keeps progressing
+      for (let click = 1; click <= 9; click++) {
+        act(() => hbCastBtn!.props.onClick());
+        assert.equal(activeTimers.size, 1, 'Recasting E must preserve the single interval without creating extra timers');
+        assert.equal([...activeTimers.keys()][0], initialTimerKey, 'Recasting E must not tear down/restart the shared interval');
+        assert.equal(getSlotCooldown('E'), 100, 'Recasting E resets slot E to 100%');
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+        assert.equal(getSlotCooldown('W'), 100 - click * 10, `Slot W must progress to ${100 - click * 10}% after tick ${click}`);
+        assert.equal(getSlotCooldown('E'), 90, 'Slot E ticks down to 90% on the shared interval');
+      }
+      // After 9 ticks W is at 10% and E is at 90%; one more tick finishes W (0%) while E reaches 80%
+      act(() => {
+        for (const cb of [...activeTimers.values()]) cb();
+      });
+      assert.equal(getSlotCooldown('W'), 0, 'Slot W reaches 0% after 10 ticks');
+      assert.equal(getSlotCooldown('E'), 80, 'Slot E continues at 80% after W finishes');
+      assert.equal(activeTimers.size, 1, 'Shared interval stays active while E is still running');
+      // Finish remaining 8 ticks for E -> both W and E are at 0% and timer cleans up
+      for (let i = 0; i < 8; i++) {
+        act(() => {
+          for (const cb of [...activeTimers.values()]) cb();
+        });
+      }
+      assert.equal(getSlotCooldown('W'), 0);
+      assert.equal(getSlotCooldown('E'), 0);
+      assert.equal(activeTimers.size, 0, 'Shared interval must stop when both W and E finish');
+      act(() => hbTree.unmount());
+
+      // 5g. Turn order timeline keeps one displayed queue as source of truth across Next Turn rotations and Haste reprioritization
+      let turnTree!: ReturnType<typeof create>;
+      act(() => {
+        turnTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-turn-order-timeline" />
+          </LocaleProvider>
+        );
+      });
+      const [nextTurnBtn, hasteBtn, resetTurnBtn] = turnTree.root.findAllByType('button');
+      const getQueueOrder = () =>
+        turnTree.root
+          .findAll((n) => n.type === 'g' && n.props['data-unit-id'] !== undefined)
+          .map((n) => n.props['data-unit-id']);
+      assert.deepEqual(getQueueOrder(), ['rogue', 'hero', 'mage', 'boss']);
+      // Two normal Next actions: each rotates the displayed queue and activates the unit that was shown second
+      act(() => nextTurnBtn!.props.onClick());
+      assert.deepEqual(getQueueOrder(), ['hero', 'mage', 'boss', 'rogue']);
+      act(() => nextTurnBtn!.props.onClick());
+      assert.deepEqual(getQueueOrder(), ['mage', 'boss', 'rogue', 'hero']);
+      // Reset; click Mage Haste -> active unit (rogue) stays stable at #1, waiting part reprioritizes mage to #2
+      act(() => resetTurnBtn!.props.onClick());
+      assert.deepEqual(getQueueOrder(), ['rogue', 'hero', 'mage', 'boss']);
+      act(() => hasteBtn!.props.onClick());
+      assert.deepEqual(getQueueOrder(), ['rogue', 'mage', 'hero', 'boss']);
+      // Click Next -> activates mage (the unit that was shown second) and moves rogue to the tail
+      act(() => nextTurnBtn!.props.onClick());
+      assert.deepEqual(getQueueOrder(), ['mage', 'hero', 'boss', 'rogue']);
+      act(() => turnTree.unmount());
+
+      // 5h. Collectible badges render 6 distinct glyphs and padlock silhouettes (no '?' text)
+      let badgeTree!: ReturnType<typeof create>;
+      act(() => {
+        badgeTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-collectible-badge-grid" />
+          </LocaleProvider>
+        );
+      });
+      const padlocks = badgeTree.root.findAll((n) => n.type === 'g' && n.props['data-badge-lock'] === 'padlock');
+      assert.equal(padlocks.length, 2, 'Initial 4/6 badge grid must render 2 padlock silhouettes');
+      const badgeTexts = badgeTree.root.findAllByType('text').map((t) => t.children.join(''));
+      assert.ok(!badgeTexts.includes('?'), 'Locked badges must use padlock silhouettes rather than ? text');
+      const unlockAllBtn = badgeTree.root.findAllByType('button')[2]!;
+      act(() => unlockAllBtn.props.onClick());
+      const badgeGlyphs = badgeTree.root
+        .findAll((n) => n.type === 'g' && n.props['data-badge-glyph'] !== undefined)
+        .map((n) => n.props['data-badge-glyph']);
+      assert.deepEqual(badgeGlyphs.slice(0, 6), ['flame', 'trident', 'wing', 'shield', 'star', 'crown']);
+      act(() => badgeTree.unmount());
+
+      // 5i. Teleport shows Pad A only at 0..3, neither body at 4, Pad B only at 5..8
+      let tpCheckTree!: ReturnType<typeof create>;
+      act(() => {
+        tpCheckTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-teleport-dissolve-reform" />
+          </LocaleProvider>
+        );
+      });
+      const getBodies = () =>
+        tpCheckTree.root
+          .findAll((n) => n.type === 'g' && n.props['data-pad-sprite'] !== undefined)
+          .map((n) => n.props['data-pad-sprite']);
+      // Initial phase 3 -> Pad A only
+      assert.deepEqual(getBodies(), ['A'], 'At phase 3, character must only appear on Pad A');
+      const tpPhaseSlider = tpCheckTree.root.findByType('input');
+      act(() => tpPhaseSlider.props.onChange({ target: { value: '4' } }));
+      assert.deepEqual(getBodies(), [], 'At phase 4, neither pad renders the character body');
+      act(() => tpPhaseSlider.props.onChange({ target: { value: '5' } }));
+      assert.deepEqual(getBodies(), ['B'], 'At phase 5, character must only appear on Pad B');
+      act(() => tpCheckTree.unmount());
+
+      // 5j. Ice frost renders center stone fountain and Portal renders 4 spiral arms + 8 archway runes
+      let iceCheckTree!: ReturnType<typeof create>;
+      let portalCheckTree!: ReturnType<typeof create>;
+      act(() => {
+        iceCheckTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-ice-freeze-thaw-spread" />
+          </LocaleProvider>
+        );
+        portalCheckTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-pixel-portal-swirl" />
+          </LocaleProvider>
+        );
+      });
+      const fountains = iceCheckTree.root.findAll((n) => n.type === 'g' && n.props['data-ice-fountain'] === 'center');
+      assert.equal(fountains.length, 1, 'Ice demo must render central stone fountain');
+      const spiralArms = portalCheckTree.root.findAll((n) => n.type === 'path' && n.props['data-portal-arm'] !== undefined);
+      assert.equal(spiralArms.length, 4, 'Portal demo must render 4 stepped spiral arms when open');
+      const runes = portalCheckTree.root.findAll((n) => n.type === 'rect' && n.props['data-portal-rune'] !== undefined);
+      assert.equal(runes.length, 8, 'Portal demo must render 8 archway rune indicators');
+      const litRunes = runes.filter((r) => r.props['data-rune-lit'] === 'true');
+      assert.equal(litRunes.length, 6, 'At initial step 2, 6 of 8 archway runes must be lit');
+      act(() => {
+        iceCheckTree.unmount();
+        portalCheckTree.unmount();
+      });
+
+      // 5k. Rapid one-shot replay refreshes timer & resets to frame 0; manual scrub cancels running one-shot
+      let shockTree!: ReturnType<typeof create>;
+      act(() => {
+        shockTree = create(
+          <LocaleProvider initialLocale="en">
+            <InteractiveDemo techniqueId="px-ground-shockwave-rings" />
+          </LocaleProvider>
+        );
+      });
+      const slamBtn = shockTree.root.findAllByType('button')[0]!;
+      const shockSlider = shockTree.root.findByType('input');
+      act(() => slamBtn.props.onClick());
+      assert.equal(shockSlider.props.value, 0, 'Slam starts at frame 0');
+      const firstTimerId = [...activeTimers.keys()][0]!;
+      act(() => {
+        for (const cb of [...activeTimers.values()]) cb();
+      });
+      assert.equal(shockSlider.props.value, 1, 'After 1 tick, shockwave is at frame 1');
+      // Rapid replay midway resets frame to 0 and schedules a fresh interval timer (so frame 0 gets full interval)
+      act(() => slamBtn.props.onClick());
+      assert.equal(shockSlider.props.value, 0, 'Rapid replay resets shockwave to frame 0');
+      assert.equal(activeTimers.size, 1, 'Still exactly one active timer after rapid replay');
+      const secondTimerId = [...activeTimers.keys()][0]!;
+      assert.notEqual(secondTimerId, firstTimerId, 'Rapid replay must refresh the interval timer');
+      // Manual slider scrub cancels the running one-shot
+      act(() => shockSlider.props.onChange({ target: { value: '4' } }));
+      assert.equal(shockSlider.props.value, 4);
+      assert.equal(activeTimers.size, 0, 'Manual slider scrub cancels running one-shot timer');
+      act(() => shockTree.unmount());
+
+      // 5l. Viewport IntersectionObserver gating pauses timer on exit and resumes on re-entry
+      const origIO = globalThis.IntersectionObserver;
+      let ioCallback: ((entries: Array<{ isIntersecting: boolean }>) => void) | null = null;
+      globalThis.IntersectionObserver = class MockIO {
+        constructor(cb: (entries: Array<{ isIntersecting: boolean }>) => void) {
+          ioCallback = cb;
+        }
+        observe() {}
+        disconnect() {}
+      } as unknown as typeof IntersectionObserver;
+
+      try {
+        let smithTree!: ReturnType<typeof create>;
+        act(() => {
+          smithTree = create(
+            <LocaleProvider initialLocale="en">
+              <InteractiveDemo techniqueId="px-blacksmith-hammer-strike" />
+            </LocaleProvider>,
+            {
+              createNodeMock: (element) => (element.type === 'div' ? {} : null),
+            }
+          );
+        });
+        assert.equal(activeTimers.size, 1, 'Blacksmith loop timer runs while visible');
+        assert.ok(ioCallback !== null, 'IntersectionObserver must observe containerRef');
+        act(() => {
+          ioCallback!([{ isIntersecting: false }]);
+        });
+        assert.equal(activeTimers.size, 0, 'Viewport exit clears running interval timer');
+        act(() => {
+          ioCallback!([{ isIntersecting: true }]);
+        });
+        assert.equal(activeTimers.size, 1, 'Viewport re-entry resumes interval timer');
+        act(() => smithTree.unmount());
+        assert.equal(activeTimers.size, 0, 'Unmount cleans up interval timer');
+      } finally {
+        globalThis.IntersectionObserver = origIO;
+      }
+    } finally {
+      globalThis.setInterval = origSetInterval;
+      globalThis.clearInterval = origClearInterval;
     }
   }
 });

@@ -177,13 +177,15 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
 
   await t.test('pixel art domain and category filters are accepted by the stdio server', async () => {
     const pixelArt = await call('search_techniques', { domain: 'pixelart', locale: 'en' });
-    assert.equal(pixelArt.total, 20);
-    assert.equal(pixelArt.nextOffset, null);
+    assert.equal(pixelArt.total, 50);
+    assert.equal(pixelArt.items.length, 20);
+    assert.equal(pixelArt.nextOffset, 20);
 
     for (const category of ['sprites', 'environments', 'tiles', 'game_ui', 'effects']) {
       const filtered = await call('search_techniques', { domain: 'pixelart', category, locale: 'en' });
       const expected = TECHNIQUES.filter((item) => item.domain === 'pixelart' && item.category === category);
-      assert.equal(filtered.total, 4);
+      assert.equal(filtered.total, 10);
+      assert.equal(filtered.nextOffset, null);
       assert.deepEqual(filtered.items.map((item: { id: string }) => item.id), expected.map(({ id }) => id));
     }
   });

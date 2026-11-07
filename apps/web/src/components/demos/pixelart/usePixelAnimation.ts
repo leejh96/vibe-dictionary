@@ -11,7 +11,8 @@ import { useDemoAutoplayRunning } from '../../../hooks/useDemoAutoplay';
 export function usePixelAnimation(
   onTick: () => void,
   intervalMs: number | null,
-  containerRef: RefObject<HTMLElement | null>
+  containerRef: RefObject<HTMLElement | null>,
+  resetKey: number | string = 0
 ) {
   const [isVisible, setIsVisible] = useState(true);
   const isAllowed = useDemoAutoplayRunning();
@@ -29,7 +30,9 @@ export function usePixelAnimation(
       setIsVisible(entries.some((e) => e.isIntersecting));
     });
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [containerRef]);
 
   const canRun = isAllowed && isVisible && intervalMs !== null && intervalMs > 0;
@@ -40,5 +43,7 @@ export function usePixelAnimation(
       tickRef.current();
     }, intervalMs);
     return () => clearInterval(timer);
-  }, [canRun, intervalMs]);
+  }, [canRun, intervalMs, resetKey]);
+
+  return isAllowed;
 }

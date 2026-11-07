@@ -36,6 +36,7 @@ import { KINETIC_AD_ADDITIONS } from './additions/kinetic_ad';
 import { INFOGRAPHIC_ADDITIONS } from './additions/infographic';
 import { BROADCAST_ADDITIONS } from './additions/broadcast';
 import { PIXELART_ADDITIONS } from './additions/pixelart';
+import { PIXELART_EXPANSION_ADDITIONS } from './additions/pixelart-expansion';
 
 export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video';
 
@@ -192,6 +193,7 @@ export const TECHNIQUES: TechniqueItem[] = [
   ...TACTILE_ADDITIONS,
   ...RETRO_ADDITIONS,
   ...PIXELART_ADDITIONS,
+  ...PIXELART_EXPANSION_ADDITIONS,
   ...SCIFI_ADDITIONS,
   ...PROMO_ADDITIONS,
   ...KINETIC_AD_ADDITIONS,
