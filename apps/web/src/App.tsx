@@ -6,6 +6,7 @@ import {
   Film,
   LayoutGrid,
   Palette,
+  Gamepad2,
   Clapperboard,
   ArrowUpToLine,
   ArrowDownToLine,
@@ -145,6 +146,7 @@ export default function App() {
       motion: TECHNIQUES.filter((t) => t.domain === 'motion').length,
       layout: TECHNIQUES.filter((t) => t.domain === 'layout').length,
       style: TECHNIQUES.filter((t) => t.domain === 'style').length,
+      pixelart: TECHNIQUES.filter((t) => t.domain === 'pixelart').length,
       video: TECHNIQUES.filter((t) => t.domain === 'video').length,
     }),
     []
@@ -383,7 +385,7 @@ export default function App() {
   /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
   const otherDomainMatches = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'video'];
+    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'pixelart', 'video'];
     return domainIds
       .filter((id) => id !== activeDomain)
       .map((id) => ({
@@ -407,10 +409,11 @@ export default function App() {
     { id: 'motion', label: DOMAIN_NAMES[locale].motion, count: counts.motion, icon: <Film className="w-3.5 h-3.5" /> },
     { id: 'layout', label: DOMAIN_NAMES[locale].layout, count: counts.layout, icon: <LayoutGrid className="w-3.5 h-3.5" /> },
     { id: 'style', label: DOMAIN_NAMES[locale].style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
+    { id: 'pixelart', label: DOMAIN_NAMES[locale].pixelart, count: counts.pixelart, icon: <Gamepad2 className="w-3.5 h-3.5" /> },
     { id: 'video', label: DOMAIN_NAMES[locale].video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
   ];
 
-  /* 5대 대분류 도메인 탭 렌더러 (데스크탑 및 모바일/태블릿 반응형 공유) */
+  /* 6대 도메인 탭 렌더러 (데스크탑 단일 행 및 모바일 2~3열 그리드 공유) */
   const renderDomainTabs = (className?: string, hidden = false) => (
     <div
       aria-hidden={hidden || undefined}
@@ -423,16 +426,19 @@ export default function App() {
             key={tab.id}
             type="button"
             onClick={() => handleDomainSwitch(tab.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer ${
+            aria-pressed={isActive}
+            className={`flex items-center justify-between sm:justify-start gap-1 sm:gap-1.5 px-2 min-[360px]:px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] min-[360px]:text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer min-w-0 ${
               isActive
                 ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/30'
                 : 'text-slate-600 dark:text-slate-400 hover:text-indigo-700 dark:hover:text-slate-200'
             }`}
           >
-            {tab.icon}
-            <span>{tab.label}</span>
+            <span className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+              {tab.icon}
+              <span>{tab.label}</span>
+            </span>
             <span
-              className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+              className={`text-[10px] px-1 sm:px-1.5 py-0.5 rounded-full shrink-0 ${
                 isActive
                   ? 'bg-indigo-800/80 text-indigo-100'
                   : 'bg-white/90 dark:bg-slate-800 text-indigo-600 dark:text-slate-400 border border-indigo-100/80 dark:border-transparent'
@@ -458,7 +464,7 @@ export default function App() {
         <div className="absolute top-8 left-1/2 -translate-x-1/2 w-80 h-48 rounded-full bg-fuchsia-200/30 blur-3xl" />
       </div>
 
-      {/* 상단 헤더 + 5대 대분류 도메인 스위처 */}
+      {/* 상단 헤더 + 6대 도메인 스위처 */}
       <header ref={headerRef} className="border-b border-indigo-100/90 dark:border-slate-900 bg-white/85 dark:bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md shadow-xs shadow-indigo-500/4 dark:shadow-none transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5">
           {/* 로고·분류 탐색과 우측 언어/조합기 도구 영역 */}
@@ -475,8 +481,8 @@ export default function App() {
               <span className="text-[12px] min-[360px]:text-sm sm:text-base font-black tracking-tight whitespace-nowrap text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{t("app.name")}</span>
             </button>
 
-            {/* [데스크탑 전용 (xl 이상)]: 5대 대분류 탭 (단일 행 중앙/우측 배치) */}
-            {renderDomainTabs(`hidden xl:flex shrink-0 ${dictionarySection === 'knowledge' ? 'invisible' : ''}`, dictionarySection === 'knowledge')}
+            {/* [데스크탑 전용 (xl 이상)]: 6대 도메인 탭 (단일 행 중앙/우측 배치) */}
+            {renderDomainTabs(`hidden xl:flex xl:flex-row gap-1 shrink-0 ${dictionarySection === 'knowledge' ? 'invisible' : ''}`, dictionarySection === 'knowledge')}
 
             <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-3">
               <LanguageSwitcher />
@@ -505,7 +511,7 @@ export default function App() {
         <DictionaryNavigation selected={dictionarySection} onSelect={handleDictionarySectionChange} headerHeight={headerHeight} />
         <main ref={mainRef} className="min-w-0 flex-1 space-y-5">
         {dictionarySection === 'design' && <>
-        {renderDomainTabs('flex xl:hidden overflow-x-auto scrollbar-none')}
+        {renderDomainTabs('grid grid-cols-2 min-[440px]:grid-cols-3 sm:flex sm:overflow-x-auto xl:hidden gap-1')}
         <FilterBar
           activeDomain={activeDomain}
           searchQuery={searchQuery}

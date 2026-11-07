@@ -286,6 +286,12 @@ export const DEMO_PLAYBACK_GROUPS = {
     'rolling-label-button', 'outline-trace-button', 'icon-expand-button',
     'split-action-button', 'magnetic-hover', 'ripple-click',
     'liquid-slide-fill',
+    // pixel art
+    'px-sprite-walk-cycle', 'px-flame-spirit-idle', 'px-item-silhouette-set', 'px-character-portrait-angles',
+    'px-parallax-mountain-depth', 'px-sunset-river-reflection', 'px-rainy-neon-alley', 'px-isometric-terrace-citadel',
+    'px-autotile-terrain-bitmask', 'px-dither-gradient-ramp', 'px-seamless-pattern-repeat', 'px-palette-swap-texture',
+    'px-hud-health-shield-bar', 'px-inventory-grid-selector', 'px-rpg-dialog-typewriter', 'px-minimap-radar',
+    'px-integer-grid-explosion', 'px-slash-afterimage-trail', 'px-sparkle-gemstone-shine', 'px-mosaic-pixel-wipe-transition',
   ],
   static: [
     // Collection expansion: five per category.

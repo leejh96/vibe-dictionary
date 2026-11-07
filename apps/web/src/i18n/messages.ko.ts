@@ -29,6 +29,7 @@ import { PANEL_KO_MESSAGES } from './demos/panel.messages';
 import { PHYSICS_KO_MESSAGES } from './demos/physics.messages';
 import { PROMO_KO_MESSAGES } from './demos/promo.messages';
 import { RETRO_KO_MESSAGES } from './demos/retro.messages';
+import { PIXELART_KO_MESSAGES } from './demos/pixelart.messages';
 import { SCIFI_KO_MESSAGES } from './demos/scifi.messages';
 import { SCROLL_KO_MESSAGES } from './demos/scroll.messages';
 import { SHADER_KO_MESSAGES } from './demos/shader.messages';
@@ -67,6 +68,7 @@ export const KO_MESSAGES = {
   ...PHYSICS_KO_MESSAGES,
   ...PROMO_KO_MESSAGES,
   ...RETRO_KO_MESSAGES,
+  ...PIXELART_KO_MESSAGES,
   ...SCIFI_KO_MESSAGES,
   ...SCROLL_KO_MESSAGES,
   ...SHADER_KO_MESSAGES,

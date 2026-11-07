@@ -25,6 +25,7 @@ const DOMAIN_PLACEHOLDERS = {
   motion: "search.placeholder.motion",
   layout: "search.placeholder.layout",
   style: "search.placeholder.style",
+  pixelart: "search.placeholder.pixelart",
   video: "search.placeholder.video",
 } as const satisfies Record<DomainType, MessageKey>;
 

@@ -8,7 +8,7 @@ import {
 import packageInfo from '../package.json';
 
 const localeSchema = z.enum(['ko', 'en']).default('ko').describe('Output language; search matches both languages regardless of locale.');
-const domainSchema = z.enum(['ui', 'motion', 'layout', 'style', 'video']);
+const domainSchema = z.enum(['ui', 'motion', 'layout', 'style', 'pixelart', 'video']);
 const categoryIds = [...new Set(Object.values(DOMAIN_CATEGORIES).flatMap(categories => categories.map(({ id }) => id)))].filter(id => id !== 'all');
 const categorySchema = z.enum(categoryIds as [string, ...string[]]);
 const targetSchema = z.enum(TARGETS);
@@ -38,7 +38,7 @@ function result<T extends Record<string, unknown>>(output: T) {
 export function createServer() {
   const server = new McpServer({ name: packageInfo.name, version: packageInfo.version }, {
     instructions: [
-      'Find UI, graphics, layout, style and video techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
+      'Find UI, graphics, layout, style, pixel art and video techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
       'Before choosing designs for an education, community, commerce, booking, subscription, collaboration, customer-support, auth/account, notification, CMS/publishing, file/media, marketplace, event/check-in, recruiting/ATS, analytics, security/RBAC, logistics, fintech/wallet, healthcare or form/workflow-automation service, use search_domain_knowledge with a short domain or workflow phrase such as "LMS", "회원 전용", "부분 환불", "타임슬롯", "정기 결제", "칸반", "헬프데스크", "RBAC", "합포장" or "복식 원장". Compare summaries, useCases and matchedOn fields, then call get_domain_knowledge by a returned ID for concepts, workflows, pitfalls, open decisions, sources, related technique IDs and a reference prompt. Search supports bilingual aliases and ranked keyword matching, not semantic AI. If no entry fits, retry fewer terms or a synonym, or browse with an empty query. Workflows and examples are design references, not established policies. Do not assume answers to the open questions. Related designs do not implement the domain rules.',
       'The calling assistant interprets the user request and generates short Korean or English search phrases for one effect at a time. The MCP performs bilingual weighted keyword/alias matching and runs no AI model. Extract concrete effects and targets; omit uncertain filters. For broad requests such as a clean or premium webpage, use the stated purpose and preferences; do not equate an adjective with one fixed style. Ask for clarification when missing context prevents a meaningful choice.',
       'For requests combining techniques, search distinct needs such as style, layout and interaction separately. Retrieve the selected prompts, then decide where each technique applies and compare their visual treatment, inputs and timing for conflicts. The tools do not compose techniques or check compatibility; the calling assistant makes those judgments.',

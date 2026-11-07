@@ -21,7 +21,7 @@
 
 자연어 요청은 호출하는 AI가 해석한다. AI가 한 효과를 나타내는 짧은 한영 검색어를 생성 → MCP가 키워드로 후보 조회 → AI가 요약·사용 상황을 비교하고 필요하면 동의어·다른 언어·수식어를 줄인 표현으로 재검색 → 선택한 ID의 프롬프트를 조회한다. 예를 들어 “글을 고친 뒤 아직 저장하지 않았다는 표시”는 `저장 상태` 또는 `unsaved changes`로 검색한다. 필수 조건은 유지하고 불필요한 필터만 넓히며, 검색어나 필터를 바꾸면 `offset: 0`부터 조회한다. 순위가 높아도 요구에 맞지 않으면 선택하지 않는다.
 
-도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `video`(모션 영상)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
+도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `pixelart`(픽셀아트), `video`(모션 영상)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
 
 검색어가 있으면 관련도순이며 `score`는 정렬용 수치로 적합성 확률이 아니다. `matchedOn`은 일치한 필드명(`title`, `alias`, `keyword`, `useCase`, `target`, `trigger`, `summary`, `prompt`)이다. `query`를 생략하면 카탈로그 순서로 목록을 조회한다. 일치가 없으면 빈 목록을 반환한다.
 

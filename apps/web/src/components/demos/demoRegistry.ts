@@ -19,6 +19,7 @@ import { PROMO_ADDITION_DEMOS } from './promo';
 import { KINETIC_AD_ADDITION_DEMOS } from './kinetic_ad';
 import { INFOGRAPHIC_ADDITION_DEMOS } from './infographic';
 import { BROADCAST_ADDITION_DEMOS } from './broadcast';
+import { PIXELART_DEMOS } from './pixelart';
 
 export const DEMO_REGISTRY = new Map<string, ComponentType>([
   ...Object.entries(UI_COLLECTION_DEMOS),
@@ -40,5 +41,6 @@ export const DEMO_REGISTRY = new Map<string, ComponentType>([
   ...Object.entries(KINETIC_AD_ADDITION_DEMOS),
   ...Object.entries(INFOGRAPHIC_ADDITION_DEMOS),
   ...Object.entries(BROADCAST_ADDITION_DEMOS),
+  ...Object.entries(PIXELART_DEMOS),
   ...Object.entries(BASE_DEMOS),
 ]);

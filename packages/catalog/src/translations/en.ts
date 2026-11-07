@@ -28,6 +28,7 @@ import { EN_PANEL_TECHNIQUES } from './additions/panel';
 import { EN_PHYSICS_TECHNIQUES } from './additions/physics';
 import { EN_PROMO_TECHNIQUES } from './additions/promo';
 import { EN_RETRO_TECHNIQUES } from './additions/retro';
+import { PIXELART_TRANSLATIONS } from './additions/pixelart';
 import { EN_SCIFI_TECHNIQUES } from './additions/scifi';
 import { EN_SCROLL_TECHNIQUES } from './additions/scroll';
 import { EN_SHADER_TECHNIQUES } from './additions/shader';
@@ -69,6 +70,7 @@ export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
   ...EN_PHYSICS_TECHNIQUES,
   ...EN_PROMO_TECHNIQUES,
   ...EN_RETRO_TECHNIQUES,
+  ...PIXELART_TRANSLATIONS,
   ...EN_SCIFI_TECHNIQUES,
   ...EN_SCROLL_TECHNIQUES,
   ...EN_SHADER_TECHNIQUES,

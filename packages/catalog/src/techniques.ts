@@ -35,8 +35,9 @@ import { PROMO_ADDITIONS } from './additions/promo';
 import { KINETIC_AD_ADDITIONS } from './additions/kinetic_ad';
 import { INFOGRAPHIC_ADDITIONS } from './additions/infographic';
 import { BROADCAST_ADDITIONS } from './additions/broadcast';
+import { PIXELART_ADDITIONS } from './additions/pixelart';
 
-export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'video';
+export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video';
 
 export type CategoryType =
   /* 1. UI 하위 카테고리 */
@@ -64,7 +65,13 @@ export type CategoryType =
   | 'tactile'
   | 'retro'
   | 'scifi'
-  /* 5. 모션 영상 하위 카테고리 */
+  /* 5. 픽셀아트 하위 카테고리 */
+  | 'sprites'
+  | 'environments'
+  | 'tiles'
+  | 'game_ui'
+  | 'effects'
+  /* 6. 모션 영상 하위 카테고리 */
   | 'promo'
   | 'kinetic_ad'
   | 'infographic'
@@ -112,6 +119,15 @@ const STYLE_CATEGORIES: CategoryMeta[] = [
   { id: 'scifi', label: 'SF·도면·팝아트' },
 ];
 
+const PIXELART_CATEGORIES: CategoryMeta[] = [
+  { id: 'all', label: '전체' },
+  { id: 'sprites', label: '스프라이트·캐릭터' },
+  { id: 'environments', label: '배경·풍경' },
+  { id: 'tiles', label: '타일·패턴' },
+  { id: 'game_ui', label: '게임 UI' },
+  { id: 'effects', label: '효과·애니메이션' },
+];
+
 const VIDEO_CATEGORIES: CategoryMeta[] = [
   { id: 'all', label: '전체' },
   { id: 'promo', label: '런칭·쇼릴·홍보' },
@@ -125,6 +141,7 @@ export const DOMAIN_LABELS: Record<DomainType, string> = {
   motion: '그래픽',
   layout: '레이아웃',
   style: '스타일',
+  pixelart: '픽셀아트',
   video: '모션 영상',
 };
 
@@ -133,6 +150,7 @@ export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
   motion: MOTION_CATEGORIES,
   layout: LAYOUT_CATEGORIES,
   style: STYLE_CATEGORIES,
+  pixelart: PIXELART_CATEGORIES,
   video: VIDEO_CATEGORIES,
 };
 
@@ -142,6 +160,7 @@ export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
     ...MOTION_CATEGORIES,
     ...LAYOUT_CATEGORIES,
     ...STYLE_CATEGORIES,
+    ...PIXELART_CATEGORIES,
     ...VIDEO_CATEGORIES,
   ].map((c) => [c.id, c.label])
 );
@@ -172,6 +191,7 @@ export const TECHNIQUES: TechniqueItem[] = [
   ...PATTERN_ADDITIONS,
   ...TACTILE_ADDITIONS,
   ...RETRO_ADDITIONS,
+  ...PIXELART_ADDITIONS,
   ...SCIFI_ADDITIONS,
   ...PROMO_ADDITIONS,
   ...KINETIC_AD_ADDITIONS,

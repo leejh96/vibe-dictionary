@@ -43,6 +43,12 @@ const DARK_STAGE_IDS = new Set<string>([
   'st-cyberpunk-neon-glitch',
   'st-holographic-foil-card',
 
+  // 픽셀아트 도메인
+  'px-sprite-walk-cycle',
+  'px-flame-spirit-idle',
+  'px-rainy-neon-alley',
+  'px-integer-grid-explosion',
+
   // 모션 영상 도메인
   'vd-saas-launch-reel',
   'vd-glitch-cut-reel',
@@ -134,6 +140,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   }, []);
 
   const categoryLabel = locale === 'en' ? CATEGORY_NAMES_EN[item.category] : CATEGORY_LABEL_MAP[item.category];
+  const isPixelArt = item.domain === 'pixelart';
   const keepDarkStage = DARK_STAGE_IDS.has(item.id);
   const restartOnAction = REPLAY_ACTION_IDS.has(item.id);
   const ownsAnimationStarts = restartOnAction && item.id !== 'shimmer-sweep';
@@ -151,7 +158,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
       <div
         ref={demoContainerRef}
         {...replayHandlers}
-        className={`demo-stage relative border-b border-slate-200/80 dark:border-slate-800/70 ${
+        className={`demo-stage relative border-b border-slate-200/80 dark:border-slate-800/70 ${isPixelArt ? 'demo-stage-pixelart' : ''} ${
           keepDarkStage
             ? 'demo-keep-dark bg-slate-950 text-slate-100'
             : 'bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100'
@@ -190,7 +197,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
           <LazyInteractiveDemo key={item.id} techniqueId={item.id} playback={playback} clock={enableClock} onReplay={ownsAnimationStarts ? undefined : onAutoReplay} restartOnAction={restartOnAction} />
         ) : (
           <div
-            className={`w-full h-40 ${
+            className={`demo-placeholder w-full h-40 ${
               keepDarkStage ? 'bg-slate-950' : 'bg-slate-100/80 dark:bg-slate-950'
             }`}
             aria-hidden="true"

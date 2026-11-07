@@ -29,6 +29,7 @@ import { PANEL_EN_MESSAGES } from './demos/panel.messages';
 import { PHYSICS_EN_MESSAGES } from './demos/physics.messages';
 import { PROMO_EN_MESSAGES } from './demos/promo.messages';
 import { RETRO_EN_MESSAGES } from './demos/retro.messages';
+import { PIXELART_EN_MESSAGES } from './demos/pixelart.messages';
 import { SCIFI_EN_MESSAGES } from './demos/scifi.messages';
 import { SCROLL_EN_MESSAGES } from './demos/scroll.messages';
 import { SHADER_EN_MESSAGES } from './demos/shader.messages';
@@ -68,6 +69,7 @@ export const EN_MESSAGES = {
   ...PHYSICS_EN_MESSAGES,
   ...PROMO_EN_MESSAGES,
   ...RETRO_EN_MESSAGES,
+  ...PIXELART_EN_MESSAGES,
   ...SCIFI_EN_MESSAGES,
   ...SCROLL_EN_MESSAGES,
   ...SHADER_EN_MESSAGES,

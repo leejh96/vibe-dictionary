@@ -29,6 +29,7 @@ import { PANEL_SEARCH_METADATA } from './search-metadata/additions/panel';
 import { PHYSICS_SEARCH_METADATA } from './search-metadata/additions/physics';
 import { PROMO_SEARCH_METADATA } from './search-metadata/additions/promo';
 import { RETRO_SEARCH_METADATA } from './search-metadata/additions/retro';
+import { PIXELART_SEARCH_METADATA } from './search-metadata/additions/pixelart';
 import { SCIFI_SEARCH_METADATA } from './search-metadata/additions/scifi';
 import { SCROLL_SEARCH_METADATA } from './search-metadata/additions/scroll';
 import { SHADER_SEARCH_METADATA } from './search-metadata/additions/shader';
@@ -80,6 +81,7 @@ export const SEARCH_METADATA: Record<string, SearchMetadata> = {
   ...PHYSICS_SEARCH_METADATA,
   ...PROMO_SEARCH_METADATA,
   ...RETRO_SEARCH_METADATA,
+  ...PIXELART_SEARCH_METADATA,
   ...SCIFI_SEARCH_METADATA,
   ...SCROLL_SEARCH_METADATA,
   ...SHADER_SEARCH_METADATA,

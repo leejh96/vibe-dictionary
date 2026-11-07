@@ -658,6 +658,51 @@ export const DEMO_GROUPS: Array<{ ids: string[]; load: DemoLoader }> = [
     ],
     load: () => import('./broadcast').then(module => module.BROADCAST_ADDITION_DEMOS),
   },
+  {
+    ids: [
+      'px-sprite-walk-cycle',
+      'px-flame-spirit-idle',
+      'px-item-silhouette-set',
+      'px-character-portrait-angles',
+    ],
+    load: () => import('./pixelart/PixelSpritesDemos').then(module => module.PIXEL_SPRITES_DEMOS),
+  },
+  {
+    ids: [
+      'px-parallax-mountain-depth',
+      'px-sunset-river-reflection',
+      'px-rainy-neon-alley',
+      'px-isometric-terrace-citadel',
+    ],
+    load: () => import('./pixelart/PixelEnvironmentsDemos').then(module => module.PIXEL_ENVIRONMENTS_DEMOS),
+  },
+  {
+    ids: [
+      'px-autotile-terrain-bitmask',
+      'px-dither-gradient-ramp',
+      'px-seamless-pattern-repeat',
+      'px-palette-swap-texture',
+    ],
+    load: () => import('./pixelart/PixelTilesDemos').then(module => module.PIXEL_TILES_DEMOS),
+  },
+  {
+    ids: [
+      'px-hud-health-shield-bar',
+      'px-inventory-grid-selector',
+      'px-rpg-dialog-typewriter',
+      'px-minimap-radar',
+    ],
+    load: () => import('./pixelart/PixelGameUiDemos').then(module => module.PIXEL_GAME_UI_DEMOS),
+  },
+  {
+    ids: [
+      'px-integer-grid-explosion',
+      'px-slash-afterimage-trail',
+      'px-sparkle-gemstone-shine',
+      'px-mosaic-pixel-wipe-transition',
+    ],
+    load: () => import('./pixelart/PixelEffectsDemos').then(module => module.PIXEL_EFFECTS_DEMOS),
+  },
 ];
 
 export const DEMO_LOADERS = new Map<string, DemoLoader>(
