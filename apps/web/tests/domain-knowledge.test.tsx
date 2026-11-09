@@ -34,11 +34,11 @@ test('knowledge search, detail, localization and related design selection', () =
   act(() => { tree = create(<LocaleProvider initialLocale="ko"><LanguageControl /><DomainKnowledgeView onViewTechnique={item => selected.push(item.id)} /></LocaleProvider>); });
   const search = () => tree.root.findByType('input');
   const filterGroup = () => tree.root.findByProps({ role: 'group' });
-  assert.equal(filterGroup().findAllByType('button').length, 21);
+  assert.equal(filterGroup().findAllByType('button').length, 22);
   act(() => filterGroup().findAllByType('button').find(button => text(button).startsWith('교육'))!.props.onClick());
   assert.equal(tree.root.findAllByType('article').length, 5);
   act(() => filterGroup().findAllByType('button')[0].props.onClick());
-  assert.equal(tree.root.findAllByType('article').length, 100);
+  assert.equal(tree.root.findAllByType('article').length, 105);
   act(() => search().props.onChange({ target: { value: 'education' } }));
   assert.ok(text(tree.root).includes(DOMAIN_KNOWLEDGE[0].text.ko.title));
   act(() => search().props.onChange({ target: { value: 'unknown' } }));

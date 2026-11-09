@@ -1,0 +1,223 @@
+export const AI_KO_MESSAGES = {
+  /* ai-prompt-box */
+  'demo.ai.promptBox.placeholder': '무엇이든 물어보세요... (Shift+Enter로 줄바꿈)',
+  'demo.ai.promptBox.fast': 'Fast',
+  'demo.ai.promptBox.pro': 'Pro',
+  'demo.ai.promptBox.fastLabel': 'Fast 모드 (빠른 속도)',
+  'demo.ai.promptBox.proLabel': 'Pro 모드 (심층 추론)',
+  'demo.ai.promptBox.attach': '파일 첨부',
+  'demo.ai.promptBox.removeAttachment': '첨부 파일 제거',
+  'demo.ai.promptBox.send': '프롬프트 전송',
+  'demo.ai.promptBox.sentNotice': '전송되었습니다: "{text}"',
+  'sample.ai.promptBox.sampleFile': 'spec_v2.pdf',
+
+  /* ai-slash-command */
+  'demo.ai.slashCommand.placeholder': '슬래시(/)를 입력해 명령어를 확인하세요',
+  'demo.ai.slashCommand.summarize': '요약하기',
+  'demo.ai.slashCommand.summarizeDesc': '긴 글이나 대화를 핵심만 요약합니다',
+  'demo.ai.slashCommand.translate': '번역하기',
+  'demo.ai.slashCommand.translateDesc': '선택한 언어로 정확하게 번역합니다',
+  'demo.ai.slashCommand.code': '코드 생성',
+  'demo.ai.slashCommand.codeDesc': '요구사항에 맞는 컴포넌트를 코딩합니다',
+  'demo.ai.slashCommand.refactor': '코드 리팩토링',
+  'demo.ai.slashCommand.refactorDesc': '가독성과 성능을 개선합니다',
+  'demo.ai.slashCommand.popoverLabel': '추천 명령어 메뉴',
+
+  /* ai-context-pill */
+  'demo.ai.contextPill.addDoc': '문서 추가',
+  'demo.ai.contextPill.reset': '초기화',
+  'demo.ai.contextPill.usageLabel': '토큰 사용량: {current} / {total} 토큰 ({percent}%)',
+  'demo.ai.contextPill.removeDoc': '{name} 제거',
+  'demo.ai.contextPill.docApi': 'API_Spec.pdf (1,200 토큰)',
+  'demo.ai.contextPill.docPrompt': 'System_Prompt (400 토큰)',
+  'demo.ai.contextPill.docGuide': 'Design_Guide.md (800 토큰)',
+  'demo.ai.contextPill.docSchema': 'DB_Schema.sql (1,500 토큰)',
+  'sample.ai.contextPill.contextWindow': 'Context Window',
+
+  /* ai-streaming-text */
+  'demo.ai.streaming.start': '응답 생성',
+  'demo.ai.streaming.stop': '응답 중지',
+  'demo.ai.streaming.replay': '다시 생성',
+  'demo.ai.streaming.idlePrompt': '버튼을 눌러 실시간 스트리밍 출력을 시작하세요.',
+  'demo.ai.streaming.sampleResponse': '바이브 코딩은 AI와 개발자가 자연어로 실시간 호흡하며 아이디어를 빠르게 프로토타이핑하고 검증하는 새로운 패러다임입니다. 실시간 스트리밍 피드백을 통해 중간 과정을 즉시 확인하고 원하는 방향으로 조정할 수 있습니다.',
+  'demo.ai.streaming.stoppedNotice': '(사용자에 의해 생성이 중지되었습니다)',
+  'sample.ai.streaming.aiStream': 'AI Stream',
+
+  /* ai-code-runner */
+  'demo.ai.codeRunner.tabCode': 'Code',
+  'demo.ai.codeRunner.tabPreview': 'Preview',
+  'demo.ai.codeRunner.copy': '복사',
+  'demo.ai.codeRunner.copied': '복사됨 ✓',
+  'demo.ai.codeRunner.counterButton': '클릭 횟수: {count}',
+  'demo.ai.codeRunner.resetCounter': '카운터 리셋',
+  'sample.ai.codeRunner.tsxBadge': 'TSX',
+
+  /* ai-message-branch */
+  'demo.ai.branch.pageInfo': '{current} / {total}',
+  'demo.ai.branch.prev': '이전 버전',
+  'demo.ai.branch.next': '다음 버전',
+  'demo.ai.branch.newVersion': '새 버전 생성',
+  'sample.ai.branch.branchLabel': 'Branch',
+  'demo.ai.branch.v1Title': '버전 1: 핵심 요약형',
+  'demo.ai.branch.v1Content': '리액트 컴포넌트의 성능을 높이려면 불필요한 상태 갱신을 줄이고 memo와 useCallback을 적재적소에 사용해야 합니다.',
+  'demo.ai.branch.v2Title': '버전 2: 단계별 상세 설명형',
+  'demo.ai.branch.v2Content': '1단계: Profiler로 병목 컴포넌트 식별\n2단계: 상태를 트리 아래로 끌어내려 리렌더 범위 격리\n3단계: 가상화(Virtualization)로 긴 리스트 렌더링 최적화',
+  'demo.ai.branch.v3Title': '버전 3: 기술 비교표',
+  'demo.ai.branch.v3Content': '기법 | 난이도 | 효과\nMemo | 낮음 | 중간\nVirtualization | 중간 | 매우 높음\nWeb Worker | 높음 | 높음',
+  'demo.ai.branch.v4Title': '버전 4: 코드 스니펫 중심',
+  'demo.ai.branch.v4Content': 'useMemo(() => computeHeavyValue(data), [data])와 같이 의존성 배열을 엄밀하게 지정하세요.',
+
+  /* ai-thinking-accordion */
+  'demo.ai.thinking.header': '사고 과정 (4초 소요)',
+  'demo.ai.thinking.toggleShow': '사고 과정 펼치기',
+  'demo.ai.thinking.toggleHide': '사고 과정 접기',
+  'demo.ai.thinking.step1': '질문 의도 및 제약 사항 분석 완료',
+  'demo.ai.thinking.step2': '관련 기술 문서 3건 인덱싱 및 검증',
+  'demo.ai.thinking.step3': '최적화된 단계별 답변 합성 완료',
+  'demo.ai.thinking.finalAnswer': '질문하신 성능 최적화의 3가지 핵심 기법을 제안합니다. 상태 격리, 가상화 및 메모이제이션을 순서대로 점검하세요.',
+
+  /* ai-source-citation */
+  'demo.ai.citation.part1': 'React 19에서는 Actions와 useActionState를 통해 폼 상태 관리를 선언적으로 간소화할 수 있습니다',
+  'demo.ai.citation.part2': '. 또한 스트리밍 SDK를 통해 도구 호출 파이프라인도 손쉽게 연동됩니다',
+  'demo.ai.citation.citation1Title': 'React 19 공식 릴리스 노트',
+  'demo.ai.citation.citation1Domain': 'react.dev',
+  'demo.ai.citation.citation1Snippet': '새로운 훅 useActionState를 사용하면 폼 제출 중의 보류 상태와 오류를 자동으로 처리할 수 있습니다.',
+  'demo.ai.citation.citation2Title': 'Vercel AI SDK 4.0 가이드',
+  'demo.ai.citation.citation2Domain': 'sdk.vercel.ai',
+  'demo.ai.citation.citation2Snippet': '스트리밍 객체 생성과 도구 호출(Tool Calling)을 표준 웹 스트림 기반으로 통합 지원합니다.',
+  'demo.ai.citation.sourcePopup': '출처 미리보기: {title}',
+
+  /* ai-tool-call-card */
+  'demo.ai.toolCall.toolName': 'search_docs',
+  'demo.ai.toolCall.runningStatus': '실행 중...',
+  'demo.ai.toolCall.successStatus': '성공 (120ms)',
+  'demo.ai.toolCall.rerunTool': '도구 재실행',
+  'demo.ai.toolCall.argsHeader': '전달 인자 (Arguments)',
+  'demo.ai.toolCall.resultsHeader': '반환 결과 (Return Output)',
+  'demo.ai.toolCall.argsQuery': 'query: "vibe coding patterns"',
+  'demo.ai.toolCall.resultSummary': '3개 결과 문서 반환됨 (총 1.4KB)',
+
+  /* ai-human-in-the-loop */
+  'demo.ai.hitl.riskBadge': 'High Risk',
+  'demo.ai.hitl.title': '파일 삭제 승인 요청',
+  'demo.ai.hitl.warningText': '캐시 정리 스크립트 실행으로 임시 파일 3건이 영구히 삭제됩니다.',
+  'demo.ai.hitl.commandLabel': '실행 예정 명령',
+  'demo.ai.hitl.commandValue': 'rm -rf ./temp_cache',
+  'demo.ai.hitl.approveButton': '승인하여 실행',
+  'demo.ai.hitl.rejectButton': '거절하기',
+  'demo.ai.hitl.approvedNotice': '✓ 작업이 승인되어 성공적으로 실행되었습니다.',
+  'demo.ai.hitl.rejectedNotice': '✕ 사용자에 의해 작업 실행이 취소되었습니다.',
+  'demo.ai.hitl.restoreAction': '다시 시도',
+} as const;
+
+export const AI_EN_MESSAGES = {
+  /* ai-prompt-box */
+  'demo.ai.promptBox.placeholder': 'Ask anything... (Shift+Enter for newline)',
+  'demo.ai.promptBox.fast': 'Fast',
+  'demo.ai.promptBox.pro': 'Pro',
+  'demo.ai.promptBox.fastLabel': 'Fast mode (low latency)',
+  'demo.ai.promptBox.proLabel': 'Pro mode (deep reasoning)',
+  'demo.ai.promptBox.attach': 'Attach file',
+  'demo.ai.promptBox.removeAttachment': 'Remove attachment',
+  'demo.ai.promptBox.send': 'Send prompt',
+  'demo.ai.promptBox.sentNotice': 'Prompt sent: "{text}"',
+  'sample.ai.promptBox.sampleFile': 'spec_v2.pdf',
+
+  /* ai-slash-command */
+  'demo.ai.slashCommand.placeholder': 'Type "/" to view commands',
+  'demo.ai.slashCommand.summarize': 'Summarize',
+  'demo.ai.slashCommand.summarizeDesc': 'Condense lengthy text into key points',
+  'demo.ai.slashCommand.translate': 'Translate',
+  'demo.ai.slashCommand.translateDesc': 'Translate accurately into target languages',
+  'demo.ai.slashCommand.code': 'Generate Code',
+  'demo.ai.slashCommand.codeDesc': 'Write clean production-ready components',
+  'demo.ai.slashCommand.refactor': 'Refactor',
+  'demo.ai.slashCommand.refactorDesc': 'Enhance readability and runtime performance',
+  'demo.ai.slashCommand.popoverLabel': 'Suggested commands menu',
+
+  /* ai-context-pill */
+  'demo.ai.contextPill.addDoc': 'Add Document',
+  'demo.ai.contextPill.reset': 'Reset',
+  'demo.ai.contextPill.usageLabel': 'Token usage: {current} / {total} tokens ({percent}%)',
+  'demo.ai.contextPill.removeDoc': 'Remove {name}',
+  'demo.ai.contextPill.docApi': 'API_Spec.pdf (1,200 tokens)',
+  'demo.ai.contextPill.docPrompt': 'System_Prompt (400 tokens)',
+  'demo.ai.contextPill.docGuide': 'Design_Guide.md (800 tokens)',
+  'demo.ai.contextPill.docSchema': 'DB_Schema.sql (1,500 tokens)',
+  'sample.ai.contextPill.contextWindow': 'Context Window',
+
+  /* ai-streaming-text */
+  'demo.ai.streaming.start': 'Generate Response',
+  'demo.ai.streaming.stop': 'Stop Generating',
+  'demo.ai.streaming.replay': 'Regenerate',
+  'demo.ai.streaming.idlePrompt': 'Click the button above to begin live response streaming.',
+  'demo.ai.streaming.sampleResponse': 'Vibe coding is an innovative development paradigm where human creativity and AI acceleration converge. Through real-time token streaming, engineers iteratively prototype, inspect live feedback, and guide generative outcomes effortlessly.',
+  'demo.ai.streaming.stoppedNotice': '(Generation halted by user)',
+  'sample.ai.streaming.aiStream': 'AI Stream',
+
+  /* ai-code-runner */
+  'demo.ai.codeRunner.tabCode': 'Code',
+  'demo.ai.codeRunner.tabPreview': 'Preview',
+  'demo.ai.codeRunner.copy': 'Copy',
+  'demo.ai.codeRunner.copied': 'Copied ✓',
+  'demo.ai.codeRunner.counterButton': 'Click count: {count}',
+  'demo.ai.codeRunner.resetCounter': 'Reset Counter',
+  'sample.ai.codeRunner.tsxBadge': 'TSX',
+
+  /* ai-message-branch */
+  'demo.ai.branch.pageInfo': '{current} / {total}',
+  'demo.ai.branch.prev': 'Previous version',
+  'demo.ai.branch.next': 'Next version',
+  'demo.ai.branch.newVersion': 'Generate New Version',
+  'sample.ai.branch.branchLabel': 'Branch',
+  'demo.ai.branch.v1Title': 'Version 1: Concise summary',
+  'demo.ai.branch.v1Content': 'To optimize React components, minimize redundant state updates and strategically leverage memo and useCallback.',
+  'demo.ai.branch.v2Title': 'Version 2: Step-by-step detailed breakdown',
+  'demo.ai.branch.v2Content': 'Step 1: Profile bottlenecks with React DevTools\nStep 2: Push state down to isolate re-render boundaries\nStep 3: Virtualize extended list structures',
+  'demo.ai.branch.v3Title': 'Version 3: Technical Comparison Table',
+  'demo.ai.branch.v3Content': 'Technique | Complexity | Impact\nMemo | Low | Moderate\nVirtualization | Medium | High\nWeb Worker | High | High',
+  'demo.ai.branch.v4Title': 'Version 4: Code snippet focus',
+  'demo.ai.branch.v4Content': 'Constrain dependency arrays strictly, e.g., useMemo(() => computeHeavyValue(data), [data]).',
+
+  /* ai-thinking-accordion */
+  'demo.ai.thinking.header': 'Thinking Process (4s elapsed)',
+  'demo.ai.thinking.toggleShow': 'Expand thinking process',
+  'demo.ai.thinking.toggleHide': 'Collapse thinking process',
+  'demo.ai.thinking.step1': 'Analyzed query intent and constraints',
+  'demo.ai.thinking.step2': 'Indexed and verified 3 technical documents',
+  'demo.ai.thinking.step3': 'Synthesized optimized step-by-step answer',
+  'demo.ai.thinking.finalAnswer': 'Here are the 3 recommended optimization techniques tailored to your inquiry. Review state isolation, virtualization, and memoization in sequence.',
+
+  /* ai-source-citation */
+  'demo.ai.citation.part1': 'In React 19, Actions and useActionState simplify form state management declaratively',
+  'demo.ai.citation.part2': '. Additionally, streaming SDKs seamlessly integrate tool calling pipelines',
+  'demo.ai.citation.citation1Title': 'React 19 Official Release Notes',
+  'demo.ai.citation.citation1Domain': 'react.dev',
+  'demo.ai.citation.citation1Snippet': 'The new useActionState hook automatically manages pending states and errors during form submissions.',
+  'demo.ai.citation.citation2Title': 'Vercel AI SDK 4.0 Guide',
+  'demo.ai.citation.citation2Domain': 'sdk.vercel.ai',
+  'demo.ai.citation.citation2Snippet': 'Unified support for streaming structured objects and tool calling on standard Web Streams.',
+  'demo.ai.citation.sourcePopup': 'Source preview: {title}',
+
+  /* ai-tool-call-card */
+  'demo.ai.toolCall.toolName': 'search_docs',
+  'demo.ai.toolCall.runningStatus': 'Running...',
+  'demo.ai.toolCall.successStatus': 'Success (120ms)',
+  'demo.ai.toolCall.rerunTool': 'Re-run Tool',
+  'demo.ai.toolCall.argsHeader': 'Input Arguments',
+  'demo.ai.toolCall.resultsHeader': 'Return Output',
+  'demo.ai.toolCall.argsQuery': 'query: "vibe coding patterns"',
+  'demo.ai.toolCall.resultSummary': '3 document chunks returned (1.4 KB total)',
+
+  /* ai-human-in-the-loop */
+  'demo.ai.hitl.riskBadge': 'High Risk',
+  'demo.ai.hitl.title': 'File Deletion Approval Required',
+  'demo.ai.hitl.warningText': 'Executing the cache cleanup script will permanently delete 3 temporary files.',
+  'demo.ai.hitl.commandLabel': 'Proposed Command',
+  'demo.ai.hitl.commandValue': 'rm -rf ./temp_cache',
+  'demo.ai.hitl.approveButton': 'Approve & Execute',
+  'demo.ai.hitl.rejectButton': 'Reject',
+  'demo.ai.hitl.approvedNotice': '✓ Operation approved and executed successfully.',
+  'demo.ai.hitl.rejectedNotice': '✕ Operation was cancelled by user.',
+  'demo.ai.hitl.restoreAction': 'Try Again',
+} satisfies Record<keyof typeof AI_KO_MESSAGES, string>;

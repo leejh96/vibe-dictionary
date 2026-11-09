@@ -37,8 +37,9 @@ import { INFOGRAPHIC_ADDITIONS } from './additions/infographic';
 import { BROADCAST_ADDITIONS } from './additions/broadcast';
 import { PIXELART_ADDITIONS } from './additions/pixelart';
 import { PIXELART_EXPANSION_ADDITIONS } from './additions/pixelart-expansion';
+import { AI_ADDITIONS } from './additions/ai';
 
-export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video';
+export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video' | 'ai';
 
 export type CategoryType =
   /* 1. UI 하위 카테고리 */
@@ -76,7 +77,12 @@ export type CategoryType =
   | 'promo'
   | 'kinetic_ad'
   | 'infographic'
-  | 'broadcast';
+  | 'broadcast'
+  /* 7. AI 네이티브 하위 카테고리 */
+  | 'ai_input'
+  | 'ai_streaming'
+  | 'ai_reasoning'
+  | 'ai_agent';
 
 interface CategoryMeta {
   id: CategoryType | 'all';
@@ -137,6 +143,14 @@ const VIDEO_CATEGORIES: CategoryMeta[] = [
   { id: 'broadcast', label: '방송·트랜지션·자막' },
 ];
 
+const AI_CATEGORIES: CategoryMeta[] = [
+  { id: 'all', label: '전체' },
+  { id: 'ai_input', label: '입력·프롬프트' },
+  { id: 'ai_streaming', label: '스트리밍·렌더링' },
+  { id: 'ai_reasoning', label: '추론·사고과정' },
+  { id: 'ai_agent', label: '에이전트·도구' },
+];
+
 export const DOMAIN_LABELS: Record<DomainType, string> = {
   ui: 'UI',
   motion: '그래픽',
@@ -144,6 +158,7 @@ export const DOMAIN_LABELS: Record<DomainType, string> = {
   style: '스타일',
   pixelart: '픽셀아트',
   video: '모션 영상',
+  ai: 'AI 네이티브',
 };
 
 export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
@@ -153,6 +168,7 @@ export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
   style: STYLE_CATEGORIES,
   pixelart: PIXELART_CATEGORIES,
   video: VIDEO_CATEGORIES,
+  ai: AI_CATEGORIES,
 };
 
 export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
@@ -163,6 +179,7 @@ export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
     ...STYLE_CATEGORIES,
     ...PIXELART_CATEGORIES,
     ...VIDEO_CATEGORIES,
+    ...AI_CATEGORIES,
   ].map((c) => [c.id, c.label])
 );
 
@@ -179,6 +196,7 @@ export interface TechniqueItem {
 }
 
 export const TECHNIQUES: TechniqueItem[] = [
+  ...AI_ADDITIONS,
   ...STARTER_PACK_ADDITIONS,
   ...SIGNATURE_ADDITIONS,
   ...UI_COLLECTION_ADDITIONS,

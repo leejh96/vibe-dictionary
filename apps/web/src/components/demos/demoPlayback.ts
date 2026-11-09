@@ -151,6 +151,17 @@ export const DEMO_PLAYBACK_GROUPS = {
     'shimmer-sweep', 'neon-glow-pulse',
   ],
   interactive: [
+    // AI Native additions.
+    'ai-prompt-box',
+    'ai-slash-command',
+    'ai-context-pill',
+    'ai-streaming-text',
+    'ai-code-runner',
+    'ai-message-branch',
+    'ai-thinking-accordion',
+    'ai-source-citation',
+    'ai-tool-call-card',
+    'ai-human-in-the-loop',
     // Starter pack additions.
     'ui-ai-streaming-pulse', 'ui-particle-burst-heart', 'lay-bottom-sheet-modal',
     'ui-swipe-to-confirm', 'ui-cli-command-switcher', 'ui-interactive-kbd-key', 'ui-tear-off-coupon-card',

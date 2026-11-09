@@ -29,10 +29,10 @@ test('domain knowledge searches both languages, intersects terms and keeps the e
 });
 
 test('every domain entry has bilingual guidance, distinct IDs, usable sources and valid design references', () => {
-  assert.equal(DOMAIN_KNOWLEDGE.length, 100);
+  assert.equal(DOMAIN_KNOWLEDGE.length, 105);
   assert.equal(new Set(DOMAIN_KNOWLEDGE.map(item => item.id)).size, DOMAIN_KNOWLEDGE.length);
   const domains = [...new Set(DOMAIN_KNOWLEDGE.map(item => item.text.ko.domain))];
-  assert.equal(domains.length, 20);
+  assert.equal(domains.length, 21);
   for (const domain of domains) {
     assert.equal(DOMAIN_KNOWLEDGE.filter(item => item.text.ko.domain === domain).length, 5, domain);
   }
@@ -136,6 +136,9 @@ test('service names, everyday workflow phrases and normalized bilingual inputs f
     ]],
     ['automation-form-branching-validation-and-partial-save', [
       '조건부 분기', '스킵 로직', '다단계 폼', 'conditional form branching', 'skip logic',
+    ]],
+    ['ai-prompt-context-and-token-budget', [
+      '컨텍스트 윈도우', '토큰 예산', '토큰예산', '프롬프트 엔지니어링', 'token budget', 'context window',
     ]],
   ];
   for (const [expected, queries] of cases) for (const query of queries) {

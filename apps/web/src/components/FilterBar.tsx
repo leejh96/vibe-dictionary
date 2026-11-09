@@ -27,6 +27,7 @@ const DOMAIN_PLACEHOLDERS = {
   style: "search.placeholder.style",
   pixelart: "search.placeholder.pixelart",
   video: "search.placeholder.video",
+  ai: "search.placeholder.ai",
 } as const satisfies Record<DomainType, MessageKey>;
 
 const MAX_VISIBLE_CATEGORIES = 8;

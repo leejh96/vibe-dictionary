@@ -20,8 +20,10 @@ import { KINETIC_AD_ADDITION_DEMOS } from './kinetic_ad';
 import { INFOGRAPHIC_ADDITION_DEMOS } from './infographic';
 import { BROADCAST_ADDITION_DEMOS } from './broadcast';
 import { PIXELART_DEMOS } from './pixelart';
+import { AI_ADDITION_DEMOS } from './ai';
 
 export const DEMO_REGISTRY = new Map<string, ComponentType>([
+  ...Object.entries(AI_ADDITION_DEMOS),
   ...Object.entries(UI_COLLECTION_DEMOS),
   ...Object.entries(MOTION_COLLECTION_DEMOS),
   ...Object.entries(LAYOUT_COLLECTION_DEMOS),
