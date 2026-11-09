@@ -7,6 +7,21 @@ export type DemoLoader = () => Promise<DemoGroup>;
 export const DEMO_GROUPS: Array<{ ids: string[]; load: DemoLoader }> = [
   {
     ids: [
+      'ai-prompt-box',
+      'ai-slash-command',
+      'ai-context-pill',
+      'ai-streaming-text',
+      'ai-code-runner',
+      'ai-message-branch',
+      'ai-thinking-accordion',
+      'ai-source-citation',
+      'ai-tool-call-card',
+      'ai-human-in-the-loop',
+    ],
+    load: () => import('./ai').then(module => module.AI_ADDITION_DEMOS),
+  },
+  {
+    ids: [
       'ui-ai-streaming-pulse',
       'ui-particle-burst-heart',
       'mg-ambient-aurora-blob',

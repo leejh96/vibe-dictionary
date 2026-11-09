@@ -52,7 +52,7 @@ test('knowledge search reuses results across other renders and counts domains in
     assert.equal(latest.domains.find(domain => domain.key === '교육')?.label, 'Education');
     act(() => tree.update(<Probe query="no-match-123" locale="en" />));
     assert.equal(latest.searchedItems.length, 0);
-    assert.equal(latest.domains.length, 20);
+    assert.equal(latest.domains.length, 21);
     assert.ok(latest.domains.every(domain => domain.count === 0));
   } finally { act(() => tree.unmount()); }
 });

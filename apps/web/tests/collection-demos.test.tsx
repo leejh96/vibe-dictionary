@@ -12,7 +12,7 @@ test('collection adds exactly five unique, bilingual, searchable designs to each
   assert.equal(entries.length,125);
   assert.equal(COLLECTION_IDS.size,125);
   for(const [domain,categories] of Object.entries(DOMAIN_CATEGORIES)) {
-    if (domain === 'pixelart') continue;
+    if (domain === 'pixelart' || domain === 'ai') continue;
     for(const category of categories.filter(category=>category.id!=='all')) {
       const items=TECHNIQUES.filter(item=>COLLECTION_IDS.has(item.id)&&item.domain===domain&&item.category===category.id);
       assert.equal(items.length,5,`${domain}/${category.id}`);

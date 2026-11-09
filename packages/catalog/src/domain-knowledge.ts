@@ -19,6 +19,7 @@ import { LOGISTICS_KNOWLEDGE } from './domain-knowledge/logistics';
 import { FINTECH_KNOWLEDGE } from './domain-knowledge/fintech';
 import { HEALTHCARE_KNOWLEDGE } from './domain-knowledge/healthcare';
 import { AUTOMATION_KNOWLEDGE } from './domain-knowledge/automation';
+import { AI_KNOWLEDGE } from './domain-knowledge/ai';
 
 export interface DomainKnowledgeText {
   domain: string;
@@ -64,4 +65,5 @@ export const DOMAIN_KNOWLEDGE: DomainKnowledge[] = [
   ...FINTECH_KNOWLEDGE,
   ...HEALTHCARE_KNOWLEDGE,
   ...AUTOMATION_KNOWLEDGE,
+  ...AI_KNOWLEDGE,
 ];

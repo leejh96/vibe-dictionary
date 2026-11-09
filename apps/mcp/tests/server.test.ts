@@ -190,6 +190,20 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     }
   });
 
+  await t.test('ai domain and category filters are accepted by the stdio server', async () => {
+    const aiDomain = await call('search_techniques', { domain: 'ai', locale: 'en' });
+    assert.equal(aiDomain.total, 10);
+    assert.equal(aiDomain.items.length, 10);
+    assert.equal(aiDomain.nextOffset, null);
+
+    for (const category of ['ai_input', 'ai_streaming', 'ai_reasoning', 'ai_agent']) {
+      const filtered = await call('search_techniques', { domain: 'ai', category, locale: 'en' });
+      const expected = TECHNIQUES.filter((item) => item.domain === 'ai' && item.category === category);
+      assert.equal(filtered.total, expected.length);
+      assert.deepEqual(filtered.items.map((item: { id: string }) => item.id), expected.map(({ id }) => id));
+    }
+  });
+
   await t.test('every original prompt and metadata are preserved verbatim', async () => {
     for (const item of TECHNIQUES) {
       const output = await call('get_technique', { id: item.id });

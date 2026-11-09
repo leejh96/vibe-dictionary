@@ -8,6 +8,7 @@ import {
   Palette,
   Gamepad2,
   Clapperboard,
+  Bot,
   ArrowUpToLine,
   ArrowDownToLine,
   ChevronUp,
@@ -148,6 +149,7 @@ export default function App() {
       style: TECHNIQUES.filter((t) => t.domain === 'style').length,
       pixelart: TECHNIQUES.filter((t) => t.domain === 'pixelart').length,
       video: TECHNIQUES.filter((t) => t.domain === 'video').length,
+      ai: TECHNIQUES.filter((t) => t.domain === 'ai').length,
     }),
     []
   );
@@ -385,7 +387,7 @@ export default function App() {
   /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
   const otherDomainMatches = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'pixelart', 'video'];
+    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'pixelart', 'video', 'ai'];
     return domainIds
       .filter((id) => id !== activeDomain)
       .map((id) => ({
@@ -411,6 +413,7 @@ export default function App() {
     { id: 'style', label: DOMAIN_NAMES[locale].style, count: counts.style, icon: <Palette className="w-3.5 h-3.5" /> },
     { id: 'pixelart', label: DOMAIN_NAMES[locale].pixelart, count: counts.pixelart, icon: <Gamepad2 className="w-3.5 h-3.5" /> },
     { id: 'video', label: DOMAIN_NAMES[locale].video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
+    { id: 'ai', label: DOMAIN_NAMES[locale].ai, count: counts.ai, icon: <Bot className="w-3.5 h-3.5" /> },
   ];
 
   /* 6대 도메인 탭 렌더러 (데스크탑 단일 행 및 모바일 2~3열 그리드 공유) */

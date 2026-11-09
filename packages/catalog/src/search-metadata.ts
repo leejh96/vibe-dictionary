@@ -37,6 +37,7 @@ import { SHADER_SEARCH_METADATA } from './search-metadata/additions/shader';
 import { TACTILE_SEARCH_METADATA } from './search-metadata/additions/tactile';
 import { TEXT_SEARCH_METADATA } from './search-metadata/additions/text';
 import { VFX_SEARCH_METADATA } from './search-metadata/additions/vfx';
+import { AI_SEARCH_METADATA } from './search-metadata/additions/ai';
 import type { TechniqueItem } from './techniques';
 import type { Locale } from './localization';
 
@@ -52,6 +53,7 @@ export interface SearchMetadata {
 }
 // Describe the implemented demo, including its actual input, rather than features suggested by a title.
 export const SEARCH_METADATA: Record<string, SearchMetadata> = {
+  ...AI_SEARCH_METADATA,
   ...STARTER_PACK_SEARCH_METADATA,
   ...SIGNATURE_SEARCH_METADATA,
   ...UI_COLLECTION_SEARCH,
