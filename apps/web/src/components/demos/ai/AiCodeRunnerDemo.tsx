@@ -24,7 +24,7 @@ export function AiCodeRunnerDemo() {
   };
 
   return (
-    <div className="w-full min-h-[180px] flex flex-col justify-center items-center p-3 sm:p-4 text-xs select-none">
+    <div className="w-full min-h-[180px] flex flex-col justify-center items-center pt-11 pb-3 px-3 sm:pt-12 sm:pb-4 sm:px-4 text-xs select-none">
       <div className="w-full max-w-sm rounded-2xl border border-slate-700/80 bg-slate-900 shadow-md overflow-hidden flex flex-col">
         {/* Header toolbar */}
         <div className="flex items-center justify-between px-3 py-2 bg-slate-950/80 border-b border-slate-800">

@@ -22,7 +22,7 @@ export function AiSourceCitationDemo() {
   const current = activeCitation ? citations[activeCitation] : null;
 
   return (
-    <div className="w-full min-h-[180px] flex flex-col justify-center items-center p-3 sm:p-4 text-xs select-none">
+    <div className="w-full min-h-[180px] flex flex-col justify-center items-center pt-11 pb-3 px-3 sm:pt-12 sm:pb-4 sm:px-4 text-xs select-none">
       <div className="w-full max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col gap-3">
         {/* Main Answer text with inline citation chips */}
         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800/60 text-slate-800 dark:text-slate-200 text-xs sm:text-[13px] leading-relaxed">

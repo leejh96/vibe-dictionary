@@ -80,7 +80,7 @@ export function AiSlashCommandDemo() {
   };
 
   return (
-    <div className="w-full min-h-[180px] flex flex-col justify-center items-center p-3 sm:p-4 text-xs select-none">
+    <div className="w-full min-h-[180px] flex flex-col justify-center items-center pt-11 pb-3 px-3 sm:pt-12 sm:pb-4 sm:px-4 text-xs select-none">
       <div className="w-full max-w-sm relative flex flex-col gap-2">
         {/* Floating popover menu */}
         {isOpen && (

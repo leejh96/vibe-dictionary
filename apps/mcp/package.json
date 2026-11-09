@@ -1,6 +1,6 @@
 {
   "name": "@keke1933/vibe-dictionary-mcp",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "license": "MIT",
   "author": "leejh96",
   "description": "Read-only local MCP for searching Vibe Dictionary techniques and retrieving implementation prompts",
@@ -12,7 +12,13 @@
   },
   "homepage": "https://leejh96.github.io/vibe-dictionary/",
   "bugs": "https://github.com/leejh96/vibe-dictionary/issues",
-  "keywords": ["mcp", "model-context-protocol", "ui", "prompts", "vibe-coding"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ui",
+    "prompts",
+    "vibe-coding"
+  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -20,7 +26,11 @@
   "bin": {
     "vibe-dictionary-mcp": "dist/index.js"
   },
-  "files": ["dist/index.js", "README.md", "LICENSE"],
+  "files": [
+    "dist/index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=22.12.0"
   },

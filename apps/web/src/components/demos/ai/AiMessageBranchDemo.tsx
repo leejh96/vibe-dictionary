@@ -43,7 +43,7 @@ export function AiMessageBranchDemo() {
   };
 
   return (
-    <div className="w-full min-h-[180px] flex flex-col justify-center items-center p-3 sm:p-4 text-xs select-none">
+    <div className="w-full min-h-[180px] flex flex-col justify-center items-center pt-11 pb-3 px-3 sm:pt-12 sm:pb-4 sm:px-4 text-xs select-none">
       <div className="w-full max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm flex flex-col gap-3">
         {/* Header with Title and Add Version */}
         <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800/60">
