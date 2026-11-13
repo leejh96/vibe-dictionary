@@ -6,13 +6,25 @@ import { KnowledgeDetail } from './knowledge/KnowledgeDetail';
 import { KnowledgeFilters } from './knowledge/KnowledgeFilters';
 import type { DomainKnowledgeViewProps } from './knowledge/types';
 
-export function DomainKnowledgeView({ onViewTechnique }: DomainKnowledgeViewProps) {
+export function DomainKnowledgeView({ onViewTechnique, onViewGlossaryTerm, targetRequest }: DomainKnowledgeViewProps) {
   const { locale, t } = useLocale();
   const [query, setQuery] = useState('');
   const [selectedDomain, setSelectedDomain] = useState<string>('all');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(() => targetRequest?.id ?? null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const hasOpenedDetail = useRef(false);
+  const hasOpenedDetail = useRef(Boolean(targetRequest?.id));
+  const lastRequestKeyRef = useRef<number | null>(targetRequest ? targetRequest.key : null);
+
+  useEffect(() => {
+    if (!targetRequest) return;
+    if (lastRequestKeyRef.current === targetRequest.key) return;
+    lastRequestKeyRef.current = targetRequest.key;
+    hasOpenedDetail.current = true;
+    setQuery('');
+    setSelectedDomain('all');
+    setSelectedId(targetRequest.id);
+  }, [targetRequest]);
+
   const selected = DOMAIN_KNOWLEDGE.find(item => item.id === selectedId);
   const { searchedItems, domains } = useDomainKnowledgeSearch(query, locale);
   const items = selectedDomain === 'all'
@@ -23,7 +35,7 @@ export function DomainKnowledgeView({ onViewTechnique }: DomainKnowledgeViewProp
     if (selectedId === null && hasOpenedDetail.current) searchRef.current?.focus();
   }, [selectedId]);
 
-  if (selected) return <KnowledgeDetail item={selected} onBack={() => setSelectedId(null)} onViewTechnique={onViewTechnique} />;
+  if (selected) return <KnowledgeDetail item={selected} onBack={() => setSelectedId(null)} onViewTechnique={onViewTechnique} onViewGlossaryTerm={onViewGlossaryTerm} />;
 
   return <div className="space-y-5">
     <KnowledgeFilters query={query} onQueryChange={setQuery} selectedDomain={selectedDomain} onDomainChange={setSelectedDomain} domains={domains} total={searchedItems.length} searchRef={searchRef} />

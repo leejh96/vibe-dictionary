@@ -6,7 +6,11 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES, searchTechniques, getTechniqueText, DOMAIN_KNOWLEDGE, searchDomainKnowledge } from '@vibe-dictionary/catalog';
+import {
+  TECHNIQUES, searchTechniques, getTechniqueText,
+  DOMAIN_KNOWLEDGE, searchDomainKnowledge,
+  GLOSSARY_TERMS, rankGlossaryTerms,
+} from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const entry = fileURLToPath(new URL('../dist/index.js', import.meta.url));
@@ -41,7 +45,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
   await t.test('initialization, tool discovery and annotations', async () => {
     assert.deepEqual(client.getServerVersion(), { name: packageInfo.name, version: packageInfo.version });
     const { tools } = await client.listTools();
-    assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_technique', 'search_domain_knowledge', 'search_techniques']);
+    assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_glossary_term', 'get_technique', 'search_domain_knowledge', 'search_glossary', 'search_techniques']);
     for (const tool of tools) {
       assert.ok(tool.inputSchema);
       assert.ok(tool.outputSchema);
@@ -131,6 +135,89 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     assert.equal(next.items[0].id, 'community-post-visibility-and-moderation');
     for (const query of ['교육 신고', '교육 암호화폐 자동매매', 'postage', '???']) {
       assert.equal((await call('search_domain_knowledge', { query })).total, 0, query);
+    }
+  });
+
+  await t.test('glossary search and localized detail support bilingual lookup, pagination and verified links', async () => {
+    const browse = await call('search_glossary');
+    assert.equal(browse.total, GLOSSARY_TERMS.length);
+    assert.equal(browse.items.length, 20);
+    assert.equal(browse.nextOffset, 20);
+    assert.ok(browse.items.every((item: Record<string, unknown>) => !('promptSnippet' in item) && !('example' in item)));
+    assert.deepEqual(await call('search_glossary', { query: '  \t ' }), browse);
+
+    const pagedIds: string[] = [];
+    let offset: number | null = 0;
+    while (offset !== null) {
+      const page = await call('search_glossary', { offset, limit: 10 });
+      pagedIds.push(...page.items.map((item: { id: string }) => item.id));
+      offset = page.nextOffset;
+    }
+    assert.deepEqual(pagedIds, GLOSSARY_TERMS.map(({ id }) => id));
+    const pastEnd = await call('search_glossary', { offset: GLOSSARY_TERMS.length + 1 });
+    assert.deepEqual(pastEnd.items, []);
+    assert.equal(pastEnd.nextOffset, null);
+
+    const noMatch = await call('search_glossary', { query: 'nonexistent-glossary-term-xyz' });
+    assert.equal(noMatch.total, 0);
+    assert.deepEqual(noMatch.items, []);
+
+    for (const [query, expectedId] of [
+      ['결제 두 번 방지', 'idempotency'],
+      ['idempotency', 'idempotency'],
+      ['스켈레톤', 'skeleton-loading'],
+      ['empty state', 'empty-state'],
+      ['디바운스', 'debounce'],
+      ['낙관적 업데이트', 'optimistic-update'],
+      ['RBAC', 'role-based-access-control'],
+      ['이중 승인', 'maker-checker-approval'],
+    ] as const) {
+      for (const locale of ['ko', 'en'] as const) {
+        const output = await call('search_glossary', { query, locale, limit: 5 });
+        const expected = rankGlossaryTerms(query);
+        assert.equal(output.total, expected.length, `${query} (${locale})`);
+        assert.equal(output.items[0].id, expectedId, `${query} (${locale})`);
+        assert.equal(output.items[0].locale, locale);
+        assert.ok(output.items[0].score > 0);
+        assert.ok(output.items[0].matchedOn.length > 0);
+        assert.ok(!('promptSnippet' in output.items[0]));
+        assert.ok(!('example' in output.items[0]));
+        const term = GLOSSARY_TERMS.find(candidate => candidate.id === expectedId)!;
+        assert.equal(output.items[0].name, term.text[locale].name);
+        assert.equal(output.items[0].nameKo, term.name.ko);
+        assert.equal(output.items[0].nameEn, term.name.en);
+        assert.deepEqual(output.items[0].aliases, term.aliases[locale]);
+      }
+    }
+
+    for (const term of GLOSSARY_TERMS) {
+      for (const locale of ['ko', 'en'] as const) {
+        const detail = await call('get_glossary_term', { id: term.id, locale });
+        assert.deepEqual(detail, {
+          id: term.id,
+          locale,
+          category: term.category,
+          name: term.text[locale].name,
+          nameKo: term.name.ko,
+          nameEn: term.name.en,
+          definition: term.text[locale].definition,
+          example: term.text[locale].example,
+          promptSnippet: term.text[locale].promptSnippet,
+          aliases: term.aliases[locale],
+          relatedTechniqueIds: term.relatedTechniqueIds,
+          relatedDomainIds: term.relatedDomainIds,
+        });
+      }
+      for (const techniqueId of term.relatedTechniqueIds) {
+        assert.ok(TECHNIQUES.some(candidate => candidate.id === techniqueId), `${term.id} -> ${techniqueId}`);
+        const technique = await call('get_technique', { id: techniqueId });
+        assert.equal(technique.id, techniqueId);
+      }
+      for (const domainId of term.relatedDomainIds) {
+        assert.ok(DOMAIN_KNOWLEDGE.some(candidate => candidate.id === domainId), `${term.id} -> ${domainId}`);
+        const domain = await call('get_domain_knowledge', { id: domainId });
+        assert.equal(domain.id, domainId);
+      }
     }
   });
 
@@ -259,10 +346,27 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['search_techniques', { target: 'unknown' }],
       ['search_techniques', { trigger: 'scroll' }],
       ['get_technique', { id: 'magnetic-hover', locale: 'fr' }],
+      ['get_glossary_term', { id: 'does-not-exist' }],
+      ['get_glossary_term', { id: 'does-not-exist', locale: 'en' }],
+      ['get_glossary_term', { id: '   ' }],
+      ['get_glossary_term', {}],
+      ['get_glossary_term', { id: 'idempotency', locale: 'fr' }],
+      ['search_glossary', { limit: 51 }],
+      ['search_glossary', { limit: 0 }],
+      ['search_glossary', { offset: -1 }],
+      ['search_glossary', { offset: 1.5 }],
+      ['search_glossary', { query: 'x'.repeat(501) }],
+      ['search_glossary', { locale: 'fr' }],
     ] as const) {
       const response = await client.callTool({ name, arguments: args });
       assert.equal(response.isError, true, JSON.stringify({ name, args, response }));
     }
+    const missingGlossaryKo = await client.callTool({ name: 'get_glossary_term', arguments: { id: 'missing', locale: 'ko' } });
+    assert.equal(missingGlossaryKo.isError, true);
+    assert.match((missingGlossaryKo.content as Array<{ text?: string }>)[0].text ?? '', /용어 ID/);
+    const missingGlossaryEn = await client.callTool({ name: 'get_glossary_term', arguments: { id: 'missing', locale: 'en' } });
+    assert.equal(missingGlossaryEn.isError, true);
+    assert.match((missingGlossaryEn.content as Array<{ text?: string }>)[0].text ?? '', /Glossary term ID not found/);
     const recovered = await call('get_technique', { id: ' magnetic-hover ' });
     assert.equal(recovered.id, 'magnetic-hover');
     assert.equal(stderr, '');

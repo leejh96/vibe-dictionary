@@ -6,7 +6,7 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { TECHNIQUES, getTechniqueText, DOMAIN_KNOWLEDGE } from '../packages/catalog/src/index.ts';
+import { TECHNIQUES, getTechniqueText, DOMAIN_KNOWLEDGE, GLOSSARY_TERMS } from '../packages/catalog/src/index.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(await readFile(join(root, 'apps/mcp/package.json'), 'utf8'));
@@ -57,7 +57,7 @@ try {
   await client.connect(transport);
   assert.deepEqual(client.getServerVersion(), { name: manifest.name, version: manifest.version });
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_technique', 'search_domain_knowledge', 'search_techniques']);
+  assert.deepEqual(tools.map(({ name }) => name).sort(), ['get_domain_knowledge', 'get_glossary_term', 'get_technique', 'search_domain_knowledge', 'search_glossary', 'search_techniques']);
   for (const item of DOMAIN_KNOWLEDGE) {
     const knowledge = await client.callTool({ name: 'search_domain_knowledge', arguments: { query: item.text.ko.title, locale: 'en' } });
     assert.notEqual(knowledge.isError, true);
@@ -66,6 +66,32 @@ try {
       const detail = await client.callTool({ name: 'get_domain_knowledge', arguments: { id: item.id, locale } });
       assert.notEqual(detail.isError, true);
       assert.deepEqual(detail.structuredContent, { id: item.id, locale, ...item.text[locale], sources: item.sources });
+    }
+  }
+  const glossarySearch = await client.callTool({ name: 'search_glossary', arguments: { query: '결제 두 번 방지', locale: 'en', limit: 5 } });
+  assert.notEqual(glossarySearch.isError, true);
+  assert.equal(glossarySearch.structuredContent.items[0].id, 'idempotency');
+  assert.equal(glossarySearch.structuredContent.items[0].locale, 'en');
+  assert.ok(!('promptSnippet' in glossarySearch.structuredContent.items[0]));
+  assert.ok(!('example' in glossarySearch.structuredContent.items[0]));
+  for (const term of GLOSSARY_TERMS) {
+    for (const locale of ['ko', 'en']) {
+      const detail = await client.callTool({ name: 'get_glossary_term', arguments: { id: term.id, locale } });
+      assert.notEqual(detail.isError, true);
+      assert.deepEqual(detail.structuredContent, {
+        id: term.id,
+        locale,
+        category: term.category,
+        name: term.text[locale].name,
+        nameKo: term.name.ko,
+        nameEn: term.name.en,
+        definition: term.text[locale].definition,
+        example: term.text[locale].example,
+        promptSnippet: term.text[locale].promptSnippet,
+        aliases: term.aliases[locale],
+        relatedTechniqueIds: term.relatedTechniqueIds,
+        relatedDomainIds: term.relatedDomainIds,
+      });
     }
   }
   const ids = [];

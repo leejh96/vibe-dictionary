@@ -1,6 +1,6 @@
 # Vibe Dictionary MCP
 
-바이브 코딩 사전의 디자인 기법과 도메인 지식을 검색하고 참고 원문을 가져오는 읽기 전용 로컬 MCP다. Node.js 22.12 이상이 필요하며, 현재 검증 환경은 Node.js 24다. 아래 도메인 지식 도구는 현재 소스 기준이며, npm 배포 버전은 별도로 확인해야 한다.
+바이브 코딩 사전의 디자인 기법·도메인 지식·용어 사전을 검색하고 참고 원문을 가져오는 읽기 전용 로컬 MCP다. Node.js 22.12 이상이 필요하며, 현재 검증 환경은 Node.js 24다. 아래 도메인 지식 및 용어 사전 도구는 현재 소스 기준이며, npm 배포 버전은 별도로 확인해야 한다.
 
 ## 제공하는 도구
 
@@ -10,8 +10,12 @@
 | `get_technique` | 필수: `id`, 선택: `locale` | 기법 상세·별칭·키워드·해당 언어의 `promptSnippet` 원문 |
 | `search_domain_knowledge` | 선택: `query`, `locale`, `limit`, `offset` | 도메인 지식 요약·사용 상황·관련도·매칭 필드와 페이지 정보 |
 | `get_domain_knowledge` | 필수: `id`, 선택: `locale` | 개념·결정할 질문·예시·관련 기법 ID·참고 자료·프롬프트 |
+| `search_glossary` | 선택: `query`, `locale`, `limit`, `offset` | 용어 분류·한영 이름·정의·별칭·관련 ID·매칭 필드·점수·페이지 정보 |
+| `get_glossary_term` | 필수: `id`, 선택: `locale` | 용어 상세·실제 예시·복사용 `promptSnippet`·별칭·관련 기법/도메인 ID |
 
-모든 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 기법 조회의 `titleKo`·`titleEn`은 호환성을 위해 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 원문을 받을 수 있다.
+모든 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 기법 조회의 `titleKo`·`titleEn`과 용어 조회의 `nameKo`·`nameEn`은 호환성을 위해 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 원문을 받을 수 있다.
+
+용어 사전은 UI·엔지니어링·워크플로우 용어의 한영 이름·별칭(예: `결제 두 번 방지` → `idempotency`)·정의·예시·프롬프트를 함께 검색한다. `search_glossary`는 검색 결과에 `promptSnippet`과 `example` 전문을 포함하지 않고 정의·별칭·관련 ID만 반환하므로, 후보를 고른 뒤 `get_glossary_term`으로 예시와 바로 쓸 수 있는 프롬프트 문장을 조회한다. 반환된 `relatedTechniqueIds`와 `relatedDomainIds`는 각각 `get_technique`, `get_domain_knowledge`에 바로 전달할 수 있는 검증된 ID다. `query`가 비어 있으면 카탈로그 순서로 조회하고, 일치하는 용어가 없으면 `total: 0`과 빈 목록을 반환한다. `matchedOn`은 일치한 필드(`name`, `alias`, `definition`, `example`, `prompt`)를 표시한다.
 
 도메인 지식은 한영 이름·별칭·사용 상황과 개념·흐름·결정 질문을 함께 검색한다. `LMS`, `온라인 강의`, `재시도`, `회원 전용`, `신고 처리`, `private group`처럼 짧은 서비스명이나 업무 표현으로 `search_domain_knowledge`를 호출한다. 한영 동의어·대소문자·문장 부호를 정규화하고 매칭 범위와 필드 중요도로 정렬하는 키워드 검색이며, 의미를 추론하는 AI 검색은 아니다. 결과의 `useCases`와 `matchedOn`을 비교해 선택하고 반환된 ID를 `get_domain_knowledge`에 전달한다. `score`는 신뢰 확률이 아니며, 결과가 맞지 않으면 동의어나 더 짧은 검색어로 다시 찾는다. 검색어가 비어 있으면 목록 순서로 조회한다.
 
@@ -43,11 +47,40 @@ Then call `get_technique`:
 {"id":"magnetic-hover","locale":"en"}
 ```
 
+For bilingual glossary terms (UI, engineering, and workflow vocabulary), call `search_glossary` with a short Korean or English term or natural alias (such as `"결제 두 번 방지"` or `"skeleton"`):
+
+```json
+{"query":"결제 두 번 방지","locale":"en","limit":5}
+```
+
+`search_glossary` omits `example` and `promptSnippet`; call `get_glossary_term` with the returned `id` for the full example and prompt sentence, and pass any `relatedTechniqueIds` or `relatedDomainIds` directly to `get_technique` or `get_domain_knowledge`:
+
+```json
+{"id":"idempotency","locale":"en"}
+```
+
 Search matches both Korean and English regardless of output locale. Scores indicate relative ranking, not confidence. Unknown or unsuitable results require reformulating the query or clarifying the request. Tools return reference text only and never modify your project.
 
 If candidates are empty or unsuitable, retry a synonym, the other language or fewer modifiers. Broaden only optional filters and restart at offset zero when changing the query or filters. The MCP runs keyword search locally and requires no embedding model, vector index or API key.
 
 These capabilities describe the current source. An installed, pinned npm version does not automatically pick up local source changes. For local verification, build the repository and register `node <repository>/apps/mcp/dist/index.js` with your MCP client, then restart that server.
+
+## 로컬 소스 빌드로 stdio 연결
+
+저장소 소스로 MCP를 실행하려면 빌드한 뒤 생성된 `apps/mcp/dist/index.js`를 stdio 서버로 등록한다.
+
+```sh
+npm ci
+npm run build:mcp
+```
+
+이 저장소에서만 로컬 빌드를 사용하려면 신뢰한 프로젝트의 `.codex/config.toml`에 다음 항목을 추가한 뒤 Codex 세션을 다시 연다. `<repository>`는 저장소의 절대 경로로 바꾼다. Windows에서도 경로에 `/`를 쓸 수 있다.
+
+```toml
+[mcp_servers.vibe-dictionary]
+command = "node"
+args = ["<repository>/apps/mcp/dist/index.js"]
+```
 
 ## npm 패키지로 Codex에 연결
 
