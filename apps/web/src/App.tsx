@@ -31,6 +31,9 @@ import { TechniqueCard } from './components/TechniqueCard';
 import { PromptCartDrawer } from './components/PromptCartDrawer';
 import { DictionaryNavigation, type DictionarySection } from './components/DictionaryNavigation';
 import { LazyDomainKnowledgeView } from './components/LazyDomainKnowledgeView';
+import { LazyGlossaryView } from './components/LazyGlossaryView';
+import type { DomainKnowledgeTargetRequest } from './components/knowledge/types';
+import type { GlossaryTargetRequest } from './components/glossary/types';
 import { usePromptCart } from './hooks/usePromptCart';
 
 const THEME_STORAGE_KEY = 'vibe-dictionary-theme';
@@ -116,9 +119,13 @@ export default function App() {
   const [activeDomain, setActiveDomain] = useState<DomainType>('ui');
   const [dictionarySection, setDictionarySection] = useState<DictionarySection>('design');
   const [searchQuery, setSearchQuery] = useState('');
+  const [linkedTechnique, setLinkedTechnique] = useState<TechniqueItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'all'>('all');
   const { cart, setCart, contextNote, setContextNote, storageError } = usePromptCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [knowledgeTargetRequest, setKnowledgeTargetRequest] = useState<DomainKnowledgeTargetRequest | null>(null);
+  const [glossaryTargetRequest, setGlossaryTargetRequest] = useState<GlossaryTargetRequest | null>(null);
+  const navigationNonceRef = useRef(0);
   const showComposer = dictionarySection === 'design';
 
   const [canScrollUp, setCanScrollUp] = useState(false);
@@ -161,6 +168,9 @@ export default function App() {
     setActiveDomain('ui');
     setSelectedCategory('all');
     setSearchQuery('');
+    setLinkedTechnique(null);
+    setKnowledgeTargetRequest(null);
+    setGlossaryTargetRequest(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -168,10 +178,13 @@ export default function App() {
     if (section === dictionarySection) return;
     window.scrollTo({ top: 0, behavior: 'instant' });
     setIsCartOpen(false);
+    setKnowledgeTargetRequest(null);
+    setGlossaryTargetRequest(null);
     setDictionarySection(section);
   };
 
   const handleViewRelatedTechnique = (item: TechniqueItem) => {
+    setLinkedTechnique(null);
     setActiveDomain(item.domain);
     setSelectedCategory('all');
     setSearchQuery(getTechniqueText(item, locale).title);
@@ -179,10 +192,34 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  const handleViewTechniqueById = (techniqueId: string) => {
+    const target = TECHNIQUES.find((candidate) => candidate.id === techniqueId);
+    if (!target) return;
+    handleViewRelatedTechnique(target);
+    setLinkedTechnique(target);
+  };
+
+  const handleViewDomainKnowledge = (domainId: string) => {
+    navigationNonceRef.current += 1;
+    setKnowledgeTargetRequest({ id: domainId, key: navigationNonceRef.current });
+    setIsCartOpen(false);
+    setDictionarySection('knowledge');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handleViewGlossaryTerm = (termId: string) => {
+    navigationNonceRef.current += 1;
+    setGlossaryTargetRequest({ id: termId, key: navigationNonceRef.current });
+    setIsCartOpen(false);
+    setDictionarySection('glossary');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   const handleDomainSwitch = (domain: DomainType, e?: React.MouseEvent<HTMLButtonElement>) => {
     setActiveDomain(domain);
     setSelectedCategory('all');
     setSearchQuery('');
+    setLinkedTechnique(null);
     if (e?.currentTarget) {
       e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
     }
@@ -213,15 +250,16 @@ export default function App() {
 
   /* 카테고리 탭 변경 시: 이전 카테고리의 키워드 칩 등이 걸려 있으면 검색어를 비워 해당 카테고리 전체가 보이도록 처리 */
   const handleCategoryChange = (category: CategoryType | 'all') => {
+    setLinkedTechnique(null);
     setSelectedCategory(category);
     if (searchQuery.trim()) {
       setSearchQuery('');
     }
   };
 
-  /* 추천 키워드 칩 클릭 시: 현재 선택된 카테고리를 유지한 채 해당 키워드로만 필터링 */
-  const handleSelectChip = (chip: string) => {
-    setSearchQuery(chip);
+  const handleSearchChange = (query: string) => {
+    setLinkedTechnique(null);
+    setSearchQuery(query);
   };
 
   /* 현재 도메인의 각 하위 카테고리별 고정 총 기법 수 계산 */
@@ -236,12 +274,13 @@ export default function App() {
   }, [activeDomain]);
 
   const filteredTechniques = useMemo(() => {
+    if (linkedTechnique) return [linkedTechnique];
     return searchTechniques({
       query: searchQuery,
       domain: activeDomain,
       category: selectedCategory === 'all' ? undefined : selectedCategory,
     }).map(({ item }) => item);
-  }, [activeDomain, searchQuery, selectedCategory]);
+  }, [activeDomain, linkedTechnique, searchQuery, selectedCategory]);
 
   /* 스크롤 가능한 거리를 기준으로 이동 버튼 활성화 (소수점 오차 1px 허용) */
   const updateScrollState = useCallback(() => {
@@ -500,7 +539,7 @@ export default function App() {
             </button>
 
             {/* [데스크탑 전용 (xl 이상)]: 7대 도메인 탭 (단일 행 중앙/우측 배치) */}
-            {renderDomainTabs(`hidden xl:flex xl:flex-row gap-1 shrink-0 overflow-x-auto ${dictionarySection === 'knowledge' ? 'invisible' : ''}`, dictionarySection === 'knowledge')}
+            {renderDomainTabs(`hidden xl:flex xl:flex-row gap-1 shrink-0 overflow-x-auto ${dictionarySection !== 'design' ? 'invisible' : ''}`, dictionarySection !== 'design')}
 
             <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-3">
               <LanguageSwitcher />
@@ -533,10 +572,10 @@ export default function App() {
         <FilterBar
           activeDomain={activeDomain}
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          onSearchChange={handleSearchChange}
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
-          onSelectChip={handleSelectChip}
+          onSelectChip={handleSearchChange}
           vibeChips={currentVibeChips}
           categoryCounts={categoryCounts}
           totalCount={filteredTechniques.length}
@@ -584,12 +623,26 @@ export default function App() {
                 item={item}
                 isSelected={cart.some((c) => c.id === item.id)}
                 onToggleCart={handleToggleCart}
+                onViewGlossaryTerm={handleViewGlossaryTerm}
               />
             ))}
           </div>
         )}
         </>}
-        {dictionarySection === 'knowledge' && <LazyDomainKnowledgeView onViewTechnique={handleViewRelatedTechnique} />}
+        {dictionarySection === 'knowledge' && (
+          <LazyDomainKnowledgeView
+            onViewTechnique={handleViewRelatedTechnique}
+            onViewGlossaryTerm={handleViewGlossaryTerm}
+            targetRequest={knowledgeTargetRequest}
+          />
+        )}
+        {dictionarySection === 'glossary' && (
+          <LazyGlossaryView
+            onViewTechnique={handleViewTechniqueById}
+            onViewDomainKnowledge={handleViewDomainKnowledge}
+            targetRequest={glossaryTargetRequest}
+          />
+        )}
         </main>
       </div>
 

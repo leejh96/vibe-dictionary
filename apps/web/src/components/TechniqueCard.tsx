@@ -1,9 +1,16 @@
 import { useLocale } from '../i18n/LocaleContext';
 import React, { useEffect, useRef, useState } from 'react';
-import { Copy, Check, Plus, CheckCircle2, Code2 } from 'lucide-react';
-import { TechniqueItem, CATEGORY_LABEL_MAP, CATEGORY_NAMES_EN, getTechniqueText } from '@vibe-dictionary/catalog';
+import { Copy, Check, Plus, CheckCircle2, Code2, BookMarked } from 'lucide-react';
+import {
+  TechniqueItem,
+  CATEGORY_LABEL_MAP,
+  CATEGORY_NAMES_EN,
+  getTechniqueText,
+  getGlossaryLinksForTechnique,
+} from '@vibe-dictionary/catalog';
 import { LazyInteractiveDemo } from './demos/LazyInteractiveDemo';
 import { DEMO_PLAYBACK } from './demos/demoPlayback';
+import { LazyGlossaryPeekDialog } from './glossary/LazyGlossaryPeekDialog';
 import { useClipboard } from '../hooks/useClipboard';
 import { useDemoReplay } from '../hooks/useDemoReplay';
 
@@ -97,15 +104,20 @@ interface TechniqueCardProps {
   item: TechniqueItem;
   isSelected: boolean;
   onToggleCart: (item: TechniqueItem) => void;
+  onViewGlossaryTerm?: (termId: string) => void;
 }
 
 export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   item,
   isSelected,
   onToggleCart,
+  onViewGlossaryTerm,
 }) => {
   const { t, locale } = useLocale();
   const text = getTechniqueText(item, locale);
+  const glossaryLinks = getGlossaryLinksForTechnique(item.id, 2);
+  const [peekTermId, setPeekTermId] = useState<string | null>(null);
+  const peekTriggerRef = useRef<HTMLButtonElement | null>(null);
   const { status: copyStatus, copy } = useClipboard(
     locale === 'ko' ? `[${item.titleKo} / ${item.titleEn}]\n${text.promptSnippet}` : `[${text.title}]\n${text.promptSnippet}`
   );
@@ -226,6 +238,28 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
 
         {/* 하단 액션 버튼 바 */}
         <div className="technique-card-footer">
+          {glossaryLinks.length > 0 && (
+            <div className="mb-2.5 flex min-w-0 flex-wrap items-center gap-1.5">
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                {t('glossary.cardLinksLabel')}
+              </span>
+              {glossaryLinks.map((link) => (
+                <button
+                  key={link.id}
+                  type="button"
+                  onClick={(event) => {
+                    peekTriggerRef.current = event.currentTarget;
+                    setPeekTermId(link.id);
+                  }}
+                  aria-label={t('glossary.peekAriaLabel', { name: link.name[locale] })}
+                  className="inline-flex min-h-11 max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-lg border border-indigo-200/80 bg-indigo-50/70 px-2 py-1 text-left text-[11px] font-bold text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-indigo-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-950 dark:text-indigo-300 dark:hover:border-indigo-500/50 dark:hover:bg-slate-900 sm:min-h-7"
+                >
+                  <BookMarked aria-hidden="true" className="h-3 w-3 shrink-0" />
+                  <span className="min-w-0 [overflow-wrap:anywhere]">{link.name[locale]}</span>
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/70">
             <button
               onClick={copy}
@@ -271,6 +305,15 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
           )}
         </div>
       </div>
+      <LazyGlossaryPeekDialog
+        termId={peekTermId}
+        onClose={() => setPeekTermId(null)}
+        returnFocusRef={peekTriggerRef}
+        onOpenInGlossary={onViewGlossaryTerm ? (termId) => {
+          setPeekTermId(null);
+          onViewGlossaryTerm(termId);
+        } : undefined}
+      />
     </article>
   );
 };

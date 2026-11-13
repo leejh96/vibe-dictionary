@@ -20,11 +20,14 @@ test('dictionary navigation reflects and changes the selected section', () => {
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<LocaleProvider initialLocale="ko"><DictionaryNavigation selected="design" onSelect={value => { selected = value; }} /></LocaleProvider>); });
   const buttons = tree.root.findByType('nav').findAllByType('button');
-  assert.deepEqual(buttons.map(text), ['도메인 지식', '디자인·인터랙션']);
+  assert.deepEqual(buttons.map(text), ['도메인 지식', '디자인·인터랙션', '용어 사전']);
   assert.equal(buttons[0].props['aria-pressed'], false);
   assert.equal(buttons[1].props['aria-pressed'], true);
+  assert.equal(buttons[2].props['aria-pressed'], false);
   act(() => buttons[0].props.onClick());
   assert.equal(selected, 'knowledge');
+  act(() => buttons[2].props.onClick());
+  assert.equal(selected, 'glossary');
   act(() => tree.unmount());
 });
 

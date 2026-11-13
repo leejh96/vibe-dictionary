@@ -4,6 +4,7 @@ import {
   TECHNIQUES, DOMAIN_CATEGORIES, DOMAIN_NAMES, TARGETS, TRIGGERS,
   searchTechniques, getTechniqueText, getSearchMetadata, type TechniqueItem, type Locale,
   DOMAIN_KNOWLEDGE, rankDomainKnowledge,
+  GLOSSARY_CATEGORIES, getGlossaryTerm, rankGlossaryTerms, type GlossaryTerm,
 } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
@@ -22,6 +23,22 @@ const summaryShape = {
 };
 const readOnlyAnnotations = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
 const knowledgeSummaryShape = { id: z.string(), locale: z.enum(['ko', 'en']), domain: z.string(), title: z.string(), summary: z.string() };
+const glossaryCategorySchema = z.enum(GLOSSARY_CATEGORIES);
+const glossaryMatchFieldSchema = z.enum(['name', 'alias', 'definition', 'example', 'prompt']);
+const glossarySummaryShape = {
+  id: z.string(), locale: z.enum(['ko', 'en']), category: glossaryCategorySchema,
+  name: z.string(), nameKo: z.string(), nameEn: z.string(),
+  definition: z.string(), aliases: z.array(z.string()),
+  relatedTechniqueIds: z.array(z.string()), relatedDomainIds: z.array(z.string()),
+};
+function summarizeGlossary(item: GlossaryTerm, locale: Locale) {
+  return {
+    id: item.id, locale, category: item.category,
+    name: item.text[locale].name, nameKo: item.name.ko, nameEn: item.name.en,
+    definition: item.text[locale].definition, aliases: item.aliases[locale],
+    relatedTechniqueIds: item.relatedTechniqueIds, relatedDomainIds: item.relatedDomainIds,
+  };
+}
 function summarize(item: TechniqueItem, locale: Locale) {
   const text = getTechniqueText(item, locale);
   const metadata = getSearchMetadata(item);
@@ -40,6 +57,7 @@ export function createServer() {
     instructions: [
       'Find UI, graphics, layout, style, pixel art, video and AI native techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
       'Before choosing designs for an education, community, commerce, booking, subscription, collaboration, customer-support, auth/account, notification, CMS/publishing, file/media, marketplace, event/check-in, recruiting/ATS, analytics, security/RBAC, logistics, fintech/wallet, healthcare, form/workflow-automation or AI agent service, use search_domain_knowledge with a short domain or workflow phrase such as "LMS", "회원 전용", "부분 환불", "타임슬롯", "정기 결제", "칸반", "헬프데스크", "RBAC", "합포장", "복식 원장" or "토큰 예산". Compare summaries, useCases and matchedOn fields, then call get_domain_knowledge by a returned ID for concepts, workflows, pitfalls, open decisions, sources, related technique IDs and a reference prompt. Search supports bilingual aliases and ranked keyword matching, not semantic AI. If no entry fits, retry fewer terms or a synonym, or browse with an empty query. Workflows and examples are design references, not established policies. Do not assume answers to the open questions. Related designs do not implement the domain rules.',
+      'To look up or clarify UI, engineering or workflow vocabulary such as "skeleton loading", "empty state", "debounce", "optimistic update", "결제 두 번 방지", "RBAC" or "이중 승인", use search_glossary with a short Korean or English phrase or natural alias. search_glossary searches both languages and aliases regardless of output locale and omits full examples and promptSnippet; call get_glossary_term with a returned ID for the full example, ready-to-use promptSnippet and verified relatedTechniqueIds/relatedDomainIds you can pass directly to get_technique or get_domain_knowledge. Glossary examples and prompts are reference material, not implemented backend policies.',
       'The calling assistant interprets the user request and generates short Korean or English search phrases for one effect at a time. The MCP performs bilingual weighted keyword/alias matching and runs no AI model. Extract concrete effects and targets; omit uncertain filters. For broad requests such as a clean or premium webpage, use the stated purpose and preferences; do not equate an adjective with one fixed style. Ask for clarification when missing context prevents a meaningful choice.',
       'For requests combining techniques, search distinct needs such as style, layout and interaction separately. Retrieve the selected prompts, then decide where each technique applies and compare their visual treatment, inputs and timing for conflicts. The tools do not compose techniques or check compatibility; the calling assistant makes those judgments.',
       'Use target/trigger filters only for required demo inputs. Compare summaries and useCases against the original request. If candidates are missing or unsuitable, retry a synonym, the other language or fewer modifiers, and remove only filters that are not required. Reset offset to zero when changing the query or filters. Do not select an unrelated result merely because it ranks first; clarify if useful candidates still cannot be found. Scores are not probabilities. locale selects output language independently of search language. These read-only tools return reference data only.',
@@ -124,6 +142,54 @@ export function createServer() {
       ? 'Domain knowledge ID not found. Use search_domain_knowledge to find a valid ID.'
       : '도메인 지식 ID를 찾을 수 없습니다. search_domain_knowledge로 유효한 ID를 확인해 주세요.' }] };
     return result({ id: item.id, locale, ...item.text[locale], sources: item.sources });
+  });
+  server.registerTool('search_glossary', {
+    title: 'Search glossary / 용어 사전 검색',
+    description: 'Search Korean and English UI, engineering and workflow glossary terms by name, aliases (including natural user descriptions such as "결제 두 번 방지"), definition, example and prompt. Bilingual normalization and weighted term coverage rank results regardless of output locale; this is not semantic AI search. Nonempty queries return score (not confidence) and matchedOn field names; empty queries browse catalog order. Non-matching queries return an empty list with total 0. Results exclude full example and promptSnippet; use get_glossary_term with a returned ID for full details and ready-to-use promptSnippet.',
+    inputSchema: {
+      query: z.string().max(500).default('').describe('Short Korean/English term, acronym or natural description; omit to browse.'),
+      locale: localeSchema,
+      limit: z.number().int().min(1).max(50).default(20),
+      offset: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).default(0),
+    },
+    outputSchema: {
+      total: z.number().int(), offset: z.number().int(), nextOffset: z.number().int().nullable(),
+      items: z.array(z.object({
+        ...glossarySummaryShape,
+        score: z.number(),
+        matchedOn: z.array(glossaryMatchFieldSchema),
+      })),
+    },
+    annotations: readOnlyAnnotations,
+  }, async ({ query, locale, limit, offset }) => {
+    const matches = rankGlossaryTerms(query);
+    const items = matches.slice(offset, offset + limit).map(({ item, score, matchedOn }) => ({
+      ...summarizeGlossary(item, locale),
+      score,
+      matchedOn: matchedOn.map(match => match.field),
+    }));
+    return result({ total: matches.length, offset, nextOffset: offset + items.length < matches.length ? offset + items.length : null, items });
+  });
+  server.registerTool('get_glossary_term', {
+    title: 'Get glossary term / 용어 상세 조회',
+    description: 'Retrieve a bilingual glossary term by exact ID in the requested locale (ko default, en supported), including definition, realistic example, ready-to-use promptSnippet, aliases and verified relatedTechniqueIds / relatedDomainIds that can be passed directly to get_technique and get_domain_knowledge. Examples and prompts are reference material, not implemented backend policies. Unknown IDs return an error.',
+    inputSchema: { id: z.string().trim().min(1).max(200), locale: localeSchema },
+    outputSchema: {
+      ...glossarySummaryShape,
+      example: z.string(),
+      promptSnippet: z.string(),
+    },
+    annotations: readOnlyAnnotations,
+  }, async ({ id, locale }) => {
+    const item = getGlossaryTerm(id);
+    if (!item) return { isError: true, content: [{ type: 'text' as const, text: locale === 'en'
+      ? 'Glossary term ID not found. Use search_glossary to find a valid ID.'
+      : '용어 ID를 찾을 수 없습니다. search_glossary로 유효한 ID를 확인해 주세요.' }] };
+    return result({
+      ...summarizeGlossary(item, locale),
+      example: item.text[locale].example,
+      promptSnippet: item.text[locale].promptSnippet,
+    });
   });
   return server;
 }
