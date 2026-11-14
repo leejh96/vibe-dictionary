@@ -7,7 +7,24 @@ export const GLOSSARY_CATEGORY_KEYS = {
   ui: 'glossary.categoryUi',
   engineering: 'glossary.categoryEngineering',
   workflow: 'glossary.categoryWorkflow',
-} as const satisfies Record<GlossaryCategory, 'glossary.categoryUi' | 'glossary.categoryEngineering' | 'glossary.categoryWorkflow'>;
+  'customer-support': 'glossary.categoryCustomerSupport',
+  'payments-settlement': 'glossary.categoryPaymentsSettlement',
+  'product-planning': 'glossary.categoryProductPlanning',
+  'business-operations': 'glossary.categoryBusinessOperations',
+  'sales-marketing': 'glossary.categorySalesMarketing',
+  'education-operations': 'glossary.categoryEducationOperations',
+} as const satisfies Record<
+  GlossaryCategory,
+  | 'glossary.categoryUi'
+  | 'glossary.categoryEngineering'
+  | 'glossary.categoryWorkflow'
+  | 'glossary.categoryCustomerSupport'
+  | 'glossary.categoryPaymentsSettlement'
+  | 'glossary.categoryProductPlanning'
+  | 'glossary.categoryBusinessOperations'
+  | 'glossary.categorySalesMarketing'
+  | 'glossary.categoryEducationOperations'
+>;
 
 interface GlossaryFiltersProps {
   query: string;

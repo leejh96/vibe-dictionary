@@ -145,4 +145,112 @@ export const ENGINEERING_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'http-live-streaming': {
+    aliases: {
+      ko: ['HLS', '라이브 스트리밍', 'm3u8', 'HLS 스트리밍', '적응형 비트레이트 스트리밍'],
+      en: ['HLS', 'm3u8 playlist', 'adaptive streaming', 'HLS video streaming', 'segmented HTTP streaming'],
+    },
+    text: {
+      ko: {
+        definition: '미디어 콘텐츠를 작은 세그먼트 파일들로 나누고 재생 목록(.m3u8)을 통해 일반 HTTP/HTTPS로 실시간(Live) 또는 주문형(VOD) 전송하는 스트리밍 규격입니다. 여러 화질 변형이 포함된 멀티배리언트 재생 목록이 함께 준비된 경우 네트워크 상태에 따라 화질을 전환하는 적응형 스트리밍도 구성할 수 있습니다.',
+        example: '온라인 강의 플레이어가 화질별 스트림이 담긴 마스터 .m3u8 목록을 받아 대역폭에 맞는 세그먼트를 순차 요청합니다. 브라우저의 기본 HLS 지원 여부를 먼저 확인하고, 미지원 환경에서는 호환 재생기 분기를 연결하며 세그먼트 로딩 실패 시 재시도 안내를 띄웁니다.',
+        promptSnippet: 'HTTP 라이브 스트리밍(HLS) 플레이어를 구현할 때는 먼저 브라우저의 기본 HLS(.m3u8) 재생 지원 여부를 확인한 뒤 필요 시 호환 재생기 분기를 두고, 다중 화질 변형이 준비된 경우에만 적응형 화질 전환을 연결해 줘. 세그먼트 로딩 지연·네트워크 끊김·재생 오류 시 재시도와 오류 복구 안내를 함께 구현해 줘.',
+      },
+      en: {
+        definition: 'An HTTP-based streaming specification (originated by Apple) that delivers live or VOD media as indexed playlists (.m3u8) referencing sequential media segments; adaptive bitrate switching is enabled when multiple quality variants are encoded and listed in a multivariant playlist.',
+        example: 'A video player loads a multivariant .m3u8 playlist, checks native browser HLS support before choosing an MSE-based fallback library, fetches media segments over HTTP, and surfaces retry controls if segment requests fail.',
+        promptSnippet: 'When integrating HTTP Live Streaming (HLS), check native browser support for .m3u8 playback before initializing an MSE fallback, enable adaptive bitrate switching only when multi-variant playlists are provided, and handle manifest or segment fetch failures with clear retry and fallback states.',
+      },
+    },
+  },
+  'content-delivery-network': {
+    aliases: {
+      ko: ['CDN', '엣지 캐시', '분산 캐시', '콘텐츠 전송망', '엣지 서버 캐싱'],
+      en: ['CDN', 'edge cache', 'content distribution', 'edge caching', 'distributed edge delivery'],
+    },
+    text: {
+      ko: {
+        definition: '전 세계 여러 지점의 분산 엣지 서버에 정적 자산이나 미디어 조각을 캐싱해 사용자와 가까운 위치에서 빠르게 전달하는 전송 계층입니다. 원본 파일을 영구 보관하는 오리진 스토리지나 영상을 여러 해상도로 변환하는 트랜스코딩과는 별개의 역할입니다.',
+        example: '정적 JS/이미지 자산에는 해시된 파일명과 긴 TTL을 설정해 엣지 캐시 적중률을 높이고, 유료 강좌나 비공개 첨부 파일처럼 권한 검사가 필요한 리소스는 공용 캐시로 노출하지 않고 짧은 만료 시간의 서명 URL이나 인증 검증 뒤에 제공합니다.',
+        promptSnippet: '정적 자산이나 미디어를 CDN으로 배포·연동할 때 오리진 저장소·트랜스코딩과 책임을 분리하고, 캐시 키(경로·쿼리·언어 헤더 등) 설계, 리소스 성격별 TTL 만료 정책, 배포 시 캐시 무효화(버전 해시 또는 purge) 절차, 인증이 필요한 비공개 콘텐츠의 캐시 분리·서명 접근 제어를 함께 명시해 줘.',
+      },
+      en: {
+        definition: 'A geographically distributed network of edge servers that caches and delivers static assets or media segments closer to end users; it is distinct from origin object storage (which holds source files) and media transcoding (which re-encodes formats).',
+        example: 'Serve fingerprinted static bundles with long cache TTLs from edge locations while keeping access-controlled downloads behind origin authorization or short-lived signed URLs rather than shared public caches.',
+        promptSnippet: 'When configuring a Content Delivery Network (CDN), separate edge delivery from origin storage and media transcoding, and explicitly define cache keys (path, query, vary headers), TTL/expiration policies, cache invalidation or asset-versioning strategy, and cache isolation or signed access control so private content is never exposed to unauthorized users through a shared cache.',
+      },
+    },
+  },
+  'content-management-system': {
+    aliases: {
+      ko: ['CMS', '콘텐츠 관리', '에디토리얼 관리', '헤드리스 CMS', '게시물 발행 시스템'],
+      en: ['CMS', 'editorial system', 'headless CMS', 'content publishing system', 'editorial workflow'],
+    },
+    text: {
+      ko: {
+        definition: '문서·공지·블로그·미디어 자산 같은 콘텐츠의 작성, 편집, 검수, 예약 및 게시 생명주기를 관리하는 시스템입니다. 수강 등록·진도·평가를 다루는 학습 관리 시스템(LMS)과는 목적이 다른 별개 시스템입니다.',
+        example: '에디터가 작성 중인 안내 문서를 초안(Draft) 상태로 저장해 비공개 미리보기 URL로 검수받은 뒤 승인된 항목만 게시(Published) 상태로 전환하고, 한국어·영어 로케일별 번역 상태를 함께 관리합니다.',
+        promptSnippet: '콘텐츠 관리 시스템(CMS)을 설계할 때는 학습 관리(LMS)와 혼동하지 말고 콘텐츠 작성·검수·발행 흐름에 집중해 초안/검수/게시 상태 분리, 역할별 편집·발행 권한, 비공개 미리보기(Preview) 경계, 다국어·로케일별 콘텐츠 및 폴백 정책을 어떻게 다룰지 설계 질문과 구현 기준을 함께 정의해 줘.',
+      },
+      en: {
+        definition: 'A system for managing the authoring, editing, review, and publishing lifecycle of digital content and media assets; unlike a Learning Management System (LMS), it does not manage learner enrollment, progress, or grading.',
+        example: 'An editor saves an article as a draft, shares a gated preview with reviewers, and publishes approved versions across Korean and English locales without exposing unpublished edits to public readers.',
+        promptSnippet: 'When designing a Content Management System (CMS)—distinct from an LMS—explicitly address design decisions for draft vs. published state transitions, authoring and publishing permissions, gated preview access, and multilingual/localization workflows with per-locale fallback rules.',
+      },
+    },
+  },
+  'supervised-learning': {
+    aliases: {
+      ko: ['지도학습', '레이블 학습', '분류 회귀 학습', '정답 데이터 기반 학습', '라벨링 학습'],
+      en: ['supervised ML', 'labeled training', 'classification and regression', 'labeled dataset learning'],
+    },
+    text: {
+      ko: {
+        definition: '입력 데이터와 정답 레이블(Ground Truth)이 짝지어진 예시를 사용해 입력에서 출력으로의 매핑 함수를 학습시키는 머신러닝 방식으로, 주로 범주를 맞히는 분류(Classification)와 연속 수치를 예측하는 회귀(Regression)에 쓰입니다.',
+        example: '스팸/정상 레이블이 달린 이메일 데이터로 모델을 학습시킬 때 학습(Train) 데이터로 가중치를 맞추고, 검증(Validation) 데이터로 하이퍼파라미터를 조정한 뒤, 분리된 평가(Test) 데이터로 일반화 성능을 측정합니다. 이미 학습된 외부 모델 API를 호출하거나 정적 UI 데모를 띄우는 것은 실제 지도 학습 훈련이 아닙니다.',
+        promptSnippet: '지도 학습 기반 기능을 설계·구현할 때 분류(Classification)인지 회귀(Regression)인지 문제 유형과 정답 레이블 정의를 먼저 명확히 하고, 학습·검증·테스트 데이터셋 분리와 데이터 누수 방지 기준을 포함해 줘. 단순 UI 시연이나 사전 학습된 API 호출을 실제 모델 훈련처럼 표현하지 마.',
+      },
+      en: {
+        definition: 'A machine learning paradigm that learns an input-to-output mapping from labeled examples paired with ground-truth answers, typically used for classification (discrete categories) or regression (continuous values).',
+        example: 'Split labeled support tickets into training, validation, and held-out test sets to tune and evaluate a category classifier without data leakage. Calling a hosted inference API or toggling a UI mockup is not real model training.',
+        promptSnippet: 'When building a supervised learning workflow, specify whether the task is classification or regression, define how ground-truth labels are collected, enforce strict training/validation/test splits to avoid leakage, and never misrepresent static UI demos or inference API calls as real model training.',
+      },
+    },
+  },
+  'unsupervised-learning': {
+    aliases: {
+      ko: ['비지도학습', '군집화', '패턴 탐색', '클러스터링', '차원 축소 학습'],
+      en: ['unsupervised ML', 'clustering', 'pattern discovery', 'dimensionality reduction', 'unlabeled data learning'],
+    },
+    text: {
+      ko: {
+        definition: '정답 레이블이 없는 데이터에서 숨겨진 패턴, 잠재 구조, 유사한 집단(군집·클러스터)이나 이상 징후를 스스로 찾아내는 머신러닝 방식입니다. 정답을 주며 맞추게 하는 지도 학습이나 환경 보상 신호로 행동 정책을 익히는 강화 학습과는 접근 방식이 다릅니다.',
+        example: '라벨이 없는 고객 행동 로그를 군집화해 유사한 이용 패턴 그룹을 탐색할 수 있지만, 도출된 군집 번호나 이상 점수가 절대적인 정답(Ground Truth)을 보장하지는 않으므로 도메인 전문가의 해석과 검증이 함께 필요합니다.',
+        promptSnippet: '비지도 학습(군집화·차원 축소·이상 탐지 등) 결과를 제품에 반영할 때는 정답 레이블이 있는 지도 학습이나 보상 기반 강화 학습과 구분하고, 산출된 군집·그룹 라벨을 확정된 정답(Ground Truth)처럼 단정하지 말고 탐색적 신호로 표시해 사람이 검토할 수 있게 해 줘.',
+      },
+      en: {
+        definition: 'A machine learning approach that uncovers hidden patterns, structures, or clusters in unlabeled data without ground-truth labels—distinct from supervised learning (which learns from labeled answers) and reinforcement learning (which optimizes actions from rewards).',
+        example: 'Cluster unlabeled session logs to surface candidate user segments or anomalies, treating the resulting cluster assignments as exploratory signals requiring human interpretation rather than guaranteed ground truth.',
+        promptSnippet: 'When surfacing unsupervised learning outputs (such as clustering or anomaly grouping), distinguish them from labeled supervised predictions and reward-driven reinforcement learning, and present discovered groups as exploratory hypotheses rather than guaranteed ground truth.',
+      },
+    },
+  },
+  'reinforcement-learning': {
+    aliases: {
+      ko: ['강화학습', 'RL', '보상 기반 학습', '정책 학습', '에이전트 보상 최적화'],
+      en: ['RL', 'reward-based learning', 'policy learning', 'agent-environment learning'],
+    },
+    text: {
+      ko: {
+        definition: '에이전트가 환경과 상호작용하며 현재 상태(State)에서 행동(Action)을 선택하고 그 결과로 받는 보상(Reward)을 통해 누적 보상을 최대화하는 정책(Policy)을 시행착오로 학습하는 머신러닝 방식입니다.',
+        example: '로봇 제어 시뮬레이터에서 목표 지점에 가까워질수록 양의 보상을 주고 충돌 시 음의 보상을 주며 정책을 반복 갱신합니다. 반면 퀴즈 점수나 배지 같은 게이미피케이션 UI 자체는 강화 학습이 아니며, 브라우저의 간단한 시연 데모도 실제 정책 학습 루프와 구분해 안내해야 합니다.',
+        promptSnippet: '강화 학습(RL) 개념을 다루거나 실험 화면을 구성할 때는 상태·행동·보상·누적 보상 최적화 정책 구조를 명확히 정의하고, 퀴즈 점수나 배지 보상 UI를 강화 학습으로 혼동해 표기하지 마. 정적 UI 시뮬레이션이나 데모가 실제 모델 훈련을 수행하는 것처럼 보이지 않게 경계를 분명히 표시해 줘.',
+      },
+      en: {
+        definition: 'A machine learning paradigm in which an agent interacts with an environment—observing states, taking actions, and receiving rewards—to learn a policy that maximizes cumulative long-term reward.',
+        example: 'A simulated warehouse agent updates its navigation policy across episodes using state transitions and step rewards. Gamified quiz scores or badge UI alone are not reinforcement learning, and interactive UI demos must be clearly labeled as simulations rather than live policy training.',
+        promptSnippet: 'When modeling or visualizing Reinforcement Learning (RL), explicitly define the state, action, reward, and cumulative-return policy loop, avoid calling gamified quiz points or badges "reinforcement learning," and clearly distinguish interactive UI simulations/demos from real training runs.',
+      },
+    },
+  },
 };

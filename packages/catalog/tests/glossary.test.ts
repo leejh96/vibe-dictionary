@@ -18,10 +18,19 @@ import {
 
 const TEST_DIR = dirname(fileURLToPath(import.meta.url));
 
-test('glossary has 24 unique kebab-case terms across ui, engineering and workflow with expanded acronyms', () => {
-  assert.ok(GLOSSARY_TERMS.length >= 20 && GLOSSARY_TERMS.length <= 30);
-  assert.equal(GLOSSARY_TERMS.length, 24);
-  assert.deepEqual(GLOSSARY_CATEGORIES, ['ui', 'engineering', 'workflow']);
+test('glossary has 42 unique kebab-case terms across 9 categories with expanded acronyms', () => {
+  assert.equal(GLOSSARY_TERMS.length, 42);
+  assert.deepEqual(GLOSSARY_CATEGORIES, [
+    'ui',
+    'engineering',
+    'workflow',
+    'customer-support',
+    'payments-settlement',
+    'product-planning',
+    'business-operations',
+    'sales-marketing',
+    'education-operations',
+  ]);
 
   const ids = GLOSSARY_TERMS.map(term => term.id);
   assert.equal(new Set(ids).size, GLOSSARY_TERMS.length);
@@ -29,14 +38,67 @@ test('glossary has 24 unique kebab-case terms across ui, engineering and workflo
     assert.match(id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, `Invalid kebab-case ID: ${id}`);
   }
 
-  for (const requiredId of ['skeleton-loading', 'empty-state', 'debounce', 'optimistic-update', 'idempotency']) {
+  for (const requiredId of [
+    'skeleton-loading',
+    'empty-state',
+    'debounce',
+    'optimistic-update',
+    'idempotency',
+    'call-to-action',
+    'floating-action-button',
+    'safe-area',
+    'http-live-streaming',
+    'content-delivery-network',
+    'content-management-system',
+    'supervised-learning',
+    'unsupervised-learning',
+    'reinforcement-learning',
+    'voice-of-customer',
+    'net-promoter-score',
+    'active-users',
+    'objectives-and-key-results',
+    'learning-management-system',
+    'sales-lead',
+    'customer-relationship-management',
+    'account-deactivation',
+    'curriculum-alignment',
+  ]) {
     assert.ok(ids.includes(requiredId), `Missing required term: ${requiredId}`);
   }
 
+  const expectedCategoryCounts: Record<typeof GLOSSARY_CATEGORIES[number], number> = {
+    ui: 11,
+    engineering: 14,
+    workflow: 5,
+    'customer-support': 2,
+    'payments-settlement': 3,
+    'product-planning': 2,
+    'business-operations': 1,
+    'sales-marketing': 2,
+    'education-operations': 2,
+  };
   for (const category of GLOSSARY_CATEGORIES) {
-    assert.ok(
-      GLOSSARY_TERMS.filter(term => term.category === category).length >= 6,
-      `Expected balanced coverage for category: ${category}`,
+    assert.equal(
+      GLOSSARY_TERMS.filter(term => term.category === category).length,
+      expectedCategoryCounts[category],
+      `Expected exact count for category: ${category}`,
+    );
+  }
+
+  const expectedReclassifiedMembers: Record<Exclude<typeof GLOSSARY_CATEGORIES[number], 'ui' | 'engineering'>, string[]> = {
+    workflow: ['human-in-the-loop', 'user-onboarding', 'grace-period', 'maker-checker-approval', 'account-deactivation'],
+    'customer-support': ['service-level-agreement', 'voice-of-customer'],
+    'payments-settlement': ['know-your-customer', 'escrow-settlement', 'proration'],
+    'product-planning': ['net-promoter-score', 'active-users'],
+    'business-operations': ['objectives-and-key-results'],
+    'sales-marketing': ['sales-lead', 'customer-relationship-management'],
+    'education-operations': ['learning-management-system', 'curriculum-alignment'],
+  };
+  for (const [category, expectedIds] of Object.entries(expectedReclassifiedMembers)) {
+    assert.deepEqual(
+      GLOSSARY_TERMS.filter(term => term.category === category).map(term => term.id),
+      expectedIds,
+      `Expected exact member list for category: ${category}`,
     );
   }
 
@@ -46,11 +108,13 @@ test('glossary has 24 unique kebab-case terms across ui, engineering and workflo
   assert.equal(new Set(enNames).size, GLOSSARY_TERMS.length);
 
   // Every standalone uppercase acronym in a term name must appear expanded alongside its full title.
+  // "HTTP" in "HTTP Live Streaming (HLS)" is part of the standard expanded name for HLS.
   for (const term of GLOSSARY_TERMS) {
     for (const locale of ['ko', 'en'] as const) {
       const name = term.name[locale];
       const acronymMatches = name.match(/\b[A-Z]{2,6}\b/g) ?? [];
       for (const acronym of acronymMatches) {
+        if (term.id === 'http-live-streaming' && acronym === 'HTTP') continue;
         assert.match(
           name,
           new RegExp(`\\(${acronym}\\)`),
@@ -61,6 +125,10 @@ test('glossary has 24 unique kebab-case terms across ui, engineering and workflo
       }
     }
   }
+
+  const activeUsers = getGlossaryTerm('active-users')!;
+  assert.doesNotMatch(activeUsers.name.ko, /[A-Z]{2,6}/);
+  assert.doesNotMatch(activeUsers.name.en, /[A-Z]{2,6}/);
 });
 
 test('every glossary term has complete bilingual content, curated aliases and verified catalog links', () => {
@@ -117,6 +185,7 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
 
   // Lookup helpers
   assert.equal(getGlossaryTerm('idempotency')?.id, 'idempotency');
+  assert.equal(getGlossaryTerm('objectives-and-key-results')?.id, 'objectives-and-key-results');
   assert.equal(getGlossaryTerm('non-existent-id'), undefined);
 
   const emptySearchLinks = getGlossaryLinksForTechnique('recoverable-search-empty-state');
@@ -130,6 +199,33 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
   assert.deepEqual(getGlossaryLinksForDomain('subscription-plan-entitlement-and-billing', 2).map(l => l.id), ['proration', 'grace-period']);
   assert.deepEqual(getGlossaryLinksForDomain('subscription-plan-entitlement-and-billing', 1).map(l => l.id), ['proration']);
   assert.deepEqual(getGlossaryLinksForDomain('unknown-domain'), []);
+
+  // Preserve existing priority while verifying reverse links for new terms
+  assert.deepEqual(getGlossaryLinksForTechnique('morphing-state-button').map(l => l.id), ['call-to-action']);
+  assert.deepEqual(getGlossaryLinksForTechnique('gooey-menu-fab').map(l => l.id), ['floating-action-button']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-bottom-destination-nav').map(l => l.id), ['safe-area']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-transposable-comparison-matrix').map(l => l.id), ['supervised-learning', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-heatmap-grid').map(l => l.id), ['supervised-learning', 'unsupervised-learning']);
+  assert.deepEqual(getGlossaryLinksForTechnique('vd-node-flow-pipeline').map(l => l.id), ['reinforcement-learning']);
+  assert.deepEqual(getGlossaryLinksForTechnique('vd-diverging-bar-reveal').map(l => l.id), ['net-promoter-score']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-kanban-board').map(l => l.id), ['sales-lead']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-master-detail-split').map(l => l.id), ['customer-relationship-management']);
+  assert.deepEqual(getGlossaryLinksForTechnique('inline-delete-confirmation').map(l => l.id), ['maker-checker-approval', 'account-deactivation']);
+
+  assert.deepEqual(getGlossaryLinksForDomain('education-live-session-attendance-and-replay').map(l => l.id), ['http-live-streaming']);
+  assert.deepEqual(getGlossaryLinksForDomain('cms-publishing-schedule-and-versioning').map(l => l.id), ['content-delivery-network', 'content-management-system']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute').map(l => l.id), ['unsupervised-learning']);
+  assert.deepEqual(getGlossaryLinksForDomain('ai-agent-state-memory-and-branching').map(l => l.id), ['reinforcement-learning']);
+  assert.deepEqual(getGlossaryLinksForDomain('support-csat-survey-and-quality-review').map(l => l.id), ['voice-of-customer', 'net-promoter-score']);
+  assert.deepEqual(getGlossaryLinksForDomain('support-ticket-routing-and-resolution').map(l => l.id), ['service-level-agreement', 'voice-of-customer']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window').map(l => l.id), ['active-users']);
+  assert.deepEqual(getGlossaryLinksForDomain('workspace-dependency-subtask-and-milestone').map(l => l.id), ['objectives-and-key-results']);
+  assert.deepEqual(getGlossaryLinksForDomain('coding-lesson-objectives-and-practice').map(l => l.id), ['user-onboarding', 'learning-management-system']);
+  assert.deepEqual(getGlossaryLinksForDomain('education-curriculum-prerequisite-and-cohort').map(l => l.id), ['learning-management-system', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForDomain('notification-scheduled-campaign-and-unsubscribe').map(l => l.id), ['sales-lead']);
+  assert.deepEqual(getGlossaryLinksForDomain('workspace-template-custom-field-and-archiving').map(l => l.id), ['customer-relationship-management']);
+  assert.deepEqual(getGlossaryLinksForDomain('account-dormancy-lockout-and-reactivation').map(l => l.id), ['account-deactivation']);
+  assert.deepEqual(getGlossaryLinksForDomain('subscription-seat-license-and-member-change').map(l => l.id), ['proration', 'account-deactivation']);
 });
 
 test('glossary search matches both languages, prioritizes names/aliases and avoids unrelated fallback', () => {
@@ -149,6 +245,25 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
     ['focus-trap', ['포커스 트랩', 'Focus Trap', '모달 밖으로 포커스 이탈 방지']],
     ['proration', ['일할 계산', 'Proration', '중도 변경 차액 계산']],
     ['grace-period', ['유예 기간', 'Grace Period', '결제 실패 유예']],
+    // 18 expanded glossary terms: IDs, names, and representative aliases
+    ['call-to-action', ['call-to-action', '행동 유도(CTA)', 'Call to Action (CTA)', 'CTA', '콜투액션', '행동 유도 버튼', 'primary action']],
+    ['floating-action-button', ['floating-action-button', '플로팅 액션 버튼(FAB)', 'Floating Action Button (FAB)', 'FAB', '플로팅 버튼', 'floating button']],
+    ['safe-area', ['safe-area', '안전 영역', 'Safe Area', '세이프 에어리어', '안전 여백', 'safe area inset']],
+    ['http-live-streaming', ['http-live-streaming', 'HTTP 라이브 스트리밍(HLS)', 'HTTP Live Streaming (HLS)', 'HLS', 'm3u8', 'm3u8 playlist']],
+    ['content-delivery-network', ['content-delivery-network', '콘텐츠 전송 네트워크(CDN)', 'Content Delivery Network (CDN)', 'CDN', '엣지 캐시', 'edge cache']],
+    ['content-management-system', ['content-management-system', '콘텐츠 관리 시스템(CMS)', 'Content Management System (CMS)', 'CMS', '헤드리스 CMS', 'headless CMS']],
+    ['supervised-learning', ['supervised-learning', '지도 학습', 'Supervised Learning', '지도학습', 'supervised ML', 'labeled training']],
+    ['unsupervised-learning', ['unsupervised-learning', '비지도 학습', 'Unsupervised Learning', '비지도학습', 'unsupervised ML', 'pattern discovery']],
+    ['reinforcement-learning', ['reinforcement-learning', '강화 학습', 'Reinforcement Learning', '강화학습', 'RL', 'reward-based learning']],
+    ['voice-of-customer', ['voice-of-customer', '고객의 소리(VOC)', 'Voice of Customer (VOC)', 'VOC', '고객 피드백', 'customer feedback']],
+    ['net-promoter-score', ['net-promoter-score', '순추천지수(NPS)', 'Net Promoter Score (NPS)', 'NPS', '순추천고객지수', 'promoter score']],
+    ['active-users', ['active-users', '활성 사용자', 'Active Users', 'MAU', 'WAU', 'DAU', '월간 활성 사용자', 'weekly active users']],
+    ['objectives-and-key-results', ['objectives-and-key-results', '목표와 핵심 결과(OKR)', 'Objectives and Key Results (OKR)', 'OKR', 'KR', '핵심 결과', 'key results']],
+    ['learning-management-system', ['learning-management-system', '학습 관리 시스템(LMS)', 'Learning Management System (LMS)', 'LMS', '학습 관리', 'learning platform']],
+    ['sales-lead', ['sales-lead', '잠재 고객', 'Sales Lead', '리드', '잠재고객', 'lead', 'sales prospect']],
+    ['customer-relationship-management', ['customer-relationship-management', '고객 관계 관리(CRM)', 'Customer Relationship Management (CRM)', 'CRM', '고객 관리', 'sales pipeline CRM']],
+    ['account-deactivation', ['account-deactivation', '계정 비활성화', 'Account Deactivation', '계정 중지', 'disable account']],
+    ['curriculum-alignment', ['curriculum-alignment', '교육과정 연계', 'Curriculum Alignment', '성취기준 연계', 'curriculum mapping']],
   ];
 
   for (const [expectedId, queries] of topCases) {
