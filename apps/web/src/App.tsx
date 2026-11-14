@@ -568,6 +568,7 @@ export default function App() {
         <DictionaryNavigation selected={dictionarySection} onSelect={handleDictionarySectionChange} headerHeight={headerHeight} />
         <main ref={mainRef} className="min-w-0 flex-1 space-y-5">
         {dictionarySection === 'design' && <>
+        <h1 className="text-xl font-extrabold">{t('dictionary.design')}</h1>
         {renderDomainTabs('grid grid-cols-2 min-[440px]:grid-cols-3 sm:flex sm:overflow-x-auto xl:hidden gap-1 pb-1.5')}
         <FilterBar
           activeDomain={activeDomain}

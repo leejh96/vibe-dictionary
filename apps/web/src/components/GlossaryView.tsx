@@ -46,14 +46,9 @@ export function GlossaryView({
 
   return (
     <div className="@container min-w-0 space-y-5">
-      <header className="min-w-0 space-y-1">
-        <h1 className="text-xl font-extrabold text-slate-900 dark:text-white [overflow-wrap:anywhere]">
-          {t('glossary.heading')}
-        </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-300 [overflow-wrap:anywhere]">
-          {t('glossary.intro')}
-        </p>
-      </header>
+      <h1 className="text-xl font-extrabold text-slate-900 dark:text-white [overflow-wrap:anywhere]">
+        {t('glossary.heading')}
+      </h1>
 
       <GlossaryFilters
         query={query}
