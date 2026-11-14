@@ -36,11 +36,12 @@
 | `scripts/check-i18n.ts` | 번역 누락·빈 값·자리표시자 불일치·직접 작성한 UI 문구 검사 |
 | `packages/catalog/src/index.ts` | 공용 카탈로그의 유일한 공개 진입점 |
 | `packages/catalog/src/glossary-links.ts` | 용어 사전 분류 정의(`GLOSSARY_CATEGORIES`), 용어 ID·이름·분류와 관련 기법·도메인 지식 ID 연결 |
+| `packages/catalog/src/glossary-domain-titles.ts` | 용어 상세의 관련 도메인 지식 링크에 쓰는 생성된 한영 제목 |
 | `packages/catalog/src/glossary.ts` | 분류별 용어 본문을 합쳐 `GLOSSARY_TERMS`와 `getGlossaryTerm` 제공 |
 | `packages/catalog/src/glossary/*.ts` | 분류별 용어 본문(`ui.ts`, `engineering.ts`, `workflow.ts`, `customer-support.ts`, `payments-settlement.ts`, `product-planning.ts`, `business-operations.ts`, `sales-marketing.ts`, `education-operations.ts`)과 타입 정의(`types.ts`) |
 | `packages/catalog/src/glossary-search.ts` | 웹과 MCP가 공유하는 용어 사전 한영 동의어·관련도 검색 |
 | `apps/mcp/` | 로컬 MCP 실행 파일·스키마·연결 테스트·사용 안내 |
-| `apps/web/src/components/FilterBar.tsx` | 카테고리·검색·추천 키워드 UI |
+| `apps/web/src/components/FilterBar.tsx` | 카테고리·검색·결과 개수 UI |
 | `apps/web/src/components/TechniqueCard.tsx` | 카드, 개별 복사, 조합기 선택, 화면 근처 데모 마운트, 데모 배경 예외 |
 | `apps/web/src/components/demos/LazyInteractiveDemo.tsx` | 화면 근처 데모 묶음의 로딩·실패 안내와 렌더링 |
 | `apps/web/src/components/demos/demoLoaders.ts` | 기법 ID별 데모 묶음 지연 로딩 연결 |

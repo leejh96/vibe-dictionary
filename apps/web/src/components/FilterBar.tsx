@@ -14,8 +14,6 @@ interface FilterBarProps {
   onSearchChange: (val: string) => void;
   selectedCategory: CategoryType | 'all';
   onCategoryChange: (val: CategoryType | 'all') => void;
-  onSelectChip: (chip: string) => void;
-  vibeChips: string[];
   categoryCounts: Record<string, number>;
   totalCount: number;
 }
@@ -31,7 +29,6 @@ const DOMAIN_PLACEHOLDERS = {
 } as const satisfies Record<DomainType, MessageKey>;
 
 const MAX_VISIBLE_CATEGORIES = 8;
-const MAX_VISIBLE_CHIPS = 10;
 
 export const FilterBar: React.FC<FilterBarProps> = ({
   activeDomain,
@@ -39,24 +36,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onSearchChange,
   selectedCategory,
   onCategoryChange,
-  onSelectChip,
-  vibeChips,
   categoryCounts,
   totalCount,
 }) => {
   const { t, locale } = useLocale();
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(false);
-  const [isChipsExpanded, setIsChipsExpanded] = useState(false);
 
-  // 도메인이나 카테고리가 바뀌면 접힌 상태로 초기화
   useEffect(() => {
     setIsCategoriesExpanded(false);
-    setIsChipsExpanded(false);
   }, [activeDomain]);
-
-  useEffect(() => {
-    setIsChipsExpanded(false);
-  }, [selectedCategory]);
 
   const categories = DOMAIN_CATEGORIES[activeDomain].map(category => ({ ...category, label: locale === 'en' ? CATEGORY_NAMES_EN[category.id] : category.label }));
 
@@ -80,34 +68,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         })();
   const hiddenCategoryCount = categories.length - visibleCategories.length;
 
-  // 추천 키워드 노출 목록 계산 (접혀 있을 때 선택된 칩이 숨겨진 범위에 있으면 포함)
-  const normalizedQuery = searchQuery.trim().toLowerCase();
-  const shouldTruncateChips = vibeChips.length > MAX_VISIBLE_CHIPS;
-  const visibleChips =
-    !shouldTruncateChips || isChipsExpanded
-      ? vibeChips
-      : (() => {
-          const sliced = vibeChips.slice(0, MAX_VISIBLE_CHIPS);
-          const activeInSliced = sliced.some(
-            (chip) => chip.toLowerCase() === normalizedQuery
-          );
-          if (!activeInSliced && normalizedQuery !== '') {
-            const activeChip = vibeChips.find(
-              (chip) => chip.toLowerCase() === normalizedQuery
-            );
-            if (activeChip) {
-              return [...sliced.slice(0, MAX_VISIBLE_CHIPS - 1), activeChip];
-            }
-          }
-          return sliced;
-        })();
-  const hiddenChipCount = vibeChips.length - visibleChips.length;
-
   return (
     <section className="space-y-3 bg-white dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs dark:shadow-none transition-colors duration-200">
       {/* 1단: 고정 폭이 보장되는 독립 검색창 + 결과 개수/초기화 */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex min-w-0 sm:flex-1">
           <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
@@ -127,7 +92,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           )}
         </div>
 
-        <div className="flex items-center justify-end gap-2 shrink-0">
+        <div className="flex shrink-0 flex-wrap justify-end gap-2 sm:flex-nowrap">
           {hasActiveFilter && (
             <button
               onClick={() => {
@@ -140,7 +105,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <span>{t("search.resetFilters")}</span>
             </button>
           )}
-          <span className="text-xs text-slate-600 dark:text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80">{t("search.showing", { count: totalCount })}</span>
+          <span className="flex items-center text-xs text-slate-600 dark:text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80">{t("search.showing", { count: totalCount })}</span>
         </div>
       </div>
 
@@ -186,47 +151,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             ) : (
               <>
                 <span>{t("search.more", { count: hiddenCategoryCount })}</span>
-                <ChevronDown className="w-3 h-3" />
-              </>
-            )}
-          </button>
-        )}
-      </div>
-
-      {/* 3단: 빠른 느낌 키워드 칩 (10개 초과 시 +N개 더보기 / 접기 토글) */}
-      <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-200/80 dark:border-slate-800/60">
-        <span className="text-[11px] font-semibold text-slate-500 mr-1">{t("search.suggested")}<span className="font-mono text-slate-400 dark:text-slate-600">({vibeChips.length})</span>:
-        </span>
-        {visibleChips.map((chip) => {
-          const active = normalizedQuery === chip.toLowerCase();
-          return (
-            <button
-              key={chip}
-              onClick={() => onSelectChip(active ? '' : chip)}
-              className={`text-[11px] px-2.5 py-1 rounded-lg border transition-all ${
-                active
-                  ? 'bg-indigo-600/15 dark:bg-indigo-600/30 text-indigo-700 dark:text-indigo-200 border-indigo-500 font-bold'
-                  : 'bg-white dark:bg-slate-950/70 text-slate-600 dark:text-slate-400 border-slate-200/90 dark:border-slate-800/80 hover:text-indigo-600 dark:hover:text-slate-200 hover:border-indigo-300 dark:hover:border-slate-700 hover:bg-indigo-50/50 dark:hover:bg-slate-900'
-              }`}
-            >
-              #{chip}
-            </button>
-          );
-        })}
-
-        {shouldTruncateChips && (
-          <button
-            onClick={() => setIsChipsExpanded((prev) => !prev)}
-            className="text-[11px] px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100/80 dark:hover:bg-indigo-900/50 hover:border-indigo-300 dark:hover:border-indigo-400 font-semibold flex items-center gap-1 transition-all"
-          >
-            {isChipsExpanded ? (
-              <>
-                <span>{t("actions.collapse")}</span>
-                <ChevronUp className="w-3 h-3" />
-              </>
-            ) : (
-              <>
-                <span>{t("search.more", { count: hiddenChipCount })}</span>
                 <ChevronDown className="w-3 h-3" />
               </>
             )}

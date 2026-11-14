@@ -1,5 +1,5 @@
-import { useId, type RefObject } from 'react';
-import { Search, X } from 'lucide-react';
+import { useId, useLayoutEffect, useRef, useState, type RefObject } from 'react';
+import { ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import type { GlossaryCategory } from '@vibe-dictionary/catalog';
 import { useLocale } from '../../i18n/LocaleContext';
 
@@ -49,6 +49,10 @@ export function GlossaryFilters({
 }: GlossaryFiltersProps) {
   const { t } = useLocale();
   const searchInputId = useId();
+  const categoryGroupId = useId();
+  const categoryGroupRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [overflow, setOverflow] = useState({ visibleCount: 0, height: 0 });
   const categoryOptions: { key: GlossaryCategory | 'all'; label: string; count: number }[] = [
     { key: 'all', label: t('glossary.categoryAll'), count: totalCount },
     ...categories.map((category) => ({
@@ -57,18 +61,59 @@ export function GlossaryFilters({
       count: category.count,
     })),
   ];
+  const categoryCount = categoryOptions.length;
+
+  useLayoutEffect(() => {
+    const group = categoryGroupRef.current;
+    if (!group) return;
+    const buttons = Array.from(group.children);
+
+    const measureRows = () => {
+      const top = group.getBoundingClientRect().top;
+      let rowTop = -Infinity;
+      let rows = 0;
+      let visibleCount = 0;
+      let height = 0;
+      for (const button of buttons) {
+        const rect = button.getBoundingClientRect();
+        if (rect.top !== rowTop) {
+          rowTop = rect.top;
+          rows += 1;
+          if (rows > 2) break;
+        }
+        visibleCount += 1;
+        height = Math.max(height, rect.bottom - top);
+      }
+      setOverflow(previous => previous.visibleCount === visibleCount && previous.height === height
+        ? previous
+        : { visibleCount, height });
+    };
+
+    measureRows();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measureRows);
+      return () => window.removeEventListener('resize', measureRows);
+    }
+    const observer = new ResizeObserver(measureRows);
+    observer.observe(group);
+    buttons.forEach(button => observer.observe(button));
+    return () => observer.disconnect();
+  }, [categoryCount, t]);
+
+  const hiddenCount = overflow.visibleCount > 0 ? categoryCount - overflow.visibleCount : 0;
+  const collapsed = hiddenCount > 0 && !expanded;
 
   return (
     <section className="min-w-0 space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-xs dark:border-slate-800 dark:bg-slate-900 dark:shadow-none">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <label
-            htmlFor={searchInputId}
-            className="block text-xs font-extrabold text-slate-700 dark:text-slate-200"
-          >
-            {t('glossary.searchLabel')}
-          </label>
-          <div className="relative min-w-0">
+      <div className="space-y-1.5">
+        <label
+          htmlFor={searchInputId}
+          className="block text-xs font-extrabold text-slate-700 dark:text-slate-200"
+        >
+          {t('glossary.searchLabel')}
+        </label>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="relative flex min-w-0 sm:flex-1">
             <Search
               aria-hidden="true"
               className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"
@@ -97,23 +142,26 @@ export function GlossaryFilters({
               </button>
             )}
           </div>
-        </div>
 
-        <p
-          role="status"
-          aria-live="polite"
-          className="max-w-full shrink-0 self-start rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-slate-700 [overflow-wrap:anywhere] dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 sm:self-auto"
-        >
-          {t('glossary.resultCount', { count: filteredCount })}
-        </p>
+          <p
+            role="status"
+            aria-live="polite"
+            className="flex max-w-full shrink-0 items-center self-start rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-slate-700 [overflow-wrap:anywhere] dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 sm:self-stretch"
+          >
+            {t('glossary.resultCount', { count: filteredCount })}
+          </p>
+        </div>
       </div>
 
       <div
+        id={categoryGroupId}
+        ref={categoryGroupRef}
         role="group"
         aria-label={t('glossary.categoryFilter')}
-        className="flex flex-wrap items-center gap-1.5 pt-1"
+        className="flex flex-wrap content-start items-start gap-1.5 pt-1"
+        style={collapsed ? { maxHeight: overflow.height } : undefined}
       >
-        {categoryOptions.map((option) => {
+        {categoryOptions.map((option, index) => {
           const active = selectedCategory === option.key;
           return (
             <button
@@ -125,7 +173,7 @@ export function GlossaryFilters({
                 active
                   ? 'border-indigo-600 bg-indigo-600 text-white'
                   : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-indigo-300 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white'
-              }`}
+              } ${collapsed && index >= overflow.visibleCount ? 'invisible' : ''}`}
             >
               <span className="min-w-0">{option.label}</span>
               <span className="ml-1.5 shrink-0 font-mono text-[11px] opacity-85">{option.count}</span>
@@ -133,6 +181,19 @@ export function GlossaryFilters({
           );
         })}
       </div>
+
+      {hiddenCount > 0 && (
+        <button
+          type="button"
+          aria-controls={categoryGroupId}
+          aria-expanded={expanded}
+          onClick={() => setExpanded(value => !value)}
+          className="inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700 hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-indigo-500/30 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/50 sm:min-h-9"
+        >
+          {expanded ? t('actions.collapse') : t('search.more', { count: hiddenCount })}
+          {expanded ? <ChevronUp aria-hidden="true" className="h-3 w-3" /> : <ChevronDown aria-hidden="true" className="h-3 w-3" />}
+        </button>
+      )}
     </section>
   );
 }

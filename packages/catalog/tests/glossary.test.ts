@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   DOMAIN_KNOWLEDGE,
   GLOSSARY_CATEGORIES,
+  GLOSSARY_DOMAIN_TITLES,
   GLOSSARY_LINK_META,
   GLOSSARY_TERMS,
   TECHNIQUES,
@@ -162,6 +163,15 @@ test('every glossary term has complete bilingual content, curated aliases and ve
       assert.ok(domainIds.has(domainId), `${term.id} references unknown domainId "${domainId}"`);
     }
   }
+});
+
+test('glossary domain titles match the source titles for every related domain', () => {
+  const relatedIds = new Set(GLOSSARY_TERMS.flatMap(term => term.relatedDomainIds));
+  const expectedTitles = new Map(
+    DOMAIN_KNOWLEDGE.filter(item => relatedIds.has(item.id))
+      .map(({ id, text }) => [id, { ko: text.ko.title, en: text.en.title }] as const),
+  );
+  assert.deepEqual(GLOSSARY_DOMAIN_TITLES, expectedTitles);
 });
 
 test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakeable', () => {
