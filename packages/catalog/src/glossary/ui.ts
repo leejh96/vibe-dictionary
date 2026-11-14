@@ -199,4 +199,184 @@ export const UI_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'container-query': {
+    aliases: {
+      ko: ['콘테이너 쿼리', '컨테이너 크기 쿼리', '컴포넌트 기준 반응형'],
+      en: ['container queries', '@container', 'container-type'],
+    },
+    text: {
+      ko: {
+        definition: '뷰포트 전체 너비 대신 지정한 상위 컨테이너의 크기나 스타일을 기준으로 내부 레이아웃을 바꾸는 CSS(Cascading Style Sheets) 규칙입니다. 같은 카드나 위젯이 사이드바와 본문 등 서로 다른 폭의 영역에 배치될 때 좁은 기본 레이아웃을 유지한 채 공간이 넓어질 때만 배치를 확장하도록 제어합니다.',
+        example: '상품 요약 카드는 상위 열에 inline-size 컨테이너를 선언해 기본적으로 세로 1열로 쌓고, 할당 폭이 넓어질 때만 썸네일과 설명을 가로 배치로 전환해 사이드바와 메인 그리드 양쪽에서 깨지지 않게 합니다.',
+        promptSnippet: '카드나 패널처럼 배치 위치에 따라 폭이 달라지는 컴포넌트는 뷰포트 기준 대신 상위 래퍼에 container-type: inline-size를 선언하고 좁은 기본 레이아웃에서 @container (min-width: ...) 조건으로만 가로 확장이나 보조 열을 열도록 구현하세요.',
+      },
+      en: {
+        definition: 'A Cascading Style Sheets (CSS) rule that adapts an element’s layout to a designated ancestor container’s dimensions rather than the browser viewport. It keeps a narrow-first default layout and expands to wider arrangements only when the surrounding container provides enough space.',
+        example: 'A media card wrapper declares container-type: inline-size so the card stacks vertically by default in narrow sidebars and switches to a horizontal row only inside wider main grid tracks.',
+        promptSnippet: 'For reusable cards or widgets placed across varying column widths, define container-type: inline-size on an ancestor wrapper, keep a narrow-first base layout, and switch to horizontal or multi-column tracks via @container rules instead of viewport media queries.',
+      },
+    },
+  },
+  'responsive-breakpoint': {
+    aliases: {
+      ko: ['반응형 브레이크포인트', '화면 폭 분기점', '미디어 쿼리 분기점'],
+      en: ['breakpoints', 'responsive breakpoints', 'media query breakpoint'],
+    },
+    text: {
+      ko: {
+        definition: '화면이나 컨테이너의 크기가 특정 임계값을 넘을 때 열 수, 여백, 탐색 구조를 전환하는 기준 폭입니다. 기기 브랜드 이름이 아니라 콘텐츠가 겹치거나 줄 바꿈이 어색해지는 지점에 맞춰 분기점을 정합니다.',
+        example: '문서 목록 페이지가 작은 화면에서는 1열 카드로 보이고, 표와 필터를 나란히 둘 수 있는 폭 이상에서만 2단 레이아웃으로 전환되도록 분기점을 설정합니다.',
+        promptSnippet: '특정 기기 해상도를 가정하지 말고 콘텐츠가 좁아져 겹치거나 가독성이 떨어지는 지점에 맞춰 반응형 중단점을 정의하며, 모바일 기준 기본 레이아웃 위에서 점진적으로 열과 간격을 확장하세요.',
+      },
+      en: {
+        definition: 'A threshold width at which a layout adjusts column counts, spacing, or navigation structure. Breakpoints should follow where the content actually crowds or breaks rather than fixed device names.',
+        example: 'A catalog view stays single-column on narrow screens and shifts to a sidebar-plus-grid arrangement only once the width comfortably accommodates both filter controls and readable cards.',
+        promptSnippet: 'Define responsive breakpoints based on where layout wrapping or crowding occurs rather than device brands, starting from a single-column base layout and progressively adding columns and spacing.',
+      },
+    },
+  },
+  'aspect-ratio': {
+    aliases: {
+      ko: ['화면 비율', '가로세로 비율', '비율 고정 프레임'],
+      en: ['aspect ratio', 'aspect-ratio css', 'aspect ratio box'],
+    },
+    text: {
+      ko: {
+        definition: '이미지, 영상, 카드 프레임의 가로와 세로 길이 비율을 일정하게 유지하는 속성입니다. 리소스가 불러와지기 전부터 슬롯 크기를 예약해 주변 요소가 아래로 밀리는 현상을 줄입니다.',
+        example: '썸네일 갤러리 카드 이미지 래퍼에 aspect-ratio: 16 / 9와 object-fit: cover를 함께 적용해 각 이미지의 원본 비율이 달라도 카드 행 높이를 일정하게 맞춥니다.',
+        promptSnippet: '이미지나 미디어 카드 슬롯에는 명시적인 aspect-ratio와 object-fit 규칙을 지정해 콘텐츠 로드 전후에도 프레임 크기가 흔들리지 않게 유지하세요.',
+      },
+      en: {
+        definition: 'The proportional relationship between an element’s width and height, such as 16:9 or 4:3. Setting an explicit aspect ratio reserves box height before media finishes loading so surrounding content does not jump.',
+        example: 'A thumbnail grid applies CSS aspect-ratio: 16 / 9 with object-fit: cover on media frames so mixed-dimension photos align into uniform rows without clipping key layout geometry.',
+        promptSnippet: 'Apply explicit aspect-ratio sizing and appropriate object-fit framing to image, video, and card media slots so their layout dimensions are reserved before media loads.',
+      },
+    },
+  },
+  'keyboard-focus-indicator': {
+    aliases: {
+      ko: ['포커스 링', '키보드 포커스 윤곽선', '포커스 표시기'],
+      en: ['focus indicator', 'focus ring', 'focus-visible outline'],
+    },
+    text: {
+      ko: {
+        definition: 'Tab 키 등 키보드 탐색 중 현재 선택된 대화형 요소가 어디인지 눈에 띄는 외곽선이나 대비 변화로 알려 주는 시각 표시입니다. 마우스 클릭 시 불필요한 테두리를 줄이려면 :focus-visible을 활용하되 키보드 포커스 표시는 절대 가리지 않아야 합니다.',
+        example: '버튼과 입력 필드에 outline: none을 단독으로 쓰지 않고 :focus-visible 상태에서 배경과 충분한 명도 대비를 갖는 2px 외곽선과 offset을 표시해 키보드 사용자가 현재 위치를 바로 파악하게 합니다.',
+        promptSnippet: '모든 대화형 버튼, 링크, 입력 요소에 배경과 대비가 뚜렷한 :focus-visible 포커스 표시를 제공하고, 대체 스타일 없이 outline을 제거하지 마세요.',
+      },
+      en: {
+        definition: 'A visible outline or highlight showing which interactive control currently receives keyboard focus during Tab or arrow navigation. Using :focus-visible keeps keyboard focus unmistakably clear without adding distracting rings on pointer clicks.',
+        example: 'Buttons and form inputs retain a high-contrast 2px :focus-visible outline with offset against both light and dark surfaces instead of stripping outline with outline: none.',
+        promptSnippet: 'Ensure every interactive link, button, tab, and form field displays a high-contrast :focus-visible indicator with clear offset, and never remove focus outlines without an equally visible replacement.',
+      },
+    },
+  },
+  'skip-link': {
+    aliases: {
+      ko: ['본문 바로가기 링크', '스킵 네비게이션', '스킵 링크'],
+      en: ['skip navigation link', 'skip to content', 'bypass block link'],
+    },
+    text: {
+      ko: {
+        definition: '페이지 최상단에 두어 키보드나 스크린 리더 사용자가 반복되는 헤더 메뉴를 건너뛰고 본문 영역으로 즉시 이동할 수 있게 하는 링크입니다. 평소에는 화면 밖에 숨겨 두더라도 포커스를 받으면 즉시 보이게 노출해야 합니다.',
+        example: '페이지 첫 Tab 입력 시 "본문으로 건너뛰기" 링크가 좌측 상단에 나타나고, 선택하면 main 요소의 앵커로 포커스와 스크롤이 바로 이동합니다.',
+        promptSnippet: '반복적인 상단 내비게이션이 있는 페이지 최상단에 포커스 시 명확히 드러나는 건너뛰기 링크를 배치해 키보드 사용자가 메인 콘텐츠 랜드마크로 바로 이동할 수 있게 구현하세요.',
+      },
+      en: {
+        definition: 'An anchor placed at the very start of a page that lets keyboard and screen-reader users bypass repeated header navigation and jump straight to the main content landmark. It can stay visually hidden until focused, when it must become clearly visible.',
+        example: 'Pressing Tab upon entering a documentation page reveals a "Skip to main content" link at the top corner that moves focus directly to the main landmark.',
+        promptSnippet: 'Place a skip link as the first focusable control in the page that becomes visibly styled on :focus-visible and moves keyboard focus directly to the main content region.',
+      },
+    },
+  },
+  breadcrumb: {
+    aliases: {
+      ko: ['이동 경로 탐색', '경로 표시줄', '빵 부스러기 탐색'],
+      en: ['breadcrumbs', 'breadcrumb trail', 'hierarchy path'],
+    },
+    text: {
+      ko: {
+        definition: '현재 화면이 계층 구조의 어느 단계에 있는지 상위 폴더나 카테고리를 순서대로 보여 주는 보조 탐색 경로입니다. 사용자가 전체 메뉴를 다시 열지 않고도 원하는 상위 단계로 한 번에 되돌아갈 수 있게 돕습니다.',
+        example: '문서 상세 화면 상단에 "홈 > 가이드 > 성능" 경로를 nav[aria-label]과 목록 구조로 표시하고, 현재 항목에는 aria-current="page"를 부여하며 좁은 화면에서는 중간 단계를 생략해 줄 넘침을 막습니다.',
+        promptSnippet: '계층형 페이지나 폴더 구조 상단에 상위 경로를 연결하는 브레드크럼 내비게이션을 제공하고, 현재 항목에는 aria-current="page"를 지정하며 좁은 폭에서는 중간 경로를 안전하게 축약하세요.',
+      },
+      en: {
+        definition: 'A secondary navigation trail showing a user’s position within a hierarchy of categories or folders. It lets users jump directly back to any parent level without retracing multiple back steps.',
+        example: 'A workspace folder view renders semantic breadcrumb links inside a labeled nav element, marks the active leaf with aria-current="page", and collapses middle segments on narrow screens.',
+        promptSnippet: 'Implement hierarchical navigation paths with a labeled nav breadcrumb list, linking ancestor levels, marking the current item with aria-current="page", and safely truncating middle items in narrow layouts.',
+      },
+    },
+  },
+  tooltip: {
+    aliases: {
+      ko: ['말풍선 안내', '부연 설명 팝업', '툴팁 도움말'],
+      en: ['tooltips', 'hint popover', 'accessible tooltip'],
+    },
+    text: {
+      ko: {
+        definition: '아이콘 버튼이나 축약된 레이블 위에 마우스를 올리거나 키보드 포커스가 머물 때 짧은 보조 설명을 띄우는 작은 오버레이입니다. 긴 본문이나 필수 조작 버튼은 툴팁 안에 숨기지 않고 화면에 직접 두거나 별도 패널로 분리합니다.',
+        example: '아이콘 전용 복사 버튼에 hover와 focus-visible 모두에서 열리는 짧은 텍스트 툴팁을 role="tooltip"과 aria-describedby로 연결하고 Escape 키로 즉시 닫을 수 있게 합니다.',
+        promptSnippet: '아이콘이나 약어 레이블의 보조 설명에만 툴팁을 사용하고, 마우스 hover뿐 아니라 키보드 focus에서도 나타나며 Escape로 닫히고 aria-describedby로 연결되도록 구현하세요.',
+      },
+      en: {
+        definition: 'A brief contextual overlay that reveals a short text label or hint when a user hovers over or focuses on a control. Essential instructions, interactive links, and long prose belong outside tooltips so touch and keyboard users are not blocked.',
+        example: 'An icon-only toolbar action reveals a concise hint tooltip on both pointer hover and keyboard focus via aria-describedby, dismissing immediately on Escape.',
+        promptSnippet: 'Use tooltips strictly for concise supplementary hints, triggering on both hover and keyboard focus, linking the text via aria-describedby, and closing on Escape without placing interactive controls inside.',
+      },
+    },
+  },
+  'tab-panel': {
+    aliases: {
+      ko: ['탭 전환 패널', '탭 UI', '탭 콘텐츠 영역'],
+      en: ['tabs panel', 'tabbed interface', 'tablist tabpanel'],
+    },
+    text: {
+      ko: {
+        definition: '같은 영역 안에서 주제나 보기 방식을 전환하는 탭 목록(tablist)과 선택된 탭에 대응하는 콘텐츠 영역(tabpanel)으로 이루어진 UI(User Interface) 패턴입니다. 새 경로로 이동하는 링크 탐색과 구분해 한 화면 내 콘텐츠 전환에 쓰며 좌우 방향키 이동과 선택 상태를 명확히 관리합니다.',
+        example: '설정 화면에서 "일반", "알림", "보안" 탭을 role="tablist", role="tab", role="tabpanel"로 연결해 좌우 방향키로 포커스를 옮기고 선택된 패널만 표시합니다.',
+        promptSnippet: '한 화면 안에서 보기나 섹션을 전환할 때는 role="tablist", role="tab", role="tabpanel"과 aria-selected·aria-controls 연결을 갖추고 방향키 탐색이 동작하는 탭 패널을 구현하세요.',
+      },
+      en: {
+        definition: 'A User Interface (UI) pattern pairing a set of tab controls (tablist) with switchable content regions (tabpanel) inside the same view. Unlike page-navigation links, tabs toggle peer sections in place and support arrow-key switching with explicit selected state.',
+        example: 'A metrics drawer pairs "Overview", "Funnel", and "Raw Table" tabs using role="tablist", role="tab", and role="tabpanel" linked by aria-controls so arrow keys switch panels cleanly.',
+        promptSnippet: 'Build tab interfaces for switching in-page views with proper role="tablist", role="tab", and role="tabpanel" attributes, synchronized aria-selected/aria-controls bindings, and keyboard arrow-key navigation.',
+      },
+    },
+  },
+  'faceted-filter': {
+    aliases: {
+      ko: ['다중 속성 필터', '조건별 필터 칩', '속성 필터링'],
+      en: ['faceted search', 'multi-attribute filter', 'filter facets'],
+    },
+    text: {
+      ko: {
+        definition: '카테고리, 상태, 가격대 등 여러 속성 축을 동시에 조합해 목록을 좁혀 가는 필터 방식입니다. 현재 적용 중인 조건을 배지나 칩으로 드러내고 개별 해제 및 전체 초기화 경로를 함께 제공합니다.',
+        example: '템플릿 탐색기에서 영역, 난이도, 지원 형식 필터를 다중 선택하면 일치하는 항목 수와 선택된 조건 칩이 즉시 갱신되고 각 칩 버튼으로 조건을 하나씩 지울 수 있습니다.',
+        promptSnippet: '여러 속성 조건을 조합하는 목록에는 선택 가능한 패싯 옵션과 결과 개수, 현재 적용된 필터 칩, 그리고 개별 해제·전체 초기화 버튼을 함께 제공하세요.',
+      },
+      en: {
+        definition: 'A filtering pattern that narrows a collection across multiple independent attributes—such as category, status, or format—at the same time. Showing matching counts and removable active filter chips prevents users from losing track of applied constraints.',
+        example: 'A catalog directory lets users combine domain and format checkboxes while updating result counts and displaying removable active filter chips with a single reset action.',
+        promptSnippet: 'Design multi-attribute filtering with clear facet groups, live match counts when feasible, removable active filter chips, and an accessible clear-all action.',
+      },
+    },
+  },
+  pagination: {
+    aliases: {
+      ko: ['페이지네이션', '페이지 분할 탐색', '쪽 나누기'],
+      en: ['page navigation', 'paged list', 'page controls'],
+    },
+    text: {
+      ko: {
+        definition: '많은 항목을 한 번에 모두 그리지 않고 일정 단위 페이지로 나누어 탐색하게 하는 방식입니다. 사용자가 현재 위치와 전체 페이지 규모를 가늠하고 특정 페이지나 이전·다음 페이지로 예측 가능하게 이동할 수 있습니다.',
+        example: '검색 결과 240건을 페이지당 20건씩 나누어 이전/다음 버튼과 현재 페이지 표시(aria-current="page")를 제공하고, 목록 끝의 푸터 링크에도 쉽게 닿을 수 있게 합니다.',
+        promptSnippet: '대량 목록에서 항목 위치 참조나 푸터 접근이 중요하다면 페이지 크기, 현재 페이지 표시(aria-current="page"), 이전/다음 비활성 경계 처리가 명확한 페이지 나누기를 구현하세요.',
+      },
+      en: {
+        definition: 'Dividing a large result set into fixed-size pages with explicit controls to move between them. Compared to endless streams, pagination preserves footer access and lets users bookmark or revisit specific positions.',
+        example: 'A document directory displays 20 records per page with disabled boundary buttons on the first and last pages and marks the active page control using aria-current="page".',
+        promptSnippet: 'Implement pagination controls with predictable page size, boundary-disabled previous/next buttons, and aria-current="page" on the active page indicator.',
+      },
+    },
+  },
 };

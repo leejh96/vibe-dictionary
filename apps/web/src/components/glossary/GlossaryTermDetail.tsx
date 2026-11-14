@@ -1,4 +1,5 @@
 import { ArrowUpRight, Check, Copy } from 'lucide-react';
+import type { Ref } from 'react';
 import {
   GLOSSARY_DOMAIN_TITLES,
   TECHNIQUES,
@@ -11,12 +12,14 @@ import { GLOSSARY_CATEGORY_KEYS } from './GlossaryFilters';
 
 interface GlossaryTermDetailProps {
   term: GlossaryTerm;
+  headingRef: Ref<HTMLHeadingElement>;
   onViewTechnique: (techniqueId: string) => void;
   onViewDomainKnowledge: (domainId: string) => void;
 }
 
 export function GlossaryTermDetail({
   term,
+  headingRef,
   onViewTechnique,
   onViewDomainKnowledge,
 }: GlossaryTermDetailProps) {
@@ -41,7 +44,7 @@ export function GlossaryTermDetail({
           {t(GLOSSARY_CATEGORY_KEYS[term.category])}
         </span>
         <div className="flex min-w-0 flex-wrap items-baseline gap-x-2.5 gap-y-1">
-          <h2 className="min-w-0 text-xl font-extrabold text-slate-900 [overflow-wrap:anywhere] dark:text-white">
+          <h2 ref={headingRef} className="min-w-0 text-xl font-extrabold text-slate-900 [overflow-wrap:anywhere] dark:text-white">
             {termText.name}
           </h2>
           {locale === 'ko' && term.name.en !== termText.name && (

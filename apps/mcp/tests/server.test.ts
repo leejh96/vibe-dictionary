@@ -140,7 +140,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
 
   await t.test('glossary search and localized detail support bilingual lookup, pagination and verified links', async () => {
     const browse = await call('search_glossary');
-    assert.equal(GLOSSARY_TERMS.length, 42);
+    assert.equal(GLOSSARY_TERMS.length, 72);
     assert.equal(browse.total, GLOSSARY_TERMS.length);
     assert.equal(browse.items.length, 20);
     assert.equal(browse.nextOffset, 20);
@@ -220,6 +220,21 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['CRM', 'customer-relationship-management'],
       ['계정 비활성화', 'account-deactivation'],
       ['교육과정 연계', 'curriculum-alignment'],
+      ['컨테이너 쿼리', 'container-query'],
+      ['Container Query', 'container-query'],
+      ['LCP', 'largest-contentful-paint'],
+      ['INP', 'interaction-to-next-paint'],
+      ['CLS', 'cumulative-layout-shift'],
+      ['스크롤바 공간', 'scrollbar-gutter'],
+      ['SWR', 'stale-while-revalidate'],
+      ['웹훅', 'webhook'],
+      ['지수 백오프', 'exponential-backoff'],
+      ['요청 취소', 'request-cancellation'],
+      ['전환 퍼널', 'conversion-funnel'],
+      ['코호트 분석', 'cohort-analysis'],
+      ['이상치 감지', 'anomaly-detection'],
+      ['가드레일 지표', 'guardrail-metric'],
+      ['성공 기준', 'success-criteria'],
     ] as const) {
       for (const locale of ['ko', 'en'] as const) {
         const output = await call('search_glossary', { query, locale, limit: 5 });

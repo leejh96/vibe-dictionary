@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import type { GlossaryCategory } from '@vibe-dictionary/catalog';
 import { useLocale } from '../i18n/LocaleContext';
 import { useGlossarySearch } from '../hooks/useGlossarySearch';
@@ -7,6 +7,7 @@ import { GlossaryTermDetail } from './glossary/GlossaryTermDetail';
 import type { GlossaryViewProps } from './glossary/types';
 
 export function GlossaryView({
+  headerHeight = 0,
   onViewTechnique,
   onViewDomainKnowledge,
   targetRequest,
@@ -16,6 +17,10 @@ export function GlossaryView({
   const [selectedCategory, setSelectedCategory] = useState<GlossaryCategory | 'all'>('all');
   const [selectedId, setSelectedId] = useState<string | null>(() => targetRequest?.id ?? null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const activeButtonRef = useRef<HTMLButtonElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const detailHeadingRef = useRef<HTMLHeadingElement>(null);
   const lastRequestKeyRef = useRef<number | null>(targetRequest ? targetRequest.key : null);
 
   useEffect(() => {
@@ -35,6 +40,33 @@ export function GlossaryView({
 
   const activeTerm =
     items.find((item) => item.id === selectedId) ?? items[0] ?? null;
+  const activeId = activeTerm?.id;
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    const button = activeButtonRef.current;
+    if (!list || !button) return;
+
+    const listTop = list.getBoundingClientRect().top + list.clientTop;
+    const listBottom = listTop + list.clientHeight;
+    const { top, bottom } = button.getBoundingClientRect();
+    if (top < listTop) {
+      list.scrollTop += top - listTop;
+    } else if (bottom > listBottom) {
+      list.scrollTop += bottom - listBottom;
+    }
+  }, [activeId, query, selectedCategory, locale]);
+
+  const handleSelectTerm = (id: string) => {
+    setSelectedId(id);
+    const heading = detailHeadingRef.current;
+    if (!heading) return;
+
+    const { top, bottom } = heading.getBoundingClientRect();
+    if (top < headerHeight || bottom > window.innerHeight) {
+      detailRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  };
 
   const handleClearSearch = () => {
     setQuery('');
@@ -45,7 +77,10 @@ export function GlossaryView({
   };
 
   return (
-    <div className="@container min-w-0 space-y-5">
+    <div
+      className="@container min-w-0 space-y-5"
+      style={{ '--glossary-pane-top': `calc(${headerHeight}px + 1rem)` } as CSSProperties}
+    >
       <h1 className="text-xl font-extrabold text-slate-900 dark:text-white [overflow-wrap:anywhere]">
         {t('glossary.heading')}
       </h1>
@@ -85,11 +120,12 @@ export function GlossaryView({
           </div>
         </div>
       ) : (
-        <div className="grid gap-5 @2xl:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] @4xl:grid-cols-[minmax(0,18.5rem)_minmax(0,1fr)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-4 @2xl:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] @2xl:gap-5 @4xl:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
           <div
+            ref={listRef}
             role="region"
             aria-label={t('glossary.listLabel')}
-            className="prompt-scroll max-h-[min(13rem,45dvh)] min-w-0 space-y-2 overflow-y-auto pr-1 @2xl:max-h-[clamp(11rem,65dvh,42rem)] @2xl:self-start"
+            className="prompt-scroll max-h-[min(12rem,35dvh)] min-w-0 space-y-0.5 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xs dark:border-slate-800 dark:bg-slate-900 dark:shadow-none @2xl:sticky @2xl:top-(--glossary-pane-top) @2xl:max-h-[min(42rem,max(6rem,calc(100dvh_-_var(--glossary-pane-top)_-_1rem)))] @2xl:overscroll-y-contain"
           >
             {items.map((item) => {
               const isSelected = activeTerm?.id === item.id;
@@ -97,19 +133,20 @@ export function GlossaryView({
               return (
                 <button
                   key={item.id}
+                  ref={isSelected ? activeButtonRef : undefined}
                   type="button"
                   aria-pressed={isSelected}
-                  onClick={() => setSelectedId(item.id)}
-                  className={`min-h-11 w-full min-w-0 cursor-pointer rounded-2xl border p-3.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                  onClick={() => handleSelectTerm(item.id)}
+                  className={`min-h-11 w-full min-w-0 cursor-pointer rounded-lg px-3 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset ${
                     isSelected
-                      ? 'border-indigo-500 bg-indigo-50/80 shadow-xs dark:border-indigo-500/70 dark:bg-indigo-950/40'
-                      : 'border-slate-200 bg-white hover:border-indigo-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700'
+                      ? 'bg-indigo-50 dark:bg-indigo-950/70'
+                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/70'
                   }`}
                 >
-                  <span className="inline-block max-w-full rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300 [overflow-wrap:anywhere]">
+                  <span className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 [overflow-wrap:anywhere]">
                     {t(GLOSSARY_CATEGORY_KEYS[item.category])}
                   </span>
-                  <span className="mt-1.5 block font-extrabold text-sm text-slate-900 dark:text-white [overflow-wrap:anywhere]">
+                  <span className={`block text-sm font-bold [overflow-wrap:anywhere] ${isSelected ? 'text-indigo-700 dark:text-indigo-200' : 'text-slate-900 dark:text-white'}`}>
                     {primaryName}
                   </span>
                   {locale === 'ko' && item.name.en !== primaryName && (
@@ -122,10 +159,11 @@ export function GlossaryView({
             })}
           </div>
 
-          <div className="min-w-0">
+          <div ref={detailRef} className="min-w-0 scroll-mt-(--glossary-pane-top)">
             {activeTerm ? (
               <GlossaryTermDetail
                 term={activeTerm}
+                headingRef={detailHeadingRef}
                 onViewTechnique={onViewTechnique}
                 onViewDomainKnowledge={onViewDomainKnowledge}
               />

@@ -19,8 +19,8 @@ import {
 
 const TEST_DIR = dirname(fileURLToPath(import.meta.url));
 
-test('glossary has 42 unique kebab-case terms across 9 categories with expanded acronyms', () => {
-  assert.equal(GLOSSARY_TERMS.length, 42);
+test('glossary has 72 unique kebab-case terms across 9 categories with expanded acronyms', () => {
+  assert.equal(GLOSSARY_TERMS.length, 72);
   assert.deepEqual(GLOSSARY_CATEGORIES, [
     'ui',
     'engineering',
@@ -63,17 +63,47 @@ test('glossary has 42 unique kebab-case terms across 9 categories with expanded 
     'customer-relationship-management',
     'account-deactivation',
     'curriculum-alignment',
+    'container-query',
+    'responsive-breakpoint',
+    'aspect-ratio',
+    'keyboard-focus-indicator',
+    'skip-link',
+    'breadcrumb',
+    'tooltip',
+    'tab-panel',
+    'faceted-filter',
+    'pagination',
+    'largest-contentful-paint',
+    'interaction-to-next-paint',
+    'cumulative-layout-shift',
+    'lazy-loading',
+    'scrollbar-gutter',
+    'content-visibility',
+    'stale-while-revalidate',
+    'webhook',
+    'exponential-backoff',
+    'request-cancellation',
+    'conversion-funnel',
+    'conversion-rate',
+    'cohort-analysis',
+    'retention-rate',
+    'attribution-window',
+    'anomaly-detection',
+    'guardrail-metric',
+    'data-freshness',
+    'metric-definition',
+    'success-criteria',
   ]) {
     assert.ok(ids.includes(requiredId), `Missing required term: ${requiredId}`);
   }
 
   const expectedCategoryCounts: Record<typeof GLOSSARY_CATEGORIES[number], number> = {
-    ui: 11,
-    engineering: 14,
+    ui: 21,
+    engineering: 24,
     workflow: 5,
     'customer-support': 2,
     'payments-settlement': 3,
-    'product-planning': 2,
+    'product-planning': 12,
     'business-operations': 1,
     'sales-marketing': 2,
     'education-operations': 2,
@@ -90,7 +120,20 @@ test('glossary has 42 unique kebab-case terms across 9 categories with expanded 
     workflow: ['human-in-the-loop', 'user-onboarding', 'grace-period', 'maker-checker-approval', 'account-deactivation'],
     'customer-support': ['service-level-agreement', 'voice-of-customer'],
     'payments-settlement': ['know-your-customer', 'escrow-settlement', 'proration'],
-    'product-planning': ['net-promoter-score', 'active-users'],
+    'product-planning': [
+      'net-promoter-score',
+      'active-users',
+      'conversion-funnel',
+      'conversion-rate',
+      'cohort-analysis',
+      'retention-rate',
+      'attribution-window',
+      'anomaly-detection',
+      'guardrail-metric',
+      'data-freshness',
+      'metric-definition',
+      'success-criteria',
+    ],
     'business-operations': ['objectives-and-key-results'],
     'sales-marketing': ['sales-lead', 'customer-relationship-management'],
     'education-operations': ['learning-management-system', 'curriculum-alignment'],
@@ -215,6 +258,10 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
   assert.deepEqual(getGlossaryLinksForTechnique('gooey-menu-fab').map(l => l.id), ['floating-action-button']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-bottom-destination-nav').map(l => l.id), ['safe-area']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-transposable-comparison-matrix').map(l => l.id), ['supervised-learning', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-transposable-comparison-matrix', 4).map(l => l.id), ['supervised-learning', 'curriculum-alignment', 'cohort-analysis', 'retention-rate']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-stable-scrollbar-gutter').map(l => l.id), ['cumulative-layout-shift', 'scrollbar-gutter']);
+  assert.deepEqual(getGlossaryLinksForTechnique('hover-focus-tooltip').map(l => l.id), ['tooltip']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-paginated-document-list').map(l => l.id), ['pagination']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-heatmap-grid').map(l => l.id), ['supervised-learning', 'unsupervised-learning']);
   assert.deepEqual(getGlossaryLinksForTechnique('vd-node-flow-pipeline').map(l => l.id), ['reinforcement-learning']);
   assert.deepEqual(getGlossaryLinksForTechnique('vd-diverging-bar-reveal').map(l => l.id), ['net-promoter-score']);
@@ -224,14 +271,29 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
 
   assert.deepEqual(getGlossaryLinksForDomain('education-live-session-attendance-and-replay').map(l => l.id), ['http-live-streaming']);
   assert.deepEqual(getGlossaryLinksForDomain('cms-publishing-schedule-and-versioning').map(l => l.id), ['content-delivery-network', 'content-management-system']);
-  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute').map(l => l.id), ['unsupervised-learning']);
+  assert.deepEqual(getGlossaryLinksForDomain('cms-publishing-schedule-and-versioning', 3).map(l => l.id), ['content-delivery-network', 'content-management-system', 'stale-while-revalidate']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute').map(l => l.id), ['unsupervised-learning', 'anomaly-detection']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute', 3).map(l => l.id), ['unsupervised-learning', 'anomaly-detection', 'guardrail-metric']);
   assert.deepEqual(getGlossaryLinksForDomain('ai-agent-state-memory-and-branching').map(l => l.id), ['reinforcement-learning']);
   assert.deepEqual(getGlossaryLinksForDomain('support-csat-survey-and-quality-review').map(l => l.id), ['voice-of-customer', 'net-promoter-score']);
   assert.deepEqual(getGlossaryLinksForDomain('support-ticket-routing-and-resolution').map(l => l.id), ['service-level-agreement', 'voice-of-customer']);
-  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window').map(l => l.id), ['active-users']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window').map(l => l.id), [
+    'active-users',
+    'conversion-funnel',
+  ]);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window', 6).map(l => l.id), [
+    'active-users',
+    'conversion-funnel',
+    'conversion-rate',
+    'cohort-analysis',
+    'retention-rate',
+    'attribution-window',
+  ]);
   assert.deepEqual(getGlossaryLinksForDomain('workspace-dependency-subtask-and-milestone').map(l => l.id), ['objectives-and-key-results']);
   assert.deepEqual(getGlossaryLinksForDomain('coding-lesson-objectives-and-practice').map(l => l.id), ['user-onboarding', 'learning-management-system']);
+  assert.deepEqual(getGlossaryLinksForDomain('coding-lesson-objectives-and-practice', 4).map(l => l.id), ['user-onboarding', 'learning-management-system', 'curriculum-alignment', 'success-criteria']);
   assert.deepEqual(getGlossaryLinksForDomain('education-curriculum-prerequisite-and-cohort').map(l => l.id), ['learning-management-system', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForDomain('education-curriculum-prerequisite-and-cohort', 3).map(l => l.id), ['learning-management-system', 'curriculum-alignment', 'cohort-analysis']);
   assert.deepEqual(getGlossaryLinksForDomain('notification-scheduled-campaign-and-unsubscribe').map(l => l.id), ['sales-lead']);
   assert.deepEqual(getGlossaryLinksForDomain('workspace-template-custom-field-and-archiving').map(l => l.id), ['customer-relationship-management']);
   assert.deepEqual(getGlossaryLinksForDomain('account-dormancy-lockout-and-reactivation').map(l => l.id), ['account-deactivation']);
@@ -274,6 +336,37 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
     ['customer-relationship-management', ['customer-relationship-management', '고객 관계 관리(CRM)', 'Customer Relationship Management (CRM)', 'CRM', '고객 관리', 'sales pipeline CRM']],
     ['account-deactivation', ['account-deactivation', '계정 비활성화', 'Account Deactivation', '계정 중지', 'disable account']],
     ['curriculum-alignment', ['curriculum-alignment', '교육과정 연계', 'Curriculum Alignment', '성취기준 연계', 'curriculum mapping']],
+    // 30 added glossary terms across UI, engineering, and product-planning
+    ['container-query', ['container-query', '컨테이너 쿼리', 'Container Query', '@container']],
+    ['responsive-breakpoint', ['responsive-breakpoint', '반응형 중단점', 'Responsive Breakpoint', '화면 폭 분기점']],
+    ['aspect-ratio', ['aspect-ratio', '종횡비', 'Aspect Ratio', '가로세로 비율']],
+    ['keyboard-focus-indicator', ['keyboard-focus-indicator', '키보드 포커스 표시', 'Keyboard Focus Indicator', '포커스 링']],
+    ['skip-link', ['skip-link', '건너뛰기 링크', 'Skip Link', '본문 바로가기 링크']],
+    ['breadcrumb', ['breadcrumb', '브레드크럼', 'Breadcrumb', 'breadcrumb trail']],
+    ['tooltip', ['tooltip', '툴팁', 'Tooltip', '말풍선 안내']],
+    ['tab-panel', ['tab-panel', '탭 패널', 'Tab Panel', 'tablist tabpanel']],
+    ['faceted-filter', ['faceted-filter', '패싯 필터', 'Faceted Filter', '다중 속성 필터']],
+    ['pagination', ['pagination', '페이지 나누기', 'Pagination', '페이지네이션']],
+    ['largest-contentful-paint', ['largest-contentful-paint', '최대 콘텐츠 렌더링 시간(LCP)', 'Largest Contentful Paint (LCP)', 'LCP']],
+    ['interaction-to-next-paint', ['interaction-to-next-paint', '다음 페인트까지의 상호작용 지연(INP)', 'Interaction to Next Paint (INP)', 'INP']],
+    ['cumulative-layout-shift', ['cumulative-layout-shift', '누적 레이아웃 이동(CLS)', 'Cumulative Layout Shift (CLS)', 'CLS']],
+    ['lazy-loading', ['lazy-loading', '지연 로딩', 'Lazy Loading', '레이지 로딩']],
+    ['scrollbar-gutter', ['scrollbar-gutter', '스크롤바 공간', 'Scrollbar Gutter', '스크롤바 거터']],
+    ['content-visibility', ['content-visibility', '콘텐츠 가시성', 'Content Visibility', 'content-visibility auto']],
+    ['stale-while-revalidate', ['stale-while-revalidate', '만료 후 백그라운드 재검증(Stale-While-Revalidate)', 'Stale-While-Revalidate (SWR)', 'SWR']],
+    ['webhook', ['webhook', '웹훅', 'Webhook', 'HTTP 이벤트 콜백']],
+    ['exponential-backoff', ['exponential-backoff', '지수 백오프', 'Exponential Backoff', '재시도 대기 시간 배증']],
+    ['request-cancellation', ['request-cancellation', '요청 취소', 'Request Cancellation', '비동기 요청 중단']],
+    ['conversion-funnel', ['conversion-funnel', '전환 퍼널', 'Conversion Funnel', '퍼널 단계 분석']],
+    ['conversion-rate', ['conversion-rate', '전환율', 'Conversion Rate', 'CVR']],
+    ['cohort-analysis', ['cohort-analysis', '코호트 분석', 'Cohort Analysis', '동일 집단 분석']],
+    ['retention-rate', ['retention-rate', '잔존율', 'Retention Rate', '리텐션 비율']],
+    ['attribution-window', ['attribution-window', '기여 인정 기간', 'Attribution Window', '어트리뷰션 윈도우']],
+    ['anomaly-detection', ['anomaly-detection', '이상치 감지', 'Anomaly Detection', '지표 급변 감지']],
+    ['guardrail-metric', ['guardrail-metric', '가드레일 지표', 'Guardrail Metric', '방어 지표']],
+    ['data-freshness', ['data-freshness', '데이터 최신성', 'Data Freshness', '집계 최신성']],
+    ['metric-definition', ['metric-definition', '지표 정의', 'Metric Definition', '지표 산식 명세']],
+    ['success-criteria', ['success-criteria', '성공 기준', 'Success Criteria', '출시 성공 조건']],
   ];
 
   for (const [expectedId, queries] of topCases) {
@@ -288,10 +381,15 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
   assert.equal(rankedDebounce[0]?.item.id, 'debounce');
   assert.ok(rankedDebounce[0].matchedOn.some(m => m.field === 'name' || m.field === 'alias'));
 
-  // Body-only match still finds relevant terms when name/alias do not contain the query.
+  // CLS now matches Cumulative Layout Shift by name/alias first while still finding skeleton-loading in body.
   const clsResults = rankGlossaryTerms('CLS');
-  assert.equal(clsResults[0]?.item.id, 'skeleton-loading');
-  assert.ok(clsResults[0].matchedOn.some(m => m.field === 'prompt'));
+  assert.equal(clsResults[0]?.item.id, 'cumulative-layout-shift');
+  assert.ok(clsResults.some(entry => entry.item.id === 'skeleton-loading'));
+
+  // Body-only match still finds relevant terms when name/alias do not contain the query.
+  const ariaBusyResults = rankGlossaryTerms('aria-busy');
+  assert.equal(ariaBusyResults[0]?.item.id, 'skeleton-loading');
+  assert.ok(ariaBusyResults[0].matchedOn.some(m => m.field === 'prompt'));
 
   // Empty / whitespace queries browse all in catalog order with zero score.
   for (const emptyQuery of ['', ' \t\n ']) {

@@ -624,6 +624,7 @@ export default function App() {
         )}
         {dictionarySection === 'glossary' && (
           <LazyGlossaryView
+            headerHeight={headerHeight}
             onViewTechnique={handleViewTechniqueById}
             onViewDomainKnowledge={handleViewDomainKnowledge}
             targetRequest={glossaryTargetRequest}
