@@ -235,20 +235,7 @@ export default function App() {
     }
   };
 
-  /* 현재 선택된 카테고리('전체' 포함)의 기법 수와 1:1로 일치하는 추천 키워드 칩 생성 */
-  const currentVibeChips = useMemo(() => {
-    const items = TECHNIQUES.filter(
-      (item) =>
-        item.domain === activeDomain &&
-        (selectedCategory === 'all' || item.category === selectedCategory)
-    );
-    return items.map((item) => {
-      const text = getTechniqueText(item, locale);
-      return text.vibeKeywords[0] ?? text.title;
-    });
-  }, [activeDomain, selectedCategory, locale]);
-
-  /* 카테고리 탭 변경 시: 이전 카테고리의 키워드 칩 등이 걸려 있으면 검색어를 비워 해당 카테고리 전체가 보이도록 처리 */
+  /* 카테고리를 바꾸면 검색어를 비워 해당 카테고리 전체를 표시한다. */
   const handleCategoryChange = (category: CategoryType | 'all') => {
     setLinkedTechnique(null);
     setSelectedCategory(category);
@@ -568,6 +555,7 @@ export default function App() {
         <DictionaryNavigation selected={dictionarySection} onSelect={handleDictionarySectionChange} headerHeight={headerHeight} />
         <main ref={mainRef} className="min-w-0 flex-1 space-y-5">
         {dictionarySection === 'design' && <>
+        <h1 className="text-xl font-extrabold">{t('dictionary.design')}</h1>
         {renderDomainTabs('grid grid-cols-2 min-[440px]:grid-cols-3 sm:flex sm:overflow-x-auto xl:hidden gap-1 pb-1.5')}
         <FilterBar
           activeDomain={activeDomain}
@@ -575,8 +563,6 @@ export default function App() {
           onSearchChange={handleSearchChange}
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
-          onSelectChip={handleSearchChange}
-          vibeChips={currentVibeChips}
           categoryCounts={categoryCounts}
           totalCount={filteredTechniques.length}
         />

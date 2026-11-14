@@ -1,6 +1,6 @@
 import { ArrowUpRight, Check, Copy } from 'lucide-react';
 import {
-  DOMAIN_KNOWLEDGE,
+  GLOSSARY_DOMAIN_TITLES,
   TECHNIQUES,
   getTechniqueText,
   type GlossaryTerm,
@@ -29,9 +29,10 @@ export function GlossaryTermDetail({
     .map((id) => TECHNIQUES.find((candidate) => candidate.id === id))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  const relatedDomains = term.relatedDomainIds
-    .map((id) => DOMAIN_KNOWLEDGE.find((candidate) => candidate.id === id))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+  const relatedDomains = term.relatedDomainIds.flatMap((id) => {
+    const title = GLOSSARY_DOMAIN_TITLES.get(id)?.[locale];
+    return title ? [{ id, title }] : [];
+  });
 
   return (
     <article className="@container min-w-0 space-y-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-xs dark:border-slate-800 dark:bg-slate-900 dark:shadow-none sm:p-6">
@@ -157,24 +158,21 @@ export function GlossaryTermDetail({
                 {t('glossary.relatedDomainsLabel')}
               </h3>
               <ul className="space-y-2">
-                {relatedDomains.map((domain) => {
-                  const domainText = domain.text[locale];
-                  return (
-                    <li key={domain.id}>
-                      <button
-                        type="button"
-                        onClick={() => onViewDomainKnowledge(domain.id)}
-                        className="flex min-h-11 w-full min-w-0 cursor-pointer flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-left text-xs font-bold text-slate-800 transition-colors hover:border-indigo-300 hover:bg-indigo-50/70 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-500/50 dark:hover:text-indigo-300"
-                      >
-                        <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{domainText.title}</span>
-                        <span className="ml-auto inline-flex shrink-0 items-center gap-0.5 text-indigo-600 dark:text-indigo-400">
-                          <span>{t('glossary.viewDomain')}</span>
-                          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
+                {relatedDomains.map(({ id, title }) => (
+                  <li key={id}>
+                    <button
+                      type="button"
+                      onClick={() => onViewDomainKnowledge(id)}
+                      className="flex min-h-11 w-full min-w-0 cursor-pointer flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-left text-xs font-bold text-slate-800 transition-colors hover:border-indigo-300 hover:bg-indigo-50/70 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-500/50 dark:hover:text-indigo-300"
+                    >
+                      <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{title}</span>
+                      <span className="ml-auto inline-flex shrink-0 items-center gap-0.5 text-indigo-600 dark:text-indigo-400">
+                        <span>{t('glossary.viewDomain')}</span>
+                        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+                      </span>
+                    </button>
+                  </li>
+                ))}
               </ul>
             </section>
           )}

@@ -4,6 +4,7 @@ export * from './search-metadata';
 export * from './domain-knowledge';
 export * from './domain-knowledge-search';
 export * from './glossary-links';
+export { GLOSSARY_DOMAIN_TITLES } from './glossary-domain-titles';
 export * from './glossary';
 export * from './glossary-search';
 export { searchTechniques, matchesSearch, SEARCH_SYNONYMS } from './search';

@@ -43,6 +43,8 @@ AGENTS.md              저장소 작업 기준
 
 용어 사전은 `packages/catalog/src/glossary/`의 분류별 모듈(`ui.ts`, `engineering.ts`, `workflow.ts`, `customer-support.ts`, `payments-settlement.ts`, `product-planning.ts`, `business-operations.ts`, `sales-marketing.ts`, `education-operations.ts`)에 한영 정의·예시·프롬프트·검색 별칭을, `glossary-links.ts`에 분류 정의·용어 ID·이름과 관련 기법·도메인 지식 ID를 관리한다. `glossary.ts`는 분류별 데이터를 합쳐 `GLOSSARY_TERMS`와 `getGlossaryTerm`을 제공하고, `glossary-search.ts`의 검색 순위를 웹과 MCP가 공유한다. 용어 본문은 탭 또는 관련 용어 설명을 열 때 불러온다. 새 용어를 추가할 때 실제 관련 콘텐츠를 확인하고, 양쪽 언어와 실제 콘텐츠에서 용어를 다시 열 수 있는지 검증한다.
 
+용어 상세의 관련 도메인 링크에는 `glossary-domain-titles.ts`의 한영 제목을 사용한다. 연결 ID나 연결된 도메인 지식의 제목을 바꾸면 저장소 루트에서 `node --import tsx scripts/generate-glossary-domain-titles.ts`를 실행해 이 파일을 갱신한다. 카탈로그 테스트에서 원본 제목과 생성 파일을 대조한다.
+
 카탈로그는 npm에 별도로 게시하지 않는 내부 TypeScript workspace다. 웹과 MCP의 빌드 도구가 각각 카탈로그를 포함하므로 별도 빌드·배포는 필요 없다. MCP는 카탈로그를 빌드 시에만 사용하고, 배포용 실행 파일에는 데이터를 함께 포함한다. MCP 설치 시 카탈로그를 별도 패키지로 다운로드하지 않는다.
 
 ## 개발과 검증
@@ -59,7 +61,7 @@ GitHub Actions의 PR 검사·웹 배포·npm 게시 작업은 Node.js `24.22.1`�
 | `npm run check:i18n` | 웹·데모의 번역 키·문구·자리표시자 검사 |
 | `npm run lint` | ESLint 정적 오류 검사, 경고도 실패 처리 |
 | `npm run evaluate:search` | 고정한 한영 사용자 표현의 검색 품질 지표와 실패 행 출력 |
-| `npm run audit:keywords` | 한영 추천 키워드의 중복과 원본 기법 검색 연결 검사 |
+| `npm run audit:keywords` | 한영 대표 검색 키워드의 중복과 원본 기법 검색 연결 검사 |
 | `npm run test:web` | 언어 검사 후 웹 테스트 실행 |
 | `npm run test:mcp` | MCP 빌드 후 stdio 연결 테스트 |
 | `npm run build` | 웹과 MCP 전체 빌드 |
