@@ -4,6 +4,12 @@ import type { GlossaryTermBody } from './glossary/types';
 import { UI_GLOSSARY_DATA } from './glossary/ui';
 import { ENGINEERING_GLOSSARY_DATA } from './glossary/engineering';
 import { WORKFLOW_GLOSSARY_DATA } from './glossary/workflow';
+import { CUSTOMER_SUPPORT_GLOSSARY_DATA } from './glossary/customer-support';
+import { PAYMENTS_SETTLEMENT_GLOSSARY_DATA } from './glossary/payments-settlement';
+import { PRODUCT_PLANNING_GLOSSARY_DATA } from './glossary/product-planning';
+import { BUSINESS_OPERATIONS_GLOSSARY_DATA } from './glossary/business-operations';
+import { SALES_MARKETING_GLOSSARY_DATA } from './glossary/sales-marketing';
+import { EDUCATION_OPERATIONS_GLOSSARY_DATA } from './glossary/education-operations';
 
 export interface GlossaryTermText {
   name: string;
@@ -21,6 +27,12 @@ const GLOSSARY_BODIES: Record<string, GlossaryTermBody> = {
   ...UI_GLOSSARY_DATA,
   ...ENGINEERING_GLOSSARY_DATA,
   ...WORKFLOW_GLOSSARY_DATA,
+  ...CUSTOMER_SUPPORT_GLOSSARY_DATA,
+  ...PAYMENTS_SETTLEMENT_GLOSSARY_DATA,
+  ...PRODUCT_PLANNING_GLOSSARY_DATA,
+  ...BUSINESS_OPERATIONS_GLOSSARY_DATA,
+  ...SALES_MARKETING_GLOSSARY_DATA,
+  ...EDUCATION_OPERATIONS_GLOSSARY_DATA,
 };
 
 function buildGlossaryTerm(meta: GlossaryLinkMeta): GlossaryTerm {

@@ -145,4 +145,58 @@ export const UI_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'call-to-action': {
+    aliases: {
+      ko: ['CTA', '콜투액션', '행동 유도 버튼', '주요 행동 버튼', '핵심 전환 요소'],
+      en: ['CTA', 'call to action button', 'primary action', 'conversion trigger', 'action link'],
+    },
+    text: {
+      ko: {
+        definition: '사용자가 현재 화면에서 취해야 할 다음 핵심 행동을 명확하게 안내하는 버튼이나 링크 등의 인터랙션 요소입니다. 버튼의 겉모양이나 고정 위치가 아니라 행동 유도라는 목적에 의해 정의되며, 플로팅 액션 버튼(FAB)과 같은 의미가 아닙니다.',
+        example: '요금제 안내 화면 상단의 "14일 체험 시작하기" 기본 버튼과 비교표 아래 "맞춤 플랜 문의하기" 링크처럼, 형태와 관계없이 사용자의 다음 핵심 행동을 분명한 동사형 문구로 제시합니다.',
+        promptSnippet: '화면의 핵심 목표에 맞춰 주 행동(Primary CTA)과 보조 행동(Secondary CTA)의 시각적 위계를 명확히 구분해 줘. 버튼뿐 아니라 링크 형태도 CTA로 사용할 수 있으며, 구체적인 동사형 레이블과 충분한 명도 대비·키보드 포커스 표시·터치 영역을 함께 확보해 줘.',
+      },
+      en: {
+        definition: 'An interface element—such as a button or link—that clearly guides the user toward the next core action on a screen. It is defined by its intent rather than a button shape or placement, and is not synonymous with a floating action button (FAB).',
+        example: 'On a pricing screen, a high-contrast "Start 14-day trial" primary button and a "Contact for custom plan" link below the comparison table both serve as CTAs by clearly directing the next step with action verbs.',
+        promptSnippet: 'Establish clear visual hierarchy between the primary CTA and secondary actions using specific verb-driven labels, accessible contrast, visible keyboard focus indicators, and adequate hit targets whether the CTA is rendered as a button or a link.',
+      },
+    },
+  },
+  'floating-action-button': {
+    aliases: {
+      ko: ['FAB', '플로팅 버튼', '떠 있는 작업 버튼', '우하단 고정 생성 버튼', '플로팅 액션'],
+      en: ['FAB', 'floating button', 'primary floating button', 'floating action'],
+    },
+    text: {
+      ko: {
+        definition: '화면 콘텐츠 위에 떠 있는 형태로 배치되어 해당 화면의 가장 대표적인 생성·작성·핵심 작업을 즉시 실행하는 버튼입니다. CTA가 행동 유도라는 목적을 뜻하는 반면 FAB는 콘텐츠 위에 떠 있는 버튼의 형태·배치를 가리키므로 FAB도 CTA 역할을 할 수 있으며, 모든 position: fixed 버튼이 FAB에 해당하는 것은 아닙니다.',
+        example: '노트 목록 화면 오른쪽 아래에 떠 있는 "+ 새 노트" 버튼이 스크롤 중에도 작성 화면을 바로 열어 주는 경우로, 하단 고정 툴바나 일반 본문 CTA 버튼과는 구분됩니다.',
+        promptSnippet: '화면의 대표 작업 하나만 플로팅 액션 버튼(FAB)으로 배치하고, 본문 마지막 항목이나 하단 컨트롤이 가려지지 않도록 스크롤 여백을 충분히 확보해 줘. 충분한 터치 영역(예: 최소 44x44px)과 명확한 aria-label, 논리적인 키보드 포커스 순서를 함께 보장해 줘.',
+      },
+      en: {
+        definition: 'A prominent primary action button that floats above screen content to trigger the screen’s single most representative task. While CTA describes the purpose of prompting user action, FAB refers to a floating button form and placement—so a FAB can also serve as a CTA, and not every position: fixed button is a FAB.',
+        example: 'A "+ New note" button floating at the bottom-right corner of a notes feed stays reachable while scrolling to open the composer, distinct from an inline CTA or a sticky bottom toolbar.',
+        promptSnippet: 'Use a floating action button (FAB) only for the screen’s single primary action, reserve bottom scroll padding so it never occludes underlying content or controls, provide an adequate touch target (e.g., at least 44x44px), and ensure logical keyboard focus order with a clear accessible label.',
+      },
+    },
+  },
+  'safe-area': {
+    aliases: {
+      ko: ['세이프 에어리어', '안전 여백', '노치 여백', '홈 인디케이터 여백', '안전 영역 인셋'],
+      en: ['safe area inset', 'notch safe margin', 'viewport safe area', 'home indicator inset'],
+    },
+    text: {
+      ko: {
+        definition: '기기의 노치, 둥근 화면 모서리, 하단 홈 인디케이터 바 등에 콘텐츠나 조작 요소가 가려지지 않도록 비워 두는 영역입니다. 고정 픽셀 수치로 획일화하기보다 기본 여백에 CSS env(safe-area-inset-bottom) 등 환경 변수를 필요에 맞게 결합해 대응합니다.',
+        example: '모바일 하단 고정 바의 아래쪽 여백에 기본 16px 패딩과 env(safe-area-inset-bottom)을 더해, 홈 인디케이터가 있는 기기에서도 버튼이 가려지지 않게 유지합니다.',
+        promptSnippet: '노치·둥근 화면 모서리·홈 인디케이터가 상하단 고정 바나 가장자리 콘텐츠를 가리지 않도록, 고정 픽셀 값에만 의존하지 말고 기본 padding·margin에 env(safe-area-inset-bottom) 등 CSS 안전 영역 변수를 필요에 맞게 조합해 적용해 줘.',
+      },
+      en: {
+        definition: 'The region reserved so content and interactive controls are not obscured by device notches, rounded screen corners, or home indicator bars. Instead of prescribing fixed pixel offsets, combine base padding or margins with CSS variables like env(safe-area-inset-bottom) as needed.',
+        example: 'A sticky mobile bottom bar adds env(safe-area-inset-bottom) to its base 16px bottom padding so action buttons clear the home indicator without adding excess space on standard screens.',
+        promptSnippet: 'Keep edge-to-edge content and fixed bars clear of notches, rounded corners, and home indicator bars by combining base padding or margins with CSS safe-area environment variables such as env(safe-area-inset-bottom) as needed rather than hardcoding fixed pixel offsets.',
+      },
+    },
+  },
 };

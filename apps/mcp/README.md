@@ -15,7 +15,7 @@
 
 모든 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 기법 조회의 `titleKo`·`titleEn`과 용어 조회의 `nameKo`·`nameEn`은 호환성을 위해 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 원문을 받을 수 있다.
 
-용어 사전은 UI·엔지니어링·워크플로우 용어의 한영 이름·별칭(예: `결제 두 번 방지` → `idempotency`)·정의·예시·프롬프트를 함께 검색한다. `search_glossary`는 검색 결과에 `promptSnippet`과 `example` 전문을 포함하지 않고 정의·별칭·관련 ID만 반환하므로, 후보를 고른 뒤 `get_glossary_term`으로 예시와 바로 쓸 수 있는 프롬프트 문장을 조회한다. 반환된 `relatedTechniqueIds`와 `relatedDomainIds`는 각각 `get_technique`, `get_domain_knowledge`에 바로 전달할 수 있는 검증된 ID다. `query`가 비어 있으면 카탈로그 순서로 조회하고, 일치하는 용어가 없으면 `total: 0`과 빈 목록을 반환한다. `matchedOn`은 일치한 필드(`name`, `alias`, `definition`, `example`, `prompt`)를 표시한다.
+용어 사전은 UI, 엔지니어링, 워크플로우, 고객 지원, 결제·정산, 기획·분석, 경영·운영, 영업·마케팅, 교육 기획·운영 용어의 한영 이름·별칭(예: `결제 두 번 방지` → `idempotency`)·정의·예시·프롬프트를 함께 검색한다. `search_glossary`는 검색 결과에 `promptSnippet`과 `example` 전문을 포함하지 않고 정의·별칭·관련 ID만 반환하므로, 후보를 고른 뒤 `get_glossary_term`으로 예시와 바로 쓸 수 있는 프롬프트 문장을 조회한다. 반환된 `relatedTechniqueIds`와 `relatedDomainIds`는 각각 `get_technique`, `get_domain_knowledge`에 바로 전달할 수 있는 검증된 ID다. `query`가 비어 있으면 카탈로그 순서로 조회하고, 일치하는 용어가 없으면 `total: 0`과 빈 목록을 반환한다. `matchedOn`은 일치한 필드(`name`, `alias`, `definition`, `example`, `prompt`)를 표시한다.
 
 도메인 지식은 한영 이름·별칭·사용 상황과 개념·흐름·결정 질문을 함께 검색한다. `LMS`, `온라인 강의`, `재시도`, `회원 전용`, `신고 처리`, `private group`처럼 짧은 서비스명이나 업무 표현으로 `search_domain_knowledge`를 호출한다. 한영 동의어·대소문자·문장 부호를 정규화하고 매칭 범위와 필드 중요도로 정렬하는 키워드 검색이며, 의미를 추론하는 AI 검색은 아니다. 결과의 `useCases`와 `matchedOn`을 비교해 선택하고 반환된 ID를 `get_domain_knowledge`에 전달한다. `score`는 신뢰 확률이 아니며, 결과가 맞지 않으면 동의어나 더 짧은 검색어로 다시 찾는다. 검색어가 비어 있으면 목록 순서로 조회한다.
 
@@ -47,7 +47,7 @@ Then call `get_technique`:
 {"id":"magnetic-hover","locale":"en"}
 ```
 
-For bilingual glossary terms (UI, engineering, and workflow vocabulary), call `search_glossary` with a short Korean or English term or natural alias (such as `"결제 두 번 방지"` or `"skeleton"`):
+For bilingual glossary terms across UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, and education planning and operations, call `search_glossary` with a short Korean or English term or natural alias (such as `"결제 두 번 방지"` or `"skeleton"`):
 
 ```json
 {"query":"결제 두 번 방지","locale":"en","limit":5}

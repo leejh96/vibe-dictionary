@@ -140,6 +140,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
 
   await t.test('glossary search and localized detail support bilingual lookup, pagination and verified links', async () => {
     const browse = await call('search_glossary');
+    assert.equal(GLOSSARY_TERMS.length, 42);
     assert.equal(browse.total, GLOSSARY_TERMS.length);
     assert.equal(browse.items.length, 20);
     assert.equal(browse.nextOffset, 20);
@@ -162,6 +163,26 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     assert.equal(noMatch.total, 0);
     assert.deepEqual(noMatch.items, []);
 
+    const expectedReclassifiedCategories: Record<string, string> = {
+      'human-in-the-loop': 'workflow',
+      'user-onboarding': 'workflow',
+      'grace-period': 'workflow',
+      'maker-checker-approval': 'workflow',
+      'account-deactivation': 'workflow',
+      'service-level-agreement': 'customer-support',
+      'voice-of-customer': 'customer-support',
+      'know-your-customer': 'payments-settlement',
+      'escrow-settlement': 'payments-settlement',
+      proration: 'payments-settlement',
+      'objectives-and-key-results': 'business-operations',
+      'active-users': 'product-planning',
+      'net-promoter-score': 'product-planning',
+      'sales-lead': 'sales-marketing',
+      'customer-relationship-management': 'sales-marketing',
+      'learning-management-system': 'education-operations',
+      'curriculum-alignment': 'education-operations',
+    };
+
     for (const [query, expectedId] of [
       ['결제 두 번 방지', 'idempotency'],
       ['idempotency', 'idempotency'],
@@ -171,6 +192,34 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['낙관적 업데이트', 'optimistic-update'],
       ['RBAC', 'role-based-access-control'],
       ['이중 승인', 'maker-checker-approval'],
+      ['HITL', 'human-in-the-loop'],
+      ['온보딩', 'user-onboarding'],
+      ['유예 기간', 'grace-period'],
+      ['SLA', 'service-level-agreement'],
+      ['KYC', 'know-your-customer'],
+      ['에스크로', 'escrow-settlement'],
+      ['일할 계산', 'proration'],
+      ['CTA', 'call-to-action'],
+      ['FAB', 'floating-action-button'],
+      ['안전 영역', 'safe-area'],
+      ['HLS', 'http-live-streaming'],
+      ['CDN', 'content-delivery-network'],
+      ['CMS', 'content-management-system'],
+      ['지도 학습', 'supervised-learning'],
+      ['비지도 학습', 'unsupervised-learning'],
+      ['RL', 'reinforcement-learning'],
+      ['VOC', 'voice-of-customer'],
+      ['NPS', 'net-promoter-score'],
+      ['MAU', 'active-users'],
+      ['WAU', 'active-users'],
+      ['KR', 'objectives-and-key-results'],
+      ['OKR', 'objectives-and-key-results'],
+      ['LMS', 'learning-management-system'],
+      ['리드', 'sales-lead'],
+      ['lead', 'sales-lead'],
+      ['CRM', 'customer-relationship-management'],
+      ['계정 비활성화', 'account-deactivation'],
+      ['교육과정 연계', 'curriculum-alignment'],
     ] as const) {
       for (const locale of ['ko', 'en'] as const) {
         const output = await call('search_glossary', { query, locale, limit: 5 });
@@ -183,6 +232,10 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
         assert.ok(!('promptSnippet' in output.items[0]));
         assert.ok(!('example' in output.items[0]));
         const term = GLOSSARY_TERMS.find(candidate => candidate.id === expectedId)!;
+        assert.equal(output.items[0].category, term.category, `${query} (${locale}) category`);
+        if (expectedId in expectedReclassifiedCategories) {
+          assert.equal(output.items[0].category, expectedReclassifiedCategories[expectedId]);
+        }
         assert.equal(output.items[0].name, term.text[locale].name);
         assert.equal(output.items[0].nameKo, term.name.ko);
         assert.equal(output.items[0].nameEn, term.name.en);
@@ -193,6 +246,9 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     for (const term of GLOSSARY_TERMS) {
       for (const locale of ['ko', 'en'] as const) {
         const detail = await call('get_glossary_term', { id: term.id, locale });
+        if (term.id in expectedReclassifiedCategories) {
+          assert.equal(detail.category, expectedReclassifiedCategories[term.id]);
+        }
         assert.deepEqual(detail, {
           id: term.id,
           locale,

@@ -67,6 +67,7 @@ test('lazy glossary view shows loading state and resolves all terms; load error 
     const termButtons = tree.root
       .findByProps({ role: 'region' })
       .findAllByType('button');
+    assert.equal(GLOSSARY_TERMS.length, 42);
     assert.equal(termButtons.length, GLOSSARY_TERMS.length);
   } finally {
     act(() => tree.unmount());
@@ -183,6 +184,60 @@ test('glossary supports explicit search label, bilingual search regardless of lo
       const liveStatus = () => tree.root.findByProps({ role: 'status', 'aria-live': 'polite' });
       assert.match(text(liveStatus()), new RegExp(`${GLOSSARY_TERMS.length}`));
 
+      const filterGroup = () => tree.root.findByProps({ role: 'group' });
+      const expectedFilterLabels =
+        locale === 'ko'
+          ? [
+              '전체42',
+              'UI11',
+              '엔지니어링14',
+              '워크플로우5',
+              '고객 지원2',
+              '결제·정산3',
+              '기획·분석2',
+              '경영·운영1',
+              '영업·마케팅2',
+              '교육 기획·운영2',
+            ]
+          : [
+              'All42',
+              'UI11',
+              'Engineering14',
+              'Workflow5',
+              'Customer Support2',
+              'Payments & Settlement3',
+              'Planning & Analytics2',
+              'Business Operations1',
+              'Sales & Marketing2',
+              'Education Planning & Operations2',
+            ];
+      assert.deepEqual(filterGroup().findAllByType('button').map(text), expectedFilterLabels);
+      assert.equal(filterGroup().findAllByType('button')[0].props['aria-pressed'], true);
+
+      // New category filters narrow results, display updated counts, and toggle back to All
+      for (const [labelPattern, expectedCategoryCount, expectedFirstId] of [
+        [locale === 'ko' ? /^고객 지원/ : /^Customer Support/, 2, 'service-level-agreement'],
+        [locale === 'ko' ? /^결제·정산/ : /^Payments & Settlement/, 3, 'know-your-customer'],
+        [locale === 'ko' ? /^기획·분석/ : /^Planning & Analytics/, 2, 'net-promoter-score'],
+        [locale === 'ko' ? /^경영·운영/ : /^Business Operations/, 1, 'objectives-and-key-results'],
+      ] as const) {
+        const categoryBtn = () => filterGroup().findAllByType('button').find(b => labelPattern.test(text(b)))!;
+        act(() => categoryBtn().props.onClick());
+        assert.equal(categoryBtn().props['aria-pressed'], true);
+        assert.match(text(liveStatus()), new RegExp(`\\b${expectedCategoryCount}\\b`));
+        const listButtons = tree.root.findByProps({ role: 'region' }).findAllByType('button');
+        assert.equal(listButtons.length, expectedCategoryCount);
+        const expectedTerm = GLOSSARY_TERMS.find(term => term.id === expectedFirstId)!;
+        assert.ok(text(listButtons[0]).includes(expectedTerm.name[locale]));
+        assert.ok(text(tree.root.findByType('article').findByType('header')).includes(
+          labelPattern.source.replace(/^\^/, ''),
+        ));
+        // Clicking the active category button resets back to All (42)
+        act(() => categoryBtn().props.onClick());
+        assert.equal(filterGroup().findAllByType('button')[0].props['aria-pressed'], true);
+        assert.match(text(liveStatus()), new RegExp(`${GLOSSARY_TERMS.length}`));
+      }
+
       // Search KR alias regardless of locale ('결제 두 번 방지' -> idempotency)
       act(() => searchInput().props.onChange({ target: { value: '결제 두 번 방지' } }));
       const idempotency = GLOSSARY_TERMS.find(term => term.id === 'idempotency')!;
@@ -197,14 +252,41 @@ test('glossary supports explicit search label, bilingual search regardless of lo
         else assert.ok(text(section).includes(idempotency.name.en));
       }
 
+      // Search new representative acronyms/aliases across locales and verify updated category badge
+      for (const [query, expectedId, expectedCategoryLabel] of [
+        ['KR', 'objectives-and-key-results', locale === 'ko' ? '경영·운영' : 'Business Operations'],
+        ['MAU', 'active-users', locale === 'ko' ? '기획·분석' : 'Planning & Analytics'],
+        ['일할 계산', 'proration', locale === 'ko' ? '결제·정산' : 'Payments & Settlement'],
+        ['리드', 'sales-lead', locale === 'ko' ? '영업·마케팅' : 'Sales & Marketing'],
+        ['SLA', 'service-level-agreement', locale === 'ko' ? '고객 지원' : 'Customer Support'],
+        ['LMS', 'learning-management-system', locale === 'ko' ? '교육 기획·운영' : 'Education Planning & Operations'],
+        ['CTA', 'call-to-action', 'UI'],
+        ['HLS', 'http-live-streaming', locale === 'ko' ? '엔지니어링' : 'Engineering'],
+      ] as const) {
+        act(() => searchInput().props.onChange({ target: { value: query } }));
+        const matched = GLOSSARY_TERMS.find(term => term.id === expectedId)!;
+        const selectedBtn = tree.root.findByProps({ role: 'region' }).findAllByType('button')
+          .find(button => button.props['aria-pressed'])!;
+        assert.ok(text(selectedBtn).includes(matched.name[locale]));
+        assert.ok(text(selectedBtn).includes(expectedCategoryLabel));
+        assert.ok(text(tree.root.findByType('article').findByType('header')).includes(expectedCategoryLabel));
+        assert.ok(text(tree.root).includes(matched.text[locale].definition));
+      }
+
+      // Copy new term promptSnippet
+      rejectCopy = false;
+      const hls = GLOSSARY_TERMS.find(term => term.id === 'http-live-streaming')!;
+      const hlsCopyBtn = tree.root.findAllByType('button').find(b => /^(프롬프트 복사|Copy prompt|복사 완료|Copied)$/.test(text(b)))!;
+      await act(async () => { await hlsCopyBtn.props.onClick(); });
+      assert.equal(copied.at(-1), hls.text[locale].promptSnippet);
+
       // Search EN term regardless of locale ('skeleton' -> skeleton-loading)
       act(() => searchInput().props.onChange({ target: { value: 'skeleton' } }));
       const skeleton = GLOSSARY_TERMS.find(term => term.id === 'skeleton-loading')!;
       assert.ok(text(tree.root).includes(skeleton.text[locale].name));
 
       // Category filter narrows results
-      const filterGroup = tree.root.findByProps({ role: 'group' });
-      const workflowBtn = filterGroup.findAllByType('button').find(b => /워크플로우|Workflow/.test(text(b)))!;
+      const workflowBtn = filterGroup().findAllByType('button').find(b => /워크플로우|Workflow/.test(text(b)))!;
       act(() => workflowBtn.props.onClick());
       assert.match(text(liveStatus()), /\b0\b/);
 
@@ -459,6 +541,59 @@ test('in-context dialog peek from TechniqueCard and KnowledgeDetail opens showMo
     act(() => openGlossaryBtn.props.onClick());
     assert.equal(openedGlossaryId, domainLinks[0].id);
     assert.equal(detailTree.root.findAllByType('dialog').length, 0);
+  } finally {
+    act(() => detailTree.unmount());
+  }
+});
+
+test('reverse glossary links surface newly added terms on TechniqueCard and KnowledgeDetail while preserving existing top-2 priorities', () => {
+  assert.deepEqual(
+    getGlossaryLinksForDomain('subscription-plan-entitlement-and-billing', 2).map(term => term.id),
+    ['proration', 'grace-period']
+  );
+
+  const fabTechnique = TECHNIQUES.find(item => item.id === 'gooey-menu-fab')!;
+  const fabLinks = getGlossaryLinksForTechnique(fabTechnique.id, 2);
+  assert.ok(fabLinks.some(term => term.id === 'floating-action-button'));
+
+  let cardTree!: ReturnType<typeof create>;
+  act(() => {
+    cardTree = create(
+      <LocaleProvider initialLocale="ko">
+        <TechniqueCard item={fabTechnique} isSelected={false} onToggleCart={() => {}} />
+      </LocaleProvider>
+    );
+  });
+  try {
+    const fabTerm = GLOSSARY_TERMS.find(term => term.id === 'floating-action-button')!;
+    const peekBtn = cardTree.root.findAllByType('button').find(b => (b.props['aria-label'] ?? '').includes(fabTerm.name.ko));
+    assert.ok(peekBtn);
+  } finally {
+    act(() => cardTree.unmount());
+  }
+
+  const replayDomain = DOMAIN_KNOWLEDGE.find(item => item.id === 'education-live-session-attendance-and-replay')!;
+  const replayLinks = getGlossaryLinksForDomain(replayDomain.id, 2);
+  assert.ok(replayLinks.some(term => term.id === 'http-live-streaming'));
+
+  let detailTree!: ReturnType<typeof create>;
+  act(() => {
+    detailTree = create(
+      <LocaleProvider initialLocale="en">
+        <KnowledgeDetail
+          item={replayDomain}
+          onBack={() => {}}
+          onViewTechnique={() => {}}
+          onViewGlossaryTerm={() => {}}
+        />
+      </LocaleProvider>,
+      { createNodeMock: element => element.type === 'h1' ? { focus() {} } : null }
+    );
+  });
+  try {
+    const hlsTerm = GLOSSARY_TERMS.find(term => term.id === 'http-live-streaming')!;
+    const peekBtn = detailTree.root.findAllByType('button').find(b => (b.props['aria-label'] ?? '').includes(hlsTerm.name.en));
+    assert.ok(peekBtn);
   } finally {
     act(() => detailTree.unmount());
   }
