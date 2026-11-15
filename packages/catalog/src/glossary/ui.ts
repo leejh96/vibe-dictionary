@@ -379,4 +379,112 @@ export const UI_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'bottom-sheet': {
+    aliases: {
+      ko: ['바텀시트', '하단 서랍 시트', '모바일 하단 패널', '슬라이드 업 시트'],
+      en: ['bottom sheet', 'bottom drawer', 'mobile action sheet', 'slide-up sheet'],
+    },
+    text: {
+      ko: {
+        definition: '화면 하단에서 위로 올라오며 보조 선택지, 필터, 상세 정보, 확인 작업을 한 손 닿는 영역에 제공하는 시트 UI 패턴입니다. 배경을 가리지 않는 비모달 형태와 배경 조작을 막는 모달 형태를 작업 성격에 맞춰 구분해 사용합니다.',
+        example: '모바일 예약 화면에서 날짜·시간대 선택 시트를 화면 아래에서 띄우고, 상단 드래그 핸들과 닫기 버튼을 함께 두어 드래그와 키보드·버튼 조작을 모두 지원합니다.',
+        promptSnippet: '모바일 중심 선택이나 필터 확인에는 바텀 시트를 구현하고, 모달 시트라면 포커스 관리·Escape 닫기·배경 스크롤 잠금을 적용하며 드래그 핸들 외에 버튼으로도 닫고 하단 안전 영역(safe-area)을 확보하세요.',
+      },
+      en: {
+        definition: 'A surface anchored to the bottom edge of the viewport that slides upward to present secondary choices, filters, or quick confirmations within easy thumb reach. It can be non-modal for persistent tools or modal when backing interaction must be paused.',
+        example: 'A mobile booking page opens a slide-up time-slot picker with a visible drag handle, explicit close button, and bottom safe-area clearance.',
+        promptSnippet: 'Implement a bottom sheet with explicit open/close controls alongside optional drag dismissal, trap focus and lock background scroll when modal, support Escape dismissal, and respect bottom safe-area insets.',
+      },
+    },
+  },
+  'segmented-control': {
+    aliases: {
+      ko: ['세그먼티드 컨트롤', '분할 선택 버튼', '알약형 전환 탭', '단일 선택 토글 그룹'],
+      en: ['segmented control', 'segmented toggle', 'pill switcher', 'mutually exclusive toggle'],
+    },
+    text: {
+      ko: {
+        definition: '2~5개 내외의 서로 배타적인 보기 모드나 짧은 옵션을 하나의 연결된 막대 안에 나란히 배치해 즉시 전환하는 선택 컨트롤입니다. 페이지 이동 링크나 많은 항목을 담는 탭 목록보다 빠르고 대등한 단일 옵션 전환에 적합합니다.',
+        example: '요금제 카드 상단에 [월간 결제 | 연간 결제] 세그먼트 컨트롤을 배치해 선택 시 활성 배경 필이 부드럽게 이동하며 가격 표시를 즉시 바꿉니다.',
+        promptSnippet: '월간/연간 전환이나 목록/격자 보기 전환처럼 짧은 배타적 옵션에는 세그먼트 컨트롤을 사용하고, role="radiogroup" 또는 눌림 상태(aria-pressed)와 키보드 방향키 이동·충분한 선택 대비를 함께 구현하세요.',
+      },
+      en: {
+        definition: 'A linear set of two to five mutually exclusive segments inside a shared track that immediately switches a view mode or setting. Unlike full tab strips or navigation links, it works best for concise, peer options.',
+        example: 'A pricing header pairs [Monthly | Annual] in a segmented control with a sliding active indicator that toggles displayed billing amounts.',
+        promptSnippet: 'Build a segmented control for 2–5 mutually exclusive modes using clear active/inactive contrast, accessible radiogroup or pressed semantics, and keyboard arrow or tab navigation.',
+      },
+    },
+  },
+  'stepper-input': {
+    aliases: {
+      ko: ['수량 스테퍼', '증감 버튼 입력', '플러스 마이너스 입력', '숫자 조절기'],
+      en: ['quantity stepper', 'number stepper', 'increment decrement input', 'counter input'],
+    },
+    text: {
+      ko: {
+        definition: '감소(-)와 증가(+) 버튼을 숫자 표시 또는 입력 칸 양옆에 배치해 작은 범위의 정수나 수량을 한 단계씩 정확하게 조절하는 UI 컨트롤입니다. 최소·최대 한도에 도달하면 해당 방향 버튼을 비활성화하고 직접 입력 시에도 범위를 검증합니다.',
+        example: '장바구니 상품 수량이나 행사 티켓 매수 입력에서 [-] [2] [+] 스테퍼를 두고, 1 미만이나 재고 상한 초과 입력 시 버튼을 비활성화하고 사유를 안내합니다.',
+        promptSnippet: '수량·인원 조절에는 최소(min)·최대(max)·증감 단위(step)와 경계 비활성화 상태, 버튼별 명확한 aria-label("수량 감소", "수량 증가")을 갖춘 스테퍼 입력을 구현하세요.',
+      },
+      en: {
+        definition: 'A compact numeric control pairing decrement (-) and increment (+) buttons around a readout or input so users can adjust small quantities accurately step by step. Boundary values disable the corresponding button and clamp direct edits.',
+        example: 'An event checkout ticket selector provides [-], numeric field, and [+] buttons that disable minus at 1 and plus at the per-order limit.',
+        promptSnippet: 'Build a stepper input enforcing min, max, and step bounds with disabled boundary buttons, clear accessible labels on increment/decrement controls, and safe validation on direct keyboard edits.',
+      },
+    },
+  },
+  'combobox': {
+    aliases: {
+      ko: ['자동완성 선택창', '검색형 드롭다운', '입력형 셀렉트', '콤보 박스'],
+      en: ['autocomplete dropdown', 'searchable select', 'combo box', 'filterable listbox'],
+    },
+    text: {
+      ko: {
+        definition: '텍스트 입력 필드와 선택 가능한 옵션 목록(listbox)을 결합해, 사용자가 검색어를 입력해 후보를 좁히고 방향키와 Enter로 항목을 고를 수 있게 하는 복합 입력 컨트롤입니다. 항목 수가 적은 단순 선택에는 네이티브 select를 우선하고 후보가 많거나 검색이 필요할 때 사용합니다.',
+        example: '작업 담당자 배정 칸에서 이름 일부를 타이핑하면 일치하는 팀원 목록이 아래로 열리고, ArrowDown/ArrowUp과 Enter로 선택하며 Escape로 목록을 닫습니다.',
+        promptSnippet: '후보가 많은 검색형 선택에는 role="combobox", aria-expanded, aria-controls, aria-activedescendant를 갖춘 콤보박스를 구현하고 방향키 탐색·Enter 확정·Escape 닫기와 결과 없음 상태를 지원하세요.',
+      },
+      en: {
+        definition: 'A composite widget pairing a text input with a popup listbox so users can filter long option sets by typing and choose an item via pointer or keyboard. For short fixed lists, a native select remains simpler and more reliable.',
+        example: 'An issue assignee field filters matching teammates as the user types, supports ArrowUp/ArrowDown highlighting, confirms on Enter, and closes the popup on Escape.',
+        promptSnippet: 'Implement an accessible combobox with role="combobox", aria-expanded, aria-controls, and aria-activedescendant, supporting keyboard arrow navigation, Enter selection, Escape dismissal, and a clear no-matches state.',
+      },
+    },
+  },
+  'indeterminate-checkbox': {
+    aliases: {
+      ko: ['부분 선택 체크박스', '혼합 상태 체크박스', '전체 선택 중간 상태', '트리 체크박스'],
+      en: ['mixed state checkbox', 'tri-state checkbox', 'partial selection checkbox', 'indeterminate state'],
+    },
+    text: {
+      ko: {
+        definition: '상위 그룹의 하위 체크박스 가운데 일부만 선택되었을 때 체크(true)도 해제(false)도 아닌 중간(- 또는 가로선) 상태를 표시하는 체크박스 상태입니다. 브라우저 DOM 요소의 indeterminate 속성과 스크린 리더용 aria-checked="mixed"를 함께 관리해야 의미가 전달됩니다.',
+        example: '폴더 권한 목록이나 대량 작업 테이블에서 하위 항목 5개 중 2개만 선택되면 상단 전체 선택 체크박스가 중간 상태로 바뀌고, 한 번 클릭 시 전체 선택으로 전환됩니다.',
+        promptSnippet: '하위 항목 일부만 선택된 부모 체크박스에는 DOM indeterminate 프로퍼티와 aria-checked="mixed"를 동기화해 시각 표시와 보조기기 상태를 일치시키고 클릭 시 전체 선택·해제 전환 규칙을 일관되게 적용하세요.',
+      },
+      en: {
+        definition: 'A third visual and semantic checkbox state used when only a subset of child items in a group is selected. Because HTML has no pure indeterminate attribute, both the DOM element’s indeterminate property and aria-checked="mixed" must stay synchronized.',
+        example: 'In a file table with 2 of 5 rows checked, the header select-all checkbox displays a horizontal dash and toggles cleanly to all-checked when clicked.',
+        promptSnippet: 'Synchronize the DOM checkbox indeterminate property and aria-checked="mixed" whenever a parent checkbox represents partial child selection, defining predictable toggle behavior between all and none.',
+      },
+    },
+  },
+  'sticky-header': {
+    aliases: {
+      ko: ['스티키 헤더', '스크롤 고정 머리글', '고정 열 제목', '그룹 고정 헤더'],
+      en: ['sticky header', 'pinned table header', 'sticky group header', 'frozen header'],
+    },
+    text: {
+      ko: {
+        definition: '긴 표나 그룹화된 목록을 스크롤할 때 열 제목이나 현재 그룹 제목이 컨테이너 상단에 고정되어 사용자가 각 열과 구간의 맥락을 잃지 않게 돕는 배치 기법입니다. 상위 조상 요소에 overflow: hidden이 걸려 있거나 불투명 배경·z-index 구분이 없으면 가려지거나 배경 글자와 겹쳐 보입니다.',
+        example: '지표 분석 표를 아래로 내릴 때 thead th에 position: sticky; top: 0과 불투명 배경, 미세한 경계선을 주어 데이터 행이 헤더 뒤로 자연스럽게 지나가게 합니다.',
+        promptSnippet: '긴 표나 그룹 목록에는 position: sticky와 불투명 배경, 적절한 z-index, 조상 overflow 제약 점검을 적용한 고정 헤더를 구현하고 가로·세로 스크롤이 함께 있을 때 좌측 고정 열과의 겹침 순서를 명확히 잡으세요.',
+      },
+      en: {
+        definition: 'A CSS positioning pattern that keeps table column headers or section titles pinned to the top of a scrolling container so users retain context across long datasets. Sticky headers require opaque surfaces, proper z-index layering, and scrollable ancestors without clipping overflow: hidden.',
+        example: 'A metrics table pins its thead cells at top: 0 with an opaque surface and hairline bottom border so scrolling rows pass cleanly underneath.',
+        promptSnippet: 'Pin long table or section headers using position: sticky with an opaque surface, border separation, and verified ancestor overflow rules, setting higher z-index on corner cells when paired with frozen columns.',
+      },
+    },
+  },
 };

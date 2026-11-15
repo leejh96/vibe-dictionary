@@ -461,7 +461,7 @@ export default function App() {
     <div
       aria-hidden={hidden || undefined}
       onWheel={handleTabsWheel}
-      className={`items-center bg-indigo-50/80 dark:bg-slate-900 p-1 rounded-xl border border-indigo-100 dark:border-slate-800 transition-colors domain-tabs-scroll ${className}`}
+      className={`items-center bg-white dark:bg-slate-900 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800 transition-colors domain-tabs-scroll ${className}`}
     >
       {domainTabs.map((tab) => {
         const isActive = activeDomain === tab.id;

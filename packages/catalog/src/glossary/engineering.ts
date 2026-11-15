@@ -433,4 +433,112 @@ export const ENGINEERING_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'rate-limiting': {
+    aliases: {
+      ko: ['호출 제한', '처리율 제한', '레이트 리미팅', '요청 횟수 제한', '429 응답 제한'],
+      en: ['rate limit', 'throttling', 'API rate limiting', '429 Too Many Requests'],
+    },
+    text: {
+      ko: {
+        definition: '남용, 무차별 대입(Brute-force), 과도한 트래픽 급증으로부터 API와 인증 엔드포인트를 보호하기 위해 사용자·API 키·IP 단위로 일정 시간당 허용 요청 횟수를 제한하는 서버 제어 기법입니다. 한도 초과 시 HTTP 429 상태 코드와 Retry-After 대기 시간을 반환하고, UI는 남은 대기 시간 안내와 중복 재시도 억제를 담당합니다.',
+        example: '로그인 2단계 인증 코드 확인 API에 계정·IP 기준 요청 빈도 제한을 걸어 연속 오입력 시 일시 차단하고, 응답 헤더의 Retry-After를 읽어 클라이언트에 "30초 후 다시 시도해 주세요"를 표시합니다.',
+        promptSnippet: '인증·API 키 호출·검색·폼 제출 엔드포인트에 서버 측 요청 빈도 제한(Rate Limiting)을 설계하고, 초과 시 HTTP 429와 Retry-After 헤더를 반환하며 클라이언트 UI는 대기 카운트다운과 자동 재폭주 방지를 함께 구현하세요.',
+      },
+      en: {
+        definition: 'A server-side traffic control policy that caps how many requests a user, API key, or IP address can send within a time window to guard against abuse, brute-force attempts, and traffic spikes. Exceeding the budget returns HTTP 429 with Retry-After guidance while UI surfaces wait feedback.',
+        example: 'Limit MFA verification attempts per account and IP, returning HTTP 429 with Retry-After so the form disables immediate retries and shows when the user can try again.',
+        promptSnippet: 'Enforce backend rate limiting per user, API key, or IP on sensitive and burst-prone endpoints, return HTTP 429 with Retry-After headers, and show clear cooldown feedback in the UI without tight retry loops.',
+      },
+    },
+  },
+  'circuit-breaker': {
+    aliases: {
+      ko: ['회로 차단기 패턴', '장애 전파 차단', '서킷브레이커', '외부 연동 일시 차단'],
+      en: ['circuit breaker pattern', 'dependency circuit breaker', 'fail-fast fallback'],
+    },
+    text: {
+      ko: {
+        definition: '의존하는 외부 API나 하위 서비스의 오류율·지연이 임계치를 넘으면 일정 시간 동안 요청 호출을 열림(Open) 상태로 전환해 즉시 실패 또는 대체 응답을 반환하고, 이후 반열림(Half-Open) 상태로 소수 요청만 시험해 복구 여부를 확인하는 안정성 패턴입니다.',
+        example: '외부 웹훅이나 결제 대행 연동이 연속 타임아웃으로 장애를 겪으면 서킷 브레이커를 열어 대기 스레드 고갈을 막고, 화면 상단에는 "일시적 외부 연동 지연" 안내와 대체 경로를 노출합니다.',
+        promptSnippet: '외부 API·웹훅·결제 연동 호출부에 닫힘(Closed)·열림(Open)·반열림(Half-Open) 상태를 갖는 서킷 브레이커를 적용하고, 열림 상태의 빠른 실패·대체 안내 및 재시도 폭주 차단을 함께 설계하세요.',
+      },
+      en: {
+        definition: 'A resilience pattern that monitors calls to an external dependency and trips into an Open state once failures exceed a threshold, failing fast or serving a fallback instead of piling up timeouts, then probing recovery in a Half-Open state.',
+        example: 'When a downstream shipping or webhook endpoint times out repeatedly, trip the circuit breaker so requests fail fast, alert operators, and show a non-blocking degradation banner.',
+        promptSnippet: 'Wrap unreliable external integrations in a Closed/Open/Half-Open circuit breaker with explicit failure thresholds, cooldown windows, fast fallbacks, and recovery probes.',
+      },
+    },
+  },
+  'cursor-pagination': {
+    aliases: {
+      ko: ['커서 페이지네이션', '키셋 페이지네이션', '커서 기반 목록 조회', '무한 스크롤 커서'],
+      en: ['cursor pagination', 'keyset pagination', 'seek pagination', 'opaque cursor'],
+    },
+    text: {
+      ko: {
+        definition: 'OFFSET 숫자 대신 마지막으로 조회한 항목의 정렬 키 또는 불투명 커서(Cursor)를 기준으로 다음 묶음을 가져오는 목록 분할 방식입니다. 실시간으로 새 글이나 로그가 추가·삭제되어도 페이지 경계가 밀려 항목이 중복되거나 누락되는 문제를 줄여 줍니다.',
+        example: '실시간 채팅방 메시지나 보안 감사 로그를 불러올 때 마지막 항목의 타임스탬프·ID 조합 커서를 nextCursor로 전달해 새 로그가 유입돼도 중복 없이 이전 기록을 이어 붙입니다.',
+        promptSnippet: '실시간으로 항목이 추가되는 피드·채팅·감사 로그 API에는 OFFSET 대신 안정적인 정렬 키 기반의 커서 페이지네이션(nextCursor, hasMore)을 적용하고, 이전 기록을 위에 붙일 때는 스크롤 앵커 위치를 유지하세요.',
+      },
+      en: {
+        definition: 'A list pagination strategy that fetches subsequent slices relative to a stable cursor or sort key (such as timestamp plus unique ID) rather than numeric row offsets. Unlike offset pagination, it prevents duplicate or skipped items when new rows are inserted concurrently.',
+        example: 'A chat timeline and audit-log viewer pass an opaque cursor for the oldest visible event so newly arriving records never shift prior pages.',
+        promptSnippet: 'Use deterministic cursor-based (keyset) pagination with a unique tie-breaker key for live feeds, chat histories, and audit logs, preserving scroll anchor positions when prepending older items.',
+      },
+    },
+  },
+  'optimistic-locking': {
+    aliases: {
+      ko: ['낙관적 락', '버전 충돌 감지', 'ETag 동시 수정 방지', '동시 편집 충돌 검증'],
+      en: ['optimistic concurrency control', 'version check locking', 'ETag If-Match', 'stale write protection'],
+    },
+    text: {
+      ko: {
+        definition: '여러 사용자가 같은 문서를 조회할 때 잠금을 미리 걸지 않고, 저장 시점에 레코드의 버전 번호(version)나 ETag를 대조해 그사이 다른 사람이 먼저 수정했다면 덮어쓰기를 차단(409 Conflict)하는 동시성 제어 방식입니다. 화면 먼저 바꾸는 낙관적 UI 업데이트와는 목적과 계층이 다릅니다.',
+        example: '두 편집자가 같은 문서를 연 뒤 한 명이 먼저 저장해 버전이 v3에서 v4로 오르면, 다른 편집자의 v3 기준 저장 요청을 서버가 409 Conflict로 거부하고 변경 차이 비교 화면을 띄웁니다.',
+        promptSnippet: '문서·예약 설정·공통 리소스 수정 API에는 version 필드나 ETag(If-Match) 기반 낙관적 잠금을 적용해 구버전 덮어쓰기를 409 Conflict로 차단하고, UI에서 최신 버전과 내 편집을 비교·병합할 수 있게 안내하세요.',
+      },
+      en: {
+        definition: 'A concurrency control mechanism that reads records without holding exclusive locks and checks a version number or ETag on write, rejecting stale updates with 409 Conflict rather than silently overwriting another user’s changes. It is distinct from UI optimistic updates.',
+        example: 'If two editors open revision v3 and one saves v4 first, the second save carrying expected version v3 fails with 409 Conflict and shows a diff to resolve changes.',
+        promptSnippet: 'Protect shared edits against silent lost updates using optimistic locking (version column or HTTP ETag If-Match) on the backend, handling 409 Conflict in the UI with refresh or diff resolution.',
+      },
+    },
+  },
+  'multi-factor-authentication': {
+    aliases: {
+      ko: ['MFA', '2단계 인증', '2FA', '다중 인증', '추가 본인 확인'],
+      en: ['MFA', '2FA', 'two-factor authentication', 'step-up authentication'],
+    },
+    text: {
+      ko: {
+        definition: '비밀번호 같은 지식 기반 요소 하나에만 의존하지 않고, 일회용 인증 코드(OTP), 패스키·보안 키(소지 요소), 생체 인증 등 성격이 서로 다른 두 가지 이상 요소를 조합해 본인 여부를 검증하는 인증 방식입니다. 권한 변경·출금 같은 민감 작업 전 추가 재인증(Step-up)에도 활용됩니다.',
+        example: '비밀번호 로그인 후 6자리 TOTP(Time-based One-Time Password) 인증 앱 코드를 확인하고, 기기 분실에 대비해 일회용 복구 코드 발급과 사용 시 즉시 무효화를 함께 제공합니다.',
+        promptSnippet: '다중 요소 인증(MFA)을 구현할 때 OTP·패스키 검증, 일회용 복구 코드 생성과 해시 저장, 민감 작업 시 Step-up 재인증, 그리고 마지막 인증 수단 해제 방지 규칙을 서버에서 강제하세요.',
+      },
+      en: {
+        definition: 'An authentication requirement combining two or more independent verification factors—such as knowledge (password), possession (authenticator OTP or passkey), or inherence (biometrics)—including step-up re-verification before sensitive mutations.',
+        example: 'After password login, prompt for a 6-digit TOTP code with keyboard-friendly OTP input and issue single-use hashed backup codes in case the primary device is lost.',
+        promptSnippet: 'Implement Multi-Factor Authentication (MFA) with server-verified factors, single-use hashed recovery codes, step-up challenges for sensitive actions, and lockout protection on repeated failed codes.',
+      },
+    },
+  },
+  'presigned-url': {
+    aliases: {
+      ko: ['사전 서명 URL', '프리사인드 URL', '서명된 업로드 주소', '임시 다운로드 링크'],
+      en: ['Presigned URL', 'Signed URL', 'pre-signed upload URL', 'time-limited object URL'],
+    },
+    text: {
+      ko: {
+        definition: '클라이언트가 대용량 파일을 앱 서버를 거치지 않고 객체 스토리지에 직접 업로드하거나 권한 검사를 통과한 사용자에게만 제한 시간 동안 다운로드를 허용하기 위해 서버가 권한·만료 시각·허용 크기·형식을 서명해 발급하는 일시적 접근 주소입니다.',
+        example: '사용자가 파일을 첨부하면 앱 서버가 로그인·권한·확장자를 먼저 확인한 뒤 5분간만 유효한 업로드용 서명 주소를 내려주고, 클라이언트가 스토리지로 직접 전송한 다음 완료 콜백으로 메타데이터를 확정합니다.',
+        promptSnippet: '대용량 파일 업로드·비공개 파일 다운로드에는 서버에서 사용자 권한을 먼저 검증한 뒤 짧은 만료 시간, 허용 MIME 타입, 최대 크기 조건이 담긴 사전 서명된 주소(Presigned URL)를 발급하고 업로드 완료 검증과 고아 파일 정리 정책을 함께 두세요.',
+      },
+      en: {
+        definition: 'A time-limited, cryptographically signed object-storage link issued by an authorized backend so clients can upload large files directly to storage or download private files temporarily without exposing permanent credentials.',
+        example: 'After verifying user permissions and file constraints, the API issues a 5-minute upload URL with size and content-type conditions, then marks the file ready only after post-upload confirmation.',
+        promptSnippet: 'Issue short-lived Presigned URLs only after backend authorization checks, bind strict content-type and size limits on uploads, verify completion before publishing, and expire unused upload objects.',
+      },
+    },
+  },
 };

@@ -217,4 +217,94 @@ export const PRODUCT_PLANNING_GLOSSARY_DATA: Record<string, GlossaryTermBody> = 
       },
     },
   },
+  'churn-rate': {
+    aliases: {
+      ko: ['고객 이탈률', '해지율', '구독 취소율', '매출 이탈률'],
+      en: ['customer churn', 'attrition rate', 'cancellation rate', 'revenue churn'],
+    },
+    text: {
+      ko: {
+        definition: '특정 기간 시작 시점에 유지되고 있던 고객 또는 반복 매출(MRR) 가운데 기간 종료 시점까지 해지·만료로 빠져나간 비율입니다. 고객 수 기준(Logo Churn)과 매출 금액 기준(Revenue Churn), 그리고 해지 요청 시점이 아닌 실제 만료 시점 중 어떤 기준으로 집계하는지 통일해야 합니다.',
+        example: '월초 유료 구독 팀 500곳 중 해당 월에 갱신하지 않고 만료된 15곳을 집계해 월간 고객 이탈률 3%로 보고하되, 일시정지(Pause) 계정은 해지와 별도로 구분해 추적합니다.',
+        promptSnippet: '이탈률(Churn Rate) 대시보드·지표 명세에서는 고객 수 이탈과 매출(MRR) 이탈 구분, 해지 신청일 vs 실제 만료일 기준, 일시정지·신규 가입자 분모 포함 여부를 먼저 명확히 정의하세요.',
+      },
+      en: {
+        definition: 'The percentage of active customers or recurring revenue lost over a defined period through cancellations or non-renewals. Reporting must clarify logo churn versus revenue churn and whether paused accounts or mid-period signups enter the denominator.',
+        example: 'Out of 500 active subscriptions at the start of the month, 15 expire without renewing, yielding 3% monthly logo churn while paused accounts are tracked separately.',
+        promptSnippet: 'Document churn rate definitions explicitly—separating customer churn from MRR churn, cancellation request date from effective end date, and paused or new mid-period accounts from the starting cohort.',
+      },
+    },
+  },
+  'activation-metric': {
+    aliases: {
+      ko: ['활성화 지표', '아하 모먼트 지표', '신규 사용자 안착률', '첫 가치 도달률'],
+      en: ['user activation', 'activation rate', 'aha moment metric', 'time to value'],
+    },
+    text: {
+      ko: {
+        definition: '신규 가입자가 단순 회원 등록에서 멈추지 않고 서비스의 핵심 가치를 처음으로 경험했다고 판단하는 행동 완료 비율과 소요 시간입니다. 단순 로그인이나 이메일 인증이 아니라 장기 잔존율과 상관이 높은 실제 사용 마일스톤을 기준으로 잡습니다.',
+        example: '협업 툴에서 가입 후 7일 이내에 첫 보드를 만들고 팀원 1명 이상을 초대한 비율을 초기 안착 지표로 두고, 온보딩 체크리스트의 각 단계 이탈과 연결해 점검합니다.',
+        promptSnippet: '초기 안착 지표(Activation Metric)를 설계할 때는 단순 가입이 아니라 서비스 핵심 가치를 체험한 구체적 행동 조합과 판단 기한(예: 가입 후 7일 이내)을 정하고 온보딩 단계별 전환 퍼널과 연결하세요.',
+      },
+      en: {
+        definition: 'The percentage of new signups who complete the key milestone or set of actions that demonstrates core product value within a target timeframe, strongly predicting long-term retention.',
+        example: 'Track the share of newly created workspaces that publish their first project and invite at least one teammate within 7 days of signup.',
+        promptSnippet: 'Define your activation metric around concrete value-realizing actions within a bounded post-signup window rather than passive logins, and pair it with onboarding step drop-offs.',
+      },
+    },
+  },
+  'north-star-metric': {
+    aliases: {
+      ko: ['핵심 나침반 지표', '대표 성과 지표', '노스 스타 메트릭', '장기 가치 지표'],
+      en: ['NSM', 'North Star Metric', 'top-level product metric', 'core value metric'],
+    },
+    text: {
+      ko: {
+        definition: '제품이 고객에게 전달하는 핵심 가치와 장기 비즈니스 성과를 하나의 대표 지표로 요약해, 여러 기능 팀이 같은 방향을 보고 우선순위를 맞추도록 돕는 최상위 지표입니다. 페이지뷰 같은 허영 지표(Vanity Metric)를 피하고 가드레일 지표와 짝지어 균형을 잡습니다.',
+        example: '문서 협업 플랫폼이 총 가입자 수 대신 "주간 3명 이상이 함께 편집한 활성 문서 수"를 북극성 지표로 삼고, 로딩 속도와 오류율을 가드레일로 감시합니다.',
+        promptSnippet: '북극성 지표(North Star Metric)와 하위 분해 트리를 설계할 때 사용자 가치 전달을 반영하는 대표 산식을 정하고, 단기 과최적화를 막을 가드레일 지표 및 세부 입력 지표를 함께 연결하세요.',
+      },
+      en: {
+        definition: 'A single overarching metric capturing the core value a product delivers to customers and driving sustainable business growth, aligning cross-functional teams while balanced by guardrail metrics.',
+        example: 'Instead of raw signups, a collaboration app chooses "weekly documents co-edited by 3+ teammates" as its North Star Metric alongside reliability guardrails.',
+        promptSnippet: 'Pair a North Star Metric that reflects genuine customer value (not vanity pageviews) with measurable driver inputs and protective guardrail metrics.',
+      },
+    },
+  },
+  'sample-quota': {
+    aliases: {
+      ko: ['설문 할당량', '응답자 쿼터', '세그먼트별 목표 표본 수', '할당 마감'],
+      en: ['survey quota', 'respondent quota', 'quota cap', 'sampling quota'],
+    },
+    text: {
+      ko: {
+        definition: '설문조사나 사용자 리서치에서 연령대·직군·요금제 같은 세부 세그먼트별 응답이 한쪽에 치우치지 않도록 목표 표본 수를 할당하고, 특정 구간의 할당량이 차면 추가 응답을 마감하거나 대체 경로로 안내하는 제어 기준입니다.',
+        example: '유료 플랜 200명, 무료 플랜 200명 목표 설문에서 무료 플랜 응답이 먼저 200건에 도달하면 무료 플랜 응답자만 정중히 마감 안내 화면으로 분기하고 유료 플랜 수집은 계속 열어 둡니다.',
+        promptSnippet: '표본 할당량(Sample Quota)이 있는 설문·리서치 흐름에서는 응답 확정 시점의 원자적 카운트 차감, 진행 중 이탈로 인한 미완료 슬롯 처리, 할당 초과 시 우회/마감 안내를 설계하세요.',
+      },
+      en: {
+        definition: 'Per-segment response caps used in surveys or research studies to ensure balanced representation across cohorts—automatically closing or routing incoming respondents once a segment reaches its target count.',
+        example: 'Once the 200-response quota for free-tier users fills, new free-tier entrants receive a polite quota-full notice while paid-tier collection stays open.',
+        promptSnippet: 'Implement sample quotas with atomic capacity checks on final submission, clear handling for in-progress drafts when a quota closes, and transparent quota-reached messaging.',
+      },
+    },
+  },
+  'saved-report-view': {
+    aliases: {
+      ko: ['저장된 보기', '맞춤 필터 뷰', '대시보드 프리셋', '공유 리포트 뷰'],
+      en: ['saved view', 'report preset', 'saved filter view', 'custom dashboard view'],
+    },
+    text: {
+      ko: {
+        definition: '분석 대시보드나 데이터 테이블에서 사용자가 자주 조합하는 기간, 필터 조건, 정렬, 표시 열 구성을 이름과 함께 저장해 두고 원클릭으로 다시 불러오거나 팀과 공유할 수 있는 상태 스냅샷입니다. 원본 스키마가 바뀌거나 필터 항목이 삭제된 경우에도 안전하게 기본값으로 폴백해야 합니다.',
+        example: '제품 매니저가 "최근 30일 유료 전환 퍼널(모바일 제외)" 필터·열 구성을 팀 공유 뷰로 저장해 두면 주간 회의에서 매번 필터를 다시 설정하지 않고 바로 열어 확인합니다.',
+        promptSnippet: '저장된 리포트 보기(Saved View) 기능에는 URL 파라미터·저장 상태 동기화, 개인/팀 공유 범위와 편집 권한 분리, 변경됨(Dirty) 표시와 덮어쓰기/새 이름으로 저장, 그리고 삭제된 필터 필드 복원 폴백을 구현하세요.',
+      },
+      en: {
+        definition: 'A persisted configuration of date ranges, filters, sorting, and visible columns in an analytics table or report that users can reload in one click or share with teammates, gracefully ignoring obsolete fields if schemas evolve.',
+        example: 'Save "Last 30d Paid Funnel (Desktop)" as a shared team preset so stakeholders reopen the exact slice without rebuilding filters every week.',
+        promptSnippet: 'Build saved report views with clear dirty-state indicators ("Save changes" vs. "Save as new"), personal versus team sharing permissions, URL sync, and graceful fallback when saved filter keys no longer exist.',
+      },
+    },
+  },
 };
