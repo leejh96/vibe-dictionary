@@ -19,8 +19,8 @@ import {
 
 const TEST_DIR = dirname(fileURLToPath(import.meta.url));
 
-test('glossary has 42 unique kebab-case terms across 9 categories with expanded acronyms', () => {
-  assert.equal(GLOSSARY_TERMS.length, 42);
+test('glossary has 122 unique kebab-case terms across 9 categories with expanded acronyms', () => {
+  assert.equal(GLOSSARY_TERMS.length, 122);
   assert.deepEqual(GLOSSARY_CATEGORIES, [
     'ui',
     'engineering',
@@ -63,20 +63,100 @@ test('glossary has 42 unique kebab-case terms across 9 categories with expanded 
     'customer-relationship-management',
     'account-deactivation',
     'curriculum-alignment',
+    'container-query',
+    'responsive-breakpoint',
+    'aspect-ratio',
+    'keyboard-focus-indicator',
+    'skip-link',
+    'breadcrumb',
+    'tooltip',
+    'tab-panel',
+    'faceted-filter',
+    'pagination',
+    'largest-contentful-paint',
+    'interaction-to-next-paint',
+    'cumulative-layout-shift',
+    'lazy-loading',
+    'scrollbar-gutter',
+    'content-visibility',
+    'stale-while-revalidate',
+    'webhook',
+    'exponential-backoff',
+    'request-cancellation',
+    'conversion-funnel',
+    'conversion-rate',
+    'cohort-analysis',
+    'retention-rate',
+    'attribution-window',
+    'anomaly-detection',
+    'guardrail-metric',
+    'data-freshness',
+    'metric-definition',
+    'success-criteria',
+    'bottom-sheet',
+    'segmented-control',
+    'stepper-input',
+    'combobox',
+    'indeterminate-checkbox',
+    'sticky-header',
+    'rate-limiting',
+    'circuit-breaker',
+    'cursor-pagination',
+    'optimistic-locking',
+    'multi-factor-authentication',
+    'presigned-url',
+    'soft-delete',
+    'waitlist-management',
+    'break-glass-access',
+    'dry-run-validation',
+    'collaborative-edit-lock',
+    'embargo-publishing',
+    'customer-satisfaction-score',
+    'ticket-deflection',
+    'canned-response',
+    'ticket-merging',
+    'priority-escalation',
+    'first-contact-resolution',
+    'dunning-management',
+    'double-entry-ledger',
+    'usage-based-billing',
+    'payment-reconciliation',
+    'withholding-tax-settlement',
+    'partial-refund',
+    'churn-rate',
+    'activation-metric',
+    'north-star-metric',
+    'sample-quota',
+    'saved-report-view',
+    'inventory-allocation',
+    'reverse-logistics',
+    'split-shipment',
+    'proof-of-delivery',
+    'cold-chain-monitoring',
+    'coupon-stacking-rule',
+    'win-back-campaign',
+    'unsubscribe-suppression',
+    'custom-quote-offer',
+    'referral-attribution',
+    'course-prerequisite',
+    'grading-rubric-appeal',
+    'certificate-verification',
+    'cohort-enrollment-window',
+    'timed-exam-submission',
   ]) {
     assert.ok(ids.includes(requiredId), `Missing required term: ${requiredId}`);
   }
 
   const expectedCategoryCounts: Record<typeof GLOSSARY_CATEGORIES[number], number> = {
-    ui: 11,
-    engineering: 14,
-    workflow: 5,
-    'customer-support': 2,
-    'payments-settlement': 3,
-    'product-planning': 2,
-    'business-operations': 1,
-    'sales-marketing': 2,
-    'education-operations': 2,
+    ui: 27,
+    engineering: 30,
+    workflow: 11,
+    'customer-support': 8,
+    'payments-settlement': 9,
+    'product-planning': 17,
+    'business-operations': 6,
+    'sales-marketing': 7,
+    'education-operations': 7,
   };
   for (const category of GLOSSARY_CATEGORIES) {
     assert.equal(
@@ -87,13 +167,85 @@ test('glossary has 42 unique kebab-case terms across 9 categories with expanded 
   }
 
   const expectedReclassifiedMembers: Record<Exclude<typeof GLOSSARY_CATEGORIES[number], 'ui' | 'engineering'>, string[]> = {
-    workflow: ['human-in-the-loop', 'user-onboarding', 'grace-period', 'maker-checker-approval', 'account-deactivation'],
-    'customer-support': ['service-level-agreement', 'voice-of-customer'],
-    'payments-settlement': ['know-your-customer', 'escrow-settlement', 'proration'],
-    'product-planning': ['net-promoter-score', 'active-users'],
-    'business-operations': ['objectives-and-key-results'],
-    'sales-marketing': ['sales-lead', 'customer-relationship-management'],
-    'education-operations': ['learning-management-system', 'curriculum-alignment'],
+    workflow: [
+      'human-in-the-loop',
+      'user-onboarding',
+      'grace-period',
+      'maker-checker-approval',
+      'account-deactivation',
+      'soft-delete',
+      'waitlist-management',
+      'break-glass-access',
+      'dry-run-validation',
+      'collaborative-edit-lock',
+      'embargo-publishing',
+    ],
+    'customer-support': [
+      'service-level-agreement',
+      'voice-of-customer',
+      'customer-satisfaction-score',
+      'ticket-deflection',
+      'canned-response',
+      'ticket-merging',
+      'priority-escalation',
+      'first-contact-resolution',
+    ],
+    'payments-settlement': [
+      'know-your-customer',
+      'escrow-settlement',
+      'proration',
+      'dunning-management',
+      'double-entry-ledger',
+      'usage-based-billing',
+      'payment-reconciliation',
+      'withholding-tax-settlement',
+      'partial-refund',
+    ],
+    'product-planning': [
+      'net-promoter-score',
+      'active-users',
+      'conversion-funnel',
+      'conversion-rate',
+      'cohort-analysis',
+      'retention-rate',
+      'attribution-window',
+      'anomaly-detection',
+      'guardrail-metric',
+      'data-freshness',
+      'metric-definition',
+      'success-criteria',
+      'churn-rate',
+      'activation-metric',
+      'north-star-metric',
+      'sample-quota',
+      'saved-report-view',
+    ],
+    'business-operations': [
+      'objectives-and-key-results',
+      'inventory-allocation',
+      'reverse-logistics',
+      'split-shipment',
+      'proof-of-delivery',
+      'cold-chain-monitoring',
+    ],
+    'sales-marketing': [
+      'sales-lead',
+      'customer-relationship-management',
+      'coupon-stacking-rule',
+      'win-back-campaign',
+      'unsubscribe-suppression',
+      'custom-quote-offer',
+      'referral-attribution',
+    ],
+    'education-operations': [
+      'learning-management-system',
+      'curriculum-alignment',
+      'course-prerequisite',
+      'grading-rubric-appeal',
+      'certificate-verification',
+      'cohort-enrollment-window',
+      'timed-exam-submission',
+    ],
   };
   for (const [category, expectedIds] of Object.entries(expectedReclassifiedMembers)) {
     assert.deepEqual(
@@ -215,6 +367,10 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
   assert.deepEqual(getGlossaryLinksForTechnique('gooey-menu-fab').map(l => l.id), ['floating-action-button']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-bottom-destination-nav').map(l => l.id), ['safe-area']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-transposable-comparison-matrix').map(l => l.id), ['supervised-learning', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-transposable-comparison-matrix', 4).map(l => l.id), ['supervised-learning', 'curriculum-alignment', 'cohort-analysis', 'retention-rate']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-stable-scrollbar-gutter').map(l => l.id), ['cumulative-layout-shift', 'scrollbar-gutter']);
+  assert.deepEqual(getGlossaryLinksForTechnique('hover-focus-tooltip').map(l => l.id), ['tooltip']);
+  assert.deepEqual(getGlossaryLinksForTechnique('ly-paginated-document-list').map(l => l.id), ['pagination']);
   assert.deepEqual(getGlossaryLinksForTechnique('ly-heatmap-grid').map(l => l.id), ['supervised-learning', 'unsupervised-learning']);
   assert.deepEqual(getGlossaryLinksForTechnique('vd-node-flow-pipeline').map(l => l.id), ['reinforcement-learning']);
   assert.deepEqual(getGlossaryLinksForTechnique('vd-diverging-bar-reveal').map(l => l.id), ['net-promoter-score']);
@@ -224,14 +380,29 @@ test('glossary-links.ts has 1:1 parity with GLOSSARY_TERMS and stays tree-shakea
 
   assert.deepEqual(getGlossaryLinksForDomain('education-live-session-attendance-and-replay').map(l => l.id), ['http-live-streaming']);
   assert.deepEqual(getGlossaryLinksForDomain('cms-publishing-schedule-and-versioning').map(l => l.id), ['content-delivery-network', 'content-management-system']);
-  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute').map(l => l.id), ['unsupervised-learning']);
+  assert.deepEqual(getGlossaryLinksForDomain('cms-publishing-schedule-and-versioning', 3).map(l => l.id), ['content-delivery-network', 'content-management-system', 'stale-while-revalidate']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute').map(l => l.id), ['unsupervised-learning', 'anomaly-detection']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-anomaly-threshold-alert-and-mute', 3).map(l => l.id), ['unsupervised-learning', 'anomaly-detection', 'guardrail-metric']);
   assert.deepEqual(getGlossaryLinksForDomain('ai-agent-state-memory-and-branching').map(l => l.id), ['reinforcement-learning']);
   assert.deepEqual(getGlossaryLinksForDomain('support-csat-survey-and-quality-review').map(l => l.id), ['voice-of-customer', 'net-promoter-score']);
   assert.deepEqual(getGlossaryLinksForDomain('support-ticket-routing-and-resolution').map(l => l.id), ['service-level-agreement', 'voice-of-customer']);
-  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window').map(l => l.id), ['active-users']);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window').map(l => l.id), [
+    'active-users',
+    'conversion-funnel',
+  ]);
+  assert.deepEqual(getGlossaryLinksForDomain('analytics-funnel-cohort-and-attribution-window', 6).map(l => l.id), [
+    'active-users',
+    'conversion-funnel',
+    'conversion-rate',
+    'cohort-analysis',
+    'retention-rate',
+    'attribution-window',
+  ]);
   assert.deepEqual(getGlossaryLinksForDomain('workspace-dependency-subtask-and-milestone').map(l => l.id), ['objectives-and-key-results']);
   assert.deepEqual(getGlossaryLinksForDomain('coding-lesson-objectives-and-practice').map(l => l.id), ['user-onboarding', 'learning-management-system']);
+  assert.deepEqual(getGlossaryLinksForDomain('coding-lesson-objectives-and-practice', 4).map(l => l.id), ['user-onboarding', 'learning-management-system', 'curriculum-alignment', 'success-criteria']);
   assert.deepEqual(getGlossaryLinksForDomain('education-curriculum-prerequisite-and-cohort').map(l => l.id), ['learning-management-system', 'curriculum-alignment']);
+  assert.deepEqual(getGlossaryLinksForDomain('education-curriculum-prerequisite-and-cohort', 3).map(l => l.id), ['learning-management-system', 'curriculum-alignment', 'cohort-analysis']);
   assert.deepEqual(getGlossaryLinksForDomain('notification-scheduled-campaign-and-unsubscribe').map(l => l.id), ['sales-lead']);
   assert.deepEqual(getGlossaryLinksForDomain('workspace-template-custom-field-and-archiving').map(l => l.id), ['customer-relationship-management']);
   assert.deepEqual(getGlossaryLinksForDomain('account-dormancy-lockout-and-reactivation').map(l => l.id), ['account-deactivation']);
@@ -274,6 +445,88 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
     ['customer-relationship-management', ['customer-relationship-management', '고객 관계 관리(CRM)', 'Customer Relationship Management (CRM)', 'CRM', '고객 관리', 'sales pipeline CRM']],
     ['account-deactivation', ['account-deactivation', '계정 비활성화', 'Account Deactivation', '계정 중지', 'disable account']],
     ['curriculum-alignment', ['curriculum-alignment', '교육과정 연계', 'Curriculum Alignment', '성취기준 연계', 'curriculum mapping']],
+    // 30 added glossary terms across UI, engineering, and product-planning
+    ['container-query', ['container-query', '컨테이너 쿼리', 'Container Query', '@container']],
+    ['responsive-breakpoint', ['responsive-breakpoint', '반응형 중단점', 'Responsive Breakpoint', '화면 폭 분기점']],
+    ['aspect-ratio', ['aspect-ratio', '종횡비', 'Aspect Ratio', '가로세로 비율']],
+    ['keyboard-focus-indicator', ['keyboard-focus-indicator', '키보드 포커스 표시', 'Keyboard Focus Indicator', '포커스 링']],
+    ['skip-link', ['skip-link', '건너뛰기 링크', 'Skip Link', '본문 바로가기 링크']],
+    ['breadcrumb', ['breadcrumb', '브레드크럼', 'Breadcrumb', 'breadcrumb trail']],
+    ['tooltip', ['tooltip', '툴팁', 'Tooltip', '말풍선 안내']],
+    ['tab-panel', ['tab-panel', '탭 패널', 'Tab Panel', 'tablist tabpanel']],
+    ['faceted-filter', ['faceted-filter', '패싯 필터', 'Faceted Filter', '다중 속성 필터']],
+    ['pagination', ['pagination', '페이지 나누기', 'Pagination', '페이지네이션']],
+    ['largest-contentful-paint', ['largest-contentful-paint', '최대 콘텐츠 렌더링 시간(LCP)', 'Largest Contentful Paint (LCP)', 'LCP']],
+    ['interaction-to-next-paint', ['interaction-to-next-paint', '다음 페인트까지의 상호작용 지연(INP)', 'Interaction to Next Paint (INP)', 'INP']],
+    ['cumulative-layout-shift', ['cumulative-layout-shift', '누적 레이아웃 이동(CLS)', 'Cumulative Layout Shift (CLS)', 'CLS']],
+    ['lazy-loading', ['lazy-loading', '지연 로딩', 'Lazy Loading', '레이지 로딩']],
+    ['scrollbar-gutter', ['scrollbar-gutter', '스크롤바 공간', 'Scrollbar Gutter', '스크롤바 거터']],
+    ['content-visibility', ['content-visibility', '콘텐츠 가시성', 'Content Visibility', 'content-visibility auto']],
+    ['stale-while-revalidate', ['stale-while-revalidate', '만료 후 백그라운드 재검증(Stale-While-Revalidate)', 'Stale-While-Revalidate (SWR)', 'SWR']],
+    ['webhook', ['webhook', '웹훅', 'Webhook', 'HTTP 이벤트 콜백']],
+    ['exponential-backoff', ['exponential-backoff', '지수 백오프', 'Exponential Backoff', '재시도 대기 시간 배증']],
+    ['request-cancellation', ['request-cancellation', '요청 취소', 'Request Cancellation', '비동기 요청 중단']],
+    ['conversion-funnel', ['conversion-funnel', '전환 퍼널', 'Conversion Funnel', '퍼널 단계 분석']],
+    ['conversion-rate', ['conversion-rate', '전환율', 'Conversion Rate', 'CVR']],
+    ['cohort-analysis', ['cohort-analysis', '코호트 분석', 'Cohort Analysis', '동일 집단 분석']],
+    ['retention-rate', ['retention-rate', '잔존율', 'Retention Rate', '리텐션 비율']],
+    ['attribution-window', ['attribution-window', '기여 인정 기간', 'Attribution Window', '어트리뷰션 윈도우']],
+    ['anomaly-detection', ['anomaly-detection', '이상치 감지', 'Anomaly Detection', '지표 급변 감지']],
+    ['guardrail-metric', ['guardrail-metric', '가드레일 지표', 'Guardrail Metric', '방어 지표']],
+    ['data-freshness', ['data-freshness', '데이터 최신성', 'Data Freshness', '집계 최신성']],
+    ['metric-definition', ['metric-definition', '지표 정의', 'Metric Definition', '지표 산식 명세']],
+    ['success-criteria', ['success-criteria', '성공 기준', 'Success Criteria', '출시 성공 조건']],
+    // 50 added glossary terms across all 9 categories
+    ['bottom-sheet', ['bottom-sheet', '바텀 시트', 'Bottom Sheet', '바텀시트']],
+    ['segmented-control', ['segmented-control', '세그먼트 컨트롤', 'Segmented Control', '세그먼티드 컨트롤']],
+    ['stepper-input', ['stepper-input', '스테퍼 입력', 'Stepper Input', '수량 스테퍼']],
+    ['combobox', ['combobox', '콤보박스', 'Combobox', '자동완성 선택창']],
+    ['indeterminate-checkbox', ['indeterminate-checkbox', '불확정 체크박스', 'Indeterminate Checkbox', '부분 선택 체크박스']],
+    ['sticky-header', ['sticky-header', '고정 헤더', 'Sticky Header', '스티키 헤더']],
+    ['rate-limiting', ['rate-limiting', '요청 빈도 제한', 'Rate Limiting', '레이트 리미팅']],
+    ['circuit-breaker', ['circuit-breaker', '서킷 브레이커', 'Circuit Breaker', '회로 차단기 패턴']],
+    ['cursor-pagination', ['cursor-pagination', '커서 기반 페이지네이션', 'Cursor-Based Pagination', '키셋 페이지네이션']],
+    ['optimistic-locking', ['optimistic-locking', '낙관적 잠금', 'Optimistic Locking', '낙관적 락']],
+    ['multi-factor-authentication', ['multi-factor-authentication', '다중 요소 인증(MFA)', 'Multi-Factor Authentication (MFA)', 'MFA']],
+    ['presigned-url', ['presigned-url', '사전 서명된 주소', 'Presigned Link', 'Presigned URL']],
+    ['soft-delete', ['soft-delete', '소프트 삭제', 'Soft Delete', '논리 삭제']],
+    ['waitlist-management', ['waitlist-management', '대기열 등록 전환', 'Waitlist Offer Window', '대기자 명단 관리']],
+    ['break-glass-access', ['break-glass-access', '긴급 예외 접근', 'Break-Glass Access', '브레이크 글래스']],
+    ['dry-run-validation', ['dry-run-validation', '사전 모의 검증', 'Dry-Run Validation', '드라이 런 검증']],
+    ['collaborative-edit-lock', ['collaborative-edit-lock', '편집 잠금과 체크인', 'Collaborative Edit Lock', '공동 편집 잠금']],
+    ['embargo-publishing', ['embargo-publishing', '엠바고 예약 발행', 'Embargoed Publishing', '보도 유예 발행']],
+    ['customer-satisfaction-score', ['customer-satisfaction-score', '고객 만족도 점수(CSAT)', 'Customer Satisfaction Score (CSAT)', 'CSAT']],
+    ['ticket-deflection', ['ticket-deflection', '문의 자율 해결 유도', 'Ticket Deflection', '셀프 서비스 해결 유도']],
+    ['canned-response', ['canned-response', '상담 매크로 답변', 'Canned Response', '매크로 답변']],
+    ['ticket-merging', ['ticket-merging', '중복 문의 병합', 'Ticket Merging', '티켓 병합']],
+    ['priority-escalation', ['priority-escalation', '우선순위 에스컬레이션', 'Priority Escalation', '티켓 에스컬레이션']],
+    ['first-contact-resolution', ['first-contact-resolution', '초동 응대 해결률(FCR)', 'First Contact Resolution (FCR)', 'FCR']],
+    ['dunning-management', ['dunning-management', '미납 재청구 독촉', 'Dunning Management', '더닝 프로세스']],
+    ['double-entry-ledger', ['double-entry-ledger', '복식 원장', 'Double-Entry Ledger', '복식 부기 원장']],
+    ['usage-based-billing', ['usage-based-billing', '종량제 과금', 'Usage-Based Billing', '사용량 기반 과금']],
+    ['payment-reconciliation', ['payment-reconciliation', '입금 대사 정산', 'Payment Reconciliation', '결제 대사']],
+    ['withholding-tax-settlement', ['withholding-tax-settlement', '원천징수 정산', 'Withholding Tax Settlement', '원천세 공제']],
+    ['partial-refund', ['partial-refund', '부분 환불', 'Partial Refund', '부분 취소 환불']],
+    ['churn-rate', ['churn-rate', '이탈률', 'Churn Rate', '고객 이탈률']],
+    ['activation-metric', ['activation-metric', '초기 안착 지표', 'Activation Metric', '활성화 지표']],
+    ['north-star-metric', ['north-star-metric', '북극성 지표', 'North Star Metric', '노스 스타 메트릭']],
+    ['sample-quota', ['sample-quota', '표본 할당량', 'Sample Quota', '설문 할당량']],
+    ['saved-report-view', ['saved-report-view', '저장된 리포트 보기', 'Saved Report View', '맞춤 필터 뷰']],
+    ['inventory-allocation', ['inventory-allocation', '재고 할당 선점', 'Inventory Allocation', '재고 선점']],
+    ['reverse-logistics', ['reverse-logistics', '반품 회수 물류', 'Reverse Logistics', '역물류']],
+    ['split-shipment', ['split-shipment', '분할 배송과 합포장', 'Split and Consolidated Shipment', '합포장 배송']],
+    ['proof-of-delivery', ['proof-of-delivery', '배송 완료 증빙(POD)', 'Proof of Delivery (POD)', 'POD']],
+    ['cold-chain-monitoring', ['cold-chain-monitoring', '콜드체인 온도 관리', 'Cold-Chain Monitoring', '저온 물류 모니터링']],
+    ['coupon-stacking-rule', ['coupon-stacking-rule', '쿠폰 중복 적용 규칙', 'Coupon Stacking Rule', '쿠폰 병행 사용 규칙']],
+    ['win-back-campaign', ['win-back-campaign', '해지 방어와 재구독 유도', 'Win-Back and Retention Offer', '윈백 캠페인']],
+    ['unsubscribe-suppression', ['unsubscribe-suppression', '수신 거부 제외 목록', 'Unsubscribe Suppression List', '수신 거부 목록']],
+    ['custom-quote-offer', ['custom-quote-offer', '맞춤 견적 제안', 'Custom Quote Offer', '맞춤 견적서']],
+    ['referral-attribution', ['referral-attribution', '추천 유입 귀속', 'Referral Source Attribution', '레퍼럴 어트리뷰션']],
+    ['course-prerequisite', ['course-prerequisite', '선수 학습 요건', 'Course Prerequisite', '선수 과목 조건']],
+    ['grading-rubric-appeal', ['grading-rubric-appeal', '채점 기준표와 성적 이의신청', 'Grading Rubric and Score Appeal', '채점 루브릭']],
+    ['certificate-verification', ['certificate-verification', '수료증 발급 검증', 'Certificate Issuance and Verification', '수료증 검증']],
+    ['cohort-enrollment-window', ['cohort-enrollment-window', '기수제 수강 기간', 'Cohort Enrollment Window', '기수 모집 기간']],
+    ['timed-exam-submission', ['timed-exam-submission', '제한 시간 시험 자동 제출', 'Timed Exam Auto-Submission', '시험 타이머 자동 제출']],
   ];
 
   for (const [expectedId, queries] of topCases) {
@@ -288,10 +541,15 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
   assert.equal(rankedDebounce[0]?.item.id, 'debounce');
   assert.ok(rankedDebounce[0].matchedOn.some(m => m.field === 'name' || m.field === 'alias'));
 
-  // Body-only match still finds relevant terms when name/alias do not contain the query.
+  // CLS now matches Cumulative Layout Shift by name/alias first while still finding skeleton-loading in body.
   const clsResults = rankGlossaryTerms('CLS');
-  assert.equal(clsResults[0]?.item.id, 'skeleton-loading');
-  assert.ok(clsResults[0].matchedOn.some(m => m.field === 'prompt'));
+  assert.equal(clsResults[0]?.item.id, 'cumulative-layout-shift');
+  assert.ok(clsResults.some(entry => entry.item.id === 'skeleton-loading'));
+
+  // Body-only match still finds relevant terms when name/alias do not contain the query.
+  const ariaBusyResults = rankGlossaryTerms('aria-busy');
+  assert.equal(ariaBusyResults[0]?.item.id, 'skeleton-loading');
+  assert.ok(ariaBusyResults[0].matchedOn.some(m => m.field === 'prompt'));
 
   // Empty / whitespace queries browse all in catalog order with zero score.
   for (const emptyQuery of ['', ' \t\n ']) {

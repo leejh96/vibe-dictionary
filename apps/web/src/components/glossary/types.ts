@@ -4,6 +4,7 @@ export interface GlossaryTargetRequest {
 }
 
 export interface GlossaryViewProps {
+  headerHeight?: number;
   onViewTechnique: (techniqueId: string) => void;
   onViewDomainKnowledge: (domainId: string) => void;
   targetRequest?: GlossaryTargetRequest | null;

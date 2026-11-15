@@ -67,7 +67,7 @@ test('lazy glossary view shows loading state and resolves all terms; load error 
     const termButtons = tree.root
       .findByProps({ role: 'region' })
       .findAllByType('button');
-    assert.equal(GLOSSARY_TERMS.length, 42);
+    assert.equal(GLOSSARY_TERMS.length, 122);
     assert.equal(termButtons.length, GLOSSARY_TERMS.length);
   } finally {
     act(() => tree.unmount());
@@ -188,38 +188,38 @@ test('glossary supports explicit search label, bilingual search regardless of lo
       const expectedFilterLabels =
         locale === 'ko'
           ? [
-              '전체42',
-              'UI11',
-              '엔지니어링14',
-              '워크플로우5',
-              '고객 지원2',
-              '결제·정산3',
-              '기획·분석2',
-              '경영·운영1',
-              '영업·마케팅2',
-              '교육 기획·운영2',
+              '전체122',
+              'UI27',
+              '엔지니어링30',
+              '워크플로우11',
+              '고객 지원8',
+              '결제·정산9',
+              '기획·분석17',
+              '경영·운영6',
+              '영업·마케팅7',
+              '교육 기획·운영7',
             ]
           : [
-              'All42',
-              'UI11',
-              'Engineering14',
-              'Workflow5',
-              'Customer Support2',
-              'Payments & Settlement3',
-              'Planning & Analytics2',
-              'Business Operations1',
-              'Sales & Marketing2',
-              'Education Planning & Operations2',
+              'All122',
+              'UI27',
+              'Engineering30',
+              'Workflow11',
+              'Customer Support8',
+              'Payments & Settlement9',
+              'Planning & Analytics17',
+              'Business Operations6',
+              'Sales & Marketing7',
+              'Education Planning & Operations7',
             ];
       assert.deepEqual(filterGroup().findAllByType('button').map(text), expectedFilterLabels);
       assert.equal(filterGroup().findAllByType('button')[0].props['aria-pressed'], true);
 
       // New category filters narrow results, display updated counts, and toggle back to All
       for (const [labelPattern, expectedCategoryCount, expectedFirstId] of [
-        [locale === 'ko' ? /^고객 지원/ : /^Customer Support/, 2, 'service-level-agreement'],
-        [locale === 'ko' ? /^결제·정산/ : /^Payments & Settlement/, 3, 'know-your-customer'],
-        [locale === 'ko' ? /^기획·분석/ : /^Planning & Analytics/, 2, 'net-promoter-score'],
-        [locale === 'ko' ? /^경영·운영/ : /^Business Operations/, 1, 'objectives-and-key-results'],
+        [locale === 'ko' ? /^고객 지원/ : /^Customer Support/, 8, 'service-level-agreement'],
+        [locale === 'ko' ? /^결제·정산/ : /^Payments & Settlement/, 9, 'know-your-customer'],
+        [locale === 'ko' ? /^기획·분석/ : /^Planning & Analytics/, 17, 'net-promoter-score'],
+        [locale === 'ko' ? /^경영·운영/ : /^Business Operations/, 6, 'objectives-and-key-results'],
       ] as const) {
         const categoryBtn = () => filterGroup().findAllByType('button').find(b => labelPattern.test(text(b)))!;
         act(() => categoryBtn().props.onClick());
@@ -232,7 +232,7 @@ test('glossary supports explicit search label, bilingual search regardless of lo
         assert.ok(text(tree.root.findByType('article').findByType('header')).includes(
           labelPattern.source.replace(/^\^/, ''),
         ));
-        // Clicking the active category button resets back to All (42)
+        // Clicking the active category button resets back to All (122)
         act(() => categoryBtn().props.onClick());
         assert.equal(filterGroup().findAllByType('button')[0].props['aria-pressed'], true);
         assert.match(text(liveStatus()), new RegExp(`${GLOSSARY_TERMS.length}`));
@@ -261,6 +261,16 @@ test('glossary supports explicit search label, bilingual search regardless of lo
         ['SLA', 'service-level-agreement', locale === 'ko' ? '고객 지원' : 'Customer Support'],
         ['LMS', 'learning-management-system', locale === 'ko' ? '교육 기획·운영' : 'Education Planning & Operations'],
         ['CTA', 'call-to-action', 'UI'],
+        ['컨테이너 쿼리', 'container-query', 'UI'],
+        ['LCP', 'largest-contentful-paint', locale === 'ko' ? '엔지니어링' : 'Engineering'],
+        ['스크롤바 공간', 'scrollbar-gutter', locale === 'ko' ? '엔지니어링' : 'Engineering'],
+        ['SWR', 'stale-while-revalidate', locale === 'ko' ? '엔지니어링' : 'Engineering'],
+        ['전환 퍼널', 'conversion-funnel', locale === 'ko' ? '기획·분석' : 'Planning & Analytics'],
+        ['이상치 감지', 'anomaly-detection', locale === 'ko' ? '기획·분석' : 'Planning & Analytics'],
+        ['바텀 시트', 'bottom-sheet', 'UI'],
+        ['서킷 브레이커', 'circuit-breaker', locale === 'ko' ? '엔지니어링' : 'Engineering'],
+        ['CSAT', 'customer-satisfaction-score', locale === 'ko' ? '고객 지원' : 'Customer Support'],
+        ['부분 환불', 'partial-refund', locale === 'ko' ? '결제·정산' : 'Payments & Settlement'],
         ['HLS', 'http-live-streaming', locale === 'ko' ? '엔지니어링' : 'Engineering'],
       ] as const) {
         act(() => searchInput().props.onChange({ target: { value: query } }));
@@ -313,6 +323,43 @@ test('glossary supports explicit search label, bilingual search regardless of lo
     }
   }
   assert.ok(searchFocused > 0);
+});
+
+test('selecting a glossary term reveals its detail when the heading is outside the visible page', async t => {
+  setupAppGlobals(t);
+  const { GlossaryView } = await import('../src/components/GlossaryView');
+  const scrollCalls: ScrollIntoViewOptions[] = [];
+  let headingTop = 300;
+  const tree = create(
+    <LocaleProvider initialLocale="ko">
+      <GlossaryView headerHeight={57} onViewTechnique={() => {}} onViewDomainKnowledge={() => {}} />
+    </LocaleProvider>,
+    {
+      createNodeMock: element => {
+        if (element.type === 'h2') {
+          return { getBoundingClientRect: () => ({ top: headingTop, bottom: headingTop + 28 }) };
+        }
+        if (element.props.className?.includes('scroll-mt-(')) {
+          return { scrollIntoView: (options: ScrollIntoViewOptions) => scrollCalls.push(options) };
+        }
+        return null;
+      },
+    },
+  );
+  t.after(() => act(() => tree.unmount()));
+
+  const termButtons = tree.root.findByProps({ role: 'region' }).findAllByType('button');
+  act(() => termButtons[1].props.onClick());
+  assert.equal(scrollCalls.length, 0);
+
+  headingTop = 790;
+  act(() => termButtons[2].props.onClick());
+  assert.equal(termButtons[2].props['aria-pressed'], true);
+  assert.equal(scrollCalls.length, 1);
+
+  headingTop = 40;
+  act(() => termButtons[3].props.onClick());
+  assert.equal(scrollCalls.length, 2);
 });
 
 test('glossary links navigate directly to exact technique in Design and exact KnowledgeDetail even with stale filters', async t => {

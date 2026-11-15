@@ -253,4 +253,292 @@ export const ENGINEERING_GLOSSARY_DATA: Record<string, GlossaryTermBody> = {
       },
     },
   },
+  'largest-contentful-paint': {
+    aliases: {
+      ko: ['LCP 지표', '최대 콘텐츠 페인트', '초기 대표 콘텐츠 렌더링'],
+      en: ['LCP', 'Largest Contentful Paint', 'initial viewport paint'],
+    },
+    text: {
+      ko: {
+        definition: '페이지가 열릴 때 초기 뷰포트 안에서 가장 큰 적격 이미지나 텍스트 블록이 화면에 그려지는 시점을 측정하는 웹 성능 지표입니다. 초기 대표 이미지에 지연 로딩을 걸거나 렌더링 차단 스크립트를 앞세우면 LCP(Largest Contentful Paint)가 늦어집니다.',
+        example: '랜딩 페이지 상단 히어로 배너 이미지를 지연 로딩 대상에서 제외하고 적절한 크기·포맷과 높은 우선순위로 전달해 초기 화면 핵심 시각 요소가 먼저 표시되게 합니다.',
+        promptSnippet: '초기 뷰포트의 핵심 이미지나 헤드라인 블록이 LCP(Largest Contentful Paint) 대상이 되므로 상단 대표 이미지는 지연 로딩하지 말고 크기 속성, 우선순위 힌트, 가벼운 초기 CSS로 빠르게 그려지게 구성하세요.',
+      },
+      en: {
+        definition: 'A Core Web Vital measuring the render time of the largest eligible image or text block visible within the initial viewport during page load. Blocking scripts or lazy-loading the hero asset directly delays Largest Contentful Paint (LCP).',
+        example: 'A landing page excludes its above-the-fold hero banner from lazy loading, declares explicit dimensions, and prioritizes critical assets so the primary visual paints promptly.',
+        promptSnippet: 'Optimize Largest Contentful Paint (LCP) by keeping the main above-the-fold image eager rather than lazy-loaded, setting explicit dimensions, and avoiding render-blocking resources before the primary viewport block.',
+      },
+    },
+  },
+  'interaction-to-next-paint': {
+    aliases: {
+      ko: ['INP 지표', '상호작용 응답 지연', '다음 페인트 지연'],
+      en: ['INP', 'Interaction to Next Paint', 'input responsiveness'],
+    },
+    text: {
+      ko: {
+        definition: '사용자가 페이지에 머무는 동안 클릭, 탭, 키보드 입력을 처리해 다음 화면 프레임을 그리기까지의 지연 가운데, 전체 평균이 아니라 관찰된 느린 상호작용을 대표하는 값(고백분위 또는 최장 지연)을 보고하는 웹 성능 지표입니다. 무거운 동기 자바스크립트 연산이나 대량 DOM(Document Object Model) 갱신이 메인 스레드를 점유하면 INP(Interaction to Next Paint)가 나빠집니다.',
+        example: '수천 개 항목 필터 입력 시 키 입력마다 전체 목록을 동기 정렬하지 않고 작업을 나누거나 표시 행을 제한해 버튼 클릭과 타이핑 후 다음 프레임이 지연 없이 반영되게 합니다.',
+        promptSnippet: 'INP(Interaction to Next Paint)는 평균이 아니라 방문 중 가장 느린 축의 상호작용 지연이 지표를 좌우하므로 클릭·탭·키 입력 직후 긴 동기 연산이 메인 스레드를 막지 않도록 작업을 분할하거나 불필요한 DOM 재계산을 줄이세요.',
+      },
+      en: {
+        definition: 'A Core Web Vital capturing the latency from user click, tap, or key interactions until the browser paints the next visual frame, reporting a value representative of the slowest observed interactions across the visit rather than an average. Long synchronous JavaScript tasks or large Document Object Model (DOM) updates stall the main thread and worsen Interaction to Next Paint (INP).',
+        example: 'Instead of synchronously sorting and re-rendering thousands of rows on every keystroke, an interactive table slices heavy updates and limits visible rows so keystrokes and clicks update the next frame promptly.',
+        promptSnippet: 'Because Interaction to Next Paint (INP) reflects slow interactions rather than an average, keep main-thread work short on every click, tap, or key event by splitting heavy tasks and avoiding synchronous full-list DOM updates.',
+      },
+    },
+  },
+  'cumulative-layout-shift': {
+    aliases: {
+      ko: ['CLS 지표', '레이아웃 밀림 점수', '예상치 못한 화면 이동'],
+      en: ['CLS', 'Cumulative Layout Shift', 'unexpected layout shift'],
+    },
+    text: {
+      ko: {
+        definition: '방문 전체에서 발생한 이동을 단순 합산하는 것이 아니라, 짧은 간격으로 이어지는 레이아웃 이동 묶음(세션 구간, Session Window) 가운데 점수가 가장 큰 구간의 합으로 예상치 못한 화면 이동 크기를 나타내는 무단위 점수입니다. 사용자 동작 없이 이미지·배너·웹폰트가 뒤늦게 공간을 밀어낼수록 CLS(Cumulative Layout Shift)가 커집니다.',
+        example: '동적 공지 배너와 비동기 카드 이미지에 미리 고정 높이나 aspect-ratio 공간을 할당하고, 모달 열림 시 스크롤바 너비 변화는 scrollbar-gutter로 보정해 주변 텍스트가 밀리지 않게 합니다.',
+        promptSnippet: '이미지·광고·비동기 패널의 공간을 aspect-ratio나 예약 높이로 먼저 확보하고, 사용자 입력 없는 갑작스러운 상단 삽입을 피해 CLS(Cumulative Layout Shift)를 최소화하세요.',
+      },
+      en: {
+        definition: 'A unitless Core Web Vital score measuring unexpected layout shifts not as an unbounded sum over an entire visit, but as the total score of the largest burst of shifts (session window). When late-loading images, banners, or fonts push visible elements downward without user input, Cumulative Layout Shift (CLS) rises.',
+        example: 'Media slots reserve dimensions with CSS aspect-ratio and dynamic status regions keep fixed space so newly loaded thumbnails do not push action buttons downward.',
+        promptSnippet: 'Minimize Cumulative Layout Shift (CLS) by reserving space for images, embeds, and async UI regions upfront and avoiding unprompted layout insertions above existing viewport content.',
+      },
+    },
+  },
+  'lazy-loading': {
+    aliases: {
+      ko: ['레이지 로딩', '화면 밖 리소스 지연 불러오기', '온디맨드 이미지 로드'],
+      en: ['lazy load', 'deferred loading', 'loading lazy'],
+    },
+    text: {
+      ko: {
+        definition: '초기 화면에 바로 보이지 않는 이미지, 미디어, 하위 모듈을 처음부터 모두 받지 않고 사용자가 스크롤해 가까워지거나 필요해질 때 불러오는 기법입니다. 단, 첫 화면의 대표 이미지나 핵심 콘텐츠에 적용하면 오히려 초기 표시가 늦어지므로 화면 아래쪽 리소스부터 적용합니다.',
+        example: '긴 기사나 갤러리에서 상단 첫 썸네일은 즉시 로드하고, 스크롤 아래에 놓인 이미지에만 loading="lazy"와 예약 비율을 적용해 초기 네트워크 대역폭을 아낍니다.',
+        promptSnippet: '지연 로딩은 초기 뷰포트 아래에 있는 이미지나 보조 미디어부터 적용하고, 첫 화면 대표 이미지에는 적용하지 말며 레이아웃 이동이 없도록 크기 비율을 함께 지정하세요.',
+      },
+      en: {
+        definition: 'Deferring the fetch of below-the-fold images, media, or secondary assets until the user scrolls near them or needs them. Because deferring visible assets hurts initial paint speed, apply lazy loading to offscreen resources rather than the initial hero image.',
+        example: 'An editorial gallery loads the top visible image eagerly and marks lower gallery images with loading="lazy" alongside reserved aspect ratios.',
+        promptSnippet: 'Apply lazy loading strictly to offscreen images and secondary resources below the initial fold, keep the hero asset eager, and reserve image dimensions to avoid layout shifts.',
+      },
+    },
+  },
+  'scrollbar-gutter': {
+    aliases: {
+      ko: ['스크롤바 거터', '스크롤바 여백 예약', '스크롤바 공간 고정'],
+      en: ['scrollbar-gutter', 'scrollbar gutter reservation', 'stable scrollbar gutter'],
+    },
+    text: {
+      ko: {
+        definition: '스크롤 가능한 영역에서 콘텐츠 길이가 늘어 스크롤바가 나타나더라도 레이아웃 폭이나 가운데 정렬이 흔들리지 않도록 스크롤바 자리를 미리 예약해 두는 CSS(Cascading Style Sheets) 속성입니다. 클래식 스크롤바 환경에서 양쪽 여백을 대칭으로 맞출 때는 stable both-edges를 사용하며, 오버레이 스크롤바 모드에서는 표준상 별도 공간을 차지하지 않는다는 점을 고려해야 합니다.',
+        example: '목록 확장 토글에 따라 항목 수가 변하는 패널에 overflow-y: auto와 scrollbar-gutter: stable both-edges를 함께 적용해 스크롤바 유무와 관계없이 본문 중심축이 어긋나지 않게 유지합니다.',
+        promptSnippet: '목록 펼침이나 필터로 세로 스크롤바가 생겼다 사라져 본문 폭이 흔들리는 영역에는 overflow-y: auto와 함께 scrollbar-gutter: stable(대칭 정렬이 필요하면 both-edges)을 적용하되, 오버레이 스크롤바 환경에서는 별도 여백이 예약되지 않음을 전제하세요.',
+      },
+      en: {
+        definition: 'A Cascading Style Sheets (CSS) property that reserves layout space for scrollbars in advance so toggling between short and overflowing content does not shift widths or centered alignment. Using stable both-edges balances classic scrollbars symmetrically, while overlay scrollbars occupy no gutter space.',
+        example: 'An expandable file panel pairs overflow-y: auto with scrollbar-gutter: stable both-edges so adding rows never nudges centered row labels horizontally under classic scrollbars.',
+        promptSnippet: 'Prevent horizontal layout jitter when scrollbars appear or disappear by combining overflow-y: auto with scrollbar-gutter: stable (or stable both-edges for centered layouts), accounting for overlay scrollbars that reserve no space.',
+      },
+    },
+  },
+  'content-visibility': {
+    aliases: {
+      ko: ['콘텐츠 비저빌리티', '화면 밖 렌더링 생략', 'CSS 렌더링 건너뛰기'],
+      en: ['content-visibility auto', 'offscreen rendering skip', 'contain-intrinsic-size'],
+    },
+    text: {
+      ko: {
+        definition: 'CSS(Cascading Style Sheets)의 content-visibility: auto 속성을 이용해 화면 밖 섹션의 레이아웃과 페인트 작업을 브라우저가 나중에 필요할 때까지 건너뛰게 하는 렌더링 최적화 기법입니다. 화면 밖 노드를 DOM(Document Object Model)에서 제거하는 가상 스크롤과 달리 DOM 요소는 그대로 유지되므로 브라우저 내 찾기나 앵커 이동과 자연스럽게 호환됩니다.',
+        example: '수백 개 섹션이 이어지는 긴 문서 목록의 각 섹션 카드에 content-visibility: auto와 contain-intrinsic-size 예상 높이를 지정해 스크롤 막대 길이를 유지하면서 초기 렌더링 비용을 낮춥니다.',
+        promptSnippet: 'DOM 구조를 유지해야 하는 긴 문서나 카드 목록에서 초기 렌더링 부담을 줄이려면 가상 스크롤과 혼동하지 말고 섹션 단위에 content-visibility: auto와 contain-intrinsic-size를 함께 적용하세요.',
+      },
+      en: {
+        definition: 'A Cascading Style Sheets (CSS) rendering optimization using content-visibility: auto so the browser skips layout and paint work for offscreen sections until they approach the viewport. Unlike virtual scrolling, which unmounts offscreen Document Object Model (DOM) nodes, content-visibility keeps the full DOM intact for browser find-in-page and anchor links.',
+        example: 'A long technical specification applies content-visibility: auto with contain-intrinsic-size on each major section so scrollbars stay stable while offscreen sections skip initial layout work.',
+        promptSnippet: 'For long pages that must preserve full DOM nodes for search and anchors, use content-visibility: auto paired with contain-intrinsic-size to skip offscreen layout and paint instead of confusing it with virtual scrolling.',
+      },
+    },
+  },
+  'stale-while-revalidate': {
+    aliases: {
+      ko: ['SWR 캐시 전략', '오래된 캐시 우선 응답 후 재검증', '백그라운드 캐시 갱신'],
+      en: ['SWR', 'stale while revalidate', 'background revalidation'],
+    },
+    text: {
+      ko: {
+        definition: '캐시 유효 기간(max-age)이 지난 뒤에도 지정된 허용 재검증 시간 범위(stale-while-revalidate=<seconds>) 안에서는 이전 캐시 응답을 즉시 반환하면서 백그라운드에서 최신 데이터를 받아 갱신하는 캐시 전략입니다. 이 허용 한도가 지나면 더 이상 만료 응답을 즉시 내보내지 않고 원본 재검증이나 새 응답을 기다린 뒤 반환하며, 일시적 지연을 허용하는 공개 데이터에만 사용합니다.',
+        example: '공개 공지 목록 응답에 Cache-Control: max-age=60, stale-while-revalidate=300을 설정하면 60초 신선 구간이 끝난 뒤 추가 300초 동안만 캐시된 이전 공개 목록을 즉시 반환하며 뒤에서 갱신하고, 그 추가 300초가 지나면 최신 응답을 기다려 반환합니다.',
+        promptSnippet: '다소 이전 값이 잠깐 보여도 안전한 공개 콘텐츠 캐시에만 max-age와 허용 재검증 시간 범위(stale-while-revalidate=<초>)를 함께 지정하고, 재검증 한도 초과 후에는 최신 검증 응답을 기다리며 권한·결제 요청은 이 전략에서 제외하세요.',
+      },
+      en: {
+        definition: 'A caching strategy that serves an expired cached response immediately while revalidating asynchronously in the background—but only within a bounded grace window specified by stale-while-revalidate=<seconds>. Once that revalidation limit expires, the cache blocks for a fresh origin validation rather than serving stale data, and the pattern is strictly for public read data tolerating brief staleness.',
+        example: 'A public release-notes endpoint sets Cache-Control: max-age=60, stale-while-revalidate=300 so once the 60-second fresh period ends, cached public data is served immediately only during the additional 300-second window while refreshing in the background, waiting for a fresh validation response once that window expires.',
+        promptSnippet: 'Restrict Stale-While-Revalidate (SWR) to public read data tolerating brief staleness, specify an explicit max-age and revalidation window limit, wait for fresh validation past that limit, and exclude private or financial requests.',
+      },
+    },
+  },
+  webhook: {
+    aliases: {
+      ko: ['웹후크', 'HTTP 이벤트 콜백', '수신 이벤트 웹훅'],
+      en: ['webhooks', 'http callback', 'event webhook'],
+    },
+    text: {
+      ko: {
+        definition: '외부 시스템에서 이벤트가 발생했을 때 클라이언트가 주기적으로 묻는 대신 미리 등록한 HTTP(Hypertext Transfer Protocol) 엔드포인트로 서버가 알림 페이로드를 보내는 방식입니다. UI(User Interface) 설정 화면과 실제 서버 동작을 구분하며, 수신 서버는 제공자 규약에 따른 인증·서명 검증 후 후속 처리를 안정적으로 접수한 뒤에 2xx 성공 응답을 반환하고, 실패·시간 초과 시 재전송은 일반적으로 발신 측이 수행합니다.',
+        example: '결제 서비스가 송장 결제 웹훅을 보내면 수신 백엔드는 제공자 규약(HMAC 서명, 공유 시크릿 등)으로 요청을 검증하고 이벤트 ID 멱등성 확인과 작업 큐 영속 접수를 마친 뒤 2xx로 응답하며, 미수신 시 발신 측 재전송에 대비해 중복 처리를 방어합니다.',
+        promptSnippet: '웹훅 연동 화면이나 명세를 작성할 때 설정 UI와 실제 서버 처리를 구분하고, 제공자 규약에 맞춘 요청 검증, 후속 작업의 안정적 접수(큐·저장) 완료 후 2xx 응답, 이벤트 ID 멱등성, 그리고 일반적으로 발신 측이 수행하는 재전송 전제를 명시하세요.',
+      },
+      en: {
+        definition: 'An event-driven Hypertext Transfer Protocol (HTTP) push mechanism in which a source server delivers event payloads to a registered endpoint rather than requiring polling. Distinguishing dashboard settings UI from backend execution, the receiver verifies requests per provider protocol, durably accepts or queues downstream work before returning 2xx success, and deduplicates deliveries since retries are generally driven by the sender.',
+        example: 'When an external provider posts an invoice event, the backend verifies authenticity according to provider rules (such as HMAC signatures or shared tokens), persists or enqueues the job idempotently by event ID before returning 2xx, and relies on sender-side retries if delivery fails.',
+        promptSnippet: 'Separate webhook configuration UI from server processing, specifying provider-defined request verification, durable intake or queuing before returning 2xx success, event-ID idempotency, and handling sender-driven retries.',
+      },
+    },
+  },
+  'exponential-backoff': {
+    aliases: {
+      ko: ['지수적 재시도 지연', '재시도 대기 시간 배증', '백오프 재시도'],
+      en: ['exponential backoff with jitter', 'backoff retry', 'retry backoff'],
+    },
+    text: {
+      ko: {
+        definition: '일시적인 네트워크 오류나 429·5xx 응답으로 요청이 실패했을 때 재시도 간격을 1초, 2초, 4초처럼 지수적으로 늘려가며 다시 시도하는 알고리즘입니다. 여러 클라이언트가 같은 시각에 몰려 재충돌하는 현상을 막기 위해 무작위 지연(지터, Jitter)과 최대 재시도 횟수 상한을 함께 둡니다.',
+        example: '웹훅 전송 워커가 503 응답을 받으면 기본 대기 시간에 2의 거듭제곱과 무작위 지터를 더해 최대 5회까지 재시도한 뒤에도 실패하면 영구 실패 큐로 넘깁니다.',
+        promptSnippet: '일시적 오류 재시도에 고정 간격 루프 대신 최대 횟수·최대 대기 시간·무작위 지터(Jitter)가 포함된 지수 백오프를 적용하고, 400 Bad Request 같은 영구 오류는 재시도에서 제외하세요.',
+      },
+      en: {
+        definition: 'A retry strategy that multiplies wait intervals exponentially after transient failures (such as network drops or HTTP 429/5xx responses) while capping total attempts. Adding randomized jitter prevents many clients from retrying in lockstep and overloading the recovering service.',
+        example: 'A delivery worker multiplies its base delay by 2^attempt plus random jitter across up to five transient failures before routing undelivered jobs to a dead-letter state.',
+        promptSnippet: 'Implement exponential backoff with randomized jitter, a max-delay cap, and a bounded retry count for transient 429/5xx failures while avoiding retries on permanent 4xx client errors.',
+      },
+    },
+  },
+  'request-cancellation': {
+    aliases: {
+      ko: ['비동기 요청 중단', '진행 중 요청 취소', 'AbortController 취소'],
+      en: ['abort request', 'AbortController cancellation', 'cancel in-flight request'],
+    },
+    text: {
+      ko: {
+        definition: '사용자가 검색어를 바꾸거나 중지 버튼을 누르거나 화면을 떠날 때 진행 중인 비동기 요청이나 스트림을 취소해 불필요한 대기와 오래된 응답 덮어쓰기를 막는 제어 패턴입니다. 브라우저 fetch에 AbortController의 signal을 전달하면 클라이언트 요청 연결은 중단되지만, 백엔드 작업이 독립적으로 이어지는 경우에는 서버 측 작업을 중단하는 처리가 별도로 필요할 수 있습니다.',
+        example: '자동완성 입력이 바뀔 때마다 이전 요청의 AbortController.abort()를 호출해 구버전 응답이 최신 입력 결과를 덮어쓰지 않게 하고, 이미 시작된 장시간 서버 생성 작업에는 별도 취소 API 호출 여부를 구분해 설계합니다.',
+        promptSnippet: '검색 자동완성, 탭 전환, 스트리밍 생성 등 취소가 필요한 요청에는 AbortController signal을 연결해 재요청·언마운트 시 클라이언트 요청을 중단하고 AbortError를 정상 취소로 처리하며, 백엔드 작업까지 멈춰야 하면 서버 측 취소 경로를 따로 분리해 명시하세요.',
+      },
+      en: {
+        definition: 'A pattern that cancels in-flight asynchronous requests or streams when inputs change, users trigger stop, or components unmount, preventing wasted work and stale response overwrites. Passing an AbortController signal to fetch aborts the client request cleanly, distinct from server-side job termination if backend work continues independently.',
+        example: 'When a user types a new query in a combobox or clicks "Stop generating", calling controller.abort() aborts the superseded fetch request and prevents stale results from overwriting current UI state.',
+        promptSnippet: 'Wire an AbortController signal into cancelable async requests and streaming readers, abort previous requests on query change or unmount, handle AbortError separately from network failures, and add explicit server-side cancellation when backend jobs must also stop.',
+      },
+    },
+  },
+  'rate-limiting': {
+    aliases: {
+      ko: ['호출 제한', '처리율 제한', '레이트 리미팅', '요청 횟수 제한', '429 응답 제한'],
+      en: ['rate limit', 'throttling', 'API rate limiting', '429 Too Many Requests'],
+    },
+    text: {
+      ko: {
+        definition: '남용, 무차별 대입(Brute-force), 과도한 트래픽 급증으로부터 API와 인증 엔드포인트를 보호하기 위해 사용자·API 키·IP 단위로 일정 시간당 허용 요청 횟수를 제한하는 서버 제어 기법입니다. 한도 초과 시 HTTP 429 상태 코드와 Retry-After 대기 시간을 반환하고, UI는 남은 대기 시간 안내와 중복 재시도 억제를 담당합니다.',
+        example: '로그인 2단계 인증 코드 확인 API에 계정·IP 기준 요청 빈도 제한을 걸어 연속 오입력 시 일시 차단하고, 응답 헤더의 Retry-After를 읽어 클라이언트에 "30초 후 다시 시도해 주세요"를 표시합니다.',
+        promptSnippet: '인증·API 키 호출·검색·폼 제출 엔드포인트에 서버 측 요청 빈도 제한(Rate Limiting)을 설계하고, 초과 시 HTTP 429와 Retry-After 헤더를 반환하며 클라이언트 UI는 대기 카운트다운과 자동 재폭주 방지를 함께 구현하세요.',
+      },
+      en: {
+        definition: 'A server-side traffic control policy that caps how many requests a user, API key, or IP address can send within a time window to guard against abuse, brute-force attempts, and traffic spikes. Exceeding the budget returns HTTP 429 with Retry-After guidance while UI surfaces wait feedback.',
+        example: 'Limit MFA verification attempts per account and IP, returning HTTP 429 with Retry-After so the form disables immediate retries and shows when the user can try again.',
+        promptSnippet: 'Enforce backend rate limiting per user, API key, or IP on sensitive and burst-prone endpoints, return HTTP 429 with Retry-After headers, and show clear cooldown feedback in the UI without tight retry loops.',
+      },
+    },
+  },
+  'circuit-breaker': {
+    aliases: {
+      ko: ['회로 차단기 패턴', '장애 전파 차단', '서킷브레이커', '외부 연동 일시 차단'],
+      en: ['circuit breaker pattern', 'dependency circuit breaker', 'fail-fast fallback'],
+    },
+    text: {
+      ko: {
+        definition: '의존하는 외부 API나 하위 서비스의 오류율·지연이 임계치를 넘으면 일정 시간 동안 요청 호출을 열림(Open) 상태로 전환해 즉시 실패 또는 대체 응답을 반환하고, 이후 반열림(Half-Open) 상태로 소수 요청만 시험해 복구 여부를 확인하는 안정성 패턴입니다.',
+        example: '외부 웹훅이나 결제 대행 연동이 연속 타임아웃으로 장애를 겪으면 서킷 브레이커를 열어 대기 스레드 고갈을 막고, 화면 상단에는 "일시적 외부 연동 지연" 안내와 대체 경로를 노출합니다.',
+        promptSnippet: '외부 API·웹훅·결제 연동 호출부에 닫힘(Closed)·열림(Open)·반열림(Half-Open) 상태를 갖는 서킷 브레이커를 적용하고, 열림 상태의 빠른 실패·대체 안내 및 재시도 폭주 차단을 함께 설계하세요.',
+      },
+      en: {
+        definition: 'A resilience pattern that monitors calls to an external dependency and trips into an Open state once failures exceed a threshold, failing fast or serving a fallback instead of piling up timeouts, then probing recovery in a Half-Open state.',
+        example: 'When a downstream shipping or webhook endpoint times out repeatedly, trip the circuit breaker so requests fail fast, alert operators, and show a non-blocking degradation banner.',
+        promptSnippet: 'Wrap unreliable external integrations in a Closed/Open/Half-Open circuit breaker with explicit failure thresholds, cooldown windows, fast fallbacks, and recovery probes.',
+      },
+    },
+  },
+  'cursor-pagination': {
+    aliases: {
+      ko: ['커서 페이지네이션', '키셋 페이지네이션', '커서 기반 목록 조회', '무한 스크롤 커서'],
+      en: ['cursor pagination', 'keyset pagination', 'seek pagination', 'opaque cursor'],
+    },
+    text: {
+      ko: {
+        definition: 'OFFSET 숫자 대신 마지막으로 조회한 항목의 정렬 키 또는 불투명 커서(Cursor)를 기준으로 다음 묶음을 가져오는 목록 분할 방식입니다. 실시간으로 새 글이나 로그가 추가·삭제되어도 페이지 경계가 밀려 항목이 중복되거나 누락되는 문제를 줄여 줍니다.',
+        example: '실시간 채팅방 메시지나 보안 감사 로그를 불러올 때 마지막 항목의 타임스탬프·ID 조합 커서를 nextCursor로 전달해 새 로그가 유입돼도 중복 없이 이전 기록을 이어 붙입니다.',
+        promptSnippet: '실시간으로 항목이 추가되는 피드·채팅·감사 로그 API에는 OFFSET 대신 안정적인 정렬 키 기반의 커서 페이지네이션(nextCursor, hasMore)을 적용하고, 이전 기록을 위에 붙일 때는 스크롤 앵커 위치를 유지하세요.',
+      },
+      en: {
+        definition: 'A list pagination strategy that fetches subsequent slices relative to a stable cursor or sort key (such as timestamp plus unique ID) rather than numeric row offsets. Unlike offset pagination, it prevents duplicate or skipped items when new rows are inserted concurrently.',
+        example: 'A chat timeline and audit-log viewer pass an opaque cursor for the oldest visible event so newly arriving records never shift prior pages.',
+        promptSnippet: 'Use deterministic cursor-based (keyset) pagination with a unique tie-breaker key for live feeds, chat histories, and audit logs, preserving scroll anchor positions when prepending older items.',
+      },
+    },
+  },
+  'optimistic-locking': {
+    aliases: {
+      ko: ['낙관적 락', '버전 충돌 감지', 'ETag 동시 수정 방지', '동시 편집 충돌 검증'],
+      en: ['optimistic concurrency control', 'version check locking', 'ETag If-Match', 'stale write protection'],
+    },
+    text: {
+      ko: {
+        definition: '여러 사용자가 같은 문서를 조회할 때 잠금을 미리 걸지 않고, 저장 시점에 레코드의 버전 번호(version)나 ETag를 대조해 그사이 다른 사람이 먼저 수정했다면 덮어쓰기를 차단(409 Conflict)하는 동시성 제어 방식입니다. 화면 먼저 바꾸는 낙관적 UI 업데이트와는 목적과 계층이 다릅니다.',
+        example: '두 편집자가 같은 문서를 연 뒤 한 명이 먼저 저장해 버전이 v3에서 v4로 오르면, 다른 편집자의 v3 기준 저장 요청을 서버가 409 Conflict로 거부하고 변경 차이 비교 화면을 띄웁니다.',
+        promptSnippet: '문서·예약 설정·공통 리소스 수정 API에는 version 필드나 ETag(If-Match) 기반 낙관적 잠금을 적용해 구버전 덮어쓰기를 409 Conflict로 차단하고, UI에서 최신 버전과 내 편집을 비교·병합할 수 있게 안내하세요.',
+      },
+      en: {
+        definition: 'A concurrency control mechanism that reads records without holding exclusive locks and checks a version number or ETag on write, rejecting stale updates with 409 Conflict rather than silently overwriting another user’s changes. It is distinct from UI optimistic updates.',
+        example: 'If two editors open revision v3 and one saves v4 first, the second save carrying expected version v3 fails with 409 Conflict and shows a diff to resolve changes.',
+        promptSnippet: 'Protect shared edits against silent lost updates using optimistic locking (version column or HTTP ETag If-Match) on the backend, handling 409 Conflict in the UI with refresh or diff resolution.',
+      },
+    },
+  },
+  'multi-factor-authentication': {
+    aliases: {
+      ko: ['MFA', '2단계 인증', '2FA', '다중 인증', '추가 본인 확인'],
+      en: ['MFA', '2FA', 'two-factor authentication', 'step-up authentication'],
+    },
+    text: {
+      ko: {
+        definition: '비밀번호 같은 지식 기반 요소 하나에만 의존하지 않고, 일회용 인증 코드(OTP), 패스키·보안 키(소지 요소), 생체 인증 등 성격이 서로 다른 두 가지 이상 요소를 조합해 본인 여부를 검증하는 인증 방식입니다. 권한 변경·출금 같은 민감 작업 전 추가 재인증(Step-up)에도 활용됩니다.',
+        example: '비밀번호 로그인 후 6자리 TOTP(Time-based One-Time Password) 인증 앱 코드를 확인하고, 기기 분실에 대비해 일회용 복구 코드 발급과 사용 시 즉시 무효화를 함께 제공합니다.',
+        promptSnippet: '다중 요소 인증(MFA)을 구현할 때 OTP·패스키 검증, 일회용 복구 코드 생성과 해시 저장, 민감 작업 시 Step-up 재인증, 그리고 마지막 인증 수단 해제 방지 규칙을 서버에서 강제하세요.',
+      },
+      en: {
+        definition: 'An authentication requirement combining two or more independent verification factors—such as knowledge (password), possession (authenticator OTP or passkey), or inherence (biometrics)—including step-up re-verification before sensitive mutations.',
+        example: 'After password login, prompt for a 6-digit TOTP code with keyboard-friendly OTP input and issue single-use hashed backup codes in case the primary device is lost.',
+        promptSnippet: 'Implement Multi-Factor Authentication (MFA) with server-verified factors, single-use hashed recovery codes, step-up challenges for sensitive actions, and lockout protection on repeated failed codes.',
+      },
+    },
+  },
+  'presigned-url': {
+    aliases: {
+      ko: ['사전 서명 URL', '프리사인드 URL', '서명된 업로드 주소', '임시 다운로드 링크'],
+      en: ['Presigned URL', 'Signed URL', 'pre-signed upload URL', 'time-limited object URL'],
+    },
+    text: {
+      ko: {
+        definition: '클라이언트가 대용량 파일을 앱 서버를 거치지 않고 객체 스토리지에 직접 업로드하거나 권한 검사를 통과한 사용자에게만 제한 시간 동안 다운로드를 허용하기 위해 서버가 권한·만료 시각·허용 크기·형식을 서명해 발급하는 일시적 접근 주소입니다.',
+        example: '사용자가 파일을 첨부하면 앱 서버가 로그인·권한·확장자를 먼저 확인한 뒤 5분간만 유효한 업로드용 서명 주소를 내려주고, 클라이언트가 스토리지로 직접 전송한 다음 완료 콜백으로 메타데이터를 확정합니다.',
+        promptSnippet: '대용량 파일 업로드·비공개 파일 다운로드에는 서버에서 사용자 권한을 먼저 검증한 뒤 짧은 만료 시간, 허용 MIME 타입, 최대 크기 조건이 담긴 사전 서명된 주소(Presigned URL)를 발급하고 업로드 완료 검증과 고아 파일 정리 정책을 함께 두세요.',
+      },
+      en: {
+        definition: 'A time-limited, cryptographically signed object-storage link issued by an authorized backend so clients can upload large files directly to storage or download private files temporarily without exposing permanent credentials.',
+        example: 'After verifying user permissions and file constraints, the API issues a 5-minute upload URL with size and content-type conditions, then marks the file ready only after post-upload confirmation.',
+        promptSnippet: 'Issue short-lived Presigned URLs only after backend authorization checks, bind strict content-type and size limits on uploads, verify completion before publishing, and expire unused upload objects.',
+      },
+    },
+  },
 };
