@@ -23,6 +23,7 @@ import { INFOGRAPHIC_ADDITION_DEMOS } from '../src/components/demos/infographic'
 import { BROADCAST_ADDITION_DEMOS } from '../src/components/demos/broadcast';
 import { PIXELART_DEMOS } from '../src/components/demos/pixelart';
 import { AI_ADDITION_DEMOS } from '../src/components/demos/ai';
+import { GAME_ADDITION_DEMOS } from '../src/components/demos/game';
 
 test('demo registries cannot shadow one another and every registered ID resolves through the app', t => {
   t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
@@ -36,7 +37,7 @@ test('demo registries cannot shadow one another and every registered ID resolves
     CAMERA_ADDITION_DEMOS, VFX_ADDITION_DEMOS, SCROLL_ADDITION_DEMOS,
     TACTILE_ADDITION_DEMOS, RETRO_ADDITION_DEMOS, SCIFI_ADDITION_DEMOS,
     PROMO_ADDITION_DEMOS, KINETIC_AD_ADDITION_DEMOS, INFOGRAPHIC_ADDITION_DEMOS, BROADCAST_ADDITION_DEMOS,
-    PIXELART_DEMOS, AI_ADDITION_DEMOS];
+    PIXELART_DEMOS, AI_ADDITION_DEMOS, GAME_ADDITION_DEMOS];
   const entries = registries.flatMap(registry => Object.entries(registry));
   assert.ok(registries.every(registry => Object.keys(registry).length > 0));
   assert.equal(DEMO_REGISTRY.size, entries.length, 'registry IDs must not silently overwrite another component');

@@ -116,6 +116,8 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
         ['복식 원장', 'fintech-wallet-ledger-idempotency-and-hold'],
         ['사전 문진표', 'healthcare-clinic-intake-triage-and-queue'],
         ['조건부 분기', 'automation-form-branching-validation-and-partial-save'],
+        ['고정 타임스텝', 'game-loop-fixed-timestep-and-input-feel'],
+        ['매치메이킹', 'game-multiplayer-matchmaking-netcode-and-liveops'],
       ]) {
         const output = await call('search_domain_knowledge', { query, locale });
         const expected = searchDomainKnowledge(query);
@@ -140,7 +142,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
 
   await t.test('glossary search and localized detail support bilingual lookup, pagination and verified links', async () => {
     const browse = await call('search_glossary');
-    assert.equal(GLOSSARY_TERMS.length, 122);
+    assert.equal(GLOSSARY_TERMS.length, 134);
     assert.equal(browse.total, GLOSSARY_TERMS.length);
     assert.equal(browse.items.length, 20);
     assert.equal(browse.nextOffset, 20);
@@ -247,6 +249,11 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['POD', 'proof-of-delivery'],
       ['쿠폰 중복 적용 규칙', 'coupon-stacking-rule'],
       ['수료증 검증', 'certificate-verification'],
+      ['히트스톱', 'hitstop-and-game-feel'],
+      ['ECS', 'entity-component-system'],
+      ['천장 시스템', 'loot-table-and-pity-system'],
+      ['고정타임스텝', 'game-loop'],
+      ['롤백넷코드', 'rollback-netcode'],
     ] as const) {
       for (const locale of ['ko', 'en'] as const) {
         const output = await call('search_glossary', { query, locale, limit: 5 });
@@ -374,6 +381,39 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     }
   });
 
+  await t.test('game domain and category filters are accepted by the stdio server', async () => {
+    const gameDomain = await call('search_techniques', { domain: 'game', locale: 'en' });
+    assert.equal(gameDomain.total, 10);
+    assert.equal(gameDomain.items.length, 10);
+    assert.equal(gameDomain.nextOffset, null);
+
+    for (const category of ['game_hud', 'game_feel', 'game_progression', 'game_lobby']) {
+      const filtered = await call('search_techniques', { domain: 'game', category, locale: 'en' });
+      const expected = TECHNIQUES.filter((item) => item.domain === 'game' && item.category === category);
+      assert.equal(filtered.total, expected.length);
+      assert.deepEqual(filtered.items.map((item: { id: string }) => item.id), expected.map(({ id }) => id));
+    }
+
+    for (const [query, expectedId] of [
+      ['무기휠', 'game-radial-weapon-wheel'],
+      ['스킬트리', 'game-skill-tree-node'],
+      ['데미지팝업', 'game-damage-number-pop'],
+      ['세이브슬롯', 'game-save-slot-manager'],
+      ['레디체크', 'game-matchmaking-ready-check'],
+    ] as const) {
+      const searched = await call('search_techniques', { query, locale: 'ko', limit: 3 });
+      assert.equal(searched.items[0].id, expectedId, query);
+    }
+
+    const glossaryGame = await call('search_glossary', { category: 'game-development', locale: 'en' });
+    assert.equal(glossaryGame.total, 12);
+    assert.ok(glossaryGame.items.every((item: { category: string }) => item.category === 'game-development'));
+    const glossaryFiltered = await call('search_glossary', { query: '고정타임스텝', category: 'game-development', locale: 'ko' });
+    assert.equal(glossaryFiltered.items[0].id, 'game-loop');
+    const glossaryMismatch = await call('search_glossary', { query: '고정타임스텝', category: 'ui', locale: 'ko' });
+    assert.equal(glossaryMismatch.total, 0);
+  });
+
   await t.test('every original prompt and metadata are preserved verbatim', async () => {
     for (const item of TECHNIQUES) {
       const output = await call('get_technique', { id: item.id });
@@ -440,6 +480,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
       ['search_glossary', { offset: 1.5 }],
       ['search_glossary', { query: 'x'.repeat(501) }],
       ['search_glossary', { locale: 'fr' }],
+      ['search_glossary', { category: 'invalid' }],
     ] as const) {
       const response = await client.callTool({ name, arguments: args });
       assert.equal(response.isError, true, JSON.stringify({ name, args, response }));

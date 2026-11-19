@@ -29,10 +29,10 @@ test('domain knowledge searches both languages, intersects terms and keeps the e
 });
 
 test('every domain entry has bilingual guidance, distinct IDs, usable sources and valid design references', () => {
-  assert.equal(DOMAIN_KNOWLEDGE.length, 105);
+  assert.equal(DOMAIN_KNOWLEDGE.length, 110);
   assert.equal(new Set(DOMAIN_KNOWLEDGE.map(item => item.id)).size, DOMAIN_KNOWLEDGE.length);
   const domains = [...new Set(DOMAIN_KNOWLEDGE.map(item => item.text.ko.domain))];
-  assert.equal(domains.length, 21);
+  assert.equal(domains.length, 22);
   for (const domain of domains) {
     assert.equal(DOMAIN_KNOWLEDGE.filter(item => item.text.ko.domain === domain).length, 5, domain);
   }
@@ -139,6 +139,18 @@ test('service names, everyday workflow phrases and normalized bilingual inputs f
     ]],
     ['ai-prompt-context-and-token-budget', [
       '컨텍스트 윈도우', '토큰 예산', '토큰예산', '프롬프트 엔지니어링', 'token budget', 'context window',
+    ]],
+    ['game-loop-fixed-timestep-and-input-feel', [
+      '게임 루프', '고정 타임스텝', '고정타임스텝', '코요테 타임', '코요테타임', 'game loop', 'fixed timestep', 'coyote time',
+    ]],
+    ['game-inventory-progression-and-economy-balance', [
+      '전리품 확률표', '천장 시스템', '천장시스템', 'loot table', 'pity system',
+    ]],
+    ['game-save-state-serialization-and-cloud-sync', [
+      '세이브 슬롯', '세이브슬롯', '클라우드 세이브', 'save migration', 'autosave',
+    ]],
+    ['game-multiplayer-matchmaking-netcode-and-liveops', [
+      '매치메이킹', '롤백 넷코드', '롤백넷코드', 'SBMM', 'rollback netcode',
     ]],
   ];
   for (const [expected, queries] of cases) for (const query of queries) {

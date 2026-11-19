@@ -43,6 +43,22 @@ export const SEARCH_SYNONYMS: readonly (readonly string[])[] = [
   ['chrome', '크롬'], ['cyberpunk', '사이버펑크'], ['launch', '런칭', '출시'], ['showreel', '쇼릴'],
   ['countdown', '카운트다운'], ['funnel', '퍼널'], ['lower-third', 'lower third', '로어써드'],
   ['spectrum', '스펙트럼'], ['ticker', '티커', '뉴스띠'],
+  ['hud', '헤드업 디스플레이', '전투 hud', '전투hud'],
+  ['health bar', 'hp bar', '체력바', '체력 바', '피통'],
+  ['hitstop', '히트스톱', '타격감', '히트 프리즈', '히트프리즈', '역경직'],
+  ['combo', '콤보', '연타'],
+  ['loot', '전리품', '아이템 드롭', '아이템드롭', '가챠'],
+  ['matchmaking', '매치메이킹', '대기열'],
+  ['ready check', '레디 체크', '레디체크', '수락 체크', '수락체크', '큐 수락', '큐수락'],
+  ['skill tree', '스킬 트리', '스킬트리', '특성 트리', '특성트리'],
+  ['save slot', '세이브 슬롯', '세이브슬롯', '저장 슬롯', '저장슬롯'],
+  ['boss', '보스'],
+  ['weapon wheel', '무기 휠', '무기휠', '스킬 휠', '스킬휠', '파이 메뉴', '파이메뉴', 'pie menu'],
+  ['radial', '방사형', '원형 휠', '원형휠'],
+  ['damage popup', '데미지 팝업', '데미지팝업', '타격 팝업', '타격팝업'],
+  ['damage', '데미지', '피해', '타격 수치'],
+  ['popup', 'popups', '팝업'],
+  ['critical', 'crit', '크리티컬', '치명타'],
 ];
 const tokens = createSearchTokenizer(SEARCH_SYNONYMS);
 export type MatchField = 'title' | 'alias' | 'keyword' | 'useCase' | 'target' | 'trigger' | 'summary' | 'prompt';

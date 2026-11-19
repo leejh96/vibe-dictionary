@@ -10,6 +10,7 @@ import { PRODUCT_PLANNING_GLOSSARY_DATA } from './glossary/product-planning';
 import { BUSINESS_OPERATIONS_GLOSSARY_DATA } from './glossary/business-operations';
 import { SALES_MARKETING_GLOSSARY_DATA } from './glossary/sales-marketing';
 import { EDUCATION_OPERATIONS_GLOSSARY_DATA } from './glossary/education-operations';
+import { GAME_DEVELOPMENT_GLOSSARY_DATA } from './glossary/game-development';
 
 export interface GlossaryTermText {
   name: string;
@@ -33,6 +34,7 @@ const GLOSSARY_BODIES: Record<string, GlossaryTermBody> = {
   ...BUSINESS_OPERATIONS_GLOSSARY_DATA,
   ...SALES_MARKETING_GLOSSARY_DATA,
   ...EDUCATION_OPERATIONS_GLOSSARY_DATA,
+  ...GAME_DEVELOPMENT_GLOSSARY_DATA,
 };
 
 function buildGlossaryTerm(meta: GlossaryLinkMeta): GlossaryTerm {

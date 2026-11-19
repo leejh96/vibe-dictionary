@@ -10,12 +10,12 @@
 | `get_technique` | 필수: `id`, 선택: `locale` | 기법 상세·별칭·키워드·해당 언어의 `promptSnippet` 원문 |
 | `search_domain_knowledge` | 선택: `query`, `locale`, `limit`, `offset` | 도메인 지식 요약·사용 상황·관련도·매칭 필드와 페이지 정보 |
 | `get_domain_knowledge` | 필수: `id`, 선택: `locale` | 개념·결정할 질문·예시·관련 기법 ID·참고 자료·프롬프트 |
-| `search_glossary` | 선택: `query`, `locale`, `limit`, `offset` | 용어 분류·한영 이름·정의·별칭·관련 ID·매칭 필드·점수·페이지 정보 |
+| `search_glossary` | 선택: `query`, `category`, `locale`, `limit`, `offset` | 용어 분류·한영 이름·정의·별칭·관련 ID·매칭 필드·점수·페이지 정보 |
 | `get_glossary_term` | 필수: `id`, 선택: `locale` | 용어 상세·실제 예시·복사용 `promptSnippet`·별칭·관련 기법/도메인 ID |
 
 모든 도구의 `locale`은 `ko`(기본) 또는 `en`이다. 기법 조회의 `titleKo`·`titleEn`과 용어 조회의 `nameKo`·`nameEn`은 호환성을 위해 두 이름을 유지한다. 검색 언어는 출력 언어와 독립적이므로 한국어로 검색한 뒤 영어 원문을 받을 수 있다.
 
-용어 사전은 UI, 엔지니어링, 워크플로우, 고객 지원, 결제·정산, 기획·분석, 경영·운영, 영업·마케팅, 교육 기획·운영 용어의 한영 이름·별칭(예: `결제 두 번 방지` → `idempotency`)·정의·예시·프롬프트를 함께 검색한다. `search_glossary`는 검색 결과에 `promptSnippet`과 `example` 전문을 포함하지 않고 정의·별칭·관련 ID만 반환하므로, 후보를 고른 뒤 `get_glossary_term`으로 예시와 바로 쓸 수 있는 프롬프트 문장을 조회한다. 반환된 `relatedTechniqueIds`와 `relatedDomainIds`는 각각 `get_technique`, `get_domain_knowledge`에 바로 전달할 수 있는 검증된 ID다. `query`가 비어 있으면 카탈로그 순서로 조회하고, 일치하는 용어가 없으면 `total: 0`과 빈 목록을 반환한다. `matchedOn`은 일치한 필드(`name`, `alias`, `definition`, `example`, `prompt`)를 표시한다.
+용어 사전은 UI, 엔지니어링, 워크플로우, 고객 지원, 결제·정산, 기획·분석, 경영·운영, 영업·마케팅, 교육 기획·운영, 게임 개발 용어의 한영 이름·별칭(예: `결제 두 번 방지` → `idempotency`)·정의·예시·프롬프트를 함께 검색하며, 선택 `category`로 특정 분류만 좁혀 조회할 수 있다. `search_glossary`는 검색 결과에 `promptSnippet`과 `example` 전문을 포함하지 않고 정의·별칭·관련 ID만 반환하므로, 후보를 고른 뒤 `get_glossary_term`으로 예시와 바로 쓸 수 있는 프롬프트 문장을 조회한다. 반환된 `relatedTechniqueIds`와 `relatedDomainIds`는 각각 `get_technique`, `get_domain_knowledge`에 바로 전달할 수 있는 검증된 ID다. `query`가 비어 있으면 카탈로그 순서로 조회하고, 일치하는 용어가 없으면 `total: 0`과 빈 목록을 반환한다. `matchedOn`은 일치한 필드(`name`, `alias`, `definition`, `example`, `prompt`)를 표시한다.
 
 도메인 지식은 한영 이름·별칭·사용 상황과 개념·흐름·결정 질문을 함께 검색한다. `LMS`, `온라인 강의`, `재시도`, `회원 전용`, `신고 처리`, `private group`처럼 짧은 서비스명이나 업무 표현으로 `search_domain_knowledge`를 호출한다. 한영 동의어·대소문자·문장 부호를 정규화하고 매칭 범위와 필드 중요도로 정렬하는 키워드 검색이며, 의미를 추론하는 AI 검색은 아니다. 결과의 `useCases`와 `matchedOn`을 비교해 선택하고 반환된 ID를 `get_domain_knowledge`에 전달한다. `score`는 신뢰 확률이 아니며, 결과가 맞지 않으면 동의어나 더 짧은 검색어로 다시 찾는다. 검색어가 비어 있으면 목록 순서로 조회한다.
 
@@ -25,7 +25,7 @@
 
 자연어 요청은 호출하는 AI가 해석한다. AI가 한 효과를 나타내는 짧은 한영 검색어를 생성 → MCP가 키워드로 후보 조회 → AI가 요약·사용 상황을 비교하고 필요하면 동의어·다른 언어·수식어를 줄인 표현으로 재검색 → 선택한 ID의 프롬프트를 조회한다. 예를 들어 “글을 고친 뒤 아직 저장하지 않았다는 표시”는 `저장 상태` 또는 `unsaved changes`로 검색한다. 필수 조건은 유지하고 불필요한 필터만 넓히며, 검색어나 필터를 바꾸면 `offset: 0`부터 조회한다. 순위가 높아도 요구에 맞지 않으면 선택하지 않는다.
 
-도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `pixelart`(픽셀아트), `video`(모션 영상), `ai`(AI 네이티브)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
+도메인은 `ui`(UI), `motion`(그래픽), `layout`(레이아웃), `style`(스타일), `pixelart`(픽셀아트), `video`(모션 영상), `ai`(AI 네이티브), `game`(게임 개발)다. 카테고리·대상·입력 ID는 도구 스키마에서 확인한다. 모든 필터는 함께 만족해야 한다. `target: "button"`, `trigger: "pointer-move"`처럼 필수 조건만 지정한다. 제목에 scroll/drag/audio가 있어도 실제 데모는 클릭·타이머 시연일 수 있으므로 `triggers`와 원문을 확인한다.
 
 검색어가 있으면 관련도순이며 `score`는 정렬용 수치로 적합성 확률이 아니다. `matchedOn`은 일치한 필드명(`title`, `alias`, `keyword`, `useCase`, `target`, `trigger`, `summary`, `prompt`)이다. `query`를 생략하면 카탈로그 순서로 목록을 조회한다. 일치가 없으면 빈 목록을 반환한다.
 
@@ -47,7 +47,7 @@ Then call `get_technique`:
 {"id":"magnetic-hover","locale":"en"}
 ```
 
-For bilingual glossary terms across UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, and education planning and operations, call `search_glossary` with a short Korean or English term or natural alias (such as `"결제 두 번 방지"` or `"skeleton"`):
+For bilingual glossary terms across UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, education planning and operations, and game development, call `search_glossary` with a short Korean or English term or natural alias (such as `"결제 두 번 방지"` or `"skeleton"`):
 
 ```json
 {"query":"결제 두 번 방지","locale":"en","limit":5}

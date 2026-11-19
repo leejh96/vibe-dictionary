@@ -20,6 +20,12 @@ export const SEARCH_EVALUATION = [
   { query: 'blur only the face', expected: ['vd-face-blur-mask'] },
   { query: '검정 화면을 거쳐 다음 장면으로 전환', expected: ['vd-dip-to-black'] },
   { query: 'transition through black between scenes', expected: ['vd-dip-to-black'] },
+  { query: '피격 시 잔상이 따라오는 지연 체력바', expected: ['game-delayed-health-bar'] },
+  { query: 'delayed damage ghost trail health bar', expected: ['game-delayed-health-bar'] },
+  { query: '무기휠', expected: ['game-radial-weapon-wheel'] },
+  { query: 'radial weapon wheel menu', expected: ['game-radial-weapon-wheel'] },
+  { query: '스킬트리', expected: ['game-skill-tree-node'] },
+  { query: 'dependency skill tree nodes', expected: ['game-skill-tree-node'] },
 ] as const;
 
 export const NO_RESULT_QUERIES = ['내일 서울 날씨 알려줘', 'book a flight to Mars', 'zzzz-no-such-technique-987'];

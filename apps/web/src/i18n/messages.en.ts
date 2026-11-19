@@ -38,9 +38,11 @@ import { TACTILE_EN_MESSAGES } from './demos/tactile.messages';
 import { TEXT_EN_MESSAGES } from './demos/text.messages';
 import { VFX_EN_MESSAGES } from './demos/vfx.messages';
 import { AI_EN_MESSAGES } from './demos/ai.messages';
+import { GAME_EN_MESSAGES } from './demos/game.messages';
 import type { MessageKey } from './messages.ko';
 
 export const EN_MESSAGES = {
+  ...GAME_EN_MESSAGES,
   ...AI_EN_MESSAGES,
   ...STARTER_PACK_EN_MESSAGES,
   ...SIGNATURE_EN_MESSAGES,

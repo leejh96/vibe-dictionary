@@ -507,6 +507,86 @@
     ]
   },
   {
+    "id": "heldout-25-ko",
+    "locale": "ko",
+    "queries": [
+      "지연 체력바"
+    ],
+    "expected": [
+      "game-delayed-health-bar"
+    ]
+  },
+  {
+    "id": "heldout-25-en",
+    "locale": "en",
+    "queries": [
+      "delayed health bar"
+    ],
+    "expected": [
+      "game-delayed-health-bar"
+    ]
+  },
+  {
+    "id": "heldout-26-ko",
+    "locale": "ko",
+    "queries": [
+      "무기휠"
+    ],
+    "expected": [
+      "game-radial-weapon-wheel"
+    ]
+  },
+  {
+    "id": "heldout-26-en",
+    "locale": "en",
+    "queries": [
+      "weapon wheel"
+    ],
+    "expected": [
+      "game-radial-weapon-wheel"
+    ]
+  },
+  {
+    "id": "heldout-27-ko",
+    "locale": "ko",
+    "queries": [
+      "데미지팝업"
+    ],
+    "expected": [
+      "game-damage-number-pop"
+    ]
+  },
+  {
+    "id": "heldout-27-en",
+    "locale": "en",
+    "queries": [
+      "floating damage"
+    ],
+    "expected": [
+      "game-damage-number-pop"
+    ]
+  },
+  {
+    "id": "heldout-28-ko",
+    "locale": "ko",
+    "queries": [
+      "스킬트리"
+    ],
+    "expected": [
+      "game-skill-tree-node"
+    ]
+  },
+  {
+    "id": "heldout-28-en",
+    "locale": "en",
+    "queries": [
+      "skill tree"
+    ],
+    "expected": [
+      "game-skill-tree-node"
+    ]
+  },
+  {
     "id": "negative-7",
     "locale": "ko",
     "queries": [

@@ -33,5 +33,6 @@
 @import './components/demos/infographic/infographic.css';
 @import './components/demos/broadcast/broadcast.css';
 @import './components/demos/patterns/patterns.css';
+@import './components/demos/game/game.css';
 @import './scrollbars.css';
 @import './base.css';

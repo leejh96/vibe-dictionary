@@ -38,8 +38,9 @@ import { BROADCAST_ADDITIONS } from './additions/broadcast';
 import { PIXELART_ADDITIONS } from './additions/pixelart';
 import { PIXELART_EXPANSION_ADDITIONS } from './additions/pixelart-expansion';
 import { AI_ADDITIONS } from './additions/ai';
+import { GAME_ADDITIONS } from './additions/game';
 
-export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video' | 'ai';
+export type DomainType = 'ui' | 'motion' | 'layout' | 'style' | 'pixelart' | 'video' | 'ai' | 'game';
 
 export type CategoryType =
   /* 1. UI 하위 카테고리 */
@@ -82,7 +83,12 @@ export type CategoryType =
   | 'ai_input'
   | 'ai_streaming'
   | 'ai_reasoning'
-  | 'ai_agent';
+  | 'ai_agent'
+  /* 8. 게임 개발 하위 카테고리 */
+  | 'game_hud'
+  | 'game_feel'
+  | 'game_progression'
+  | 'game_lobby';
 
 interface CategoryMeta {
   id: CategoryType | 'all';
@@ -151,6 +157,14 @@ const AI_CATEGORIES: CategoryMeta[] = [
   { id: 'ai_agent', label: '에이전트·도구' },
 ];
 
+const GAME_CATEGORIES: CategoryMeta[] = [
+  { id: 'all', label: '전체' },
+  { id: 'game_hud', label: '전투·HUD' },
+  { id: 'game_feel', label: '게임필·피드백' },
+  { id: 'game_progression', label: '성장·인벤토리' },
+  { id: 'game_lobby', label: '로비·매치메이킹' },
+];
+
 export const DOMAIN_LABELS: Record<DomainType, string> = {
   ui: 'UI',
   motion: '그래픽',
@@ -159,6 +173,7 @@ export const DOMAIN_LABELS: Record<DomainType, string> = {
   pixelart: '픽셀아트',
   video: '모션 영상',
   ai: 'AI 네이티브',
+  game: '게임 개발',
 };
 
 export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
@@ -169,6 +184,7 @@ export const DOMAIN_CATEGORIES: Record<DomainType, CategoryMeta[]> = {
   pixelart: PIXELART_CATEGORIES,
   video: VIDEO_CATEGORIES,
   ai: AI_CATEGORIES,
+  game: GAME_CATEGORIES,
 };
 
 export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
@@ -180,6 +196,7 @@ export const CATEGORY_LABEL_MAP: Record<string, string> = Object.fromEntries(
     ...PIXELART_CATEGORIES,
     ...VIDEO_CATEGORIES,
     ...AI_CATEGORIES,
+    ...GAME_CATEGORIES,
   ].map((c) => [c.id, c.label])
 );
 
@@ -197,6 +214,7 @@ export interface TechniqueItem {
 
 export const TECHNIQUES: TechniqueItem[] = [
   ...AI_ADDITIONS,
+  ...GAME_ADDITIONS,
   ...STARTER_PACK_ADDITIONS,
   ...SIGNATURE_ADDITIONS,
   ...UI_COLLECTION_ADDITIONS,

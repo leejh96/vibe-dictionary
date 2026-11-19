@@ -10,6 +10,7 @@ export const GLOSSARY_CATEGORIES = [
   'business-operations',
   'sales-marketing',
   'education-operations',
+  'game-development',
 ] as const;
 export type GlossaryCategory = typeof GLOSSARY_CATEGORIES[number];
 
@@ -940,6 +941,91 @@ export const GLOSSARY_LINK_META: GlossaryLinkMeta[] = [
     category: 'education-operations',
     relatedTechniqueIds: ['dismissible-inline-banner'],
     relatedDomainIds: ['education-exam-timer-grading-and-appeal'],
+  },
+  // Game Development (+12)
+  {
+    id: 'game-loop',
+    name: { ko: '게임 루프', en: 'Game Loop' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-hitstop-impact-frame', 'game-combo-rank-meter'],
+    relatedDomainIds: ['game-loop-fixed-timestep-and-input-feel'],
+  },
+  {
+    id: 'save-serialization-and-checkpoint',
+    name: { ko: '세이브 직렬화와 체크포인트', en: 'Save Serialization and Checkpoints' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-save-slot-manager'],
+    relatedDomainIds: ['game-save-state-serialization-and-cloud-sync'],
+  },
+  {
+    id: 'hitbox-and-hurtbox',
+    name: { ko: '히트박스와 허트박스', en: 'Hitbox and Hurtbox' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-damage-number-pop', 'px-one-way-platform-collision'],
+    relatedDomainIds: ['game-loop-fixed-timestep-and-input-feel'],
+  },
+  {
+    id: 'hitstop-and-game-feel',
+    name: { ko: '히트스톱과 게임 필', en: 'Hitstop and Game Feel' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-hitstop-impact-frame', 'game-damage-number-pop', 'game-combo-rank-meter'],
+    relatedDomainIds: ['game-loop-fixed-timestep-and-input-feel', 'game-hud-combat-feedback-and-accessibility'],
+  },
+  {
+    id: 'coyote-time-and-input-buffering',
+    name: { ko: '코요테 타임과 입력 버퍼링', en: 'Coyote Time and Input Buffering' },
+    category: 'game-development',
+    relatedTechniqueIds: ['px-jump-arc-poses', 'game-combo-rank-meter'],
+    relatedDomainIds: ['game-loop-fixed-timestep-and-input-feel'],
+  },
+  {
+    id: 'object-pooling',
+    name: { ko: '오브젝트 풀링', en: 'Object Pooling' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-damage-number-pop', 'px-integer-grid-explosion'],
+    relatedDomainIds: ['game-loop-fixed-timestep-and-input-feel'],
+  },
+  {
+    id: 'entity-component-system',
+    name: { ko: '엔티티 컴포넌트 시스템(ECS)', en: 'Entity Component System (ECS)' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-skill-tree-node', 'px-modular-robot-loadout'],
+    relatedDomainIds: ['game-inventory-progression-and-economy-balance'],
+  },
+  {
+    id: 'heads-up-display',
+    name: { ko: '헤드업 디스플레이(HUD)', en: 'Heads-Up Display (HUD)' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-delayed-health-bar', 'game-boss-phase-bar', 'game-radial-weapon-wheel'],
+    relatedDomainIds: ['game-hud-combat-feedback-and-accessibility'],
+  },
+  {
+    id: 'diegetic-interface',
+    name: { ko: '다이이제틱 인터페이스', en: 'Diegetic Interface' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-radial-weapon-wheel', 'game-delayed-health-bar'],
+    relatedDomainIds: ['game-hud-combat-feedback-and-accessibility'],
+  },
+  {
+    id: 'rollback-netcode',
+    name: { ko: '롤백 넷코드', en: 'Rollback Netcode' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-matchmaking-ready-check'],
+    relatedDomainIds: ['game-multiplayer-matchmaking-netcode-and-liveops'],
+  },
+  {
+    id: 'skill-based-matchmaking',
+    name: { ko: '실력 기반 매치메이킹(SBMM)', en: 'Skill-Based Matchmaking (SBMM)' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-matchmaking-ready-check'],
+    relatedDomainIds: ['game-multiplayer-matchmaking-netcode-and-liveops'],
+  },
+  {
+    id: 'loot-table-and-pity-system',
+    name: { ko: '전리품 확률표와 천장 시스템', en: 'Loot Table and Pity System' },
+    category: 'game-development',
+    relatedTechniqueIds: ['game-loot-rarity-reveal', 'mg-treasure-chest-3d'],
+    relatedDomainIds: ['game-inventory-progression-and-economy-balance'],
   },
 ];
 

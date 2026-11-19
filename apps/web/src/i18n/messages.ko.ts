@@ -38,8 +38,10 @@ import { TACTILE_KO_MESSAGES } from './demos/tactile.messages';
 import { TEXT_KO_MESSAGES } from './demos/text.messages';
 import { VFX_KO_MESSAGES } from './demos/vfx.messages';
 import { AI_KO_MESSAGES } from './demos/ai.messages';
+import { GAME_KO_MESSAGES } from './demos/game.messages';
 // Stable IDs are independent of display wording. Keep placeholder names in every locale.
 export const KO_MESSAGES = {
+  ...GAME_KO_MESSAGES,
   ...AI_KO_MESSAGES,
   ...STARTER_PACK_KO_MESSAGES,
   ...SIGNATURE_KO_MESSAGES,
