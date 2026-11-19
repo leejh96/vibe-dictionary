@@ -13,6 +13,7 @@ export const GLOSSARY_CATEGORY_KEYS = {
   'business-operations': 'glossary.categoryBusinessOperations',
   'sales-marketing': 'glossary.categorySalesMarketing',
   'education-operations': 'glossary.categoryEducationOperations',
+  'game-development': 'glossary.categoryGameDevelopment',
 } as const satisfies Record<
   GlossaryCategory,
   | 'glossary.categoryUi'
@@ -24,6 +25,7 @@ export const GLOSSARY_CATEGORY_KEYS = {
   | 'glossary.categoryBusinessOperations'
   | 'glossary.categorySalesMarketing'
   | 'glossary.categoryEducationOperations'
+  | 'glossary.categoryGameDevelopment'
 >;
 
 interface GlossaryFiltersProps {
@@ -112,8 +114,8 @@ export function GlossaryFilters({
         >
           {t('glossary.searchLabel')}
         </label>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <div className="relative flex min-w-0 sm:flex-1">
+        <div className="flex items-stretch gap-2">
+          <div className="relative flex min-w-0 flex-1">
             <Search
               aria-hidden="true"
               className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500"
@@ -146,7 +148,7 @@ export function GlossaryFilters({
           <p
             role="status"
             aria-live="polite"
-            className="flex max-w-full shrink-0 items-center self-start rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-slate-700 [overflow-wrap:anywhere] dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 sm:self-stretch"
+            className="flex shrink-0 items-center whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-bold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"
           >
             {t('glossary.resultCount', { count: filteredCount })}
           </p>

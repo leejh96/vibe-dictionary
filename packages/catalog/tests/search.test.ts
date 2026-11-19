@@ -38,6 +38,9 @@ test('effect and usage queries put the intended technique first in both language
     ['frosted glass card', 'glassmorphism-card'], ['버튼을 길게 눌러 확인', 'hold-to-confirm-ring'],
     ['SVG outline drawing', 'mg-svg-line-draw'], ['speaker name lower third', 'vd-lower-third-banner'],
     ['before after image comparison', 'before-after-slider'], ['영수증', 'st-receipt-thermal-mono'],
+    ['무기휠', 'game-radial-weapon-wheel'], ['스킬트리', 'game-skill-tree-node'],
+    ['데미지팝업', 'game-damage-number-pop'], ['치명타', 'game-damage-number-pop'],
+    ['세이브슬롯', 'game-save-slot-manager'], ['레디체크', 'game-matchmaking-ready-check'],
   ];
   for (const [query, expected] of cases) {
     const results = searchTechniques({ query });
@@ -45,6 +48,10 @@ test('effect and usage queries put the intended technique first in both language
     assert.ok(results[0].matchedOn.length, query);
     assert.ok(results.every((item, i) => i === 0 || results[i - 1].score >= item.score));
   }
+  const healthBarTop3 = searchTechniques({ query: '체력바' }).slice(0, 3).map(({ item }) => item.id);
+  assert.ok(healthBarTop3.includes('game-delayed-health-bar'));
+  assert.ok(healthBarTop3.includes('game-boss-phase-bar'));
+  assert.ok(!healthBarTop3.includes('st-scifi-hud-chamfer'));
 });
 
 test('browsing is stable, filters intersect, and irrelevant queries do not fall back to the full catalog', () => {

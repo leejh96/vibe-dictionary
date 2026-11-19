@@ -1,0 +1,29 @@
+@keyframes game-damage-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.82);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, 0px) scale(1.08);
+  }
+  72% {
+    opacity: 1;
+    transform: translate(-50%, -26px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px) scale(0.95);
+  }
+}
+
+.game-damage-popup {
+  animation: game-damage-float 750ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-damage-popup {
+    animation: none;
+    transform: translate(-50%, -12px);
+  }
+}

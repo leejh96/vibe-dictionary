@@ -9,7 +9,7 @@ import {
 import packageInfo from '../package.json';
 
 const localeSchema = z.enum(['ko', 'en']).default('ko').describe('Output language; search matches both languages regardless of locale.');
-const domainSchema = z.enum(['ui', 'motion', 'layout', 'style', 'pixelart', 'video', 'ai']);
+const domainSchema = z.enum(['ui', 'motion', 'layout', 'style', 'pixelart', 'video', 'ai', 'game']);
 const categoryIds = [...new Set(Object.values(DOMAIN_CATEGORIES).flatMap(categories => categories.map(({ id }) => id)))].filter(id => id !== 'all');
 const categorySchema = z.enum(categoryIds as [string, ...string[]]);
 const targetSchema = z.enum(TARGETS);
@@ -55,9 +55,9 @@ function result<T extends Record<string, unknown>>(output: T) {
 export function createServer() {
   const server = new McpServer({ name: packageInfo.name, version: packageInfo.version }, {
     instructions: [
-      'Find UI, graphics, layout, style, pixel art, video and AI native techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
-      'Before choosing designs for an education, community, commerce, booking, subscription, collaboration, customer-support, auth/account, notification, CMS/publishing, file/media, marketplace, event/check-in, recruiting/ATS, analytics, security/RBAC, logistics, fintech/wallet, healthcare, form/workflow-automation or AI agent service, use search_domain_knowledge with a short domain or workflow phrase such as "LMS", "회원 전용", "부분 환불", "타임슬롯", "정기 결제", "칸반", "헬프데스크", "RBAC", "합포장", "복식 원장" or "토큰 예산". Compare summaries, useCases and matchedOn fields, then call get_domain_knowledge by a returned ID for concepts, workflows, pitfalls, open decisions, sources, related technique IDs and a reference prompt. Search supports bilingual aliases and ranked keyword matching, not semantic AI. If no entry fits, retry fewer terms or a synonym, or browse with an empty query. Workflows and examples are design references, not established policies. Do not assume answers to the open questions. Related designs do not implement the domain rules.',
-      'To look up or clarify UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing or education planning and operations vocabulary such as "skeleton loading", "empty state", "debounce", "optimistic update", "결제 두 번 방지", "RBAC" or "이중 승인", use search_glossary with a short Korean or English phrase or natural alias. search_glossary searches both languages and aliases regardless of output locale and omits full examples and promptSnippet; call get_glossary_term with a returned ID for the full example, ready-to-use promptSnippet and verified relatedTechniqueIds/relatedDomainIds you can pass directly to get_technique or get_domain_knowledge. Glossary examples and prompts are reference material, not implemented backend policies.',
+      'Find UI, graphics, layout, style, pixel art, video, AI native and game development techniques. Search for a few candidates, compare summaries, useCases and matchedOn fields, then get_technique by exact ID only for the selected prompts.',
+      'Before choosing designs for an education, community, commerce, booking, subscription, collaboration, customer-support, auth/account, notification, CMS/publishing, file/media, marketplace, event/check-in, recruiting/ATS, analytics, security/RBAC, logistics, fintech/wallet, healthcare, form/workflow-automation, AI agent or game development service, use search_domain_knowledge with a short domain or workflow phrase such as "LMS", "회원 전용", "부분 환불", "타임슬롯", "정기 결제", "칸반", "헬프데스크", "RBAC", "합포장", "복식 원장", "토큰 예산" or "고정 타임스텝". Compare summaries, useCases and matchedOn fields, then call get_domain_knowledge by a returned ID for concepts, workflows, pitfalls, open decisions, sources, related technique IDs and a reference prompt. Search supports bilingual aliases and ranked keyword matching, not semantic AI. If no entry fits, retry fewer terms or a synonym, or browse with an empty query. Workflows and examples are design references, not established policies. Do not assume answers to the open questions. Related designs do not implement the domain rules.',
+      'To look up or clarify UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, education planning and operations or game development vocabulary such as "skeleton loading", "empty state", "debounce", "optimistic update", "결제 두 번 방지", "RBAC", "이중 승인" or "히트스톱", use search_glossary with a short Korean or English phrase or natural alias (and optional category filter). search_glossary searches both languages and aliases regardless of output locale and omits full examples and promptSnippet; call get_glossary_term with a returned ID for the full example, ready-to-use promptSnippet and verified relatedTechniqueIds/relatedDomainIds you can pass directly to get_technique or get_domain_knowledge. Glossary examples and prompts are reference material, not implemented backend policies.',
       'The calling assistant interprets the user request and generates short Korean or English search phrases for one effect at a time. The MCP performs bilingual weighted keyword/alias matching and runs no AI model. Extract concrete effects and targets; omit uncertain filters. For broad requests such as a clean or premium webpage, use the stated purpose and preferences; do not equate an adjective with one fixed style. Ask for clarification when missing context prevents a meaningful choice.',
       'For requests combining techniques, search distinct needs such as style, layout and interaction separately. Retrieve the selected prompts, then decide where each technique applies and compare their visual treatment, inputs and timing for conflicts. The tools do not compose techniques or check compatibility; the calling assistant makes those judgments.',
       'Use target/trigger filters only for required demo inputs. Compare summaries and useCases against the original request. If candidates are missing or unsuitable, retry a synonym, the other language or fewer modifiers, and remove only filters that are not required. Reset offset to zero when changing the query or filters. Do not select an unrelated result merely because it ranks first; clarify if useful candidates still cannot be found. Scores are not probabilities. locale selects output language independently of search language. These read-only tools return reference data only.',
@@ -72,7 +72,8 @@ export function createServer() {
     ].join(' '),
     inputSchema: {
       query: z.string().max(500).default('').describe('Short Korean/English effect words, aliases or use situation generated by the calling assistant for one desired technique. Search independent techniques separately; omit to browse.'),
-      domain: domainSchema.optional(), category: categorySchema.optional(),
+      domain: domainSchema.optional().describe('Optional domain filter: ui, motion, layout, style, pixelart, video, ai, or game.'),
+      category: categorySchema.optional().describe('Optional subcategory ID filter, e.g. hover, card, graphic, game_hud, game_feel, game_progression, game_lobby.'),
       target: targetSchema.optional().describe('Required target type, e.g. button or card.'),
       trigger: triggerSchema.optional().describe('Required implemented demo input, e.g. pointer-move, click or drag.'),
       locale: localeSchema,
@@ -106,7 +107,7 @@ export function createServer() {
   });
   server.registerTool('search_domain_knowledge', {
     title: 'Search domain knowledge / 도메인 지식 검색',
-    description: 'Search Korean and English domain knowledge by domain, title, aliases, keywords, use cases, concepts, workflows, pitfalls and decision questions. Rewrite the user request into a short service or workflow phrase, e.g. "LMS", "재시도", "회원 전용" or "신고 처리". Bilingual normalization and weighted term coverage rank results; this is not semantic search. Nonempty queries return score (not confidence), matchedOn field names and useCases; empty queries browse catalog order. Results exclude full prompts. If results do not fit, retry fewer terms or synonyms and reset offset. Use get_domain_knowledge with a returned ID for the full reference.',
+    description: 'Search Korean and English domain knowledge by domain, title, aliases, keywords, use cases, concepts, workflows, pitfalls and decision questions. Rewrite the user request into a short service or workflow phrase, e.g. "LMS", "부분 환불", "토큰 예산", "고정 타임스텝", "재시도", "회원 전용" or "신고 처리". Bilingual normalization and weighted term coverage rank results; this is not semantic search. Nonempty queries return score (not confidence), matchedOn field names and useCases; empty queries browse catalog order. Results exclude full prompts. If results do not fit, retry fewer terms or synonyms and reset offset. Use get_domain_knowledge with a returned ID for the full reference.',
     inputSchema: {
       query: z.string().max(500).default('').describe('Short Korean/English domain, service or workflow phrase; omit to browse. Search independent needs separately.'), locale: localeSchema,
       limit: z.number().int().min(1).max(50).default(20),
@@ -145,9 +146,10 @@ export function createServer() {
   });
   server.registerTool('search_glossary', {
     title: 'Search glossary / 용어 사전 검색',
-    description: 'Search Korean and English glossary terms across UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, and education planning and operations by name, aliases (including natural user descriptions such as "결제 두 번 방지"), definition, example and prompt. Bilingual normalization and weighted term coverage rank results regardless of output locale; this is not semantic AI search. Nonempty queries return score (not confidence) and matchedOn field names; empty queries browse catalog order. Non-matching queries return an empty list with total 0. Results exclude full example and promptSnippet; use get_glossary_term with a returned ID for full details and ready-to-use promptSnippet.',
+    description: 'Search Korean and English glossary terms across UI, engineering, workflow, customer support, payments and settlement, planning and analytics, business operations, sales and marketing, education planning and operations, and game development by name, aliases (including natural user descriptions such as "결제 두 번 방지"), definition, example and prompt. Filter optionally by glossary category; omit query to browse. Bilingual normalization and weighted term coverage rank results regardless of output locale; this is not semantic AI search. Nonempty queries return score (not confidence) and matchedOn field names; empty queries browse catalog order. Non-matching queries return an empty list with total 0. Results exclude full example and promptSnippet; use get_glossary_term with a returned ID for full details and ready-to-use promptSnippet.',
     inputSchema: {
       query: z.string().max(500).default('').describe('Short Korean/English term, acronym or natural description; omit to browse.'),
+      category: glossaryCategorySchema.optional().describe('Optional glossary category filter (e.g. ui, engineering, workflow, game-development).'),
       locale: localeSchema,
       limit: z.number().int().min(1).max(50).default(20),
       offset: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).default(0),
@@ -161,8 +163,8 @@ export function createServer() {
       })),
     },
     annotations: readOnlyAnnotations,
-  }, async ({ query, locale, limit, offset }) => {
-    const matches = rankGlossaryTerms(query);
+  }, async ({ query, category, locale, limit, offset }) => {
+    const matches = rankGlossaryTerms(query, category);
     const items = matches.slice(offset, offset + limit).map(({ item, score, matchedOn }) => ({
       ...summarizeGlossary(item, locale),
       score,

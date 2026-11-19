@@ -1,6 +1,6 @@
 import type { CategoryType, DomainType } from '../techniques';
 
-export const DOMAIN_LABELS_EN: Record<DomainType, string> = { ui: 'UI', motion: 'Graphics', layout: 'Layout', style: 'Style', pixelart: 'Pixel Art', video: 'Motion video', ai: 'AI Native' };
+export const DOMAIN_LABELS_EN: Record<DomainType, string> = { ui: 'UI', motion: 'Graphics', layout: 'Layout', style: 'Style', pixelart: 'Pixel Art', video: 'Motion video', ai: 'AI Native', game: 'Game Dev' };
 
 export const CATEGORY_NAMES_EN: Record<CategoryType | 'all', string> = {
   all: 'All', hover: 'Buttons & hover', card: 'Cards & 3D', motion: 'Entrances & transitions',
@@ -12,4 +12,5 @@ export const CATEGORY_NAMES_EN: Record<CategoryType | 'all', string> = {
   sprites: 'Sprites', environments: 'Environments', tiles: 'Tiles & Patterns', game_ui: 'Game UI', effects: 'Effects',
   promo: 'Launches & showreels', kinetic_ad: 'Typography & rhythm', infographic: 'Data & charts', broadcast: 'Broadcast & titles',
   ai_input: 'Prompt & input', ai_streaming: 'Streaming & rendering', ai_reasoning: 'Reasoning & thinking', ai_agent: 'Agent & tools',
+  game_hud: 'Combat & HUD', game_feel: 'Game Feel & Feedback', game_progression: 'Progression & Loadout', game_lobby: 'Lobby & Matchmaking',
 };

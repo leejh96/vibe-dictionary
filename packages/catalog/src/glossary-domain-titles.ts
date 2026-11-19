@@ -79,4 +79,9 @@ export const GLOSSARY_DOMAIN_TITLES: ReadonlyMap<string, Record<Locale, string>>
   ["ai-tool-calling-and-human-approval",{"ko":"Function Calling 도구 오케스트레이션과 위험 작업 인간 승인(Human-in-the-Loop)","en":"Function Calling Tool Orchestration and Human-in-the-Loop Approval"}],
   ["ai-rag-retrieval-and-source-attribution",{"ko":"RAG 검색 증강과 인라인 출처 인용 및 할루시네이션 가드레일","en":"RAG Retrieval Augmentation, Inline Source Attribution, and Hallucination Guardrails"}],
   ["ai-agent-state-memory-and-branching",{"ko":"에이전트 대화 세션 상태 관리와 응답 버전 분기 및 롤백","en":"Agent Conversation Session State, Response Branching, and Rollback"}],
+  ["game-loop-fixed-timestep-and-input-feel",{"ko":"게임 루프·고정 타임스텝과 조작감(Game Feel) 설계","en":"Game Loop, Fixed Timestep, and Game Feel Architecture"}],
+  ["game-hud-combat-feedback-and-accessibility",{"ko":"전투 HUD 계층·다이이제틱 피드백과 게임 접근성","en":"Combat HUD Hierarchy, Diegetic Feedback, and Accessibility"}],
+  ["game-inventory-progression-and-economy-balance",{"ko":"인벤토리·성장 곡선과 게임 경제·전리품 밸런스","en":"Inventory Systems, Progression Curves, and Economy Balance"}],
+  ["game-save-state-serialization-and-cloud-sync",{"ko":"게임 세이브 상태 직렬화·슬롯 관리와 클라우드 동기화","en":"Game Save Serialization, Slot Management, and Cloud Sync"}],
+  ["game-multiplayer-matchmaking-netcode-and-liveops",{"ko":"멀티플레이어 매치메이킹·넷코드와 서버 권한 및 라이브옵스","en":"Multiplayer Matchmaking, Netcode, Server Authority, and LiveOps"}],
 ]);

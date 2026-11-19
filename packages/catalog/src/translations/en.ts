@@ -37,11 +37,13 @@ import { EN_TACTILE_TECHNIQUES } from './additions/tactile';
 import { EN_TEXT_TECHNIQUES } from './additions/text';
 import { EN_VFX_TECHNIQUES } from './additions/vfx';
 import { EN_AI_TECHNIQUES } from './additions/ai';
+import { EN_GAME_TECHNIQUES } from './additions/game';
 import type { TechniqueTranslation } from '../localization';
 
 import { EN_PATTERN_TECHNIQUES } from './additions/patterns';
 
 export const ENGLISH_TECHNIQUES: Record<string, TechniqueTranslation> = {
+  ...EN_GAME_TECHNIQUES,
   ...EN_AI_TECHNIQUES,
   ...EN_STARTER_PACK_TECHNIQUES,
   ...EN_SIGNATURE_TECHNIQUES,

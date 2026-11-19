@@ -67,7 +67,7 @@ test('lazy glossary view shows loading state and resolves all terms; load error 
     const termButtons = tree.root
       .findByProps({ role: 'region' })
       .findAllByType('button');
-    assert.equal(GLOSSARY_TERMS.length, 122);
+    assert.equal(GLOSSARY_TERMS.length, 134);
     assert.equal(termButtons.length, GLOSSARY_TERMS.length);
   } finally {
     act(() => tree.unmount());
@@ -188,7 +188,7 @@ test('glossary supports explicit search label, bilingual search regardless of lo
       const expectedFilterLabels =
         locale === 'ko'
           ? [
-              '전체122',
+              '전체134',
               'UI27',
               '엔지니어링30',
               '워크플로우11',
@@ -198,9 +198,10 @@ test('glossary supports explicit search label, bilingual search regardless of lo
               '경영·운영6',
               '영업·마케팅7',
               '교육 기획·운영7',
+              '게임 개발12',
             ]
           : [
-              'All122',
+              'All134',
               'UI27',
               'Engineering30',
               'Workflow11',
@@ -210,6 +211,7 @@ test('glossary supports explicit search label, bilingual search regardless of lo
               'Business Operations6',
               'Sales & Marketing7',
               'Education Planning & Operations7',
+              'Game Development12',
             ];
       assert.deepEqual(filterGroup().findAllByType('button').map(text), expectedFilterLabels);
       assert.equal(filterGroup().findAllByType('button')[0].props['aria-pressed'], true);
@@ -220,6 +222,7 @@ test('glossary supports explicit search label, bilingual search regardless of lo
         [locale === 'ko' ? /^결제·정산/ : /^Payments & Settlement/, 9, 'know-your-customer'],
         [locale === 'ko' ? /^기획·분석/ : /^Planning & Analytics/, 17, 'net-promoter-score'],
         [locale === 'ko' ? /^경영·운영/ : /^Business Operations/, 6, 'objectives-and-key-results'],
+        [locale === 'ko' ? /^게임 개발/ : /^Game Development/, 12, 'game-loop'],
       ] as const) {
         const categoryBtn = () => filterGroup().findAllByType('button').find(b => labelPattern.test(text(b)))!;
         act(() => categoryBtn().props.onClick());
@@ -271,6 +274,8 @@ test('glossary supports explicit search label, bilingual search regardless of lo
         ['서킷 브레이커', 'circuit-breaker', locale === 'ko' ? '엔지니어링' : 'Engineering'],
         ['CSAT', 'customer-satisfaction-score', locale === 'ko' ? '고객 지원' : 'Customer Support'],
         ['부분 환불', 'partial-refund', locale === 'ko' ? '결제·정산' : 'Payments & Settlement'],
+        ['히트스톱', 'hitstop-and-game-feel', locale === 'ko' ? '게임 개발' : 'Game Development'],
+        ['ECS', 'entity-component-system', locale === 'ko' ? '게임 개발' : 'Game Development'],
         ['HLS', 'http-live-streaming', locale === 'ko' ? '엔지니어링' : 'Engineering'],
       ] as const) {
         act(() => searchInput().props.onChange({ target: { value: query } }));

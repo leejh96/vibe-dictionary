@@ -83,6 +83,14 @@ export const KNOWLEDGE_SYNONYMS: readonly (readonly string[])[] = [
   ['idempotency', 'idempotency key', '멱등성', '중복 출금 방지', '자동이체', 'direct debit'],
   ['healthcare', 'clinic', '헬스케어', '진료', '건강기록', '사전 문진표', '문진표', '처방전', '복약 알림'],
   ['formautomation', 'workflow automation', '설문', '폼 빌더', '조건부 분기', '워크플로 자동화', '배치 가져오기'],
+  ['gamedev', 'game development', 'game dev', '게임 개발', '게임개발', '게임 제작', '인디 게임', '게임 디자인'],
+  ['gameloop', 'game loop', 'fixed timestep', '게임 루프', '게임루프', '고정 타임스텝', '고정타임스텝', '델타 타임'],
+  ['gamefeel', 'game feel', 'hitstop', 'coyote time', 'input buffering', '게임 필', '게임필', '타격감', '히트스톱', '코요테 타임', '코요테타임', '입력 버퍼링', '입력버퍼링', '선입력'],
+  ['hud', 'heads-up display', 'diegetic ui', '전투 hud', '전투hud', '체력바', '무기 휠', '무기휠', '보스 체력바', '보스체력바', '다이이제틱'],
+  ['loot', 'loot table', 'pity system', 'skill tree', '게임 경제', '게임경제', '전리품', '확률표', '천장 시스템', '천장시스템', '스킬 트리', '스킬트리'],
+  ['saveslot', 'save slot', 'autosave', 'save serialization', '세이브 슬롯', '세이브슬롯', '저장 슬롯', '저장슬롯', '자동 저장', '자동저장', '덮어쓰기 확인', '클라우드 세이브', '클라우드세이브'],
+  ['matchmaking', 'sbmm', 'mmr', 'ready check', '매치메이킹', '수락 체크', '수락체크', '레디 체크', '레디체크', '큐 대기열'],
+  ['netcode', 'rollback netcode', 'server authority', 'liveops', '넷코드', '롤백 넷코드', '롤백넷코드', '서버 권한', '서버권한', '라이브옵스'],
 ];
 
 export const KNOWLEDGE_STOP_WORDS = [

@@ -37,11 +37,11 @@ test('knowledge search, detail, localization and related design selection', () =
   act(() => { tree = create(<LocaleProvider initialLocale="ko"><LanguageControl /><DomainKnowledgeView onViewTechnique={item => selected.push(item.id)} /></LocaleProvider>); });
   const search = () => tree.root.findByType('input');
   const filterGroup = () => tree.root.findByProps({ role: 'group' });
-  assert.equal(filterGroup().findAllByType('button').length, 22);
+  assert.equal(filterGroup().findAllByType('button').length, 23);
   act(() => filterGroup().findAllByType('button').find(button => text(button).startsWith('교육'))!.props.onClick());
   assert.equal(tree.root.findAllByType('article').length, 5);
   act(() => filterGroup().findAllByType('button')[0].props.onClick());
-  assert.equal(tree.root.findAllByType('article').length, 105);
+  assert.equal(tree.root.findAllByType('article').length, 110);
   act(() => search().props.onChange({ target: { value: 'education' } }));
   assert.ok(text(tree.root).includes(DOMAIN_KNOWLEDGE[0].text.ko.title));
   act(() => search().props.onChange({ target: { value: 'unknown' } }));
@@ -86,6 +86,7 @@ test('domain list finds service aliases and workflow phrases in either display l
         ['결측치', 'analytics-metric-aggregation-and-export'], ['RBAC', 'security-rbac-role-assignment-and-least-privilege'],
         ['합포장', 'logistics-warehouse-picking-packing-and-split-shipment'], ['복식 원장', 'fintech-wallet-ledger-idempotency-and-hold'],
         ['사전 문진표', 'healthcare-clinic-intake-triage-and-queue'], ['조건부 분기', 'automation-form-branching-validation-and-partial-save'],
+        ['고정 타임스텝', 'game-loop-fixed-timestep-and-input-feel'], ['매치메이킹', 'game-multiplayer-matchmaking-netcode-and-liveops'],
       ]) {
         act(() => tree.root.findByType('input').props.onChange({ target: { value: query } }));
         const expected = DOMAIN_KNOWLEDGE.find(item => item.id === id)!;

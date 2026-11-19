@@ -313,6 +313,11 @@ export const DEMO_PLAYBACK_GROUPS = {
     'px-equipment-stat-comparison', 'px-collectible-badge-grid',
     'px-teleport-dissolve-reform', 'px-stepped-lightning-chain', 'px-directional-crt-glitch', 'px-ground-shockwave-rings',
     'px-ice-freeze-thaw-spread', 'px-pixel-portal-swirl',
+    // game dev
+    'game-delayed-health-bar', 'game-radial-weapon-wheel', 'game-boss-phase-bar',
+    'game-damage-number-pop', 'game-combo-rank-meter', 'game-hitstop-impact-frame',
+    'game-loot-rarity-reveal', 'game-skill-tree-node', 'game-matchmaking-ready-check',
+    'game-save-slot-manager',
   ],
   static: [
     // Collection expansion: five per category.

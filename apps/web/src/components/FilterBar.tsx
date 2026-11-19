@@ -26,6 +26,7 @@ const DOMAIN_PLACEHOLDERS = {
   pixelart: "search.placeholder.pixelart",
   video: "search.placeholder.video",
   ai: "search.placeholder.ai",
+  game: "search.placeholder.game",
 } as const satisfies Record<DomainType, MessageKey>;
 
 const MAX_VISIBLE_CATEGORIES = 8;
@@ -71,15 +72,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   return (
     <section className="space-y-3 bg-white dark:bg-slate-900/40 border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-4 shadow-xs dark:shadow-none transition-colors duration-200">
       {/* 1단: 고정 폭이 보장되는 독립 검색창 + 결과 개수/초기화 */}
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <div className="relative flex min-w-0 sm:flex-1">
+      <div className="flex items-stretch gap-2">
+        <div className="relative flex min-w-0 flex-1">
           <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={t(DOMAIN_PLACEHOLDERS[activeDomain])}
-            className="w-full pl-10 pr-9 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:border-indigo-500 transition-colors"
+            className="w-full min-w-0 pl-10 pr-9 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:border-indigo-500 transition-colors"
           />
           {searchQuery && (
             <button
@@ -92,21 +93,23 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           )}
         </div>
 
-        <div className="flex shrink-0 flex-wrap justify-end gap-2 sm:flex-nowrap">
-          {hasActiveFilter && (
-            <button
-              onClick={() => {
-                onCategoryChange('all');
-                onSearchChange('');
-              }}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 transition-colors"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span>{t("search.resetFilters")}</span>
-            </button>
-          )}
-          <span className="flex items-center text-xs text-slate-600 dark:text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80">{t("search.showing", { count: totalCount })}</span>
-        </div>
+        <span className="flex shrink-0 items-center whitespace-nowrap text-xs text-slate-600 dark:text-slate-400 font-mono px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80">{t("search.showing", { count: totalCount })}</span>
+
+        {hasActiveFilter && (
+          <button
+            type="button"
+            onClick={() => {
+              onCategoryChange('all');
+              onSearchChange('');
+            }}
+            aria-label={t("search.resetFilters")}
+            title={t("search.resetFilters")}
+            className="flex shrink-0 items-center justify-center gap-1 whitespace-nowrap min-w-[38px] px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition-colors"
+          >
+            <RotateCcw className="w-3.5 h-3.5 sm:w-3 sm:h-3" aria-hidden="true" />
+            <span className="hidden sm:inline">{t("search.resetFilters")}</span>
+          </button>
+        )}
       </div>
 
       {/* 2단: 도메인별 하위 카테고리 필터 탭 (8개 초과 시 더보기/접기 지원) */}

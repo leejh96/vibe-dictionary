@@ -21,8 +21,10 @@ import { INFOGRAPHIC_ADDITION_DEMOS } from './infographic';
 import { BROADCAST_ADDITION_DEMOS } from './broadcast';
 import { PIXELART_DEMOS } from './pixelart';
 import { AI_ADDITION_DEMOS } from './ai';
+import { GAME_ADDITION_DEMOS } from './game';
 
 export const DEMO_REGISTRY = new Map<string, ComponentType>([
+  ...Object.entries(GAME_ADDITION_DEMOS),
   ...Object.entries(AI_ADDITION_DEMOS),
   ...Object.entries(UI_COLLECTION_DEMOS),
   ...Object.entries(MOTION_COLLECTION_DEMOS),

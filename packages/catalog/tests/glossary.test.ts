@@ -19,8 +19,8 @@ import {
 
 const TEST_DIR = dirname(fileURLToPath(import.meta.url));
 
-test('glossary has 122 unique kebab-case terms across 9 categories with expanded acronyms', () => {
-  assert.equal(GLOSSARY_TERMS.length, 122);
+test('glossary has 134 unique kebab-case terms across 10 categories with expanded acronyms', () => {
+  assert.equal(GLOSSARY_TERMS.length, 134);
   assert.deepEqual(GLOSSARY_CATEGORIES, [
     'ui',
     'engineering',
@@ -31,6 +31,7 @@ test('glossary has 122 unique kebab-case terms across 9 categories with expanded
     'business-operations',
     'sales-marketing',
     'education-operations',
+    'game-development',
   ]);
 
   const ids = GLOSSARY_TERMS.map(term => term.id);
@@ -143,6 +144,18 @@ test('glossary has 122 unique kebab-case terms across 9 categories with expanded
     'certificate-verification',
     'cohort-enrollment-window',
     'timed-exam-submission',
+    'game-loop',
+    'save-serialization-and-checkpoint',
+    'hitbox-and-hurtbox',
+    'hitstop-and-game-feel',
+    'coyote-time-and-input-buffering',
+    'object-pooling',
+    'entity-component-system',
+    'heads-up-display',
+    'diegetic-interface',
+    'rollback-netcode',
+    'skill-based-matchmaking',
+    'loot-table-and-pity-system',
   ]) {
     assert.ok(ids.includes(requiredId), `Missing required term: ${requiredId}`);
   }
@@ -157,6 +170,7 @@ test('glossary has 122 unique kebab-case terms across 9 categories with expanded
     'business-operations': 6,
     'sales-marketing': 7,
     'education-operations': 7,
+    'game-development': 12,
   };
   for (const category of GLOSSARY_CATEGORIES) {
     assert.equal(
@@ -245,6 +259,20 @@ test('glossary has 122 unique kebab-case terms across 9 categories with expanded
       'certificate-verification',
       'cohort-enrollment-window',
       'timed-exam-submission',
+    ],
+    'game-development': [
+      'game-loop',
+      'save-serialization-and-checkpoint',
+      'hitbox-and-hurtbox',
+      'hitstop-and-game-feel',
+      'coyote-time-and-input-buffering',
+      'object-pooling',
+      'entity-component-system',
+      'heads-up-display',
+      'diegetic-interface',
+      'rollback-netcode',
+      'skill-based-matchmaking',
+      'loot-table-and-pity-system',
     ],
   };
   for (const [category, expectedIds] of Object.entries(expectedReclassifiedMembers)) {
@@ -527,6 +555,19 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
     ['certificate-verification', ['certificate-verification', '수료증 발급 검증', 'Certificate Issuance and Verification', '수료증 검증']],
     ['cohort-enrollment-window', ['cohort-enrollment-window', '기수제 수강 기간', 'Cohort Enrollment Window', '기수 모집 기간']],
     ['timed-exam-submission', ['timed-exam-submission', '제한 시간 시험 자동 제출', 'Timed Exam Auto-Submission', '시험 타이머 자동 제출']],
+    // 12 added game development glossary terms
+    ['game-loop', ['game-loop', '게임 루프', 'Game Loop', '고정 타임스텝', '고정타임스텝']],
+    ['save-serialization-and-checkpoint', ['save-serialization-and-checkpoint', '세이브 직렬화와 체크포인트', 'Save Serialization and Checkpoints', '세이브 마이그레이션', '세이브직렬화']],
+    ['hitbox-and-hurtbox', ['hitbox-and-hurtbox', '히트박스와 허트박스', 'Hitbox and Hurtbox', '타격 판정 박스']],
+    ['hitstop-and-game-feel', ['hitstop-and-game-feel', '히트스톱과 게임 필', 'Hitstop and Game Feel', '타격감']],
+    ['coyote-time-and-input-buffering', ['coyote-time-and-input-buffering', '코요테 타임과 입력 버퍼링', 'Coyote Time and Input Buffering', '코요테 타임', '코요테타임']],
+    ['object-pooling', ['object-pooling', '오브젝트 풀링', 'Object Pooling', '오브젝트 풀', '오브젝트풀링']],
+    ['entity-component-system', ['entity-component-system', '엔티티 컴포넌트 시스템(ECS)', 'Entity Component System (ECS)', 'ECS']],
+    ['heads-up-display', ['heads-up-display', '헤드업 디스플레이(HUD)', 'Heads-Up Display (HUD)', 'HUD']],
+    ['diegetic-interface', ['diegetic-interface', '다이이제틱 인터페이스', 'Diegetic Interface', '다이이제틱 UI']],
+    ['rollback-netcode', ['rollback-netcode', '롤백 넷코드', 'Rollback Netcode', '롤백 동기화', '롤백넷코드']],
+    ['skill-based-matchmaking', ['skill-based-matchmaking', '실력 기반 매치메이킹(SBMM)', 'Skill-Based Matchmaking (SBMM)', 'SBMM']],
+    ['loot-table-and-pity-system', ['loot-table-and-pity-system', '전리품 확률표와 천장 시스템', 'Loot Table and Pity System', '천장 시스템', '천장시스템']],
   ];
 
   for (const [expectedId, queries] of topCases) {
@@ -570,4 +611,11 @@ test('glossary search matches both languages, prioritizes names/aliases and avoi
     searchGlossaryTerms('로딩'),
     rankGlossaryTerms('로딩').map(r => r.item),
   );
+
+  // Optional category filter narrows both browse and keyword search.
+  const gameTerms = rankGlossaryTerms('', 'game-development');
+  assert.equal(gameTerms.length, 12);
+  assert.ok(gameTerms.every(entry => entry.item.category === 'game-development'));
+  assert.equal(searchGlossaryTerms('고정타임스텝', 'game-development')[0]?.id, 'game-loop');
+  assert.deepEqual(searchGlossaryTerms('고정타임스텝', 'ui'), []);
 });

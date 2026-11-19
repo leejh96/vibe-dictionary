@@ -7,6 +7,21 @@ export type DemoLoader = () => Promise<DemoGroup>;
 export const DEMO_GROUPS: Array<{ ids: string[]; load: DemoLoader }> = [
   {
     ids: [
+      'game-delayed-health-bar',
+      'game-radial-weapon-wheel',
+      'game-boss-phase-bar',
+      'game-damage-number-pop',
+      'game-combo-rank-meter',
+      'game-hitstop-impact-frame',
+      'game-loot-rarity-reveal',
+      'game-skill-tree-node',
+      'game-matchmaking-ready-check',
+      'game-save-slot-manager',
+    ],
+    load: () => import('./game').then(module => module.GAME_ADDITION_DEMOS),
+  },
+  {
+    ids: [
       'ai-prompt-box',
       'ai-slash-command',
       'ai-context-pill',

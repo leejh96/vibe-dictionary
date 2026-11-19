@@ -9,6 +9,7 @@ import {
   Gamepad2,
   Clapperboard,
   Bot,
+  Swords,
   ArrowUpToLine,
   ArrowDownToLine,
   ChevronUp,
@@ -158,6 +159,7 @@ export default function App() {
       pixelart: TECHNIQUES.filter((t) => t.domain === 'pixelart').length,
       video: TECHNIQUES.filter((t) => t.domain === 'video').length,
       ai: TECHNIQUES.filter((t) => t.domain === 'ai').length,
+      game: TECHNIQUES.filter((t) => t.domain === 'game').length,
     }),
     []
   );
@@ -427,7 +429,7 @@ export default function App() {
   /* 다른 도메인에 검색 결과가 있는지 확인 (현재 탭 결과가 0개일 때 안내용) */
   const otherDomainMatches = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'pixelart', 'video', 'ai'];
+    const domainIds: DomainType[] = ['ui', 'motion', 'layout', 'style', 'pixelart', 'video', 'ai', 'game'];
     return domainIds
       .filter((id) => id !== activeDomain)
       .map((id) => ({
@@ -454,6 +456,7 @@ export default function App() {
     { id: 'pixelart', label: DOMAIN_NAMES[locale].pixelart, count: counts.pixelart, icon: <Gamepad2 className="w-3.5 h-3.5" /> },
     { id: 'video', label: DOMAIN_NAMES[locale].video, count: counts.video, icon: <Clapperboard className="w-3.5 h-3.5" /> },
     { id: 'ai', label: DOMAIN_NAMES[locale].ai, count: counts.ai, icon: <Bot className="w-3.5 h-3.5" /> },
+    { id: 'game', label: DOMAIN_NAMES[locale].game, count: counts.game, icon: <Swords className="w-3.5 h-3.5" /> },
   ];
 
   /* 7대 도메인 탭 렌더러 (데스크탑 단일 행 및 모바일 2~3열 그리드 공유) */
@@ -525,8 +528,8 @@ export default function App() {
               <span className="text-[12px] min-[360px]:text-sm sm:text-base font-black tracking-tight whitespace-nowrap text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{t("app.name")}</span>
             </button>
 
-            {/* [데스크탑 전용 (xl 이상)]: 7대 도메인 탭 (단일 행 중앙/우측 배치) */}
-            {renderDomainTabs(`hidden xl:flex xl:flex-row gap-1 shrink-0 overflow-x-auto ${dictionarySection !== 'design' ? 'invisible' : ''}`, dictionarySection !== 'design')}
+            {/* [데스크탑 전용 (xl 이상)]: 8대 도메인 탭 (단일 행 중앙/우측 배치) */}
+            {renderDomainTabs(`hidden xl:flex xl:flex-row gap-1 min-w-0 shrink overflow-x-auto ${dictionarySection !== 'design' ? 'invisible' : ''}`, dictionarySection !== 'design')}
 
             <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-3">
               <LanguageSwitcher />
