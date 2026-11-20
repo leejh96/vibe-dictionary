@@ -9,11 +9,22 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import {
   TECHNIQUES, searchTechniques, getTechniqueText,
   DOMAIN_KNOWLEDGE, searchDomainKnowledge,
-  GLOSSARY_TERMS, rankGlossaryTerms,
+  GLOSSARY_TERMS, rankGlossaryTerms, type Locale,
 } from '@vibe-dictionary/catalog';
 import packageInfo from '../package.json';
 
 const entry = fileURLToPath(new URL('../dist/index.js', import.meta.url));
+
+type SearchPage<Item> = { total: number; nextOffset: number | null; items: Item[] };
+type SearchMatch = { id: string; score: number; matchedOn: string[] };
+type ToolOutputs = {
+  search_techniques: SearchPage<SearchMatch & { locale: Locale; summary: string; useCases: string[] }>;
+  search_domain_knowledge: SearchPage<SearchMatch & { title: string; useCases: string[] }>;
+  search_glossary: SearchPage<SearchMatch & { locale: Locale; category: string; name: string; nameKo: string; nameEn: string; aliases: string[] }>;
+  get_technique: Record<string, unknown> & { id: string; locale: Locale; title: string; promptSnippet: string };
+  get_domain_knowledge: { id: string; relatedDesigns: { id: string }[] };
+  get_glossary_term: { id: string; category: string };
+};
 
 test('built stdio server provides only read-only catalog and prompt retrieval', async (t) => {
   const cwd = await mkdtemp(join(tmpdir(), 'vibe mcp test '));
@@ -32,14 +43,14 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
   });
   await client.connect(transport);
 
-  async function call(name: string, args: Record<string, unknown> = {}) {
+  async function call<Name extends keyof ToolOutputs>(name: Name, args: Record<string, unknown> = {}): Promise<ToolOutputs[Name]> {
     const response = await client.callTool({ name, arguments: args });
     assert.notEqual(response.isError, true, JSON.stringify(response));
     assert.ok(response.structuredContent);
     const content = response.content as Array<{ type: string; text?: string }>;
     assert.equal(content[0].type, 'text');
     assert.deepEqual(JSON.parse(content[0].text!), response.structuredContent);
-    return response.structuredContent as Record<string, any>;
+    return response.structuredContent as ToolOutputs[Name];
   }
 
   await t.test('initialization, tool discovery and annotations', async () => {
@@ -152,7 +163,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     const pagedIds: string[] = [];
     let offset: number | null = 0;
     while (offset !== null) {
-      const page = await call('search_glossary', { offset, limit: 10 });
+      const page: ToolOutputs['search_glossary'] = await call('search_glossary', { offset, limit: 10 });
       pagedIds.push(...page.items.map((item: { id: string }) => item.id));
       offset = page.nextOffset;
     }
@@ -325,7 +336,7 @@ test('built stdio server provides only read-only catalog and prompt retrieval', 
     const ids: string[] = [];
     let offset: number | null = 0;
     while (offset !== null) {
-      const page = await call('search_techniques', { offset, limit: 50 });
+      const page: ToolOutputs['search_techniques'] = await call('search_techniques', { offset, limit: 50 });
       ids.push(...page.items.map((item: { id: string }) => item.id));
       offset = page.nextOffset;
     }

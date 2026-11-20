@@ -199,7 +199,7 @@ test('scattered letters preserve their order and control while independent layou
   assert.equal(letters.map(item => item.children.join('')).join(''), 'EXPLORE');
   assert.equal(letters.length, 7);
   const positions = (): number[][] => letters.map(item => item.props.style.transform.match(/-?\d+(?:\.\d+)?/g).map(Number));
-  assert.deepEqual(positions().map(([x, y, angle]) => [y, angle]), Array.from({ length: 7 }, () => [58, 0]));
+  assert.deepEqual(positions().map(([, y, angle]) => [y, angle]), Array.from({ length: 7 }, () => [58, 0]));
   assert.ok(positions().every(([x], index, all) => !index || x - all[index - 1][0] === 28));
   act(() => button.props.onClick());
   assert.equal(button.props['aria-pressed'], true);

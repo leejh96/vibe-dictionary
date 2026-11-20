@@ -545,7 +545,7 @@ test('interactive pixel art controls update actual states, visuals and accessibi
       const slider = tree.root.findByType('input');
       act(() => slider.props.onChange({ currentTarget: { valueAsNumber: 40 } }));
       const valSpan = tree.root.findByProps({ className: 'px-slider-val' });
-      assert.ok(valSpan.children.some((c: any) => typeof c === 'string' && c.includes('1주기')), 'Max offset 40 must display 1-cycle indication');
+      assert.ok(valSpan.children.some((child: unknown) => typeof child === 'string' && child.includes('1주기')), 'Max offset 40 must display 1-cycle indication');
       act(() => tree.unmount());
     }
 

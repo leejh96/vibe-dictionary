@@ -32,7 +32,7 @@ test('language switches update every static sci-fi image name while preserving g
   t.after(() => { act(() => tree.unmount()); });
   const imageNames = () => tree.root.findAllByProps({ role: 'img' }).map(node => node.props['aria-label'] as string);
   const visualProps = () => tree.root.findAll(node => typeof node.type === 'string').map(node => {
-    const { children: _children, 'aria-label': _imageName, ...props } = node.props;
+    const props = Object.fromEntries(Object.entries(node.props).filter(([key]) => !['children', 'aria-label'].includes(key)));
     return [node.type, props];
   });
   const koreanNames = imageNames();

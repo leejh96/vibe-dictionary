@@ -4,7 +4,7 @@ import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { TECHNIQUES } from '@vibe-dictionary/catalog';
 import { AI_ADDITION_DEMOS } from '../src/components/demos/ai';
-import { LocaleProvider, useLocale } from '../src/i18n/LocaleContext';
+import { LocaleProvider } from '../src/i18n/LocaleContext';
 
 test('all 10 AI additions are present in TECHNIQUES with unique IDs and categories', () => {
   const aiItems = TECHNIQUES.filter((t) => t.domain === 'ai');

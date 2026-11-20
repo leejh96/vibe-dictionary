@@ -3,8 +3,11 @@ import type { Locale } from '@vibe-dictionary/catalog';
 import { koreanTranslate, translateMessage, type Translate } from './messages';
 
 export const LOCALE_STORAGE_KEY = 'vibe-dictionary-locale';
-const defaultContext = { locale: 'ko' as Locale, setLocale: (_locale: Locale) => {}, t: koreanTranslate };
-const LocaleContext = createContext(defaultContext);
+const LocaleContext = createContext<{
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+  t: Translate;
+}>({ locale: 'ko', setLocale: () => {}, t: koreanTranslate });
 export function LocaleProvider({ children, initialLocale }: { children: React.ReactNode; initialLocale?: Locale }) {
   const [locale, setLocale] = useState<Locale>(() => {
     if (initialLocale) return initialLocale;

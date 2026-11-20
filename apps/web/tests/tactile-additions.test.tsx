@@ -27,7 +27,7 @@ test('all tactile materials switch accessible names live without remounting or c
   act(() => { tree = create(<LocaleProvider initialLocale="ko"><Materials /></LocaleProvider>); });
   t.after(() => { act(() => tree.unmount()); });
   const artwork = () => tree.root.findAll(node => typeof node.type === 'string').map(node => {
-    const { children: _children, 'aria-label': _label, ...props } = node.props;
+    const props = Object.fromEntries(Object.entries(node.props).filter(([key]) => !['children', 'aria-label'].includes(key)));
     return { type: node.type, props };
   });
   const initialArtwork = artwork();

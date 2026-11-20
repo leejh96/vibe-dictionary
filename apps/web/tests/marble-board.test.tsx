@@ -49,7 +49,6 @@ test('Marble board game interacts on click, updates pawn/dice, and supports loca
 
   const button = () => tree.root.findByType('button');
   const cubes = () => tree.root.findAllByProps({ className: 'mb-dice-cube' });
-  const statusText = () => tree.root.findByProps({ className: 'mb-status-text' });
   const gaugeLabel = () => tree.root.findByProps({ className: 'mb-gauge-label' });
 
   assert.equal(button().props['aria-label'], '캐주얼 보드게임 인터랙티브 시연');
